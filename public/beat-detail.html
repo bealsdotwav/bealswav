@@ -1,0 +1,699 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Out of Mind | Beat Details - Beals.wav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glow: #00ffff;
+      --accent: #ff4d6d;
+      --bg-dark: #0a0a0a;
+      --text: #ffffff;
+      --soft: #888;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    /* Global retro font */
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background: var(--bg-dark);
+      color: var(--text);
+      padding-top: 80px; /* space for fixed header */
+      padding: 2rem;
+    }
+    a {
+      color: var(--glow);
+      text-decoration: none;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 1px solid #222;
+      padding: 1rem;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: var(--glow);
+      text-shadow: 0 0 6px var(--glow);
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .cart-button,
+    .login-btn {
+      font-size: 0.65rem;
+      border-radius: 4px;
+      padding: 0.5rem 0.75rem;
+      border: none;
+      text-decoration: none;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+    }
+    .cart-button {
+      background: var(--accent);
+      color: #fff;
+    }
+    .login-btn {
+      background: var(--glow);
+      color: #000;
+    }
+    .hamburger {
+      font-size: 1.5rem;
+      color: var(--accent);
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -220px;
+      width: 200px;
+      height: 100%;
+      background: #111;
+      padding: 2rem 1rem;
+      z-index: 998;
+      transition: left 0.3s ease;
+    }
+    .sidebar.open {
+      left: 0;
+    }
+    .sidebar ul {
+      list-style: none;
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .sidebar a {
+      font-size: 0.75rem;
+      color: var(--glow);
+    }
+
+    /* CART MODAL (No "toast" on top left) */
+    .cart-modal {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      width: 300px;
+      background: #111;
+      border: 1px solid #444;
+      padding: 1rem;
+      display: none;
+      z-index: 1000;
+    }
+    .cart-modal h3 {
+      font-size: 0.65rem;
+      margin-bottom: 1rem;
+      color: var(--glow);
+    }
+    .close-cart {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: var(--accent);
+      cursor: pointer;
+    }
+    .cart-item {
+      font-size: 0.6rem;
+      border-bottom: 1px solid #333;
+      padding: 0.5rem 0;
+    }
+    .cart-item button {
+      float: right;
+      background: none;
+      color: var(--accent);
+      border: none;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+    .promo-input {
+      display: none; /* no old coupon */
+    }
+    .cart-total {
+      font-weight: bold;
+      margin-top: 0.5rem;
+      font-size: 0.6rem;
+    }
+    .checkout-btn {
+      width: 100%;
+      margin-top: 0.5rem;
+      background: var(--glow);
+      color: black;
+      font-weight: bold;
+      font-size: 0.6rem;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* BEAT DETAIL */
+    .beat-detail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .beat-cover {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 12px var(--glow);
+    }
+    h1 {
+      color: var(--glow);
+      font-size: 1rem;
+      text-align: center;
+    }
+    audio {
+      width: 100%;
+      max-width: 500px;
+      margin: 1rem auto;
+    }
+    .free-download-btn {
+      background: var(--glow);
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      font-size: 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
+    .pricing {
+      margin-top: 2rem;
+      max-width: 600px;
+      width: 100%;
+    }
+    .license {
+      background: #111;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid #333;
+    }
+    .license h2 {
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .license .subtitle {
+      font-size: 0.6rem;
+      color: var(--soft);
+      margin-bottom: 0.5rem;
+    }
+    .license .license-details {
+      display: none;
+      font-size: 0.6rem;
+      margin-bottom: 0.5rem;
+      white-space: pre-line;
+    }
+    .license button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 0.5rem;
+    }
+    .toggle-link {
+      font-size: 0.6rem;
+      color: var(--glow);
+      cursor: pointer;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.5rem;
+      color: #888;
+    }
+
+    /* FREE DOWNLOAD MODAL */
+    .modal-overlay {
+      position: fixed;
+      display: none;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      color: #fff;
+      text-align: left;
+      font-family: Arial, sans-serif;
+    }
+    .modal-content h2 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .modal-content p {
+      font-size: 0.7rem;
+      margin-bottom: 10px;
+    }
+    .modal-input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+    .modal-checkbox {
+      margin-right: 5px;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .modal-buttons button {
+      padding: 8px 15px;
+      font-size: 0.8rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-cancel {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-submit {
+      background: var(--glow);
+      color: black;
+    }
+
+    /* BOGO CUSTOM MODAL for single-beat checkout */
+    .bogo-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none; /* hidden by default */
+      justify-content: center;
+      align-items: center;
+      z-index: 2000; /* above cart modal */
+    }
+    .bogo-modal-content {
+      background: #222;
+      color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      font-family: 'Press Start 2P', cursive;
+      text-align: center;
+    }
+    .bogo-modal-content h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--glow);
+    }
+    .bogo-modal-content p {
+      font-size: 0.65rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .bogo-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .bogo-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+    }
+    .bogo-btn-alt {
+      background: var(--glow);
+      color: #000;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1rem; }
+      .beat-cover { width: 100%; height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" class="logo">BEALS.WAV</a>
+      <div class="header-right">
+        <button class="cart-button" onclick="toggleCart()">🛒Cart</button>
+        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="music-catalog.html">🎵 Music Catalog</a></li>
+      <li><a href="beatstore.html">💽 Beats</a></li>
+      <li><a href="studio.html">🎚️ Studio</a></li>
+      <li><a href="faq.html">📖 FAQ</a></li>
+      <li><a href="contact.html">✉️ Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- CART MODAL (No top-left toast) -->
+  <div class="cart-modal" id="cartModal">
+    <button class="close-cart" onclick="toggleCart()">✖</button>
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <input class="promo-input" id="promoCode" placeholder="Promo code (e.g. BEALS15)" />
+    <div class="cart-total" id="cartTotal">Total: $0.00</div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
+
+  <!-- BOGO CUSTOM MODAL -->
+  <div class="bogo-overlay" id="bogoOverlay">
+    <div class="bogo-modal-content">
+      <h2>BOGO Promo</h2>
+      <p>
+        You have an odd number of beats in your cart.<br/>
+        Add another beat for free or proceed anyway.
+      </p>
+      <div class="bogo-actions">
+        <button class="bogo-btn" id="bogoAddBeatBtn">Add Another Beat</button>
+        <button class="bogo-btn bogo-btn-alt" id="bogoProceedBtn">Proceed Anyway</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEAT DETAIL CONTENT -->
+  <div class="beat-detail">
+    <img src="assets/images/testpicture1.jpeg" alt="Beat Cover" class="beat-cover" />
+    <h1>"Out of Mind" – Beat by Beals.wav</h1>
+    <audio controls src="assets/audio/out-of-mind.wav"
+      controlsList="nodownload noremoteplayback noplaybackrate"
+      disableRemotePlayback>
+    </audio>
+
+    <!-- Free Download Button -->
+    <button class="free-download-btn" id="freeDownloadBtn">Free Download</button>
+
+    <div class="pricing">
+      <!-- BASIC MP3 LEASE -->
+      <div class="license">
+        <h2>Basic MP3 Lease – $19.99</h2>
+        <div class="subtitle">✔ MP3 file • 125K Streams • 1 Music Video</div>
+        <span class="toggle-link" onclick="toggleDetails(this)">License Details</span>
+        <div class="license-details">
+- Used for Music Recording  
+- Distribute up to 2,000 copies  
+- Up to 125,000 streams  
+- 1 music video allowed  
+- For Profit Live Performances  
+- Radio Broadcasting rights (2 Stations)
+
+Legal:  
+This license is a binding agreement between the licensee and Beals.wav LLC.  
+Unauthorized resale/sublicensing is prohibited.
+        </div>
+        <button onclick="addToCart('Out of Mind', 'Basic MP3 Lease', 19.99)">Add to Cart</button>
+      </div>
+
+      <!-- WAV LEASE -->
+      <div class="license">
+        <h2>WAV Lease – $39.99</h2>
+        <div class="subtitle">✔ WAV file • 500K Streams • 1 Music Video</div>
+        <span class="toggle-link" onclick="toggleDetails(this)">License Details</span>
+        <div class="license-details">
+- MP3 + WAV Files (Higher Quality)!  
+- Used for Music Recording  
+- Distribute up to 5,000 copies  
+- Up to 500,000 streams  
+- 1 music video allowed  
+- For Profit Live Performances  
+- Radio Broadcasting rights (2 Stations)
+
+Legal:  
+This license is a binding agreement between the licensee and Beals.wav LLC.  
+Unauthorized resale/sublicensing is prohibited.
+        </div>
+        <button onclick="addToCart('Out of Mind', 'WAV Lease', 39.99)">Add to Cart</button>
+      </div>
+
+      <!-- UNLIMITED -->
+      <div class="license">
+        <h2>Unlimited Lease – $79.99</h2>
+        <div class="subtitle">✔ WAV + Stems • Unlimited Streams • 3 Music Videos</div>
+        <span class="toggle-link" onclick="toggleDetails(this)">License Details</span>
+        <div class="license-details">
+- MP3 + WAV + Stems (upon request)  
+- Used for Music Recording  
+- Distribute up to 10,000 copies  
+- Unlimited streams  
+- 3 music videos allowed  
+- For Profit Live Performances  
+- Radio Broadcasting rights (2 Stations)
+
+Legal:  
+This license is a binding agreement between the licensee and Beals.wav LLC.  
+Unauthorized resale/sublicensing is prohibited.
+        </div>
+        <button onclick="addToCart('Out of Mind', 'Unlimited Lease', 79.99)">Add to Cart</button>
+      </div>
+
+      <!-- EXCLUSIVE -->
+      <div class="license">
+        <h2>Exclusive Rights – Offer Only</h2>
+        <div class="subtitle">✔ Full Ownership • Beat Removed from YouTube • Best Value</div>
+        <span class="toggle-link" onclick="toggleDetails(this)">License Details</span>
+        <div class="license-details">
+- MP3 + WAV + Stems  
+- Distribute unlimited copies  
+- Unlimited streams  
+- Unlimited music videos  
+- For Profit Live Performances  
+- Publishing control negotiable  
+- Radio Broadcasting rights (2 Stations)
+
+Legal:  
+This license is a binding agreement between the licensee and Beals.wav LLC.  
+Unauthorized resale/sublicensing is prohibited.
+        </div>
+        <button onclick="alert('Exclusive offers are handled directly.\nContact Beals.wav to make an offer.')">Make an Offer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Free Download Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <h2>Free Download</h2>
+      <p>
+        Important Notice:<br>
+        You are currently downloading a free tagged MP3 version of this beat.
+        To access a higher-quality, untagged version or if you intend to release
+        your song on platforms such as Spotify, Apple Music, etc.,
+        a full lease purchase is required.
+      </p>
+      <form id="downloadForm">
+        <input type="email" id="emailInput" class="modal-input" placeholder="Enter your email" required />
+        <label style="font-size:0.8rem;">
+          <input type="checkbox" id="marketingConsent" class="modal-checkbox" required />
+          I agree to receive marketing emails.
+        </label>
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+          <button type="submit" class="btn-submit">Download Now</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>© 2025 Beals.wav. All rights reserved.</footer>
+
+  <script>
+    // Toggle license details
+    function toggleDetails(el) {
+      const details = el.nextElementSibling;
+      const visible = details.style.display === "block";
+      details.style.display = visible ? "none" : "block";
+      el.textContent = visible ? "License Details" : "Hide Details";
+    }
+
+    // CART (no top-left toast)
+    let cart = JSON.parse(sessionStorage.getItem("beatCart")) || [];
+    function addToCart(title, license, price) {
+      cart.push({ title, license, price });
+      sessionStorage.setItem("beatCart", JSON.stringify(cart));
+      alert(`${title} (${license}) added to cart.`);
+      renderCart();
+    }
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      sessionStorage.setItem("beatCart", JSON.stringify(cart));
+      renderCart();
+    }
+    function renderCart() {
+      const container = document.getElementById("cartItems");
+      if (!container) return;
+      container.innerHTML = "";
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += item.price;
+        container.innerHTML += `
+          <div class="cart-item">
+            ${item.title} (${item.license}) - $${item.price.toFixed(2)}
+            <button onclick="removeFromCart(${idx})">✕</button>
+          </div>
+        `;
+      });
+      const cartTotal = document.getElementById("cartTotal");
+      if (cartTotal) {
+        cartTotal.textContent = "Total: $" + total.toFixed(2);
+      }
+    }
+    async function checkout() {
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+      // Check BOGO
+      if (!checkBogo()) {
+        return; // wait for user input on custom overlay
+      }
+      finalizeCheckout();
+    }
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+    function toggleCart() {
+      const modal = document.getElementById("cartModal");
+      modal.style.display = (modal.style.display === "block") ? "none" : "block";
+      renderCart();
+    }
+
+    // BOGO custom overlay
+    const bogoOverlay = document.getElementById("bogoOverlay");
+    const bogoAddBeatBtn = document.getElementById("bogoAddBeatBtn");
+    const bogoProceedBtn = document.getElementById("bogoProceedBtn");
+    bogoAddBeatBtn.onclick = () => {
+      bogoOverlay.style.display = "none";
+    };
+    bogoProceedBtn.onclick = () => {
+      bogoOverlay.style.display = "none";
+      finalizeCheckout();
+    };
+    function checkBogo() {
+      const eligibleCount = cart.filter(item => item.license !== "Exclusive").length;
+      if (eligibleCount % 2 !== 0 && eligibleCount > 0) {
+        bogoOverlay.style.display = "flex";
+        return false;
+      }
+      return true;
+    }
+
+    async function finalizeCheckout() {
+      const email = prompt("Enter your email to proceed with checkout:");
+      if (!email || !/\S+@\S+\.\S+/.test(email)) {
+        return alert("Please enter a valid email.");
+      }
+      try {
+        const res = await fetch("http://localhost:4242/create-checkout-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ cartItems: cart, customerEmail: email })
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error(data);
+          alert("Error creating checkout session.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Checkout failed. Try again.");
+      }
+    }
+
+    // FREE DOWNLOAD MODAL
+    const freeDownloadBtn = document.getElementById("freeDownloadBtn");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const downloadForm = document.getElementById("downloadForm");
+
+    freeDownloadBtn.addEventListener("click", () => {
+      modalOverlay.style.display = "flex";
+    });
+    cancelBtn.addEventListener("click", () => {
+      modalOverlay.style.display = "none";
+    });
+    downloadForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("emailInput").value;
+      const marketingConsent = document.getElementById("marketingConsent").checked;
+      console.log("Email entered:", email);
+      console.log("Marketing consent:", marketingConsent);
+
+      // Force a file download
+      const freeFileUrl = "/assets/audio/out-of-mind.wav";
+      const tempLink = document.createElement("a");
+      tempLink.href = freeFileUrl;
+      tempLink.download = "out-of-mind.wav";
+      document.body.appendChild(tempLink);
+      tempLink.click();
+      document.body.removeChild(tempLink);
+      modalOverlay.style.display = "none";
+    });
+
+    // INIT
+    document.addEventListener("DOMContentLoaded", renderCart);
+  </script>
+</body>
+</html>

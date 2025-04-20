@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password | Beals.wav</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      height: 100vh; margin: 0;
+    }
+    .box {
+      background: #111;
+      border: 2px solid #00ffff;
+      border-radius: 8px;
+      padding: 2rem;
+      width: 320px;
+      text-align: center;
+    }
+    h2 { color: #00ffff; margin-bottom: 1rem; }
+    input, button {
+      width: 100%;
+      padding: 0.6rem;
+      margin-top: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+    input { background: #222; color: #fff; }
+    button {
+      background: #00ffff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover { background: #00e0e0; }
+    #msg {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 400px) {
+      .box { width: 90%; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Forgot Password?</h2>
+    <p>Enter your email to get a reset link:</p>
+    <form id="forgotForm">
+      <input type="email" id="email" placeholder="you@example.com" required />
+      <button type="submit">Send Reset Link</button>
+    </form>
+    <div id="msg"></div>
+  </div>
+  <script>
+    document.getElementById('forgotForm').addEventListener('submit', async e=>{
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      msg.textContent = '';
+      const email = document.getElementById('email').value.trim();
+      try {
+        const res = await fetch('/request-reset', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        msg.style.color = res.ok? '#0f0':'#ff4d6d';
+        msg.textContent = data.message;
+      } catch {
+        msg.style.color = '#ff4d6d';
+        msg.textContent = 'Server error. Try again.';
+      }
+    });
+  </script>
+</body>
+</html>

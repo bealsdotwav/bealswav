@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Sessions | Beals.wav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glow: #00ffff;
+      --accent: #ff4d6d;
+      --bg-dark: #0a0a0a;
+      --text: #ffffff;
+    }
+    /* Global Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Press Start 2P', cursive;
+      background: var(--bg-dark);
+      color: var(--text);
+    }
+    a {
+      color: var(--glow);
+      text-decoration: none;
+    }
+    header {
+      background-color: black;
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid #222;
+    }
+    .logo {
+      font-size: 1.2rem;
+      color: var(--glow);
+      text-shadow: 0 0 6px var(--glow);
+      cursor: pointer;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--glow);
+      font-size: 1.5rem;
+    }
+    .session-card {
+      background: #111;
+      border: 1px solid #333;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+    .session-card h3 {
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+      font-size: 1.1rem;
+    }
+    .session-card p {
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+    }
+    .empty {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #aaa;
+    }
+    .actions {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .actions button {
+      background: var(--accent);
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      .actions button {
+        font-size: 0.65rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="beatstore.html" style="text-decoration: none;">
+      <div class="logo">BEALS.WAV</div>
+    </a>
+  </header>
+  <div class="container">
+    <h1>Your Booked Sessions</h1>
+    <div id="sessionList" class="empty">Loading sessions...</div>
+    <div class="actions">
+      <button onclick="window.location.href='account.html'">Back to Account</button>
+    </div>
+  </div>
+  <script>
+    const userEmail = sessionStorage.getItem("userEmail");
+    if (!userEmail) {
+      window.location.href = "login.html";
+    }
+
+    async function fetchSessions() {
+      try {
+        const response = await fetch("/session-history", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: userEmail })
+        });
+        const data = await response.json();
+        const container = document.getElementById("sessionList");
+
+        if (!data.sessions || data.sessions.length === 0) {
+          container.innerHTML = "<p class='empty'>You have not booked any sessions yet.</p>";
+          return;
+        }
+        container.innerHTML = "";
+        data.sessions.forEach(session => {
+          const div = document.createElement("div");
+          div.classList.add("session-card");
+          div.innerHTML = `
+            <h3>${session.serviceType} – ${new Date(session.dateBooked).toLocaleDateString()}</h3>
+            <p>Status: ${session.status}</p>
+            <p>Details: ${session.details || "None"}</p>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error("Error fetching sessions:", err);
+        document.getElementById("sessionList").innerHTML = "<p class='empty'>Error loading session history. Please try again later.</p>";
+      }
+    }
+
+    fetchSessions();
+  </script>
+</body>
+</html>

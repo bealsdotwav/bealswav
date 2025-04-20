@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FAQ | Beals.wav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glow: #00ffff;
+      --accent: #ff4d6d;
+      --bg-dark: #0a0a0a;
+      --text: #ffffff;
+      --soft: #999;
+    }
+    /* RESET */
+    * { box-sizing: border-box; margin:0; padding:0; }
+    html, body {
+      width:100%; height:100%;
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Press Start 2P', cursive;
+      overflow-x:hidden;
+    }
+    a { color: var(--glow); text-decoration:none; }
+
+    /* HEADER (from beatstore.html) */
+    header {
+      position:fixed; top:0; left:0; width:100%;
+      background:rgba(0,0,0,0.9); border-bottom:1px solid #222;
+      z-index:999; padding:1rem;
+    }
+    .header-container {
+      display:flex; align-items:center; justify-content:space-between;
+      max-width:1400px; margin:0 auto; padding:0.5rem 2rem;
+    }
+    .logo {
+      font-size:1.4rem; color:var(--glow);
+      text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
+    }
+    .nav-menu {
+      flex:1; display:flex; justify-content:center;
+    }
+    .nav-menu ul {
+      list-style:none; display:flex; gap:1.5rem;
+    }
+    .nav-menu li {
+      display:flex; flex-direction:column; align-items:center;
+      text-align:center;
+    }
+    .nav-menu a {
+      color:var(--accent); font-size:0.75rem;
+      transition:color 0.2s;
+    }
+    .nav-menu a:hover { color:var(--glow); }
+    .nav-menu .subtext {
+      font-size:0.45rem; color:#aaa; margin-top:0.15rem;
+    }
+    .header-buttons {
+      display:flex; gap:1rem; align-items:center;
+    }
+    .login-btn {
+      background:var(--glow); color:#000;
+      padding:0.5rem 1rem; border-radius:5px;
+      font-size:0.8rem;
+    }
+    .hamburger {
+      display:none; font-size:1.5rem;
+      color:var(--accent); background:none; border:none;
+      cursor:pointer;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position:fixed; top:70px; left:-220px;
+      width:200px; height:calc(100% - 70px);
+      background:#111; padding:1.5rem 1rem;
+      transition:left 0.3s; z-index:998;
+    }
+    .sidebar.open { left:0; }
+    .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:1rem; }
+    .sidebar a { color:var(--glow); font-size:0.9rem; }
+
+    /* FAQ HEADER */
+    .faq-title {
+      margin:120px 0 1rem; text-align:center;
+      color:var(--glow); font-size:1.1rem;
+    }
+
+    /* FAQ LIST */
+    .faq-container {
+      max-width:800px; margin:0 auto 2rem; padding:0 1rem;
+    }
+    .faq-item {
+      border:1px solid var(--accent); border-radius:5px;
+      margin-bottom:1rem; overflow:hidden;
+      transition:box-shadow 0.2s;
+    }
+    .faq-item:hover { box-shadow:0 0 8px rgba(255,77,109,0.5); }
+    .faq-question {
+      background:var(--accent); padding:0.8rem 1rem;
+      font-size:0.9rem; cursor:pointer; position:relative;
+    }
+    .faq-question::after {
+      content:'▼'; position:absolute; right:1rem; top:50%;
+      transform:translateY(-50%); transition:transform 0.2s;
+    }
+    .faq-item.open .faq-question::after {
+      transform:translateY(-50%) rotate(-180deg);
+    }
+    .faq-answer {
+      display:none;
+      background: var(--bg-dark);
+      padding:0.6rem 1rem;           /* tighter vertical padding */
+      color:#ddd;
+      font-size:0.9rem;
+      line-height:1.4;              /* a bit more compact */
+      letter-spacing:0.02rem;
+      border-top:1px solid var(--accent);
+    }
+    .faq-item.open .faq-answer { display:block; }
+
+    /* “Can’t find…” CTA */
+    .faq-contact {
+      text-align:center; margin:2rem 1rem;
+      font-size:0.9rem; color:var(--soft);
+    }
+    .faq-contact a { color:var(--glow); text-decoration:underline; }
+
+    /* TICKER */
+    .ticker {
+      position:fixed; bottom:0; width:100%; height:25px;
+      background:black; overflow:hidden; border-top:1px solid #222;
+    }
+    .ticker-content {
+      display:inline-block; white-space:nowrap;
+      padding-left:100%;
+      animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
+      font-size:0.65rem; font-weight:bold;
+    }
+    @keyframes scroll { 0% {transform:translateX(0);} 100% {transform:translateX(-100%);} }
+    @keyframes colorchange {
+      0% {color:#00ffff;} 25% {color:#ff4d6d;}
+      50% {color:#a0ff00;} 75% {color:#ff00ff;} 100% {color:#00ffff;}
+    }
+
+    /* CART & TOAST */
+    .toast {
+      position:fixed; top:10px; right:20px;
+      background:#0f0f0f; color:#fff;
+      padding:10px 15px; border-radius:5px;
+      font-size:0.7rem; border:1px solid var(--accent);
+      z-index:1100; display:none;
+    }
+    .cart-modal {
+      position:fixed; top:70px; right:20px;
+      width:300px; background:#111; border:1px solid #444;
+      padding:1rem; display:none; z-index:1000;
+    }
+    .cart-modal h3 { color:var(--glow); font-size:0.65rem; margin-bottom:1rem; }
+    .close-cart {
+      position:absolute; top:5px; right:10px;
+      background:none; border:none; color:var(--accent);
+      font-size:1rem; cursor:pointer;
+    }
+    .cart-item { font-size:0.6rem; padding:0.5rem 0; border-bottom:1px solid #333; }
+    .cart-item button {
+      float:right; background:none; border:none;
+      color:var(--accent); font-size:0.7rem; cursor:pointer;
+    }
+    .promo-input {
+      width:100%; background:#222; color:#fff;
+      padding:0.4rem; font-size:0.6rem; margin:0.5rem 0;
+      border:1px solid #444; border-radius:4px;
+    }
+    .cart-total {
+      font-weight:bold; margin-top:0.5rem; font-size:0.6rem;
+    }
+    .checkout-btn {
+      width:100%; margin-top:0.5rem;
+      background:var(--glow); color:#000;
+      padding:0.5rem; border:none; border-radius:4px;
+      cursor:pointer; font-size:0.6rem; font-weight:bold;
+    }
+
+    /* BOGO MODAL */
+    .bogo-overlay {
+      position:fixed; top:0; left:0; width:100%; height:100%;
+      background:rgba(0,0,0,0.7); display:none;
+      justify-content:center; align-items:center; z-index:2000;
+    }
+    .bogo-modal-content {
+      background:#222; color:#fff; padding:1.5rem;
+      border-radius:8px; text-align:center; max-width:400px;
+    }
+    .bogo-actions {
+      display:flex; justify-content:center; gap:1rem; margin-top:1rem;
+    }
+    .bogo-btn, .bogo-btn-alt {
+      padding:0.4rem 0.8rem; border:none; border-radius:4px;
+      font-size:0.65rem; cursor:pointer; font-family:'Press Start 2P',cursive;
+    }
+    .bogo-btn { background:var(--accent); color:#fff }
+    .bogo-btn-alt { background:var(--glow); color:#000 }
+
+    /* MOBILE */
+    @media (max-width:768px) {
+      .nav-menu { display:none }
+      .hamburger { display:inline-block }
+      .header-container { padding:0 1rem }
+      .logo { font-size:1.1rem }
+      .login-btn { font-size:0.65rem; padding:0.3rem 0.6rem }
+      .faq-question { font-size:0.8rem; padding:0.6rem 0.8rem }
+      .faq-answer { font-size:0.85rem; line-height:1.4; padding:0.5rem 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="music-catalog.html">🎵 Music Catalog</a></li>
+      <li><a href="beatstore.html">💽 Beats</a></li>
+      <li><a href="studio.html">🎚️ Studio</a></li>
+      <li><a href="faq.html">📖 FAQ</a></li>
+      <li><a href="contact.html">✉️ Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <div class="header-container">
+      <a href="index.html" class="logo">BEALS.WAV</a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="music-catalog.html">Music Catalog</a><span class="subtext">Listen to my songs</span></li>
+          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy high-quality instrumentals</span></li>
+          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
+          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
+          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
+        </ul>
+      </nav>
+      <div class="header-buttons">
+        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- FAQ -->
+  <h1 class="faq-title">Frequently Asked Questions</h1>
+  <div class="faq-container">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">How do I purchase a beat?</div>
+      <div class="faq-answer">
+        Visit the <a href="beatstore.html">beat store</a>, pick your license, add it to your cart, and check out.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What does a lease license mean?</div>
+      <div class="faq-answer">
+        Leases let you use beats under set terms for releases (Spotify, Apple Music). All beats are Buy One Get One Free. For full rights and highest quality, choose Wav, Unlimited, or Exclusive.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">How can I book a session?</div>
+      <div class="faq-answer">
+        Head to the <a href="studio.html">Studio</a> page to schedule in person or virtual sessions.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">How many people can I bring with me?</div>
+      <div class="faq-answer">
+        Max 2 guests (plus our engineer). <a href="contact.html">Contact us</a> for special exceptions.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Are you flexible on pricing?</div>
+      <div class="faq-answer">
+        Absolutely. We’ll work with your budget—especially for passion projects.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Is an engineer present during sessions?</div>
+      <div class="faq-answer">
+        Yes. Whether in person or virtual, an engineer is onsite to assist.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What gear do you use?</div>
+      <div class="faq-answer">
+        Studio One 6 Pro, AKG P420 mic, Auto Tune 11+, AT M40X & BD DT990 Pro headphones, M Audio BX5 speakers, premium plugins, etc.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What is Beals.wav?</div>
+      <div class="faq-answer">
+        A full service studio in West Jordan, UT offering recording, mixing, mastering, virtual sessions & beat sales.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What genres do you work best with?</div>
+      <div class="faq-answer">
+        We work with all genres, but ~90% of our work is rap/hip-hop.
+      </div>
+    </div>
+  </div>
+
+  <!-- “Can’t find…” CTA -->
+  <div class="faq-contact">
+    Can’t find what you’re looking for? <a href="contact.html">Contact us here</a>.
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker">
+    <div class="ticker-content">
+      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+    </div>
+  </div>
+
+  <!-- TOAST & CART MODAL -->
+  <div class="toast" id="toast">Added to cart</div>
+  <div class="cart-modal" id="cartModal">
+    <button class="close-cart" onclick="toggleCart()">✖</button>
+    <h3>Your Cart</h3>
+    <div id="cartItems"></div>
+    <input class="promo-input" id="promoCode" placeholder="Promo code (e.g. BEALS15)" />
+    <div class="cart-total" id="cartTotal">Total: $0.00</div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
+
+  <script>
+    /* Sidebar toggle */
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+    /* Cart & toast */
+    let cart = JSON.parse(sessionStorage.getItem('beatCart')) || [];
+    function toggleCart() {
+      const m = document.getElementById('cartModal');
+      m.style.display = m.style.display === 'block' ? 'none' : 'block';
+      renderCart();
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg; t.style.display = 'block';
+      setTimeout(()=> t.style.display='none',2000);
+    }
+    function renderCart(){
+      const c = document.getElementById('cartItems');
+      c.innerHTML='';
+      let total=0;
+      cart.forEach((i,idx)=>{
+        total+=i.price;
+        c.innerHTML+=`
+          <div class="cart-item">
+            ${i.title} (${i.license}) – $${i.price.toFixed(2)}
+            <button onclick="removeFromCart(${idx})">✕</button>
+          </div>`;
+      });
+      if((document.getElementById('promoCode').value||'').trim().toUpperCase()==='BEALS15'){
+        total*=0.85;
+      }
+      document.getElementById('cartTotal').innerText='Total: $'+total.toFixed(2);
+    }
+    function removeFromCart(idx){
+      cart.splice(idx,1);
+      sessionStorage.setItem('beatCart',JSON.stringify(cart));
+      renderCart();
+    }
+
+    /* BOGO modal logic */
+    const bogoOv=document.getElementById('bogoOverlay'),
+          bogoAdd=document.getElementById('bogoAddBeatBtn'),
+          bogoGo=document.getElementById('bogoProceedBtn');
+    bogoAdd.onclick=()=>location.href='beatstore.html';
+    bogoGo.onclick=()=>{bogoOv.style.display='none';checkout();};
+    function checkBogo(){
+      const ct=cart.filter(it=>it.license!=='Exclusive').length;
+      if(ct&&ct%2){bogoOv.style.display='flex'; return false;}
+      return true;
+    }
+    async function checkout(){
+      if(!cart.length) return showToast('Your cart is empty.');
+      if(!checkBogo()) return;
+      const email=prompt('Enter your email:');
+      if(!email||!/\S+@\S+\.\S+/.test(email)){
+        return showToast('Please enter a valid email.');
+      }
+      try{
+        let res=await fetch('http://localhost:4242/create-checkout-session',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({cartItems:cart,customerEmail:email})
+        });
+        let {url}=await res.json();
+        if(url) location.href=url;
+        else showToast('Error creating checkout session.');
+      }catch{
+        showToast('Checkout failed. Try again.');
+      }
+    }
+
+    /* Login sync */
+    function checkLoginStatus(){
+      const btn=document.getElementById('loginBtn');
+      if(!btn) return;
+      const inL=localStorage.getItem('loggedIn')==='true';
+      btn.textContent=inL?'Account':'Login';
+      btn.href=inL?'account.html':'login.html';
+    }
+    document.addEventListener('DOMContentLoaded',checkLoginStatus);
+
+    /* FAQ toggle */
+    function toggleFaq(el){
+      el.closest('.faq-item').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
