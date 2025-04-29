@@ -28,7 +28,6 @@
       --bg-dark: #0a0a0a;
       --text-color: #ffffff;
     }
-    /* RESET */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -42,17 +41,11 @@
       color: var(--text-color);
       overflow-x: hidden;
     }
-    
-    /* CONTAINER */
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 1.5rem 1rem 5rem;
     }
-    
-    /****************************************
-     * HEADER (Desktop & Mobile)
-     ****************************************/
     header {
       position: fixed;
       top: 0;
@@ -72,7 +65,6 @@
       margin: 0 auto;
       padding: 0.5rem 2rem;
     }
-    /* Logo (clickable) on far left */
     .logo {
       font-size: 1.4rem;
       color: var(--glow);
@@ -80,7 +72,6 @@
       text-decoration: none;
       margin-right: 1rem;
     }
-    /* Navigation Menu – centered (Desktop only) */
     .nav-menu {
       flex: 1;
       display: flex;
@@ -114,8 +105,6 @@
       margin-top: 0.15rem;
       text-align: center;
     }
-    
-    /* Header Buttons (only Login remains) */
     .header-buttons {
       display: flex;
       gap: 1rem;
@@ -131,7 +120,6 @@
       font-family: 'Press Start 2P', cursive;
       cursor: pointer;
     }
-    /* Hamburger – for mobile only */
     .hamburger {
       font-size: 1.5rem;
       color: var(--accent);
@@ -140,10 +128,6 @@
       cursor: pointer;
       display: none;
     }
-    
-    /****************************************
-     * MOBILE SIDEBAR (for nav links)
-     ****************************************/
     .sidebar {
       position: fixed;
       top: 70px;
@@ -169,15 +153,9 @@
       color: var(--glow);
       text-decoration: none;
     }
-    
-    /****************************************
-     * MAIN CONTENT
-     ****************************************/
     main {
       padding-top: 100px;
     }
-    
-    /* STUDIO SLIDESHOW SECTION (Top Section) */
     .studio-slideshow {
       text-align: center;
       margin-bottom: 3rem;
@@ -187,7 +165,6 @@
       font-size: 1rem;
       color: var(--glow);
     }
-    /* Slideshow Container for Desktop */
     .slideshow-container {
       width: 90%;
       max-width: 720px;
@@ -202,37 +179,22 @@
       justify-content: center;
       background: var(--bg-dark);
     }
-    /* The image slider fills the container */
     #imageSlider {
       width: 100%;
       height: 100%;
     }
-    /* Desktop images: object-fit set to contain */
-    #imageSlider img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 10px;
-      display: block;
-    }
-    /* Mobile override: force container height and force image to fill container with cover */
     @media (max-width: 768px) {
       .slideshow-container {
         height: 300px;
-        background: var(--bg-dark);
-        overflow: hidden;
-        position: relative;
       }
       #imageSlider img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         display: block;
-        border-radius: 0; /* Remove rounding to avoid gaps */
+        border-radius: 0;
       }
     }
-    
-    /* CTA SECTION (Buy Beats/Book Studio Time) */
     .cta-section {
       text-align: center;
       margin-bottom: 3rem;
@@ -259,12 +221,10 @@
       transform: scale(1.05);
       color: #000;
     }
-    
-    /* VIDEO SECTION (Watch Lame Video) */
     .video-container {
       width: 90%;
       max-width: 720px;
-      margin: 0 auto 3rem;
+      margin: 0 auto 4rem;
       text-align: center;
     }
     .video-container h2 {
@@ -282,8 +242,6 @@
       display: block;
       margin: 0 auto;
     }
-    
-    /* FOLLOW & SUPPORT SECTION (Bottom Section) */
     .linktree {
       margin-bottom: 3rem;
       text-align: center;
@@ -317,10 +275,6 @@
     .apple { background: #fa233b; color: white; }
     .instagram { background: #e1306c; color: white; }
     .tiktok { background: #010101; color: white; }
-    
-    /****************************************
-     * TICKER
-     ****************************************/
     .ticker {
       position: fixed;
       bottom: 0;
@@ -349,189 +303,14 @@
       75% { color: #ff00ff; }
       100% { color: #00ffff; }
     }
-    
-    /****************************************
-     * CART MODAL & TOAST (Global Use)
-     ****************************************/
-    .toast {
-      position: fixed;
-      top: 10px;
-      right: 20px;
-      background: #0f0f0f;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      border: 1px solid var(--accent);
-      z-index: 1100;
-      display: none;
-    }
-    /* (Cart-related code remains, though you may remove it later if unused) */
-    .cart-modal {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 300px;
-      background: #111;
-      border: 1px solid #444;
-      padding: 1rem;
-      display: none;
-      z-index: 1000;
-    }
-    .cart-modal h3 {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      color: var(--glow);
-    }
-    .close-cart {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      color: var(--accent);
-      cursor: pointer;
-    }
-    .cart-item {
-      font-size: 0.6rem;
-      border-bottom: 1px solid #333;
-      padding: 0.5rem 0;
-    }
-    .cart-item button {
-      float: right;
-      background: none;
-      color: var(--accent);
-      border: none;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-    .promo-input {
-      width: 100%;
-      background: #222;
-      color: white;
-      padding: 0.4rem;
-      font-size: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #444;
-      border-radius: 4px;
-    }
-    .cart-total {
-      font-weight: bold;
-      margin-top: 0.5rem;
-      font-size: 0.6rem;
-    }
-    .checkout-btn {
-      width: 100%;
-      margin-top: 0.5rem;
-      background: var(--glow);
-      color: black;
-      font-weight: bold;
-      font-size: 0.6rem;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    /****************************************
-     * BOGO CUSTOM MODAL
-     ****************************************/
-    .bogo-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-    .bogo-modal-content {
-      background: #222;
-      color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-      font-family: 'Press Start 2P', cursive;
-      text-align: center;
-    }
-    .bogo-modal-content h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--glow);
-    }
-    .bogo-modal-content p {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-    .bogo-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .bogo-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-    }
-    .bogo-btn-alt {
-      background: var(--glow);
-      color: #000;
-    }
-    
-    /****************************************
-     * RESPONSIVE QUERIES
-     ****************************************/
-    @media (max-width: 768px) {
-      .logo { font-size: 1.1rem; }
-      .header-container { padding: 0 1rem; }
-      .header-buttons { gap: 0.5rem; }
-      .cart-button, .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-      .hamburger { display: inline-block; }
-      .nav-menu { display: none; }
-      .sidebar { width: 200px; }
-      
-      /* Mobile: Let the slideshow container remain 300px in height */
-      .slideshow-container { height: 300px; }
-      /* Mobile override for images: ensure they fill the container completely */
-      #imageSlider img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: 0;
-      }
-      
-      /* For mobile, force the video container to have the same height (300px) */
-      .video-container {
-        height: 300px;
-        max-height: 300px;
-      }
-      .video-container iframe {
-        height: 100% !important;
-      }
-    }
-    @media (min-width: 769px) {
-      .nav-menu { display: flex; }
-      .hamburger { display: none; }
-    }
     .video-container {
-    margin-bottom: 5rem; /* slightly more */
-    padding-bottom: 2rem; /* NEW: add padding to avoid overlap */
-  }
+      margin-bottom: 5rem;
+      padding-bottom: 2rem;
+    }
   </style>
 </head>
+
 <body>
-  <!-- MOBILE SIDEBAR (for nav links) -->
   <div class="sidebar" id="sidebar">
     <ul>
       <li><a href="music-catalog.html">🎵 Music Catalog</a></li>
@@ -542,37 +321,18 @@
     </ul>
   </div>
 
-  <!-- HEADER -->
   <header id="mainHeader">
     <div class="header-container">
-      <!-- Logo -->
       <a href="index.html" class="logo">BEALS.WAV</a>
-      <!-- Desktop Navigation -->
       <nav class="nav-menu">
         <ul>
-          <li>
-            <a href="music-catalog.html">Music Catalog</a>
-            <span class="subtext">Listen to my songs</span>
-          </li>
-          <li>
-            <a href="beatstore.html">Beats</a>
-            <span class="subtext">Buy high-quality instrumentals</span>
-          </li>
-          <li>
-            <a href="studio.html">Studio</a>
-            <span class="subtext">Book studio time</span>
-          </li>
-          <li>
-            <a href="faq.html">FAQ</a>
-            <span class="subtext">Questions answered</span>
-          </li>
-          <li>
-            <a href="contact.html">Contact</a>
-            <span class="subtext">Reach out directly</span>
-          </li>
+          <li><a href="music-catalog.html">Music Catalog</a><span class="subtext">Listen to my songs</span></li>
+          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy instrumentals</span></li>
+          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
+          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
+          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
         </ul>
       </nav>
-      <!-- Header Buttons (only Login remains) -->
       <div class="header-buttons">
         <a href="login.html" class="login-btn" id="loginBtn">Login</a>
         <button class="hamburger" onclick="toggleSidebar()">☰</button>
@@ -580,40 +340,32 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT: Home Page with Slideshow, CTA, Video, and Follow & Support Sections -->
   <div class="container">
     <main>
-      <!-- 1) STUDIO SLIDESHOW SECTION (Top) -->
       <section class="studio-slideshow">
         <h2>Welcome to Beals.wav</h2>
         <div class="slideshow-container">
-          <!-- The image slider container -->
           <div id="imageSlider"></div>
         </div>
       </section>
 
-      <!-- 2) CTA SECTION (Buy Beats / Book Studio Time) -->
       <section class="cta-section">
         <div class="cta-btns">
           <a href="beatstore.html" class="cta-btn">Buy Beats Here</a>
           <a href="studio.html" class="cta-btn">Book Studio Time</a>
         </div>
       </section>
-      
-      <!-- 3) VIDEO SECTION (Watch No Rest Video) -->
+
       <section id="no-rest" class="video-container">
-      <h2 style="color: var(--glow);">Watch: No Rest – Roman Noodle feat. RPFROMTHETOP & Beals</h2>
-      <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" allowfullscreen></iframe>
+        <h2 style="color: var(--glow);">Watch: No Rest – Roman Noodle feat. RPFROMTHETOP & Beals</h2>
+        <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" allowfullscreen></iframe>
       </section>
 
-      <!-- 4) VIDEO SECTION (Watch Lame Video) -->
       <section id="lame" class="video-container">
-  <h2 style="color: var(--glow);">Watch: Lame – Roman Noodle feat. Beals</h2>
-  <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" allowfullscreen></iframe>
+        <h2 style="color: var(--glow);">Watch: Lame – Roman Noodle feat. Beals</h2>
+        <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" allowfullscreen></iframe>
       </section>
 
-
-      <!-- 5) FOLLOW & SUPPORT SECTION (Bottom) -->
       <section class="linktree">
         <h3>Follow & Support</h3>
         <div class="linktree-buttons">
@@ -626,21 +378,19 @@
     </main>
   </div>
 
-  <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- Based in West Jordan, Utah – © 2025 Beals.wav. All rights reserved. === New release out now! —
     </div>
   </div>
-
   <!-- SCRIPTS -->
   <script>
-    // Sidebar Toggle
+    // Sidebar toggle
     function toggleSidebar() {
       document.getElementById("sidebar").classList.toggle("open");
     }
-    
-    // Global Login Sync
+
+    // Global login status sync
     function checkLoginStatus() {
       const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
       const loginBtn = document.getElementById('loginBtn');
@@ -650,8 +400,8 @@
       }
     }
     document.addEventListener('DOMContentLoaded', checkLoginStatus);
-    
-    // Studio Slideshow Functionality using old version logic with mobile fix:
+
+    // Studio slideshow functionality
     document.addEventListener('DOMContentLoaded', function() {
       const images = [
         "assets/images/S1.jpeg",
@@ -674,15 +424,14 @@
       ];
       let currentImageIndex = -1;
       const imageSlider = document.getElementById("imageSlider");
-      
+
       function showNextImage() {
         currentImageIndex = (currentImageIndex + 1) % images.length;
         const newImage = document.createElement("img");
         newImage.src = images[currentImageIndex];
         newImage.alt = "Studio Image " + (currentImageIndex + 1);
-        // Always set width to 100%
         newImage.style.width = "100%";
-        // For mobile, if window.innerWidth < 768px, let the image fill the container's height
+
         if (window.innerWidth < 768) {
           newImage.style.height = "100%";
           newImage.style.objectFit = "cover";
@@ -690,15 +439,17 @@
           newImage.style.height = "auto";
           newImage.style.objectFit = "contain";
         }
+
         newImage.style.opacity = 0;
         newImage.style.transition = "opacity 2s ease-in-out";
         if (imageSlider) {
           imageSlider.innerHTML = "";
           imageSlider.appendChild(newImage);
-          void newImage.offsetWidth;
+          void newImage.offsetWidth; // trigger reflow
           newImage.style.opacity = 1;
         }
       }
+
       showNextImage();
       setInterval(showNextImage, 5000);
     });
