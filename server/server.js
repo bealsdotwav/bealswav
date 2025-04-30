@@ -28,24 +28,34 @@ if (!process.env.SENDER_EMAIL) {
   process.exit(1);
 }
 
-// ─── SECURITY, CORS & RATE‑LIMIT ──────────────────────────────────────────────
+// ─── SECURITY, CORS & RATE-LIMIT ──────────────────────────────────────────────
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc:    ["'self'"],
-        scriptSrc:     ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
-        "script-src-attr": ["'unsafe-inline'"],    // allow inline onclick handlers
+        scriptSrc:     [
+          "'self'",
+          "'unsafe-inline'",
+          "https://cdn.jsdelivr.net",
+          "https://www.googletagmanager.com"
+        ],
+        "script-src-attr": ["'unsafe-inline'"],
         styleSrc:      ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc:       ["'self'", "https://fonts.gstatic.com"],
         imgSrc:        ["'self'", "data:"],
-        connectSrc:    ["'self'", "https://api.emailjs.com"],   // EmailJS XHR
+        connectSrc:    [
+          "'self'",
+          "https://api.emailjs.com",
+          "https://www.google-analytics.com",
+          "https://www.googletagmanager.com"
+        ],
         frameSrc:      [
           "'self'",
           "https://www.youtube.com",
           "https://www.youtube-nocookie.com",
-          "https://open.spotify.com",       // Spotify embeds
-          "https://player.beatstars.com"    // BeatStars embeds
+          "https://open.spotify.com",
+          "https://player.beatstars.com"
         ]
       }
     },
@@ -53,6 +63,7 @@ app.use(
     crossOriginResourcePolicy: { policy: 'cross-origin' }
   })
 );
+
 
 // trust proxy if you’re behind one (Render, Heroku, etc.)
 app.enable('trust proxy');
