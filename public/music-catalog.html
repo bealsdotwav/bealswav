@@ -233,6 +233,34 @@
       75% { color: #ff00ff; }
       100% { color: #00ffff; }
     }
+
+    /* Video card border */
+.video-container {
+  border: 3px solid var(--accent);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-dark);
+}
+
+/* Gradient title bar */
+.video-header {
+  background: linear-gradient(90deg, var(--accent), var(--glow));
+  padding: 0.75rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.9rem;
+  color: #000;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* Make iframe sit flush beneath the header */
+.video-container iframe {
+  display: block;
+  width: 100%;
+  height: 300px; /* or your chosen height */
+  border: none;
+}
     
     /* VIDEO SECTION (Desktop) */
 .video-container {
@@ -423,24 +451,25 @@
     </section>
         <!-- MUSIC VIDEOS -->
         <section class="video-container">
-          <h2 style="color: var(--glow);">
-            Watch: No Rest – Roman Noodle feat. RPFROMTHETOP &amp; Beals
-          </h2>
+          <div class="video-header">
+            NO REST – ROMAN NOODLE FEAT. RPFROMTHETOP & BEALS
+          </div>
           <iframe
             src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0"
-            allowfullscreen
-          ></iframe>
-        </section>
+            allowfullscreen>
+          </iframe>
+        </section>        
     
         <section class="video-container">
-          <h2 style="color: var(--glow);">
-            Watch: Lame – Roman Noodle feat. Beals
-          </h2>
+          <div class="video-header">
+            LAME – ROMAN NOODLE FEAT. BEALS
+          </div>
           <iframe
             src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0"
-            allowfullscreen
-          ></iframe>
+            allowfullscreen>
+          </iframe>
         </section>
+        
         <!-- ── MERAKI FULL ALBUM PLAYLIST ── -->
 <section class="video-container">
   <h2>Listen: Meraki (Full Album)</h2>
