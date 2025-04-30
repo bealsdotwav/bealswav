@@ -238,7 +238,7 @@
 .video-container {
   width: 90%;
   max-width: 720px;
-  margin: 0 auto 3rem;
+  margin: 3rem auto;
   text-align: center;
 }
 .video-container h2 {
@@ -256,125 +256,75 @@
   display: block;
   margin: 0 auto;
 }
-/* ── MERAKI ALBUM SHOWCASE ── */
-.album-section {
+/* ── MERAKI ALBUM CARD ── */
+.album-card {
   width: 90%;
-  max-width: 1000px;
+  max-width: 600px;
   margin: 4rem auto;
-  text-align: center;
 }
-.album-carousel {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto 2rem;
+.album-card details {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
 }
-.album-carousel img {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 0 12px var(--accent);
-}
-.album-carousel .prev,
-.album-carousel .next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--glow);
-  color: #000;
-  border: none;
-  padding: 0.4rem;
+.album-card summary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   cursor: pointer;
-  border-radius: 50%;
+  list-style: none;
 }
-.album-carousel .prev { left: -1rem; }
-.album-carousel .next { right: -1rem; }
-
-.album-info h2 {
-  font-size: 1.2rem;
+.album-card summary img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 0 8px var(--accent);
+}
+.album-card summary h2 {
+  font-size: 1rem;
   color: var(--glow);
-  margin-bottom: 0.5rem;
 }
-.album-info .genre {
-  font-size: 0.75rem;
-  color: var(--soft);
+.album-card details[open] summary {
+  border-bottom: 1px solid #444;
   margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
-.album-info p {
-  font-size: 0.8rem;
-  color: #ccc;
-  margin-bottom: 1.5rem;
-}
-.album-links {
+.album-card .links {
   display: flex;
   gap: 1rem;
-  justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
-.album-links a {
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
+.album-card .links a {
   background: var(--accent);
   color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   font-size: 0.7rem;
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: background 0.2s;
 }
-.album-links a:hover {
+.album-card .links a:hover {
   background: var(--glow);
 }
-
-.album-embeds {
+.album-card .embed {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
+  gap: 1.5rem;
 }
-@media (min-width: 769px) {
-  .album-embeds { flex-direction: row; }
-  .album-embeds iframe { flex: 1; }
+@media (min-width: 600px) {
+  .album-card .embed {
+    flex-direction: row;
+  }
+  .album-card .embed iframe {
+    flex: 1;
+    height: 200px;
+  }
 }
-
-/* Trailer Modal */
-.album-modal-overlay {
-  position: fixed;
-  top:0; left:0; width:100%; height:100%;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-}
-.album-modal-content {
-  position: relative;
-  width: 90%;
-  max-width: 720px;
-}
-.album-modal-close {
-  position: absolute;
-  top: -1rem; right: -1rem;
-  background: var(--accent);
-  color: #000;
-  border:none;
-  border-radius:50%;
-  width:2rem; height:2rem;
-  cursor:pointer;
-}
-.album-trailer-btn {
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 6px;
-  background: var(--glow);
-  color: #000;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.album-trailer-btn:hover {
-  transform: scale(1.05);
-}
-
-    
+  
     /* RESPONSIVE QUERIES */
     @media (max-width: 768px) {
       .logo { 
@@ -533,40 +483,36 @@
             allowfullscreen
           ></iframe>
         </section>
-        <!-- ── MERAKI ALBUM SHOWCASE ── -->
-  <section class="album-section">
-    <!-- Cover carousel -->
-    <div class="album-carousel">
-      <button class="prev">‹</button>
+        <!-- ── MERAKI ALBUM CARD ── -->
+<section class="album-card">
+  <details>
+    <summary>
       <img src="assets/images/meraki-cover.jpg" alt="Meraki Album Cover">
-      <button class="next">›</button>
-    </div>
-    <!-- Info & links -->
-    <div class="album-info">
       <h2>Meraki</h2>
-      <div class="genre">Rap • Hip-Hop | Released Jan 10, 2025</div>
-      <p>Meraki—a Greek word meaning to do something with soul, creativity, or love; to put something of yourself in your work.</p>
-      <div class="album-links">
-        <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8?si=nc5CWoisR3unQBQW3Vf1Cw" target="_blank">Listen on Spotify</a>
-        <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank">Listen on Apple Music</a>
-      </div>
-      <button class="album-trailer-btn">▶ Play Trailer</button>
-      <div class="album-embeds">
-        <!-- Spotify embed -->
-        <iframe style="border-radius:12px"
-                src="https://open.spotify.com/embed/album/2RnCTBy5av9pPjZ9WYE6e8?utm_source=generator"
-                width="100%" height="352" frameborder="0"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"></iframe>
-        <!-- Apple Music embed -->
-        <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-                frameborder="0" height="450"
-                style="width:100%;max-width:660px;overflow:hidden;border-radius:10px;"
-                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-                src="https://embed.music.apple.com/us/album/meraki/1781582237"></iframe>
-      </div>
+    </summary>
+    <p>Meraki—a Greek word meaning to do something with soul, creativity, or love; to put something of yourself in your work.</p>
+    <div class="links">
+      <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8?si=nc5CWoisR3unQBQW3Vf1Cw" target="_blank">Listen on Spotify</a>
+      <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank">Listen on Apple Music</a>
     </div>
-  </section>
+    <div class="embed">
+      <!-- Spotify Embed -->
+      <iframe
+        src="https://open.spotify.com/embed/album/2RnCTBy5av9pPjZ9WYE6e8?utm_source=generator"
+        width="100%" height="280" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+      <!-- YouTube Trailer -->
+      <iframe
+        src="https://www.youtube.com/embed/2D7kkPyH2Ts"
+        width="100%" height="280" frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </details>
+</section>
   </main>
   
   <div class="ticker">
@@ -592,63 +538,5 @@
     }
     document.addEventListener('DOMContentLoaded', checkLoginStatus);
   </script>
-  <script>
-    // ── MERAKI CAROUSEL & TRAILER MODAL ──
-    document.addEventListener('DOMContentLoaded', () => {
-      // Only 1 main + 4 alts, all .jpg
-      const covers = [
-        'assets/images/meraki-cover.jpg',
-        'assets/images/meraki-alt1.jpg',
-        'assets/images/meraki-alt2.jpg',
-        'assets/images/meraki-alt3.jpg',
-        'assets/images/meraki-alt4.jpg'
-      ];
-      let idx = 0;
-      const img = document.querySelector('.album-carousel img');
-      const prev = document.querySelector('.album-carousel .prev');
-      const next = document.querySelector('.album-carousel .next');
-  
-      function showCover() {
-        img.src = covers[idx];
-      }
-      prev.addEventListener('click', () => {
-        idx = (idx - 1 + covers.length) % covers.length;
-        showCover();
-      });
-      next.addEventListener('click', () => {
-        idx = (idx + 1) % covers.length;
-        showCover();
-      });
-      showCover();
-  
-      // Trailer Modal
-      const trailerBtn = document.querySelector('.album-trailer-btn');
-      const modal = document.createElement('div');
-      modal.className = 'album-modal-overlay';
-      modal.innerHTML = `
-        <div class="album-modal-content">
-          <button class="album-modal-close">✕</button>
-          <iframe id="album-trailer-iframe"
-                  src=""
-                  style="width:100%;height:60vh;border:none;border-radius:10px;"
-                  allow="autoplay; encrypted-media"
-                  allowfullscreen>
-          </iframe>
-        </div>`;
-      document.body.appendChild(modal);
-  
-      const iframeEl = modal.querySelector('#album-trailer-iframe');
-      const closeBtn = modal.querySelector('.album-modal-close');
-  
-      trailerBtn.addEventListener('click', () => {
-        iframeEl.src = 'https://www.youtube.com/embed/2D7kkPyH2Ts?autoplay=1';
-        modal.style.display = 'flex';
-      });
-      closeBtn.addEventListener('click', () => {
-        iframeEl.src = '';
-        modal.style.display = 'none';
-      });
-    });
-  </script>  
 </body>
 </html>
