@@ -277,32 +277,79 @@
 }
   
     /* RESPONSIVE QUERIES */
-    @media (max-width: 768px) {
-  /* Logo, header, sidebar, etc. */
-  .logo { font-size: 1.1rem; margin-right: auto; }
-  .header-container { padding: 0 1rem; }
-  .header-buttons { gap: 0.5rem; margin-left: auto; }
-  .cart-button, .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-  .hamburger { display: inline-block; font-size: 1.5rem; margin-left: 0.5rem; }
-  .nav-menu { display: none; }
-  .sidebar { width: 200px; }
-
-  /* Slideshow & video */
-  .slideshow-container { height: 300px; }
-  #imageSlider img { width:100%; height:100%; object-fit:cover; border-radius:0; }
-  .video-container {
-    /* You can choose either fixed height or padding-based spacing */
-    /* height:300px; max-height:300px; margin-bottom:3rem; */
-    padding: 5rem 0;
-    margin: 0 auto;
+@media (max-width: 768px) {
+  /* Header & Navigation */
+  .logo {
+    font-size: 1.1rem;
+    margin-right: auto;
   }
-  .video-container iframe { height:100% !important; }
+  .header-container {
+    padding: 0 1rem;
+  }
+  .header-buttons {
+    gap: 0.5rem;
+    margin-left: auto;
+  }
+  .login-btn,
+  .cart-button {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.6rem;
+  }
+  .hamburger {
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+  }
+  .nav-menu {
+    display: none;
+  }
+  .sidebar {
+    width: 200px;
+  }
 
-  /* Streams */
-  .stream-buttons { flex-direction:column; align-items:center; }
+  /* Slideshow */
+  .slideshow-container {
+    height: 300px;
+  }
+  #imageSlider img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
 
-  /* Main bottom padding for ticker clearance */
-  main { padding-bottom: 8rem; }
+  /* Video blocks (square-ish like index.html) */
+  .video-container {
+    width: 90%;
+    max-width: 720px;
+    margin: 2rem auto;
+    height: 300px;
+    text-align: center;
+  }
+  .video-container iframe {
+    width: 100%;
+    height: 100% !important;
+  }
+
+  /* Stream buttons stack */
+  .stream-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Prevent ticker overlap */
+  main {
+    padding-bottom: 8rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .nav-menu {
+    display: flex;
+  }
+  .hamburger {
+    display: none;
+  }
 }
   </style>
 </head>
