@@ -262,15 +262,25 @@
   font-family: Arial, sans-serif;
   color: #ccc;
 }
-.album-subtext a {
+.album-subtext {
+  margin-top: 1rem;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.85rem;        /* slightly larger */
+  color: #ccc;
+  line-height: 1.4;
+  text-align: center;
+}
+.album-subtext p {
+  margin: 0.5rem 0;
+}
+.album-links a {
   color: var(--accent);
   text-decoration: none;
   margin: 0 0.5rem;
 }
-.album-subtext a:hover {
+.album-links a:hover {
   text-decoration: underline;
 }
-
   
     /* RESPONSIVE QUERIES */
     @media (max-width: 768px) {
@@ -432,9 +442,7 @@
         </section>
         <!-- ── MERAKI FULL ALBUM PLAYLIST ── -->
 <section class="video-container">
-  <h2 style="font-family: sans-serif; color: var(--glow);">
-    Listen: Meraki (Full Album)
-  </h2>
+  <h2>Listen: Meraki (Full Album)</h2>
   <iframe
     width="100%"
     height="315"
@@ -445,13 +453,18 @@
     allowfullscreen>
   </iframe>
   <div class="album-subtext">
-    Album: <strong>Meraki</strong> | 
-    <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8?si=nc5CWoisR3unQBQW3Vf1Cw" target="_blank">Spotify</a> | 
-    <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank">Apple Music</a>
+    <p>
+      Meraki, a Greek word meaning to do something with soul, creativity, or love; 
+      to put something of yourself in your work. Officially released on all platforms Jan 10, 2025. – Beals
+    </p>
+    <p class="album-links">
+      Album: <strong>Meraki</strong> | 
+      <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank">Spotify</a> | 
+      <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank">Apple Music</a>
+    </p>
   </div>
 </section>
   </main>
-  
   <div class="ticker">
     <div class="ticker-content">
       Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} === New release out now! —
