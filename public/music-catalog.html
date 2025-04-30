@@ -160,9 +160,11 @@
     /* MAIN CONTENT */
     main {
   margin-top: 120px;
-  padding: 2rem 1rem;      /* top/bottom:2rem, sides:1rem */
-  padding-bottom: 4rem;    /* bottom override */
-  /* … */
+  padding: 2rem 1rem 4rem; /* top:2rem, sides:1rem, bottom:4rem */
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
     .catalog-header h2 {
       font-size: 1.3rem;
@@ -276,75 +278,31 @@
   
     /* RESPONSIVE QUERIES */
     @media (max-width: 768px) {
-      .logo { 
-        font-size: 1.1rem; 
-        margin-right: auto; 
-      }
-      .header-container { 
-        padding: 0 1rem; 
-      }
-      .header-buttons { 
-        gap: 0.5rem; 
-        margin-left: auto; 
-      }
-      .cart-button, .login-btn { 
-        font-size: 0.65rem; 
-        padding: 0.3rem 0.6rem; 
-      }
-      .hamburger { 
-        display: inline-block; 
-        font-size: 1.5rem; 
-        margin-left: 0.5rem; 
-      }
-      .nav-menu { 
-        display: none; 
-      }
-      .sidebar { 
-        width: 200px; 
-      }
-      
-      /* Mobile: Slideshow container remains 300px in height */
-      .slideshow-container { 
-        height: 300px; 
-      }
-      /* For mobile, force the slideshow image to completely fill the container */
-      #imageSlider img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: 0;
-      }
-      
-      /* For mobile, force the video container to be 300px tall */
-      .video-container {
-        height: 300px;
-        max-height: 300px;
-        margin-bottom: 3rem;
-      }
-      .video-container iframe {
-        height: 100% !important;
-      }
-      
-      /* Mobile: Support links stack vertically (stream-buttons) */
-      .stream-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-    @media (min-width: 769px) {
-      .nav-menu { 
-        display: flex; 
-      }
-      .hamburger { 
-        display: none; 
-      }
-    }
-    @media (max-width: 768px) {
+  /* Logo, header, sidebar, etc. */
+  .logo { font-size: 1.1rem; margin-right: auto; }
+  .header-container { padding: 0 1rem; }
+  .header-buttons { gap: 0.5rem; margin-left: auto; }
+  .cart-button, .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+  .hamburger { display: inline-block; font-size: 1.5rem; margin-left: 0.5rem; }
+  .nav-menu { display: none; }
+  .sidebar { width: 200px; }
+
+  /* Slideshow & video */
+  .slideshow-container { height: 300px; }
+  #imageSlider img { width:100%; height:100%; object-fit:cover; border-radius:0; }
   .video-container {
-    margin: 0 auto;      /* center as before */
-    padding: 5rem 0;      /* 5rem top & bottom—no collapse */
+    /* You can choose either fixed height or padding-based spacing */
+    /* height:300px; max-height:300px; margin-bottom:3rem; */
+    padding: 5rem 0;
+    margin: 0 auto;
   }
+  .video-container iframe { height:100% !important; }
+
+  /* Streams */
+  .stream-buttons { flex-direction:column; align-items:center; }
+
+  /* Main bottom padding for ticker clearance */
+  main { padding-bottom: 8rem; }
 }
   </style>
 </head>
