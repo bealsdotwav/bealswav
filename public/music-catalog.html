@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio | Beals.wav</title>
+  <title>Music Catalog | Beals.wav</title>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4926KVF6L"></script>
@@ -17,11 +17,8 @@
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <!-- EmailJS v4 from jsDelivr -->
-  <link rel="preconnect" href="https://player.beatstars.com">
   <!-- EmailJS v4 (if needed elsewhere) -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     :root {
@@ -237,138 +234,29 @@
       100% { color: #00ffff; }
     }
     
-    /* (Cart modal & toast CSS remains as in your original code) */
-    .cart-modal {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 300px;
-      background: #111;
-      border: 1px solid #444;
-      padding: 1rem;
-      display: none;
-      z-index: 1000;
-    }
-    .cart-modal h3 {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      color: var(--glow);
-    }
-    .close-cart {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      color: var(--accent);
-      cursor: pointer;
-    }
-    .cart-item {
-      font-size: 0.6rem;
-      border-bottom: 1px solid #333;
-      padding: 0.5rem 0;
-    }
-    .cart-item button {
-      float: right;
-      background: none;
-      color: var(--accent);
-      border: none;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-    .promo-input {
-      width: 100%;
-      background: #222;
-      color: white;
-      padding: 0.4rem;
-      font-size: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #444;
-      border-radius: 4px;
-    }
-    .cart-total {
-      font-weight: bold;
-      margin-top: 0.5rem;
-      font-size: 0.6rem;
-    }
-    .checkout-btn {
-      width: 100%;
-      margin-top: 0.5rem;
-      background: var(--glow);
-      color: black;
-      font-weight: bold;
-      font-size: 0.6rem;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .toast {
-      position: fixed;
-      top: 10px;
-      right: 20px;
-      background: #0f0f0f;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      border: 1px solid var(--accent);
-      z-index: 1100;
-      display: none;
-    }
-    
-    /* BOGO CUSTOM MODAL */
-    .bogo-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-    .bogo-modal-content {
-      background: #222;
-      color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-      font-family: 'Press Start 2P', cursive;
-      text-align: center;
-    }
-    .bogo-modal-content h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--glow);
-    }
-    .bogo-modal-content p {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-    .bogo-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .bogo-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-    }
-    .bogo-btn-alt {
-      background: var(--glow);
-      color: #000;
-    }
+    /* VIDEO SECTION (Desktop) */
+.video-container {
+  width: 90%;
+  max-width: 720px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+.video-container h2 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: var(--glow);
+}
+.video-container iframe {
+  width: 100%;
+  max-width: 720px;
+  height: 500px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 12px var(--accent);
+  display: block;
+  margin: 0 auto;
+}
+
     
     /* RESPONSIVE QUERIES */
     @media (max-width: 768px) {
@@ -507,6 +395,26 @@
         <a href="https://soundcloud.com/bealsprod" target="_blank" class="soundcloud">SoundCloud</a>
       </div>
     </section>
+        <!-- MUSIC VIDEOS -->
+        <section class="video-container">
+          <h2 style="color: var(--glow);">
+            Watch: No Rest – Roman Noodle feat. RPFROMTHETOP &amp; Beals
+          </h2>
+          <iframe
+            src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0"
+            allowfullscreen
+          ></iframe>
+        </section>
+    
+        <section class="video-container">
+          <h2 style="color: var(--glow);">
+            Watch: Lame – Roman Noodle feat. Beals
+          </h2>
+          <iframe
+            src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0"
+            allowfullscreen
+          ></iframe>
+        </section>    
   </main>
   
   <div class="ticker">
