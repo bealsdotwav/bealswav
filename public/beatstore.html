@@ -45,7 +45,7 @@
       position: fixed; top:0; left:0;
       width:100%; z-index:999;
       background: rgba(0,0,0,0.9);
-      border-bottom:1px solid #222;
+      border-bottom: none;               /* ← removed the grey line */
       padding:1rem;
     }
     .header-container {
@@ -105,8 +105,8 @@
     .beatstore-container {
       position:relative;
       width:100%;
-      margin-top:120px;    /* push below desktop header */
-      margin-bottom:25px;  /* clear ticker */
+      margin-top:120px;      /* push below desktop header */
+      margin-bottom:25px;    /* clear ticker */
       height:calc(100vh - 120px - 25px);
       overflow:hidden;
     }
@@ -227,7 +227,7 @@
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+      Beals {Musician} + {Rapper} + {Beat Maker} – Beals.wav Recording Studio – Recording Services + Mixing + Advertising + Music Videos + Songwriting – Based in West Jordan, Utah – © 2025 Beals.wav – All rights reserved – New release out now!
     </div>
   </div>
 
@@ -240,7 +240,7 @@
     function checkLoginStatus() {
       const btn = document.getElementById("loginBtn");
       if (!btn) return;
-      const isLoggedIn = localStorage.getItem("loggedIn")==="true";
+      const isLoggedIn = localStorage.getItem("loggedIn") === "true";
       btn.textContent = isLoggedIn ? "Account" : "Login";
       btn.href = isLoggedIn ? "account.html" : "login.html";
     }
