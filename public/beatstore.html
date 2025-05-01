@@ -23,87 +23,98 @@
 
   <style>
     :root {
-      --glow: #00ffff;
+      --glow:   #00ffff;
       --accent: #ff4d6d;
-      --bg-dark: #0a0a0a;
-      --text: #ffffff;
-      /* measure these in px so we can position the embed exactly */
-      --header-h: 70px; 
-      --ticker-h: 25px;
-    }
-    @media (max-width: 768px) {
-      /* mobile header is a bit shorter */
-      :root { --header-h: 56px; }
+      --bg:     #0a0a0a;
+      --text:   #fff;
+      --ticker: 25px;
     }
 
     /* RESET */
-    * { box-sizing: border-box; margin:0; padding:0; }
-    html, body {
+    * { box-sizing:border-box; margin:0; padding:0 }
+    html,body {
       width:100%; height:100%;
-      background: var(--bg-dark);
-      color: var(--text);
-      font-family: 'Press Start 2P', cursive;
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Press Start 2P',cursive;
       overflow:hidden;
     }
-    a { color: var(--glow); text-decoration: none; }
+    a { color:var(--glow); text-decoration:none }
 
-    /* HEADER */
+    /* HEADER (no fixed height!) */
     header {
-      position: fixed; top:0; left:0;
+      position:fixed; top:0; left:0;
       width:100%; z-index:999;
-      background: rgba(0,0,0,0.9);
+      background:rgba(0,0,0,0.9);
       border-bottom:1px solid #222;
-      height: var(--header-h);
-      display: flex;
-      align-items: center;
-      padding: 0 2rem;
+    }
+    .header-container {
+      display:flex; align-items:center; justify-content:space-between;
+      max-width:1400px; margin:0 auto;
+      padding:1rem 2rem;
     }
     .logo {
       font-size:1.4rem; color:var(--glow);
-      text-shadow:0 0 5px var(--glow), 0 0 10px var(--glow);
-      text-decoration:none;
+      text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
     }
     .nav-menu {
       flex:1; display:flex; justify-content:center;
     }
-    .nav-menu ul { display:flex; gap:1.5rem; list-style:none; }
-    .nav-menu a {
-      color:var(--accent); font-size:0.75rem;
-      transition:color 0.2s;
+    .nav-menu ul {
+      display:flex; gap:1.5rem; list-style:none;
     }
-    .nav-menu a:hover { color:var(--glow); }
-    .subtext {
-      display:block; font-size:0.45rem; color:#aaa;
+    .nav-menu a {
+      color:var(--accent);
+      font-size:0.75rem;
+      transition:color .2s;
+      text-align:center;
+    }
+    .nav-menu a:hover { color:var(--glow) }
+    .nav-menu .subtext {
+      display:block;
+      font-size:0.45rem;
+      color:#aaa;
+      margin-top:0.15rem;
     }
     .header-buttons {
       display:flex; gap:1rem; align-items:center;
     }
     .login-btn {
-      background:var(--glow); color:#000;
-      padding:0.5rem 1rem; border-radius:5px;
-      text-decoration:none; font-size:0.8rem;
+      background:var(--glow);
+      color:#000;
+      padding:.5rem 1rem;
+      border-radius:5px;
+      font-size:0.8rem;
     }
     .hamburger {
-      display:none; font-size:1.5rem;
-      color:var(--accent); background:none; border:none;
+      display:none;
+      font-size:1.5rem;
+      background:none;
+      border:none;
+      color:var(--accent);
     }
 
-    /* SIDEBAR (mobile) */
+    /* MOBILE SIDEBAR */
     .sidebar {
-      position:fixed; top:var(--header-h); left:-220px;
-      width:200px; height:calc(100% - var(--header-h));
-      background:#111; padding:1.5rem;
-      transition:left 0.3s; z-index:998;
+      position:fixed;
+      top:calc(var(--header-height,70px));
+      left:-220px;
+      width:200px;
+      height:calc(100% - var(--header-height,70px));
+      background:#111;
+      padding:1.5rem;
+      transition:left .3s;
+      z-index:998;
     }
-    .sidebar.open { left:0; }
-    .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:1rem; }
-    .sidebar a { font-size:0.9rem; color:var(--glow); }
+    .sidebar.open { left:0 }
+    .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:1rem }
+    .sidebar a { font-size:.9rem; color:var(--glow) }
 
     /* FULL-SCREEN BEATSTORE EMBED */
     .beatstore-container {
       position:absolute;
-      top: var(--header-h);
-      bottom: var(--ticker-h);
+      top:0;    /* we’ll shift this in JS */
+      bottom:var(--ticker);
       left:0; right:0;
       overflow:hidden;
     }
@@ -117,39 +128,39 @@
     /* TICKER */
     .ticker {
       position:fixed; bottom:0; left:0;
-      width:100%; height:var(--ticker-h);
-      background:black; overflow:hidden; z-index:998;
+      width:100%; height:var(--ticker);
+      background:#000;
+      overflow:hidden; z-index:998;
     }
     .ticker-content {
       white-space:nowrap; display:inline-block;
       padding-left:100%;
-      animation: scroll 30s linear infinite,
-                 colorchange 10s infinite alternate;
-      font-size:0.65rem; font-weight:bold;
+      animation: scroll 30s linear infinite, colorchange 10s infinite alternate;
+      font-size:.65rem; font-weight:bold;
     }
     @keyframes scroll {
-      0% { transform:translateX(0); }
-      100% { transform:translateX(-100%); }
+      0%   { transform:translateX(0)  }
+      100% { transform:translateX(-100%) }
     }
     @keyframes colorchange {
-      0% { color:#00ffff; }
-      25% { color:#ff4d6d; }
-      50% { color:#a0ff00; }
-      75% { color:#ff00ff; }
-      100% { color:#00ffff; }
+      0%   { color:#00ffff }
+      25%  { color:#ff4d6d }
+      50%  { color:#a0ff00 }
+      75%  { color:#ff00ff }
+      100% { color:#00ffff }
     }
 
-    /* MOBILE ADJUSTMENTS */
-    @media (max-width: 768px) {
-      header { padding: 0 1rem; }
-      .logo { font-size:1.1rem; }
-      .login-btn { font-size:0.65rem; padding:0.3rem 0.6rem; }
-      .hamburger { display:inline-block; }
-      .nav-menu { display:none; }
+    /* MOBILE TWEAKS */
+    @media (max-width:768px) {
+      header .header-container { padding: .75rem 1rem }
+      .logo { font-size:1.1rem }
+      .login-btn { font-size:.65rem; padding:.3rem .6rem }
+      .hamburger { display:inline-block }
+      .nav-menu { display:none }
     }
     @media (min-width:769px) {
-      .nav-menu { display:flex; }
-      .hamburger { display:none; }
+      .nav-menu { display:flex }
+      .hamburger { display:none }
     }
   </style>
 </head>
@@ -167,34 +178,36 @@
 
   <!-- HEADER -->
   <header id="mainHeader">
-    <a href="index.html" class="logo">BEALS.WAV</a>
-    <nav class="nav-menu">
-      <ul>
-        <li>
-          <a href="music-catalog.html">Music Catalog</a>
-          <span class="subtext">Listen to my songs</span>
-        </li>
-        <li>
-          <a href="beatstore.html">Beats</a>
-          <span class="subtext">Buy instrumentals</span>
-        </li>
-        <li>
-          <a href="studio.html">Studio</a>
-          <span class="subtext">Book studio time</span>
-        </li>
-        <li>
-          <a href="faq.html">FAQ</a>
-          <span class="subtext">Questions answered</span>
-        </li>
-        <li>
-          <a href="contact.html">Contact</a>
-          <span class="subtext">Reach out directly</span>
-        </li>
-      </ul>
-    </nav>
-    <div class="header-buttons">
-      <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="header-container">
+      <a href="index.html" class="logo">BEALS.WAV</a>
+      <nav class="nav-menu">
+        <ul>
+          <li>
+            <a href="music-catalog.html">Music Catalog</a>
+            <span class="subtext">Listen to my songs</span>
+          </li>
+          <li>
+            <a href="beatstore.html">Beats</a>
+            <span class="subtext">Buy instrumentals</span>
+          </li>
+          <li>
+            <a href="studio.html">Studio</a>
+            <span class="subtext">Book studio time</span>
+          </li>
+          <li>
+            <a href="faq.html">FAQ</a>
+            <span class="subtext">Questions answered</span>
+          </li>
+          <li>
+            <a href="contact.html">Contact</a>
+            <span class="subtext">Reach out directly</span>
+          </li>
+        </ul>
+      </nav>
+      <div class="header-buttons">
+        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      </div>
     </div>
   </header>
 
@@ -216,19 +229,26 @@
   </div>
 
   <script>
-    // Sidebar toggle
+    // 1) Measure header height and store it in a CSS variable:
+    window.addEventListener('load', () => {
+      const h = document.getElementById('mainHeader').offsetHeight;
+      document.documentElement.style.setProperty('--header-height', h + 'px');
+      // 2) Now shift the beatstore-container down by header height:
+      document.querySelector('.beatstore-container').style.top = h + 'px';
+    });
+
+    // Sidebar toggle:
     function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
+      document.getElementById('sidebar').classList.toggle('open');
     }
-    // Login/Account sync
-    function checkLoginStatus() {
-      const btn = document.getElementById("loginBtn");
+    // Login/Account sync:
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('loginBtn');
       if (!btn) return;
-      const isLoggedIn = localStorage.getItem("loggedIn")==="true";
-      btn.textContent = isLoggedIn ? "Account" : "Login";
-      btn.href = isLoggedIn ? "account.html" : "login.html";
-    }
-    document.addEventListener("DOMContentLoaded", checkLoginStatus);
+      const inSession = localStorage.getItem('loggedIn') === 'true';
+      btn.textContent = inSession ? 'Account' : 'Login';
+      btn.href = inSession ? 'account.html' : 'login.html';
+    });
   </script>
 </body>
 </html>
