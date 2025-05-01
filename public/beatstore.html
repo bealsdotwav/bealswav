@@ -145,18 +145,20 @@
     }
 
     /* RESPONSIVE */
-    @media (max-width:768px) {
-      header .header-container { padding:.75rem 1rem }
-      .logo { font-size:1.1rem }
-      .login-btn { font-size:.65rem; padding:.3rem .6rem }
-      .hamburger { display:inline-block }
-      .nav-menu { display:none }
+    @media (max-width: 768px) {
+      header .header-container { padding: .75rem 1rem; }
+      .logo { font-size: 1.1rem; }
+      .login-btn { font-size: .65rem; padding: .3rem .6rem; }
+      .hamburger { display: inline-block; }
+      .nav-menu { display: none; }
+
+  /* Let JS’s --header-height do the work — no extra margin here! */
       .beatstore-container {
-        top:0; bottom:calc(var(--ticker));
-        margin-top:calc(var(--header-height,70px));
-        height:calc(100vh - var(--header-height,70px) - var(--ticker));
-      }
-    }
+       top: var(--header-height);
+       bottom: var(--ticker);
+    /* height is auto since top/bottom are pinned */
+  }
+}
     @media (min-width:769px) {
       .nav-menu { display:flex }
       .hamburger { display:none }
