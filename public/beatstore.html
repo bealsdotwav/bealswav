@@ -100,11 +100,14 @@
 
     /* MAIN: full-screen BeatStars embed */
     main {
-      margin:0; padding:0;
+      position: relative; /* make this the positioning context */
     }
     .beatstore-container {
-      position: relative;
-      width: 100%;
+      position: absolute;
+      top: 70px;
+      bottom: 25px;
+      Left: 0;
+      right: 0;
       /* header is ~70px tall, so we only need that much space above */
       margin-top: 70px;
       margin-bottom: 25px;  
