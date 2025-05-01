@@ -28,6 +28,8 @@
       --bg:     #0a0a0a;
       --text:   #ffffff;
       --ticker: 25px;
+      /* will be set by JS on load: */
+      --header-height: 0px;
     }
 
     /* RESET */
@@ -51,13 +53,12 @@
     .header-container {
       display:flex; align-items:center; justify-content:space-between;
       max-width:1400px; margin:0 auto;
-      padding:1rem 2rem; /* same as other pages */
+      padding:1rem 2rem;
     }
     .logo {
       font-size:1.4rem; color:var(--glow);
       text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
     }
-
     .nav-menu {
       flex:1; display:flex; justify-content:center;
     }
@@ -79,7 +80,6 @@
       font-size:0.45rem; color:#aaa;
       margin-top:0.15rem;
     }
-
     .header-buttons {
       display:flex; gap:1rem; align-items:center;
     }
@@ -97,9 +97,9 @@
     /* MOBILE SIDEBAR */
     .sidebar {
       position:fixed;
-      top:calc(var(--header-height,70px));
+      top:var(--header-height);
       left:-220px;
-      width:200px; height:calc(100% - var(--header-height,70px));
+      width:200px; height:calc(100% - var(--header-height));
       background:#111; padding:1.5rem;
       transition:left .3s; z-index:998;
     }
@@ -112,7 +112,9 @@
     /* FULL-SCREEN BEATSTORE */
     .beatstore-container {
       position:absolute;
-      top:0; bottom:var(--ticker); left:0; right:0;
+      top: var(--header-height);
+      bottom: var(--ticker);
+      left:0; right:0;
       overflow:hidden;
     }
     .beatstore-container iframe {
@@ -151,14 +153,8 @@
       .login-btn { font-size: .65rem; padding: .3rem .6rem; }
       .hamburger { display: inline-block; }
       .nav-menu { display: none; }
-
-  /* Let JS’s --header-height do the work — no extra margin here! */
-      .beatstore-container {
-       top: var(--header-height);
-       bottom: var(--ticker);
-    /* height is auto since top/bottom are pinned */
-  }
-}
+      /* beatstore-container already uses var(--header-height) */
+    }
     @media (min-width:769px) {
       .nav-menu { display:flex }
       .hamburger { display:none }
@@ -230,12 +226,10 @@
   </div>
 
   <script>
-    // 1) Measure real header height, expose as CSS var:
+    // Measure header height and set CSS var
     window.addEventListener('load', () => {
       const h = document.getElementById('mainHeader').offsetHeight;
       document.documentElement.style.setProperty('--header-height', h + 'px');
-      // shift the embed down by that much
-      document.querySelector('.beatstore-container').style.top = h + 'px';
     });
 
     // Sidebar toggle
