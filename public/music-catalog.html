@@ -184,12 +184,13 @@
       z-index: 1;
     }
     .stream-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-top: 2rem;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  margin-bottom: 1.25rem; /* Add space below buttons */
+}
     .stream-buttons a {
       padding: 0.6rem 1rem;
       border-radius: 6px;
@@ -450,19 +451,19 @@
       </div>
     </section>
         <!-- MUSIC VIDEOS -->
-<section class="video-container">
-  <div class="video-header">
-    NO REST – ROMAN NOODLE FEAT. RPFROMTHETOP & BEALS
-  </div>
-  <iframe
-    src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0"
-    allowfullscreen>
-  </iframe>
-  <div class="stream-buttons" style="margin-top: 1rem;">
-    <a href="https://open.spotify.com/track/58j1VZwmejtg1oQDRLA6Hs?si=0385bf72e2b34b0c" target="_blank" class="spotify">Spotify</a>
-    <a href="https://music.apple.com/us/song/no-rest-feat-rpfromthetop-beals/1809555433" target="_blank" class="apple">Apple Music</a>
-  </div>
-</section>    
+        <section class="video-container" id="norest">
+          <div class="video-header">
+            NO REST – ROMAN NOODLE FEAT. RPFROMTHETOP & BEALS
+          </div>
+          <iframe
+            src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0"
+            allowfullscreen>
+          </iframe>
+          <div class="stream-buttons" style="margin-top: 1rem;">
+            <a href="https://open.spotify.com/track/58j1VZwmejtg1oQDRLA6Hs?si=0385bf72e2b34b0c" target="_blank" class="spotify">Spotify</a>
+            <a href="https://music.apple.com/us/song/no-rest-feat-rpfromthetop-beals/1809555433" target="_blank" class="apple">Apple Music</a>
+          </div>
+        </section>           
     
         <section class="video-container">
           <div class="video-header">
@@ -486,11 +487,10 @@
     <p>
       Meraki, a Greek word meaning to do something with soul, creativity, or love; to put something of yourself in your work. Officially released Jan 10, 2025.
     </p>
-    <p class="album-links">
-      Album: <strong>Meraki</strong> | 
-      <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank">Spotify</a> | 
-      <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank">Apple Music</a>
-    </p>
+    <div class="stream-buttons" style="margin-top: 1rem;">
+      <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank" class="spotify">Spotify</a>
+      <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank" class="apple">Apple Music</a>
+    </div>
   </div>
 </section>
   </main>
