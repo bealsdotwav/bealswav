@@ -217,13 +217,17 @@
     
     /* Stream buttons */
     .stream-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 0.75rem;
+      justify-content: center;
       margin-top: 1.25rem;
       margin-bottom: 1.5rem;
-    }
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+}
+
     .stream-buttons a {
       padding: 0.6rem 1rem;
       border-radius: 6px;
@@ -238,8 +242,8 @@
     .stream-buttons a.apple { background: #fa233b; }
     .stream-buttons a.spotify { background: #1DB954; color: black; }
     .stream-buttons a.youtube { background: #FF0000; }
-    .stream-buttons a.soundcloud { background: #ff8800; color: black; }
-    .stream-buttons a.instagram { background: #E1306C; } /* Instagram pinkish tone */
+    .stream-buttons a.soundcloud { background: #e67c03; color: black; }
+    .stream-buttons a.instagram { background: #25a88c; } /* Instagram pinkish tone */
     .stream-buttons a.x { background: #000000; color: white; } /* X is black/white */
     .stream-buttons a:hover {
       background: var(--accent);
@@ -473,12 +477,8 @@
       <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
       <a href="https://youtube.com/@bealsprod" target="_blank" class="youtube" rel="noopener noreferrer">YouTube</a>
       <a href="https://soundcloud.com/bealsprod" target="_blank" class="soundcloud" rel="noopener noreferrer">SoundCloud</a>
-      <a href="https://instagram.com/bealswav" target="_blank" class="instagram" rel="noopener noreferrer">
-        <span style="margin-right: 6px;">📸</span> Instagram
-      </a>
-      <a href="https://twitter.com/bealswav" target="_blank" class="x" rel="noopener noreferrer">
-        <span style="margin-right: 6px;">𝕏</span> X (Twitter)
-      </a>
+      <a href="https://instagram.com/bealswav" target="_blank" class="instagram" rel="noopener noreferrer">Instagram</a>
+      <a href="https://twitter.com/bealswav" target="_blank" class="x" rel="noopener noreferrer">X</a>
     </div>    
     
     <!-- Divider between Spotify section and VIP video -->
