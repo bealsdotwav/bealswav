@@ -161,6 +161,7 @@
       text-decoration: none;
     }
     
+    
     /* MAIN CONTENT */
     main {
       margin-top: 120px;
@@ -337,6 +338,12 @@
     }
     
     /* RESPONSIVE QUERIES */
+    /* Hide elements with .hide-on-mobile on mobile devices */
+    @media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none !important;
+      }
+  }
     @media (max-width: 768px) {
       /* Header & Navigation */
       .logo {
@@ -403,6 +410,11 @@
       .hamburger {
         display: none;
       }
+      .stream-buttons a {
+        font-size: 0.68rem;
+        padding: 0.75rem 1.25rem;
+        min-width: 140px;
+      }   
     }
   </style>
 </head>
@@ -463,14 +475,14 @@
     </section>
     
     <!-- SPOTIFY EMBED with updated container -->
-    <section class="spotify-embed-container" aria-label="Spotify Artist Player">
+    <section class="spotify-embed-container hide-on-mobile" aria-label="Spotify Artist Player">
       <iframe
         src="https://open.spotify.com/embed/artist/3HgLaXGcqPpe5BmVIr1nZG?utm_source=generator&theme=0"
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
         title="Spotify Artist Player - Beals.wav"
       ></iframe>
-    </section>
+    </section>    
 
     <!-- Other Platforms Buttons below Spotify -->
     <div class="stream-buttons" aria-label="Other streaming platforms">
