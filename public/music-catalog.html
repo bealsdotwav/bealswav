@@ -17,7 +17,6 @@
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <!-- EmailJS v4 from jsDelivr -->
-  <!-- EmailJS v4 (if needed elsewhere) -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
@@ -27,6 +26,7 @@
       --bg-dark: #0a0a0a;
       --text: #ffffff;
       --soft: #999;
+      --divider-grey: rgba(150, 150, 150, 0.15);
     }
     /* RESET */
     * {
@@ -159,13 +159,15 @@
     
     /* MAIN CONTENT */
     main {
-  margin-top: 120px;
-  padding: 2rem 1rem 4rem; /* top:2rem, sides:1rem, bottom:4rem */
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
+      margin-top: 120px;
+      padding: 2rem 1rem 6rem; /* extra bottom padding for ticker */
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      position: relative;
+      z-index: 0;
+    }
     .catalog-header h2 {
       font-size: 1.3rem;
       margin-bottom: 0.5rem;
@@ -176,28 +178,50 @@
       color: #ccc;
       margin-bottom: 2rem;
     }
-    iframe {
+    
+    /* Spotify embed container - bigger, balanced with video */
+    .spotify-embed-container {
+      width: 90%;
+      max-width: 720px;
+      margin: 0 auto;
       border-radius: 12px;
-      width: 100%;
-      max-width: 100%;
-      position: relative;
-      z-index: 1;
+      overflow: hidden;
+      box-shadow: 0 0 15px var(--accent);
     }
+    .spotify-embed-container iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      display: block;
+    }
+    
+    /* Subtle divider between Spotify embed and VIP video */
+    .section-divider {
+      width: 90%;
+      max-width: 720px;
+      height: 1.5px;
+      background: var(--divider-grey);
+      margin: 3rem auto 2rem auto;
+      border-radius: 1px;
+    }
+    
+    /* Stream buttons */
     .stream-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
-  margin-top: 2rem;
-  margin-bottom: 1.25rem; /* Add space below buttons */
-}
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
     .stream-buttons a {
       padding: 0.6rem 1rem;
       border-radius: 6px;
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       text-decoration: none;
       color: white;
       transition: background 0.2s ease;
+      font-weight: bold;
     }
     .stream-buttons a.apple { background: #fa233b; }
     .stream-buttons a.spotify { background: #1DB954; color: black; }
@@ -212,16 +236,19 @@
       position: fixed;
       bottom: 0;
       width: 100%;
-      height: 25px;
+      height: 30px;
       background: black;
+      z-index: 1000;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
     }
     .ticker-content {
       white-space: nowrap;
       display: inline-block;
       padding-left: 100%;
       animation: scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       font-weight: bold;
+      line-height: 30px;
     }
     @keyframes scroll {
       0% { transform: translateX(0); }
@@ -236,149 +263,124 @@
     }
 
     /* Video card border */
-.video-container {
-  border: 3px solid var(--accent);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--bg-dark);
-  scroll-margin-top: 100px;
-}
+    .video-container {
+      border: 3px solid var(--accent);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-dark);
+      scroll-margin-top: 100px;
+      width: 90%;
+      max-width: 720px;
+      margin: 3rem auto;
+      text-align: center;
+      box-shadow: 0 0 12px var(--accent);
+    }
 
-/* Gradient title bar */
-.video-header {
-  background: linear-gradient(90deg, var(--accent), var(--glow));
-  padding: 0.75rem;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.9rem;
-  color: #000;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 0.05em;
-}
+    /* Gradient title bar */
+    .video-header {
+      background: linear-gradient(90deg, var(--accent), var(--glow));
+      padding: 0.75rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.9rem;
+      color: #000;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
 
-/* Make iframe sit flush beneath the header */
-.video-container iframe {
-  display: block;
-  width: 100%;
-  height: 300px; /* or your chosen height */
-  border: none;
-}
+    /* Make iframe sit flush beneath the header */
+    .video-container iframe {
+      display: block;
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 10px;
+    }
+    .album-subtext {
+      margin-top: 1rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.70rem;
+      color: #ccc;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .album-subtext p {
+      margin: 0.5rem 0;
+    }
+    .album-links a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .album-links a:hover {
+      text-decoration: underline;
+    }
     
-    /* VIDEO SECTION (Desktop) */
-.video-container {
-  width: 90%;
-  max-width: 720px;
-  margin: 3rem auto;
-  text-align: center;
-}
-.video-container h2 {
-  margin-bottom: 1rem;
-  font-size: 1rem;
-  color: var(--glow);
-}
-.video-container iframe {
-  width: 100%;
-  max-width: 720px;
-  height: 500px;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 0 12px var(--accent);
-  display: block;
-  margin: 0 auto;
-}
-.album-subtext {
-  margin-top: 1rem;
-  font-family: 'Press Start 2P', cursive;
-  font-size: 0.70rem;        /* slightly smaller */
-  color: #ccc;
-  line-height: 1.4;
-  text-align: center;
-}
-.album-subtext p {
-  margin: 0.5rem 0;
-}
-.album-links a {
-  color: var(--accent);
-  text-decoration: none;
-  margin: 0 0.5rem;
-}
-.album-links a:hover {
-  text-decoration: underline;
-}
-  
     /* RESPONSIVE QUERIES */
-@media (max-width: 768px) {
-  /* Header & Navigation */
-  .logo {
-    font-size: 1.1rem;
-    margin-right: auto;
-  }
-  .header-container {
-    padding: 0 1rem;
-  }
-  .header-buttons {
-    gap: 0.5rem;
-    margin-left: auto;
-  }
-  .login-btn {
-    font-size: 0.65rem;
-    padding: 0.3rem 0.6rem;
-  }
-  .hamburger {
-    display: inline-block;
-    font-size: 1.5rem;
-    margin-left: 0.5rem;
-  }
-  .nav-menu {
-    display: none;
-  }
-  .sidebar {
-    width: 200px;
-  }
+    @media (max-width: 768px) {
+      /* Header & Navigation */
+      .logo {
+        font-size: 1.1rem;
+        margin-right: auto;
+      }
+      .header-container {
+        padding: 0 1rem;
+      }
+      .header-buttons {
+        gap: 0.5rem;
+        margin-left: auto;
+      }
+      .login-btn {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+      }
+      .hamburger {
+        display: inline-block;
+        font-size: 1.5rem;
+        margin-left: 0.5rem;
+      }
+      .nav-menu {
+        display: none;
+      }
+      .sidebar {
+        width: 200px;
+      }
 
-  /* Slideshow */
-  .slideshow-container {
-    height: 300px;
-  }
-  #imageSlider img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0;
-  }
+      /* Video cards */
+      .video-container {
+        width: 90%;
+        max-width: 720px;
+        margin: 2rem auto;
+      }
+      .video-container iframe {
+        height: 300px !important;
+      }
 
-  /* Video cards */
-  .video-container {
-    width: 90%;
-    max-width: 720px;
-    margin: 2rem auto;       /* 2rem above & below each block */
-    text-align: center;
-  }
-  .video-container iframe {
-    width: 100%;
-    height: 300px !important; /* square shape matching index */
-  }
+      /* Spotify embed smaller on mobile but still good size */
+      .spotify-embed-container iframe {
+        height: 220px !important;
+      }
 
-  /* Stream links stack vertically */
-  .stream-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
+      /* Stream links stack vertically on mobile */
+      .stream-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
 
-  /* Keep content clear of fixed ticker */
-  main {
-    padding-bottom: 6rem;
-  }
-}
+      /* Keep content clear of fixed ticker */
+      main {
+        padding-bottom: 7rem;
+      }
+    }
 
-@media (min-width: 769px) {
-  .nav-menu {
-    display: flex;
-  }
-  .hamburger {
-    display: none;
-  }
-}
+    @media (min-width: 769px) {
+      .nav-menu {
+        display: flex;
+      }
+      .hamburger {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -436,80 +438,92 @@
       <h2>Music Catalog</h2>
       <p>Stream my music across your favorite platforms.</p>
     </section>
-    <section>
-      <iframe style="border-radius:12px"
-              src="https://open.spotify.com/embed/artist/3HgLaXGcqPpe5BmVIr1nZG?utm_source=generator&theme=0"
-              width="100%" height="152" frameborder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"></iframe>
+    
+    <!-- SPOTIFY EMBED with updated container -->
+    <section class="spotify-embed-container" aria-label="Spotify Artist Player">
+      <iframe
+        src="https://open.spotify.com/embed/artist/3HgLaXGcqPpe5BmVIr1nZG?utm_source=generator&theme=0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        title="Spotify Artist Player - Beals.wav"
+      ></iframe>
     </section>
+
+    <!-- Other Platforms Buttons below Spotify -->
+    <div class="stream-buttons" aria-label="Other streaming platforms">
+      <a href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" class="apple" rel="noopener noreferrer">Apple Music</a>
+      <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
+      <a href="https://youtube.com/@bealsprod" target="_blank" class="youtube" rel="noopener noreferrer">YouTube</a>
+      <a href="https://soundcloud.com/bealsprod" target="_blank" class="soundcloud" rel="noopener noreferrer">SoundCloud</a>
+    </div>
+    
+    <!-- Divider between Spotify section and VIP video -->
+    <div class="section-divider" aria-hidden="true"></div>
     
     <!-- UPCOMING RELEASE SECTION -->
     <section class="video-container" id="upcoming-release">
-      <div class="video-header">Upcoming Release – VIP (220)</div>
+      <div class="video-header" role="heading" aria-level="3">Upcoming Release – VIP (220)</div>
       <iframe
         src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0"
-        allowfullscreen>
-      </iframe>
-      <div class="stream-buttons" style="margin-top: 1rem;">
-        <a href="https://distrokid.com/hyperfollow/beals/vip-220" target="_blank" class="spotify">Pre-Save</a>
+        allowfullscreen
+        title="VIP (220) Official Video"
+      ></iframe>
+      <div class="stream-buttons">
+        <a href="https://distrokid.com/hyperfollow/beals/vip-220" target="_blank" class="spotify" rel="noopener noreferrer">Pre-Save</a>
       </div>
     </section>    
-      <h3 style="margin-top:2rem;">Other Platforms</h3>
-      <div class="stream-buttons">
-        <a href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" class="apple">Apple Music</a>
-        <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG" target="_blank" class="spotify">Spotify</a>
-        <a href="https://youtube.com/@bealsprod" target="_blank" class="youtube">YouTube</a>
-        <a href="https://soundcloud.com/bealsprod" target="_blank" class="soundcloud">SoundCloud</a>
+    
+    <!-- MUSIC VIDEOS -->
+    <section class="video-container" id="norest">
+      <div class="video-header" role="heading" aria-level="3">
+        NO REST – ROMAN NOODLE FEAT. RPFROMTHETOP & BEALS
+      </div>
+      <iframe
+        src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0"
+        allowfullscreen
+        title="NO REST Official Video"
+      ></iframe>
+      <div class="stream-buttons" style="margin-top: 1rem;">
+        <a href="https://open.spotify.com/track/58j1VZwmejtg1oQDRLA6Hs?si=0385bf72e2b34b0c" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
+        <a href="https://music.apple.com/us/song/no-rest-feat-rpfromthetop-beals/1809555433" target="_blank" class="apple" rel="noopener noreferrer">Apple Music</a>
+      </div>
+    </section>           
+
+    <section class="video-container">
+      <div class="video-header" role="heading" aria-level="3">
+        LAME – ROMAN NOODLE FEAT. BEALS
+      </div>
+      <iframe
+        src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0"
+        allowfullscreen
+        title="LAME Official Video"
+      ></iframe>
+    </section>
+    
+    <!-- MERAKI FULL ALBUM PLAYLIST -->
+    <section class="video-container">
+      <div class="video-header" role="heading" aria-level="3">MERAKI (FULL ALBUM)</div>
+      <iframe
+        src="https://www.youtube.com/embed/Y-SSa_WfXI8?si=gQY6rHhFA_58weEM"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        title="MERAKI Full Album Playlist"
+      ></iframe>
+      <div class="album-subtext">
+        <p>
+          Meraki, a Greek word meaning to do something with soul, creativity, or love; to put something of yourself in your work. Officially released Jan 10, 2025.
+        </p>
+        <div class="stream-buttons">
+          <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
+          <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank" class="apple" rel="noopener noreferrer">Apple Music</a>
+        </div>
       </div>
     </section>
-        <!-- MUSIC VIDEOS -->
-        <section class="video-container" id="norest">
-          <div class="video-header">
-            NO REST – ROMAN NOODLE FEAT. RPFROMTHETOP & BEALS
-          </div>
-          <iframe
-            src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0"
-            allowfullscreen>
-          </iframe>
-          <div class="stream-buttons" style="margin-top: 1rem;">
-            <a href="https://open.spotify.com/track/58j1VZwmejtg1oQDRLA6Hs?si=0385bf72e2b34b0c" target="_blank" class="spotify">Spotify</a>
-            <a href="https://music.apple.com/us/song/no-rest-feat-rpfromthetop-beals/1809555433" target="_blank" class="apple">Apple Music</a>
-          </div>
-        </section>           
-    
-        <section class="video-container">
-          <div class="video-header">
-            LAME – ROMAN NOODLE FEAT. BEALS
-          </div>
-          <iframe
-            src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0"
-            allowfullscreen>
-          </iframe>
-        </section>
-        
-        <!-- ── MERAKI FULL ALBUM PLAYLIST ── -->
-<section class="video-container">
-  <div class="video-header">MERAKI (FULL ALBUM)</div>
-  <iframe
-    src="https://www.youtube.com/embed/Y-SSa_WfXI8?si=gQY6rHhFA_58weEM"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-    allowfullscreen>
-  </iframe>
-  <div class="album-subtext">
-    <p>
-      Meraki, a Greek word meaning to do something with soul, creativity, or love; to put something of yourself in your work. Officially released Jan 10, 2025.
-    </p>
-    <div class="stream-buttons" style="margin-top: 1rem;">
-      <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank" class="spotify">Spotify</a>
-      <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank" class="apple">Apple Music</a>
-    </div>
-  </div>
-</section>
   </main>
-  <div class="ticker">
-    <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} === New release out now! —
+
+  <div class="ticker" aria-label="Scrolling ticker">
+    <div class="ticker-content" aria-hidden="true">
+      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} === New release out now! — 
     </div>
   </div>
   
