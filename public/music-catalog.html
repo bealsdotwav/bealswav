@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Music Catalog | Beals.wav</title>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4926KVF6L"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -15,9 +15,7 @@
   </script>
 
   <!-- Retro Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -36,201 +34,168 @@
     }
     html, body {
       width: 100%;
-      height: 100%;
+      min-height: 100vh;
       font-family: 'Press Start 2P', cursive;
       background: var(--bg-dark);
       color: var(--text);
       overflow-x: hidden;
+      scroll-padding-top: 90px; /* offset anchor jumps */
     }
     a {
       color: var(--glow);
       text-decoration: none;
     }
-    
-    /* STANDARD HEADER (Copied from index.html/beatstore.html) */
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* HEADER with vertical link cluster like Linktree */
     header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      z-index: 999;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0,0,0,0.95);
       border-bottom: 1px solid #222;
-      padding: 1rem;
+      padding: 1.25rem 1rem 1.5rem;
+      z-index: 1000;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.8);
     }
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0.5rem 2rem;
-    }
-    .logo {
-      font-size: 1.4rem;
+    header .logo {
+      font-size: 1.6rem;
       color: var(--glow);
-      text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
-      text-decoration: none;
-      margin-right: 1rem;
+      text-shadow: 0 0 8px var(--glow);
+      margin-bottom: 1rem;
+      display: inline-block;
     }
-    .nav-menu {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-    .nav-menu ul {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-    }
-    .nav-menu li {
+    nav.linktree-nav {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .nav-menu a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.75rem;
-      transition: color 0.2s ease;
-      line-height: 1.2;
-      text-align: center;
-    }
-    .nav-menu a:hover {
-      color: var(--glow);
-    }
-    .subtext {
-      font-size: 0.45rem;
-      color: #aaa;
-      margin-top: 0.15rem;
-      text-align: center;
-    }
-    .header-buttons {
-      display: flex;
       gap: 1rem;
-      align-items: center;
+      max-width: 320px;
+      margin: 0 auto;
     }
-    .login-btn {
+    nav.linktree-nav a {
+      background: var(--accent);
+      color: #000;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.8rem 1rem;
+      border-radius: 14px;
+      box-shadow: 0 0 8px var(--accent);
+      transition: background 0.25s ease;
+      letter-spacing: 0.04em;
+    }
+    nav.linktree-nav a:hover {
       background: var(--glow);
       color: #000;
-      font-size: 0.8rem;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      text-decoration: none;
+      box-shadow: 0 0 15px var(--glow);
+    }
+    nav.linktree-nav a span {
+      display: block;
+      font-size: 0.5rem;
+      color: #222;
+      font-weight: 500;
+      margin-top: 0.25rem;
       font-family: 'Press Start 2P', cursive;
-      cursor: pointer;
+      letter-spacing: normal;
     }
-    .hamburger {
-      font-size: 1.5rem;
-      color: var(--accent);
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: none;
-    }
-    
-    /* MOBILE SIDEBAR */
-    .sidebar {
-      position: fixed;
-      top: 70px;
-      left: -220px;
-      width: 200px;
-      height: calc(100% - 70px);
-      background: #111;
-      padding: 1.5rem 1rem;
-      z-index: 998;
-      transition: left 0.3s ease;
-    }
-    .sidebar.open {
-      left: 0;
-    }
-    .sidebar ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .sidebar a {
-      font-size: 0.9rem;
-      color: var(--glow);
-      text-decoration: none;
-    }
-    
+
     /* MAIN CONTENT */
     main {
-      margin-top: 120px;
-      padding: 2rem 1rem 6rem; /* extra bottom padding for ticker */
-      max-width: 900px;
+      margin-top: 180px; /* header + padding */
+      padding: 0 1rem 5rem;
+      max-width: 720px;
       margin-left: auto;
       margin-right: auto;
       text-align: center;
-      position: relative;
-      z-index: 0;
     }
-    .catalog-header h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-      color: var(--glow);
-    }
-    .catalog-header p {
-      font-size: 0.75rem;
-      color: #ccc;
-      margin-bottom: 2rem;
-    }
-    
-    /* Spotify embed container - bigger, balanced with video */
-    .spotify-embed-container {
-      width: 90%;
-      max-width: 720px;
-      margin: 0 auto;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 15px var(--accent);
-    }
-    .spotify-embed-container iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-      display: block;
-    }
-    
-    /* Subtle divider between Spotify embed and VIP video */
+
+    /* Divider */
     .section-divider {
-      width: 90%;
-      max-width: 720px;
+      width: 100%;
       height: 1.5px;
       background: var(--divider-grey);
-      margin: 3rem auto 2rem auto;
+      margin: 3rem 0 2rem;
       border-radius: 1px;
     }
-    
-    /* Stream buttons */
+
+    /* Video container styling */
+    .video-container {
+      border: 3px solid var(--accent);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--bg-dark);
+      margin-bottom: 3rem;
+      box-shadow: 0 0 12px var(--accent);
+      text-align: center;
+    }
+    .video-header {
+      background: linear-gradient(90deg, var(--accent), var(--glow));
+      padding: 0.75rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.9rem;
+      color: #000;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 10px;
+    }
+    .album-subtext {
+      margin-top: 1rem;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: #ccc;
+      line-height: 1.4;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Stream buttons group */
     .stream-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 0.75rem;
-      margin-top: 1.25rem;
-      margin-bottom: 1.5rem;
+      margin: 1rem 0 1.5rem;
     }
     .stream-buttons a {
       padding: 0.6rem 1rem;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 0.75rem;
+      font-weight: 700;
       text-decoration: none;
       color: white;
-      transition: background 0.2s ease;
-      font-weight: bold;
+      box-shadow: 0 0 8px var(--accent);
+      transition: background 0.25s ease;
+      letter-spacing: 0.04em;
+      user-select: none;
     }
-    .stream-buttons a.apple { background: #fa233b; }
-    .stream-buttons a.spotify { background: #1DB954; color: black; }
-    .stream-buttons a.youtube { background: #FF0000; }
-    .stream-buttons a.soundcloud { background: #ff8800; color: black; }
+    .stream-buttons a.apple {
+      background: #fa233b;
+    }
+    .stream-buttons a.spotify {
+      background: #1DB954;
+      color: #000;
+    }
+    .stream-buttons a.youtube {
+      background: #FF0000;
+    }
+    .stream-buttons a.soundcloud {
+      background: #ff8800;
+      color: #000;
+    }
     .stream-buttons a:hover {
-      background: var(--accent);
+      background: var(--glow);
+      color: #000;
+      box-shadow: 0 0 14px var(--glow);
     }
-    
+
     /* TICKER */
     .ticker {
       position: fixed;
@@ -238,7 +203,7 @@
       width: 100%;
       height: 30px;
       background: black;
-      z-index: 1000;
+      z-index: 9999;
       box-shadow: 0 -2px 8px rgba(0,0,0,0.7);
     }
     .ticker-content {
@@ -249,6 +214,7 @@
       font-size: 0.7rem;
       font-weight: bold;
       line-height: 30px;
+      color: var(--glow);
     }
     @keyframes scroll {
       0% { transform: translateX(0); }
@@ -262,220 +228,70 @@
       100% { color: #00ffff; }
     }
 
-    /* Video card border */
-    .video-container {
-      border: 3px solid var(--accent);
-      border-radius: 8px;
-      overflow: hidden;
-      background: var(--bg-dark);
-      scroll-margin-top: 100px;
-      width: 90%;
-      max-width: 720px;
-      margin: 3rem auto;
-      text-align: center;
-      box-shadow: 0 0 12px var(--accent);
-    }
-
-    /* Gradient title bar */
-    .video-header {
-      background: linear-gradient(90deg, var(--accent), var(--glow));
-      padding: 0.75rem;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.9rem;
-      color: #000;
-      text-transform: uppercase;
-      text-align: center;
-      letter-spacing: 0.05em;
-    }
-
-    /* Make iframe sit flush beneath the header */
-    .video-container iframe {
-      display: block;
-      width: 100%;
-      height: 500px;
-      border: none;
-      border-radius: 10px;
-    }
-    .album-subtext {
-      margin-top: 1rem;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.70rem;
-      color: #ccc;
-      line-height: 1.4;
-      text-align: center;
-    }
-    .album-subtext p {
-      margin: 0.5rem 0;
-    }
-    .album-links a {
-      color: var(--accent);
-      text-decoration: none;
-      margin: 0 0.5rem;
-    }
-    .album-links a:hover {
-      text-decoration: underline;
-    }
-    
-    /* RESPONSIVE QUERIES */
-    @media (max-width: 768px) {
-      /* Header & Navigation */
-      .logo {
-        font-size: 1.1rem;
-        margin-right: auto;
+    /* RESPONSIVE */
+    @media (max-width: 480px) {
+      header .logo {
+        font-size: 1.25rem;
       }
-      .header-container {
-        padding: 0 1rem;
-      }
-      .header-buttons {
-        gap: 0.5rem;
-        margin-left: auto;
-      }
-      .login-btn {
-        font-size: 0.65rem;
-        padding: 0.3rem 0.6rem;
-      }
-      .hamburger {
-        display: inline-block;
-        font-size: 1.5rem;
-        margin-left: 0.5rem;
-      }
-      .nav-menu {
-        display: none;
-      }
-      .sidebar {
-        width: 200px;
-      }
-
-      /* Video cards */
-      .video-container {
-        width: 90%;
-        max-width: 720px;
-        margin: 2rem auto;
+      nav.linktree-nav {
+        max-width: 90vw;
       }
       .video-container iframe {
-        height: 300px !important;
+        height: 280px;
       }
-
-      /* Spotify embed smaller on mobile but still good size */
-      .spotify-embed-container iframe {
-        height: 220px !important;
-      }
-
-      /* Stream links stack vertically on mobile */
-      .stream-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      /* Keep content clear of fixed ticker */
       main {
-        padding-bottom: 7rem;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .nav-menu {
-        display: flex;
-      }
-      .hamburger {
-        display: none;
+        margin-top: 160px;
+        padding-bottom: 6rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- MOBILE SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <ul>
-      <li><a href="music-catalog.html">🎵 Music Catalog</a></li>
-      <li><a href="beatstore.html">💽 Beats</a></li>
-      <li><a href="studio.html">🎚️ Studio</a></li>
-      <li><a href="faq.html">📖 FAQ</a></li>
-      <li><a href="contact.html">✉️ Contact</a></li>
-    </ul>
-  </div>
-  
-  <!-- STANDARD HEADER -->
-  <header id="mainHeader">
-    <div class="header-container">
-      <!-- Logo -->
-      <a href="index.html" class="logo">BEALS.WAV</a>
-      <!-- Desktop Navigation -->
-      <nav class="nav-menu">
-        <ul>
-          <li>
-            <a href="music-catalog.html">Music Catalog</a>
-            <span class="subtext">Listen to my songs</span>
-          </li>
-          <li>
-            <a href="beatstore.html">Beats</a>
-            <span class="subtext">Buy instrumentals</span>
-          </li>
-          <li>
-            <a href="studio.html">Studio</a>
-            <span class="subtext">Book studio time</span>
-          </li>
-          <li>
-            <a href="faq.html">FAQ</a>
-            <span class="subtext">Questions answered</span>
-          </li>
-          <li>
-            <a href="contact.html">Contact</a>
-            <span class="subtext">Reach out directly</span>
-          </li>
-        </ul>
-      </nav>
-      <!-- Header Buttons (only Login remains) -->
-      <div class="header-buttons">
-        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()">☰</button>
-      </div>
-    </div>
+  <header>
+    <a href="index.html" class="logo" aria-label="Go to homepage">BEALS.WAV</a>
+    <nav class="linktree-nav" aria-label="Main navigation links">
+      <a href="music-catalog.html" target="_self">
+        Music Catalog
+        <span>Listen to my songs</span>
+      </a>
+      <a href="beatstore.html" target="_self">
+        Beats
+        <span>Buy instrumentals</span>
+      </a>
+      <a href="studio.html" target="_self">
+        Studio
+        <span>Book studio time</span>
+      </a>
+      <a href="faq.html" target="_self">
+        FAQ
+        <span>Questions answered</span>
+      </a>
+      <a href="contact.html" target="_self">
+        Contact
+        <span>Reach out directly</span>
+      </a>
+    </nav>
   </header>
-  
-  <main>
-    <section class="catalog-header">
-      <h2>Music Catalog</h2>
-      <p>Stream my music across your favorite platforms.</p>
-    </section>
-    
-    <!-- SPOTIFY EMBED with updated container -->
-    <section class="spotify-embed-container" aria-label="Spotify Artist Player">
-      <iframe
-        src="https://open.spotify.com/embed/artist/3HgLaXGcqPpe5BmVIr1nZG?utm_source=generator&theme=0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-        title="Spotify Artist Player - Beals.wav"
-      ></iframe>
-    </section>
 
-    <!-- Other Platforms Buttons below Spotify -->
-    <div class="stream-buttons" aria-label="Other streaming platforms">
-      <a href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" class="apple" rel="noopener noreferrer">Apple Music</a>
-      <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
-      <a href="https://youtube.com/@bealsprod" target="_blank" class="youtube" rel="noopener noreferrer">YouTube</a>
-      <a href="https://soundcloud.com/bealsprod" target="_blank" class="soundcloud" rel="noopener noreferrer">SoundCloud</a>
-    </div>
-    
-    <!-- Divider between Spotify section and VIP video -->
+  <main>
     <div class="section-divider" aria-hidden="true"></div>
-    
-    <!-- UPCOMING RELEASE SECTION -->
-    <section class="video-container" id="upcoming-release">
-      <div class="video-header" role="heading" aria-level="3">Upcoming Release – VIP (220)</div>
+
+    <!-- UPCOMING RELEASE -->
+    <section class="video-container" id="upcoming-release" aria-label="Upcoming release VIP 220 video and links">
+      <div class="video-header" role="heading" aria-level="2">Upcoming Release – VIP (220)</div>
       <iframe
         src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0"
         allowfullscreen
         title="VIP (220) Official Video"
       ></iframe>
       <div class="stream-buttons">
-        <a href="https://distrokid.com/hyperfollow/beals/vip-220" target="_blank" class="spotify" rel="noopener noreferrer">Pre-Save</a>
+        <a href="https://distrokid.com/hyperfollow/beals/vip-220" target="_blank" rel="noopener noreferrer" class="spotify" aria-label="Pre-save VIP 220 on DistroKid">Pre-Save</a>
       </div>
-    </section>    
-    
-    <!-- MUSIC VIDEOS -->
-    <section class="video-container" id="norest">
-      <div class="video-header" role="heading" aria-level="3">
+    </section>
+
+    <!-- NO REST VIDEO -->
+    <section class="video-container" id="norest" aria-label="No Rest music video and links">
+      <div class="video-header" role="heading" aria-level="2">
         NO REST – ROMAN NOODLE FEAT. RPFROMTHETOP & BEALS
       </div>
       <iframe
@@ -483,14 +299,15 @@
         allowfullscreen
         title="NO REST Official Video"
       ></iframe>
-      <div class="stream-buttons" style="margin-top: 1rem;">
-        <a href="https://open.spotify.com/track/58j1VZwmejtg1oQDRLA6Hs?si=0385bf72e2b34b0c" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
-        <a href="https://music.apple.com/us/song/no-rest-feat-rpfromthetop-beals/1809555433" target="_blank" class="apple" rel="noopener noreferrer">Apple Music</a>
+      <div class="stream-buttons">
+        <a href="https://open.spotify.com/track/58j1VZwmejtg1oQDRLA6Hs?si=0385bf72e2b34b0c" target="_blank" rel="noopener noreferrer" class="spotify" aria-label="Listen to NO REST on Spotify">Spotify</a>
+        <a href="https://music.apple.com/us/song/no-rest-feat-rpfromthetop-beals/1809555433" target="_blank" rel="noopener noreferrer" class="apple" aria-label="Listen to NO REST on Apple Music">Apple Music</a>
       </div>
-    </section>           
+    </section>
 
-    <section class="video-container">
-      <div class="video-header" role="heading" aria-level="3">
+    <!-- LAME VIDEO -->
+    <section class="video-container" id="lame" aria-label="Lame music video and links">
+      <div class="video-header" role="heading" aria-level="2">
         LAME – ROMAN NOODLE FEAT. BEALS
       </div>
       <iframe
@@ -498,11 +315,15 @@
         allowfullscreen
         title="LAME Official Video"
       ></iframe>
+      <div class="stream-buttons">
+        <a href="https://open.spotify.com/track/06M4eSh7YdwleoNUR4bPCd?si=82567c94e0ca4a9d" target="_blank" rel="noopener noreferrer" class="spotify" aria-label="Listen to LAME on Spotify">Spotify</a>
+        <a href="https://music.apple.com/us/song/lame-feat-beals/1794010194" target="_blank" rel="noopener noreferrer" class="apple" aria-label="Listen to LAME on Apple Music">Apple Music</a>
+      </div>
     </section>
-    
-    <!-- MERAKI FULL ALBUM PLAYLIST -->
-    <section class="video-container">
-      <div class="video-header" role="heading" aria-level="3">MERAKI (FULL ALBUM)</div>
+
+    <!-- MERAKI FULL ALBUM -->
+    <section class="video-container" aria-label="MERAKI full album playlist and links">
+      <div class="video-header" role="heading" aria-level="2">MERAKI (FULL ALBUM)</div>
       <iframe
         src="https://www.youtube.com/embed/Y-SSa_WfXI8?si=gQY6rHhFA_58weEM"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -514,8 +335,8 @@
           Meraki, a Greek word meaning to do something with soul, creativity, or love; to put something of yourself in your work. Officially released Jan 10, 2025.
         </p>
         <div class="stream-buttons">
-          <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank" class="spotify" rel="noopener noreferrer">Spotify</a>
-          <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank" class="apple" rel="noopener noreferrer">Apple Music</a>
+          <a href="https://open.spotify.com/album/2RnCTBy5av9pPjZ9WYE6e8" target="_blank" rel="noopener noreferrer" class="spotify" aria-label="Listen to MERAKI full album on Spotify">Spotify</a>
+          <a href="https://music.apple.com/us/album/meraki/1781582237" target="_blank" rel="noopener noreferrer" class="apple" aria-label="Listen to MERAKI full album on Apple Music">Apple Music</a>
         </div>
       </div>
     </section>
@@ -523,26 +344,8 @@
 
   <div class="ticker" aria-label="Scrolling ticker">
     <div class="ticker-content" aria-hidden="true">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} === New release out now! — 
+      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} === New release out now! —
     </div>
   </div>
-  
-  <script>
-    // SIDEBAR Toggle
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
-    }
-    
-    // Global Login Sync
-    function checkLoginStatus() {
-      const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-      const loginBtn = document.getElementById('loginBtn');
-      if (loginBtn) {
-        loginBtn.textContent = isLoggedIn ? 'Account' : 'Login';
-        loginBtn.href = isLoggedIn ? 'account.html' : 'login.html';
-      }
-    }
-    document.addEventListener('DOMContentLoaded', checkLoginStatus);
-  </script>
 </body>
 </html>
