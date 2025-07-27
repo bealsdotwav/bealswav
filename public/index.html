@@ -284,6 +284,18 @@
       animation: glowPulse 2.5s infinite alternate;
     }
 
+    .vip-highlight {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .vip-highlight:hover {
+      box-shadow: 0 0 25px var(--glow);
+      border-color: var(--glow);
+    }
+
+
     /* Pulse glow animation */
     @keyframes glowPulse {
       0% {
@@ -488,21 +500,32 @@
       
       /* For mobile, force the video container to have the same height (300px) */
       .video-container {
-        height: 300px;
-        max-height: 300px;
+        width: 95%;
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 1rem;
+        box-sizing: border-box;
+        height: auto !important;
+        box-shadow: 0 0 12px var(--accent);
+        border-radius: 12px;
       }
       .video-container iframe {
-        height: 100% !important;
+        width: 100% !important;
+        height: 250px !important;
+        max-height: none;
+        border-radius: 12px;
       }
-    }
+    } /* <-- THIS CLOSING BRACE IS MISSING */
+
     @media (min-width: 769px) {
       .nav-menu { display: flex; }
       .hamburger { display: none; }
     }
     .video-container {
-    margin-bottom: 5rem; /* slightly more */
-    padding-bottom: 2rem; /* NEW: add padding to avoid overlap */
-  }
+      margin-bottom: 5rem; /* slightly more */
+      padding-bottom: 2rem; /* NEW: add padding to avoid overlap */
+    }
   </style>
 </head>
 <body>
