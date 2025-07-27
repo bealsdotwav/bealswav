@@ -318,28 +318,83 @@
       box-shadow: 0 0 15px var(--accent);
     }
     
-    /* VIDEO SECTION (Watch Lame Video) */
+    /* Base style for all video containers */
     .video-container {
       width: 90%;
       max-width: 720px;
       margin: 0 auto 3rem;
       text-align: center;
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 1rem 1.5rem 2rem;
+      background: #111;
+      box-shadow: 0 0 8px #222;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
+
+    /* Headings inside video containers */
     .video-container h2 {
       font-size: 1rem;
       margin-bottom: 1rem;
       color: var(--glow);
     }
+
+    /* Iframes inside video containers */
     .video-container iframe {
       width: 100%;
       max-width: 720px;
       height: 500px;
       border: none;
       border-radius: 10px;
-      box-shadow: 0 0 12px var(--accent);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
       display: block;
       margin: 0 auto;
+      transition: box-shadow 0.3s ease;
     }
+
+    /* Hover effect for all video containers */
+    .video-container:hover {
+      box-shadow: 0 0 18px var(--accent);
+      border-color: var(--accent);
+    }
+
+    .video-container:hover iframe {
+      box-shadow: 0 0 20px var(--accent);
+    }
+
+    /* Specific glow colors for different videos */
+
+    /* No Rest video container glow */
+    #no-rest {
+      border-color: #ff4d6d;
+      box-shadow: 0 0 12px #ff4d6d;
+    }
+    #no-rest:hover {
+      box-shadow: 0 0 25px #ff4d6d;
+      border-color: #ff4d6d;
+    }
+
+    /* Lame video container glow */
+    #lame {
+      border-color: #a0ff00;
+      box-shadow: 0 0 12px #a0ff00;
+    }
+    #lame:hover {
+      box-shadow: 0 0 25px #a0ff00;
+      border-color: #a0ff00;
+    }
+
+    /* Studio slideshow container glow */
+    .studio-slideshow .slideshow-container {
+      border: 2px solid #222;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00cccc;
+      transition: box-shadow 0.3s ease;
+    }
+    .studio-slideshow .slideshow-container:hover {
+      box-shadow: 0 0 25px #00ffff;
+    }
+
     
     /* FOLLOW & SUPPORT SECTION (Bottom Section) */
     .linktree {
@@ -406,144 +461,6 @@
       50% { color: #a0ff00; }
       75% { color: #ff00ff; }
       100% { color: #00ffff; }
-    }
-    
-    /****************************************
-     * CART MODAL & TOAST (Global Use)
-     ****************************************/
-    .toast {
-      position: fixed;
-      top: 10px;
-      right: 20px;
-      background: #0f0f0f;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      border: 1px solid var(--accent);
-      z-index: 1100;
-      display: none;
-    }
-    /* (Cart-related code remains, though you may remove it later if unused) */
-    .cart-modal {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 300px;
-      background: #111;
-      border: 1px solid #444;
-      padding: 1rem;
-      display: none;
-      z-index: 1000;
-    }
-    .cart-modal h3 {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      color: var(--glow);
-    }
-    .close-cart {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      color: var(--accent);
-      cursor: pointer;
-    }
-    .cart-item {
-      font-size: 0.6rem;
-      border-bottom: 1px solid #333;
-      padding: 0.5rem 0;
-    }
-    .cart-item button {
-      float: right;
-      background: none;
-      color: var(--accent);
-      border: none;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-    .promo-input {
-      width: 100%;
-      background: #222;
-      color: white;
-      padding: 0.4rem;
-      font-size: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #444;
-      border-radius: 4px;
-    }
-    .cart-total {
-      font-weight: bold;
-      margin-top: 0.5rem;
-      font-size: 0.6rem;
-    }
-    .checkout-btn {
-      width: 100%;
-      margin-top: 0.5rem;
-      background: var(--glow);
-      color: black;
-      font-weight: bold;
-      font-size: 0.6rem;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    
-    /****************************************
-     * BOGO CUSTOM MODAL
-     ****************************************/
-    .bogo-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-    }
-    .bogo-modal-content {
-      background: #222;
-      color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-      font-family: 'Press Start 2P', cursive;
-      text-align: center;
-    }
-    .bogo-modal-content h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--glow);
-    }
-    .bogo-modal-content p {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-    .bogo-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .bogo-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-    }
-    .bogo-btn-alt {
-      background: var(--glow);
-      color: #000;
     }
     
     /****************************************
