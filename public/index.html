@@ -20,8 +20,6 @@
   <link rel="preconnect" href="https://player.beatstars.com">
   <!-- EmailJS v4 (if needed elsewhere) -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     :root {
@@ -263,37 +261,28 @@
     }
 /* Highlight VIP section */
     .vip-highlight {
-      border: 2px solid var(--accent);
+      border: 2px solid #00ffff; /* turquoise border */
+      box-shadow: 0 0 15px #00ffff;
       border-radius: 12px;
       padding: 1rem 1.5rem 2rem;
-      box-shadow: 0 0 15px var(--accent);
       background: #111;
-      transition: box-shadow 0.3s ease;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
       position: relative;
     }
 
     .vip-highlight:hover {
-      box-shadow: 0 0 25px var(--glow);
+      box-shadow: 0 0 25px #00ffff;
+      border-color: #00ffff;
     }
 
     .vip-highlight h2 {
       font-size: 1.15rem;
-      color: var(--glow);
+      color: #00ffff;
       margin-bottom: 1rem;
       text-align: center;
       animation: glowPulse 2.5s infinite alternate;
     }
 
-    .vip-highlight {
-      border-color: var(--accent);
-      box-shadow: 0 0 15px var(--accent);
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-
-    .vip-highlight:hover {
-      box-shadow: 0 0 25px var(--glow);
-      border-color: var(--glow);
-    }
 
 
     /* Pulse glow animation */
@@ -516,7 +505,7 @@
         max-height: none;
         border-radius: 12px;
       }
-    } /* <-- THIS CLOSING BRACE IS MISSING */
+    }
 
     @media (min-width: 769px) {
       .nav-menu { display: flex; }
