@@ -261,6 +261,62 @@
       transform: scale(1.05);
       color: #000;
     }
+/* Highlight VIP section */
+    .vip-highlight {
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 1rem 1.5rem 2rem;
+      box-shadow: 0 0 15px var(--accent);
+      background: #111;
+      transition: box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .vip-highlight:hover {
+      box-shadow: 0 0 25px var(--glow);
+    }
+
+    .vip-highlight h2 {
+      font-size: 1.15rem;
+      color: var(--glow);
+      margin-bottom: 1rem;
+      text-align: center;
+      animation: glowPulse 2.5s infinite alternate;
+    }
+
+    /* Pulse glow animation */
+    @keyframes glowPulse {
+      0% {
+        text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
+      }
+      100% {
+        text-shadow: 0 0 15px var(--glow), 0 0 25px var(--glow);
+      }
+    }
+
+    /* Pre-Save button styled like CTA but with some VIP emphasis */
+    .presave-btn {
+      display: inline-block;
+      margin: 1rem auto 0 auto;
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
+      font-size: 0.8rem;
+      background: var(--glow);
+      color: black;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 0 8px var(--glow);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .presave-btn:hover,
+    .presave-btn:focus {
+      background: var(--accent);
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--accent);
+    }
     
     /* VIDEO SECTION (Watch Lame Video) */
     .video-container {
@@ -606,9 +662,12 @@
     <div class="section-divider" aria-hidden="true" style="height: 1px; background: #222; margin: 2rem 0;"></div>
     
       <!-- 3) VIDEO SECTION (VIP 220 - DROPPING 08/15) -->
-      <section id="vip-220" class="video-container">
-      <h2 style="color: var(--glow);">DROPPING SOON (08/15): VIP (220) – Beals</h2>
+      <section id="vip-220" class="video-container vip-highlight">
+      <h2>DROPPING SOON (08/15): VIP (220) – Beals</h2>
       <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" allowfullscreen></iframe>
+      <a href="https://distrokid.com/hyperfollow/beals/vip-220" target="_blank" class="cta-btn presave-btn" rel="noopener noreferrer" aria-label="Pre-Save VIP 220 on DistroKid">
+      Pre-Save VIP (220) Now
+      </a>
       </section>
 
 
@@ -620,8 +679,8 @@
 
       <!-- 5) VIDEO SECTION (Watch Lame Video) -->
       <section id="lame" class="video-container">
-  <h2 style="color: var(--glow);">Watch: Lame – Roman Noodle feat. Beals</h2>
-  <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" allowfullscreen></iframe>
+      <h2 style="color: var(--glow);">Watch: Lame – Roman Noodle feat. Beals</h2>
+      <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" allowfullscreen></iframe>
       </section>
 
 
