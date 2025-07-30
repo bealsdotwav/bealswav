@@ -287,8 +287,18 @@
       text-shadow: 0 0 4px #00ffff;
     }
 
+    /* Mobile override: reduce glow for legibility */
+    @media (max-width: 768px) {
+      .vip-highlight h2 {
+        text-shadow: none;
+        color: #00e6e6;
+        font-size: 1rem;
+      }
+    }
+
+
     section#vip-220 {
-      scroll-margin-top: 220px;
+      scroll-margin-top: 200px;
     }
 
 
