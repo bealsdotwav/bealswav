@@ -609,14 +609,65 @@
       <!-- Divider between Spotify section and VIP video -->
     <div class="section-divider" aria-hidden="true" style="height: 1px; background: #222; margin: 2rem 0;"></div>
     
-      <!-- 3) VIDEO SECTION (VIP 220 - DROPPING 08/15) -->
-      <section id="vip-220" class="video-container vip-highlight">
-      <h2>DROPPING SOON: VIP (220) – Beals</h2>
-      <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" allowfullscreen></iframe>
-      <a href="https://distrokid.com/hyperfollow/beals/vip-220" target="_blank" class="cta-btn presave-btn" rel="noopener noreferrer" aria-label="Pre-Save VIP 220 on DistroKid">
-      Pre-Save VIP (220)
-      </a>
-      </section>
+      <!-- 3) VIDEO SECTION (VIP 220 - OUT NOW) -->
+<section id="vip-220" class="video-container vip-highlight">
+  <h2>OUT NOW: VIP (220) – Beals</h2>
+
+  <!-- YouTube Embed -->
+  <iframe 
+    src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" 
+    allowfullscreen>
+  </iframe>
+
+  <!-- Platform Buttons -->
+  <div class="vip-buttons">
+    <a href="https://open.spotify.com/album/7CYFtCZZrauibS5oIte0Vy?si=gNWZAVL7Tk-C3vKuM34vMA" target="_blank" class="btn btn-spotify" rel="noopener noreferrer">
+      🎵 Listen on Spotify
+    </a>
+    <a href="https://music.apple.com/us/album/vip-220-single/1829075186" target="_blank" class="btn btn-apple" rel="noopener noreferrer">
+      🍎 Listen on Apple Music
+    </a>
+    <a href="https://soundcloud.com/bealsprod/vip-220" target="_blank" class="btn btn-soundcloud" rel="noopener noreferrer">
+      ☁ Listen on SoundCloud
+    </a>
+    <a href="https://www.youtube.com/watch?v=sfkuVfcYgYU" target="_blank" class="btn btn-youtube" rel="noopener noreferrer">
+      ▶ Watch on YouTube
+    </a>
+  </div>
+</section>
+
+<!-- Button Styles -->
+<style>
+.vip-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.vip-buttons .btn {
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-spotify { background-color: #1DB954; }
+.btn-spotify:hover { background-color: #17a64b; transform: scale(1.05); }
+
+.btn-apple { background-color: #000000; }
+.btn-apple:hover { background-color: #333333; transform: scale(1.05); }
+
+.btn-soundcloud { background-color: #ff7700; }
+.btn-soundcloud:hover { background-color: #e86a00; transform: scale(1.05); }
+
+.btn-youtube { background-color: #ff0000; }
+.btn-youtube:hover { background-color: #cc0000; transform: scale(1.05); }
+</style>
 
 
       <!-- 4) VIDEO SECTION (Watch No Rest Video) -->
