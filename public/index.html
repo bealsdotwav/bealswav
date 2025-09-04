@@ -157,6 +157,54 @@
       line-height: 1.4;
     }
 
+    /* FOOTER NAV */
+    .footer-nav {
+      background: #0d0d0d;
+      padding: 2rem 1rem 4rem; /* space above ticker */
+      text-align: center;
+    }
+
+    .footer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .footer-buttons a {
+      display: inline-block;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.7rem;
+      text-decoration: none;
+      color: #fff;
+      background: #222;
+      border: 1px solid #333;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .footer-buttons a:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #000;
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 768px) {
+      .footer-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .footer-buttons a {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+      }
+    }
+
+
     /****************************************
      * MOBILE SIDEBAR (for nav links)
      ****************************************/
@@ -692,6 +740,17 @@
       </section>
     </main>
   </div>
+
+    <!-- FOOTER NAV BUTTONS -->
+  <footer class="footer-nav">
+    <div class="footer-buttons">
+      <a href="music-catalog.html">Music Catalog</a>
+      <a href="beatstore.html">Beats</a>
+      <a href="studio.html">Studio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
 
   <!-- TICKER -->
   <div class="ticker">
