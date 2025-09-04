@@ -471,59 +471,6 @@
         right: 5%;
       }
     }
-    /* --------------------------
-       BOGO CUSTOM MODAL STYLES
-       -------------------------- */
-    .bogo-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      display: none; /* Hidden by default */
-      justify-content: center;
-      align-items: center;
-      z-index: 2000; /* Above cart modal */
-    }
-    .bogo-modal-content {
-      background: #222;
-      color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-      font-family: 'Press Start 2P', cursive;
-      text-align: center;
-    }
-    .bogo-modal-content h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--glow);
-    }
-    .bogo-modal-content p {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-    .bogo-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .bogo-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-    }
-    .bogo-btn-alt {
-      background: var(--glow);
-      color: #000;
-    }
     @media (max-width: 768px) {
   /* hide the desktop menu */
   .nav-menu {
@@ -555,6 +502,52 @@
     padding: 0.3rem 0.6rem !important;
   }
 }
+/* FOOTER NAVIGATION BUTTONS */
+    .footer-nav {
+      text-align: center;
+      margin: 3rem auto 6rem;
+    }
+
+    .footer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .footer-buttons a {
+      display: inline-block;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: #000;
+      background: var(--glow);
+      text-decoration: none;
+      text-shadow: none;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 6px var(--glow);
+    }
+
+    .footer-buttons a:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    /* Mobile friendly: stack buttons */
+    @media (max-width: 600px) {
+      .footer-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .footer-buttons a {
+        width: 90%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -729,6 +722,17 @@
       </form>
     </div>
   </div>
+
+    <!-- FOOTER NAV BUTTONS -->
+  <section class="footer-nav">
+    <div class="footer-buttons">
+      <a href="music-catalog.html">Music Catalog</a>
+      <a href="beatstore.html">Beats</a>
+      <a href="studio.html">Studio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </section>
 
   <!-- TICKER FOOTER (UNCHANGED) -->
   <div class="ticker">

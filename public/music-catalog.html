@@ -133,6 +133,52 @@
       cursor: pointer;
       display: none;
     }
+    /* FOOTER NAVIGATION BUTTONS */
+    .footer-nav {
+      text-align: center;
+      margin: 3rem auto 6rem;
+    }
+
+    .footer-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .footer-buttons a {
+      display: inline-block;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: #000;
+      background: var(--glow);
+      text-decoration: none;
+      text-shadow: none;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 0 6px var(--glow);
+    }
+
+    .footer-buttons a:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    /* Mobile friendly: stack buttons */
+    @media (max-width: 600px) {
+      .footer-buttons {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .footer-buttons a {
+        width: 90%;
+        max-width: 300px;
+        margin: 0 auto;
+      }
+    }
+
     
     /* MOBILE SIDEBAR */
     .sidebar {
@@ -343,6 +389,11 @@
     .album-links a:hover {
       text-decoration: underline;
     }
+
+    .album-23-5 {
+      border: 2px solid #ffffff;   /* gold border */
+      box-shadow: 0 0 20px #63625e; /* gold glow */
+    }
     
     /* RESPONSIVE QUERIES */
     /* Hide elements with .hide-on-mobile on mobile devices */
@@ -505,7 +556,7 @@
     <div class="section-divider" aria-hidden="true"></div>
 
     <!-- 23.5 FULL ALBUM -->
-<section class="video-container">
+<section class="video-container album-23-5">
   <div class="video-header" role="heading" aria-level="3">23.5 (FULL ALBUM)</div>
   <iframe
     width="100%"
@@ -596,6 +647,17 @@
       </div>
     </section>
   </main>
+
+    <!-- FOOTER NAV BUTTONS -->
+  <section class="footer-nav">
+    <div class="footer-buttons">
+      <a href="music-catalog.html">Music Catalog</a>
+      <a href="beatstore.html">Beats</a>
+      <a href="studio.html">Studio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </section>
 
   <div class="ticker" aria-label="Scrolling ticker">
     <div class="ticker-content" aria-hidden="true">
