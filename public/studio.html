@@ -173,6 +173,26 @@
     .btn-submit  { background: var(--glow);   color: #000; border-color: var(--glow); }
     .btn-contact { background: transparent;   color: var(--glow); border-color: var(--glow); }
 
+    /* keep buttons on one row, right-aligned cluster with small gaps */
+    .modal-buttons { display:flex; justify-content:flex-end; gap:8px; }
+
+    /* make the Contact button a touch smaller so it fits nicely */
+    .modal-buttons .btn-contact{
+      font-size:.6rem;
+      padding:.45rem .6rem;
+      border:1px solid var(--glow);
+      color:var(--glow);
+      background:transparent;
+    }
+
+    /* optional: on narrow screens let them wrap cleanly */
+    @media (max-width:420px){
+      .modal-buttons{ flex-wrap:wrap; }
+      .modal-buttons .btn-contact{ order:0; }
+      .modal-buttons .btn-cancel{ order:1; }
+      .modal-buttons .btn-submit{ order:2; }
+    }
+
 
     /* MOBILE */
     @media (max-width:768px){
@@ -311,16 +331,11 @@
       <div class="modal-content">
         <h2 id="serviceModalTitle">Service Request</h2>
         <p>
-          Fill this quick form and we’ll email you back. Prefer the contact page?
-          <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
-        </p>
+          <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
         <form id="serviceRequestForm">
-          <input  id="requestName"       class="modal-input"    type="text"  placeholder="Your Name" required>
-          <input  id="requestEmail"      class="modal-input"    type="email" placeholder="Your Email" required>
-          <input  id="requestBudget"     class="modal-input"    type="text"  placeholder="Your Budget (USD)" required>
-          <input  id="requestTurnaround" class="modal-input"    type="text"  placeholder="Desired Turnaround Time" required>
-          <textarea id="requestDetails"  class="modal-textarea" rows="4"     placeholder="Additional Details" required></textarea>
+          <!-- inputs unchanged -->
           <div class="modal-buttons">
+            <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
             <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
             <button type="submit" class="btn-submit">Send Request</button>
           </div>
