@@ -119,7 +119,30 @@
       box-shadow: 0 0 8px #222; transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
     .video-container:hover { box-shadow: 0 0 18px var(--accent); border-color: var(--accent); }
-    .video-container h2 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--glow); }
+
+    /* ⬇️ REPLACE your old .video-container h2 block with this one */
+    .video-container h2 {
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      margin-bottom: 1rem;
+      color: var(--glow);
+      line-height: 1.3;
+    }
+
+    /* Desktop: keep single line with ellipsis */
+    @media (min-width: 1024px) {
+      .video-container h2 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    /* Mobile/tablet: allow wrapping */
+    @media (max-width: 1023px) {
+      .video-container h2 {
+        white-space: normal;
+      }
+    }
 
     /* Responsive iframe (no fixed attrs) */
     .video-container .iframe-wrap {
@@ -131,20 +154,6 @@
     .video-container iframe {
       position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
     }
-
-    /* Remove VIP's idle blue so all videos match at rest */
-    .vip-highlight {
-      /* keep same container look as others; no special idle border/shadow */
-      border: 2px solid #333;
-      box-shadow: 0 0 8px #222;
-    }
-    .vip-highlight:hover {
-      /* hover glow still allowed; use the shared hover effect via .video-container:hover */
-      /* no extra changes needed, but leaving here in case you want a touch more pop: */
-      box-shadow: 0 0 20px var(--glow);
-      border-color: var(--glow);
-    }
-
 
     /* Slideshow */
     .slideshow-section {
@@ -246,12 +255,17 @@
       }
     }
 
-    /* ≥1024px: 4 columns (fills horizontally) */
+    /* Desktop: keep 4 columns; center only the last two items */
     @media (min-width: 1024px) {
       .linktree-buttons {
         grid-template-columns: repeat(4, minmax(0, 1fr));
         max-width: 1100px;
+        margin: 0 auto;
       }
+      /* 5th button (Instagram) sits in column 2 */
+      .linktree-buttons a:nth-child(5) { grid-column: 2; }
+      /* 6th button (TikTok) sits in column 3 */
+      .linktree-buttons a:nth-child(6) { grid-column: 3; }
     }
 
     .linktree-buttons a {
@@ -361,11 +375,11 @@
 
       <!-- 1) ALBUM (FULL WIDTH) -->
       <section id="album-23-5" class="video-container album-23-5">
-        <h2>23.5 (FULL ALBUM)</h2>
+        <h2>23.5 (Album)</h2>
         <div class="iframe-wrap">
           <iframe
             src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp"
-            title="23.5 Full Album Playlist"
+            title="23.5 (Album)"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen></iframe>
         </div>
@@ -379,10 +393,10 @@
       <div class="linktree-buttons">
         <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify"   target="_blank" rel="noopener">Spotify</a>
         <a href="https://music.apple.com/us/artist/beals/1780458418"                                           class="apple"     target="_blank" rel="noopener noreferrer">Apple Music</a>
-        <a href="https://www.instagram.com/bealsprod"                                                          class="instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://www.tiktok.com/@bealsprod"                                                            class="tiktok"   target="_blank" rel="noopener noreferrer">TikTok</a>
         <a href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="soundcloud" target="_blank" rel="noopener noreferrer">SoundCloud</a>
         <a href="https://www.youtube.com/@bealsprod"                                                           class="youtube"   target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://www.instagram.com/bealsprod"                                                          class="instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/@bealsprod"                                                            class="tiktok"   target="_blank" rel="noopener noreferrer">TikTok</a>
       </div>
     </section>
 
@@ -401,18 +415,6 @@
           <a href="studio.html" class="login-btn">Book Now</a>
         </div>
       </section>
-
-      <div class="section-divider"></div>
-
-      <!-- 4) CTA -->
-      <section class="cta-section">
-      <div class="cta-card">
-        <div class="cta-btns">
-          <a href="beatstore.html" class="cta-btn">Buy Beats Here</a>
-          <a href="studio.html" class="cta-btn">Book Studio Time</a>
-        </div>
-      </div>
-    </section>
 
       <div class="section-divider"></div>
 
@@ -438,12 +440,61 @@
             <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" title="Lame" allowfullscreen></iframe>
           </div>
         </div>
+
+        <!-- MERAKI album playlist -->
+        <div id="meraki" class="video-container">
+          <h2>MERAKI (Album)</h2>
+          <div class="iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE"
+              title="MERAKI (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- WHAT IS GOING ON -->
+        <div id="what-is-going-on" class="video-container">
+          <h2>WHAT IS GOING ON (feat. Beals)</h2>
+          <div class="iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/6ogFoT19EO8"
+              title="WHAT IS GOING ON (feat. Beals)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- RPFROMTHETOP - FOREVER (ALBUM) Project (playlist) -->
+        <div id="Forever-Album" class="video-container">
+          <h2>Forever (Album) - RPFROMTHETOP</h2>
+          <div class="iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_les7EfKzmDdmr5wEhIOM3NZKXiCL7AExM"
+              title="RPFROMTHETOP - Forever (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- ROMAN NOODLE- BREAKING POINT (ALBUM) (playlist) -->
+        <div id="Breaking-Point" class="video-container">
+          <h2>Breaking Point (Album) - Roman Noodle</h2>
+          <div class="iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj"
+              title="Roman Noodle - Breaking Point (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
       </section>
 
-    </main>
-  </div>
 
-  <div class="section-divider"></div>
+      <div class="section-divider"></div>
+          </main>
+      </div>
+
 
   <!-- FOOTER NAV BUTTONS -->
   <footer class="footer-nav">
