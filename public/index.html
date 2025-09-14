@@ -311,10 +311,34 @@
       .nav-menu { display: none; }
       .sidebar { width: 200px; }
 
-      .slideshow-container { height: 300px; background: var(--bg-dark); overflow: hidden; }
-      #imageSlider img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+      .slideshow-container {
+        height: 300px;
+        background: var(--bg-dark);
+        overflow: hidden;
+        margin-bottom: 0.75rem; /* add space below the slideshow */
+      }
 
-      .video-container { width: 95%; max-width: none; margin-left: auto; margin-right: auto; padding-bottom: 1rem; height: auto !important; border-radius: 12px; }
+      #imageSlider img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
+      }
+
+      .slideshow-text {
+        margin-top: 0.5rem; /* nudge the text down a touch */
+      }
+
+      .video-container {
+        width: 95%;
+        max-width: none;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 1rem;
+        height: auto !important;
+        border-radius: 12px;
+      }
+
       .video-container .iframe-wrap { aspect-ratio: 16/9; }
     }
 
@@ -418,7 +442,7 @@
 
       <div class="section-divider"></div>
 
-      <!-- 5) VIDEOS (GRID ON DESKTOP) -->
+     <!-- 5) VIDEOS (GRID ON DESKTOP) -->
       <section class="video-grid">
         <div id="vip-220" class="video-container vip-highlight">
           <h2>VIP (220)</h2>
@@ -441,13 +465,13 @@
           </div>
         </div>
 
-        <!-- MERAKI album playlist -->
-        <div id="meraki" class="video-container">
-          <h2>MERAKI (Album)</h2>
+        <!-- ROMAN NOODLE - BREAKING POINT (ALBUM) (playlist) -->
+        <div id="breaking-point" class="video-container">
+          <h2>Breaking Point (Album) — Roman Noodle</h2>
           <div class="iframe-wrap">
             <iframe
-              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE"
-              title="MERAKI (Album)"
+              src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj"
+              title="Roman Noodle — Breaking Point (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
@@ -465,31 +489,42 @@
           </div>
         </div>
 
-        <!-- RPFROMTHETOP - FOREVER (ALBUM) Project (playlist) -->
-        <div id="Forever-Album" class="video-container">
-          <h2>Forever (Album) - RPFROMTHETOP</h2>
+        <!-- RPFROMTHETOP - FOREVER (ALBUM) -->
+        <div id="forever-album" class="video-container">
+          <h2>Forever (Album) — RPFROMTHETOP</h2>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_les7EfKzmDdmr5wEhIOM3NZKXiCL7AExM"
-              title="RPFROMTHETOP - Forever (Album)"
+              title="RPFROMTHETOP — Forever (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
         </div>
 
-        <!-- ROMAN NOODLE- BREAKING POINT (ALBUM) (playlist) -->
-        <div id="Breaking-Point" class="video-container">
-          <h2>Breaking Point (Album) - Roman Noodle</h2>
+        <!-- Cartier & Beals - Back to Back -->
+        <div id="back-to-back" class="video-container">
+          <h2>Back to Back — Cartier & Beals</h2>
           <div class="iframe-wrap">
             <iframe
-              src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj"
-              title="Roman Noodle - Breaking Point (Album)"
+              src="https://www.youtube.com/embed/z56pau7bf-Y"
+              title="Back to Back — Cartier & Beals"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <!-- MERAKI album playlist -->
+        <div id="meraki" class="video-container">
+          <h2>MERAKI (Album)</h2>
+          <div class="iframe-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE"
+              title="MERAKI (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
         </div>
       </section>
-
 
       <div class="section-divider"></div>
           </main>
