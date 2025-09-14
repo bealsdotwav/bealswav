@@ -376,9 +376,26 @@
 
       .video-grid .iframe-wrap { width: 100%; }
     }
+
+    /* Let cards shrink inside the grid columns */
+    .video-grid > .video-container {
+      min-width: 0;         /* ← key fix */
+    }
+
+    /* Make long titles ellipsize instead of forcing overflow */
+    @media (min-width: 1024px) {
+      .video-grid .video-container h2 {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
   </style>
 </head>
 <body>
+
+  
 
   <!-- MOBILE SIDEBAR -->
   <div class="sidebar" id="sidebar">
