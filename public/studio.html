@@ -16,15 +16,13 @@
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     :root{
-      --glow:#00e0e0;     /* match index */
-      --accent:#ff5c7a;   /* match index */
+      --glow:#00e0e0;   /* unified cyan */
+      --accent:#ff5c7a; /* unified pink-red */
       --bg-dark:#0f0f0f;
       --text:#f5f5f5;
-      --card:#101010;
     }
 
     /* RESET */
@@ -37,7 +35,6 @@
     header{
       position:fixed;top:0;left:0;width:100%;z-index:999;
       background:rgba(0,0,0,.9);border-bottom:1px solid #222;padding:1rem;
-      backdrop-filter: saturate(1.1) blur(4px);
     }
     .header-container{
       display:flex;align-items:center;justify-content:space-between;
@@ -52,16 +49,15 @@
     .nav-menu ul{list-style:none;display:flex;gap:1.5rem}
     .nav-menu li{display:flex;flex-direction:column;align-items:center;text-align:center}
     .nav-menu a{
-      color:var(--accent);text-decoration:none;font-size:.75rem;
-      transition:color .2s ease;line-height:1.2;text-align:center;
+      color:var(--accent);font-size:.75rem;transition:color .2s ease;line-height:1.2;text-align:center;
     }
     .nav-menu a:hover{color:var(--glow)}
     .subtext{font-size:.45rem;color:#aaa;margin-top:.15rem;text-align:center}
     header .header-buttons{display:flex;gap:1rem;align-items:center}
     header .login-btn{
       background:var(--glow);color:#000;font-size:.8rem;
-      padding:.5rem 1rem;border-radius:5px;white-space:nowrap;border:1px solid var(--glow);
-      box-shadow:0 0 8px rgba(0,224,224,.35);
+      padding:.5rem 1rem;border-radius:5px;border:1px solid var(--glow);
+      white-space:nowrap;
     }
     header .hamburger{
       font-size:1.5rem;line-height:1;color:var(--accent);
@@ -82,69 +78,47 @@
     /* MAIN */
     .container{max-width:1200px;margin:120px auto 4rem;padding:1rem 1rem 7rem;}
 
-    /* SECTION CARDS – subtle modern polish */
+    /* SECTION CARDS */
     .section{
-      margin-bottom:2rem;background:var(--card);
-      padding:1rem;border-radius:12px;border:1px solid #1b1b1b;
-      box-shadow:0 0 12px rgba(255,92,122,.08), inset 0 0 0 1px rgba(255,255,255,.02);
+      margin-bottom:2rem;background:#101010;padding:1rem;border-radius:12px;border:1px solid #1b1b1b;
+      box-shadow:0 0 12px rgba(0,0,0,.25);
     }
     .section h2{color:var(--glow);font-size:1.1rem;margin-bottom:.5rem;letter-spacing:.02em}
     .section p{font-size:.8rem;margin-bottom:1rem;font-family:Arial,sans-serif;color:#fff}
     .section button{
       font-family:'Press Start 2P',cursive;font-size:.65rem;padding:.55rem .9rem;border:none;border-radius:8px;cursor:pointer;
-      box-shadow:0 0 10px rgba(0,224,224,.25);transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
-      border:1px solid var(--glow);
+      border:1px solid var(--glow);background:var(--glow);color:#000;
+      transition:transform .15s ease, box-shadow .2s ease;
+      box-shadow:0 0 10px rgba(0,224,224,.25);
     }
     .section button:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(255,92,122,.35)}
-    .book-now-btn,.show-services-btn{background:var(--glow);color:#000}
-    .show-services-btn{margin-bottom:1rem}
 
     /* VIRTUAL SERVICES GRID */
     .virtual-services{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
     .service-card{
       background:#0f0f0f;padding:1rem;border-radius:10px;border:1px solid #222;font-family:Arial,sans-serif;color:#fff;
-      box-shadow:0 0 10px rgba(0,0,0,.35);
     }
     .service-card h3{font-size:1rem;margin-bottom:.5rem;color:var(--accent)}
     .service-card p{font-size:.8rem;margin-bottom:.75rem}
-    .service-card button{background:var(--glow);color:#000;font-size:.65rem;padding:.5rem .75rem;border:none;border-radius:6px;cursor:pointer}
+    .service-card button{font-size:.65rem;padding:.5rem .75rem;border-radius:6px}
 
-    /* SLIDESHOW (no heading) */
+    /* SLIDESHOW (index-style) */
     .slideshow-container{
-      width:90%;max-width:920px;margin:2.5rem auto 0;position:relative;border-radius:14px;
-      box-shadow:0 0 16px rgba(255,92,122,.25), 0 0 8px rgba(0,224,224,.15);
-      overflow:hidden;min-height:520px;background:#0b0b0b;border:1px solid #1b1b1b;
-      display:flex;align-items:center;justify-content:center;
+      width:92%;max-width:1100px;margin:2.5rem auto 0;position:relative;border-radius:10px;
+      border:2px solid #222;overflow:hidden;height:500px;background:var(--bg-dark);
+      display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px #ffff44;
     }
-    #imageSlider{position:relative;width:100%;height:100%}
-    #imageSlider img{
-      width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 900ms ease;
-      position:absolute;left:0;top:0;
-    }
-    #imageSlider img.active{opacity:1}
+    .slideshow-container:hover{box-shadow:0 0 25px #ffff44;}
+    #imageSlider{width:100%;height:100%}
+    #imageSlider img{width:100%;height:auto;object-fit:contain;display:block;border-radius:10px}
 
-    .slider-arrow{
-      position:absolute;top:50%;transform:translateY(-50%);
-      background:rgba(0,0,0,.55);border:1px solid var(--accent);color:#fff;
-      padding:.4rem .6rem;border-radius:10px;cursor:pointer;user-select:none;
-      font-size:1.25rem;line-height:1;z-index:2;
-    }
-    .slider-arrow:hover{background:rgba(0,0,0,.7)}
-    .slider-arrow.left{left:10px}
-    .slider-arrow.right{right:10px}
-
-    .slider-dots{display:flex;justify-content:center;gap:8px;margin:.6rem auto 0}
-    .slider-dots button{
-      width:8px;height:8px;border-radius:50%;border:1px solid var(--accent);background:transparent;opacity:.6;cursor:pointer;
-    }
-    .slider-dots button.active{background:var(--accent);opacity:1}
-
-    /* FOOTER NAV BUTTONS (unified) */
+    /* FOOTER BUTTONS (unified blue) */
     .footer-nav{text-align:center;margin:3rem auto 6rem}
     .footer-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
     .footer-buttons a{
       display:inline-block;padding:.7rem 1.2rem;border-radius:8px;font-size:.75rem;color:#000;background:var(--glow);
-      text-decoration:none;transition:background .2s ease,transform .2s ease,box-shadow .2s ease;box-shadow:0 0 6px var(--glow);border:1px solid var(--glow);
+      text-decoration:none;transition:background .2s ease,transform .2s ease,box-shadow .2s ease;
+      box-shadow:0 0 6px var(--glow);border:1px solid var(--glow);
     }
     .footer-buttons a:hover{background:var(--accent);color:#fff;transform:scale(1.05);box-shadow:0 0 12px var(--accent);border-color:var(--accent)}
     @media (max-width:600px){
@@ -153,9 +127,7 @@
     }
 
     /* TICKER */
-    .ticker{
-      position:fixed;bottom:0;width:100%;height:25px;background:#000;overflow:hidden;border-top:1px solid #222;z-index:998;
-    }
+    .ticker{position:fixed;bottom:0;width:100%;height:25px;background:#000;overflow:hidden;border-top:1px solid #222;z-index:998;}
     .ticker-content{
       white-space:nowrap;display:inline-block;padding-left:100%;
       animation:scroll 30s linear infinite,colorchange 10s infinite alternate;
@@ -176,8 +148,8 @@
       .nav-menu{display:none}
       .sidebar{width:200px}
 
-      .slideshow-container{min-height:360px}
-      #imageSlider img{object-fit:cover}
+      .slideshow-container{height:300px;margin-bottom:.75rem}
+      #imageSlider img{width:100%;height:100%;object-fit:cover;border-radius:0}
     }
 
     /* DESKTOP polish */
@@ -188,6 +160,17 @@
   </style>
 </head>
 <body>
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="music.html">🎵 Music</a></li>
+      <li><a href="beatstore.html">💽 Beats</a></li>
+      <li><a href="studio.html">🎚️ Studio</a></li>
+      <li><a href="faq.html">📖 FAQ</a></li>
+      <li><a href="contact.html">✉️ Contact</a></li>
+    </ul>
+  </div>
+
   <!-- HEADER -->
   <header id="mainHeader">
     <div class="header-container">
@@ -207,17 +190,6 @@
       </div>
     </div>
   </header>
-
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <ul>
-      <li><a href="music.html">🎵 Music</a></li>
-      <li><a href="beatstore.html">💽 Beats</a></li>
-      <li><a href="studio.html">🎚️ Studio</a></li>
-      <li><a href="faq.html">📖 FAQ</a></li>
-      <li><a href="contact.html">✉️ Contact</a></li>
-    </ul>
-  </div>
 
   <!-- MAIN -->
   <div class="container">
@@ -239,7 +211,8 @@
           <li>No smoking indoors – please respect the space and gear</li>
         </ul>
         <p style="font-size:.9rem;margin-bottom:1rem;line-height:1.5;">
-          The full studio address is shared only after booking confirmation. Our team will contact you within 24 hours. We require payment of 50% upfront and 50% upon final delivery.
+          The full studio address is shared after booking confirmation. Our team will contact you within 24 hours.
+          We require payment of 50% upfront and 50% upon final delivery.
           Questions? <a href="contact.html" style="color:var(--glow);text-decoration:underline;">Contact Us</a>
         </p>
         <label style="display:inline-block;font-size:.9rem;cursor:pointer;">
@@ -255,7 +228,7 @@
     <section class="section">
       <h2 style="font-size:1.2rem;">Virtual Studio Services</h2>
       <p style="font-size:1rem;">
-        Request professional services for mixing, mastering, video editing, custom beats, and more. Review details below and submit your request.
+        Request professional services for mixing, mastering, video editing, custom beats, and more.
       </p>
       <button class="show-services-btn" onclick="toggleServices()">Book Now</button>
       <div id="hidden-services" style="display:none;">
@@ -263,27 +236,27 @@
           <div class="service-card">
             <h3>Mixing a Song</h3>
             <p>Bring your track to life with professional mixing. <br><strong>Price: $49.99+</strong></p>
-            <button onclick="openServiceRequestModal('Mixing a Song')">Request Service</button>
+            <button onclick="requestService('Mixing a Song')">Request Service</button>
           </div>
           <div class="service-card">
             <h3>Mixing + Mastering</h3>
             <p>Get a completely polished sound. <br><strong>Price: $69.99+</strong></p>
-            <button onclick="openServiceRequestModal('Mixing + Mastering')">Request Service</button>
+            <button onclick="requestService('Mixing + Mastering')">Request Service</button>
           </div>
           <div class="service-card">
             <h3>Video Editing/Recording</h3>
             <p>Create professional music videos. <br><strong>Price: $89.99+</strong></p>
-            <button onclick="openServiceRequestModal('Video Editing/Recording')">Request Service</button>
+            <button onclick="requestService('Video Editing/Recording')">Request Service</button>
           </div>
           <div class="service-card">
             <h3>Custom Beat Creation</h3>
             <p>Unique beats tailored to your style. <br><strong>Price: $99.99+</strong></p>
-            <button onclick="openServiceRequestModal('Custom Beat Creation')">Request Service</button>
+            <button onclick="requestService('Custom Beat Creation')">Request Service</button>
           </div>
           <div class="service-card">
             <h3>Artist Coaching & Development</h3>
             <p>Guidance on career growth, songwriting, and more. <br><strong>Price: Negotiable</strong></p>
-            <button onclick="openServiceRequestModal('Artist Coaching & Development')">Request Service</button>
+            <button onclick="requestService('Artist Coaching & Development')">Request Service</button>
           </div>
         </div>
       </div>
@@ -292,11 +265,8 @@
     <!-- Slideshow (no heading text) -->
     <section>
       <div class="slideshow-container" aria-label="Studio gallery">
-        <button class="slider-arrow left" id="prevSlide" aria-label="Previous image">‹</button>
         <div id="imageSlider"></div>
-        <button class="slider-arrow right" id="nextSlide" aria-label="Next image">›</button>
       </div>
-      <div class="slider-dots" id="sliderDots" aria-hidden="true"></div>
     </section>
   </div>
 
@@ -318,27 +288,8 @@
     </div>
   </div>
 
-  <!-- SERVICE REQUEST MODAL -->
-  <div class="modal-overlay" id="serviceRequestModal">
-    <div class="modal-content">
-      <button class="btn-cancel" onclick="closeServiceRequestModal()" style="float:right">✖</button>
-      <h2 id="serviceModalTitle">Service Request</h2>
-      <form id="serviceRequestForm">
-        <input type="text" id="requestName" class="modal-input" placeholder="Your Name" required>
-        <input type="email" id="requestEmail" class="modal-input" placeholder="Your Email" required>
-        <input type="text" id="requestBudget" class="modal-input" placeholder="Your Budget (USD)" required>
-        <input type="text" id="requestTurnaround" class="modal-input" placeholder="Desired Turnaround Time" required>
-        <textarea id="requestDetails" class="modal-textarea" rows="4" placeholder="Additional Details" required></textarea>
-        <div class="modal-buttons">
-          <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
-          <button type="submit" class="btn-submit">Submit Request</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <script>
-    /* Header helpers */
+    /* Sidebar + login */
     function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
     function checkLoginStatus(){
       const btn=document.getElementById('loginBtn');
@@ -360,109 +311,59 @@
     }
     function proceedToCalendly(){ window.open('https://calendly.com/beals-wav/30min','_blank'); }
 
-    /* Virtual services toggle */
+    /* Virtual services: route to contact with prefilled service */
+    function requestService(serviceName){
+      const url='contact.html?service='+encodeURIComponent(serviceName);
+      window.location.href=url;
+    }
     function toggleServices(){
       const hs=document.getElementById('hidden-services');
       hs.style.display=(hs.style.display==='block')?'none':'block';
     }
 
-    /* EmailJS init */
-    window.addEventListener("load", function(){
-      if(window.emailjs && emailjs.init){
-        emailjs.init("OLr0UvCY_0eYzwwFV");
+    /* Slideshow (index-style) */
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = [
+        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
+        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
+        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
+        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
+        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
+        "assets/images/S16.jpeg","assets/images/S17.jpeg"
+      ];
+      let currentImageIndex = -1;
+      const imageSlider = document.getElementById("imageSlider");
+
+      function showNextImage() {
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        const newImage = document.createElement("img");
+        newImage.src = images[currentImageIndex];
+        newImage.alt = "Studio Image " + (currentImageIndex + 1);
+
+        if (window.innerWidth < 768) {
+          newImage.style.width  = "100%";
+          newImage.style.height = "100%";
+          newImage.style.objectFit = "cover";
+        } else {
+          newImage.style.width  = "100%";
+          newImage.style.height = "auto";
+          newImage.style.objectFit = "contain";
+        }
+
+        newImage.style.opacity = 0;
+        newImage.style.transition = "opacity 2s ease-in-out";
+
+        if (imageSlider) {
+          imageSlider.innerHTML = "";
+          imageSlider.appendChild(newImage);
+          void newImage.offsetWidth; /* trigger reflow for fade */
+          newImage.style.opacity = 1;
+        }
       }
+
+      showNextImage();
+      setInterval(showNextImage, 5000);
     });
-
-    /* Service request modal */
-    function openServiceRequestModal(serviceName){
-      document.getElementById("serviceModalTitle").textContent=serviceName+" Request";
-      document.getElementById("serviceRequestModal").style.display="flex";
-    }
-    function closeServiceRequestModal(){
-      document.getElementById("serviceRequestModal").style.display="none";
-      document.getElementById("serviceRequestForm").reset();
-    }
-    document.getElementById("serviceRequestForm").addEventListener("submit",function(e){
-      e.preventDefault();
-      const name=document.getElementById("requestName").value.trim();
-      const email=document.getElementById("requestEmail").value.trim();
-      const budget=document.getElementById("requestBudget").value.trim();
-      const turnaround=document.getElementById("requestTurnaround").value.trim();
-      const details=document.getElementById("requestDetails").value.trim();
-      const serviceRequested=document.getElementById("serviceModalTitle").textContent.trim();
-
-      const payload={service:serviceRequested,name,email,budget,turnaround,details};
-      if(!(window.emailjs && emailjs.send)){ alert("Form ready, but email service is unavailable."); return; }
-      emailjs.send("service_wrssjc7","template_kr5nl9p",payload)
-        .then(function(){
-          alert("Your request has been sent! We’ll get back to you within 24–48 hours.");
-          closeServiceRequestModal();
-        })
-        .catch(()=>{ alert("There was an error sending your request. Please try again later."); });
-    });
-
-    /* SLIDESHOW */
-    const images=[
-      "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg","assets/images/S4.jpeg",
-      "assets/images/S5.jpeg","assets/images/S6.jpeg","assets/images/S7.jpeg","assets/images/S8.jpeg",
-      "assets/images/S9.jpeg","assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
-      "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg","assets/images/S16.jpeg",
-      "assets/images/S17.jpeg"
-    ];
-    const slider=document.getElementById('imageSlider');
-    const dots=document.getElementById('sliderDots');
-    const prevBtn=document.getElementById('prevSlide');
-    const nextBtn=document.getElementById('nextSlide');
-
-    let idx=0, timer=null;
-
-    function buildDots(){
-      dots.innerHTML='';
-      images.forEach((_,i)=>{
-        const b=document.createElement('button');
-        b.addEventListener('click',()=>show(i,true));
-        dots.appendChild(b);
-      });
-    }
-
-    function show(newIndex, user=false){
-      idx=( (newIndex%images.length)+images.length )%images.length;
-      const img=document.createElement('img');
-      img.alt="Studio Image "+(idx+1);
-      img.loading="lazy";
-      img.src=images[idx];
-      // fade swap
-      const prev=slider.querySelector('img.active');
-      img.className=''; slider.appendChild(img);
-      requestAnimationFrame(()=>{
-        img.classList.add('active');
-        if(prev){ prev.classList.remove('active'); setTimeout(()=>prev.remove(),900); }
-      });
-      // dots
-      [...dots.children].forEach((d,i)=>d.classList.toggle('active', i===idx));
-      // autoplay reset on manual action
-      if(user){ restartTimer(); }
-    }
-
-    function next(){ show(idx+1); }
-    function prev(){ show(idx-1); }
-
-    function startTimer(){ timer=setInterval(next,5000); }
-    function stopTimer(){ if(timer){ clearInterval(timer); timer=null; } }
-    function restartTimer(){ stopTimer(); startTimer(); }
-
-    // Pause on hover (desktop)
-    const sc=document.querySelector('.slideshow-container');
-    sc.addEventListener('mouseenter',stopTimer);
-    sc.addEventListener('mouseleave',startTimer);
-
-    prevBtn.addEventListener('click',()=>{ prev(); restartTimer(); });
-    nextBtn.addEventListener('click',()=>{ next(); restartTimer(); });
-
-    // init
-    buildDots();
-    show(0);
-    startTimer();
   </script>
 </body>
 </html>
