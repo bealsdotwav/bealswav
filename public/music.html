@@ -21,12 +21,12 @@
 
   <style>
     :root {
-      --glow: #00ffff;
-      --accent: #ff4d6d;
-      --bg-dark: #0a0a0a;
-      --text: #ffffff;
-      --soft: #999;
-      --divider-grey: rgba(150, 150, 150, 0.15);
+    --glow: #00e0e0;   /* match index */
+    --accent: #ff5c7a; /* match index */
+    --bg-dark: #0f0f0f;
+    --text: #f5f5f5;
+    --soft: #999;
+    --divider-grey: rgba(150, 150, 150, 0.15);
     }
     /* RESET */
     * {
@@ -109,30 +109,35 @@
       margin-top: 0.15rem;
       text-align: center;
     }
-    .header-buttons {
+
+    /* === Header buttons: match index exactly === */
+    header .header-buttons {
       display: flex;
       gap: 1rem;
       align-items: center;
     }
-    .login-btn {
+    header .login-btn {
       background: var(--glow);
       color: #000;
       font-size: 0.8rem;
       padding: 0.5rem 1rem;
       border-radius: 5px;
       text-decoration: none;
-      font-family: 'Press Start 2P', cursive;
       cursor: pointer;
       white-space: nowrap;
     }
-    .hamburger {
+    header .hamburger {
       font-size: 1.5rem;
+      line-height: 1;
       color: var(--accent);
-      background: none;
+      background: transparent;
       border: none;
       cursor: pointer;
-      display: none;
+      display: none;              /* hidden on desktop */
+      appearance: none;
+      -webkit-appearance: none;
     }
+
     /* FOOTER NAVIGATION BUTTONS */
     .footer-nav {
       text-align: center;
@@ -398,67 +403,36 @@
     /* RESPONSIVE QUERIES */
     /* Hide elements with .hide-on-mobile on mobile devices */
     @media (max-width: 768px) {
-    .hide-on-mobile {
-        display: none !important;
-      }
-  }
-    @media (max-width: 768px) {
-      /* Header & Navigation */
-      .logo {
-        font-size: 1.1rem;
-        margin-right: auto;
-      }
-      .header-container {
-        padding: 0 1rem;
-      }
-      .header-buttons {
-        gap: 0.5rem;
-        margin-left: auto;
-      }
-      .login-btn {
-        font-size: 0.65rem;
-        padding: 0.3rem 0.6rem;
-      }
-      .hamburger {
-        display: inline-block;
-        font-size: 1.5rem;
-        margin-left: 0.5rem;
-      }
-      .nav-menu {
-        display: none;
-      }
-      .sidebar {
-        width: 200px;
-      }
+    /* helpers */
+    .hide-on-mobile { display: none !important; }
 
-      /* Video cards */
-      .video-container {
-        width: 90%;
-        max-width: 720px;
-        margin: 2rem auto;
-      }
-      .video-container iframe {
-        height: 300px !important;
-      }
+    /* header (match index) */
+    .logo { font-size: 1.1rem; }
+    .header-container { padding: 0 1rem; }
+    header .header-buttons { gap: 0.5rem; }
+    header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+    header .hamburger { display: inline-block; }
+    .nav-menu { display: none; }
+    .sidebar { width: 200px; }
 
-      /* Spotify embed smaller on mobile but still good size */
-      .spotify-embed-container {
-        height: 300px !important;
-      }
-      .spotify-embed-container iframe {
-        height: 300px !important;
-      }
+    /* Video cards */
+    .video-container { width: 90%; max-width: 720px; margin: 2rem auto; }
+    .video-container iframe { height: 300px !important; }
 
-      /* Stream links stack vertically on mobile */
-      .stream-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
+    /* Spotify on mobile */
+    .spotify-embed-container,
+    .spotify-embed-container iframe { height: 300px !important; }
 
-      /* Keep content clear of fixed ticker */
-      main {
-        padding-bottom: 7rem;
-      }
+    /* Stream links: stack nicely (using grid) */
+    .stream-buttons {
+      grid-template-columns: 1fr;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* space for ticker */
+    main { padding-bottom: 7rem; }
     }
 
     @media (min-width: 769px) {
@@ -473,6 +447,10 @@
         padding: 0.75rem 1.25rem;
         min-width: 140px;
       }   
+    }
+    @media (min-width: 1024px) {
+      .nav-menu a { font-size: 0.95rem; }
+      .subtext   { font-size: 0.6rem; }
     }
   </style>
 </head>
@@ -521,7 +499,7 @@
       <!-- Header Buttons (only Login remains) -->
       <div class="header-buttons">
         <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
       </div>
     </div>
   </header>
