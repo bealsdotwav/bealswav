@@ -40,6 +40,8 @@
       scroll-behavior: smooth;
     }
 
+    .video-grid iframe { max-width: 100%; }
+
     /* CONTAINER */
     .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
 
@@ -343,25 +345,41 @@
     }
 
     /* Desktop enhancements */
-    @media (min-width: 1024px) {
+      @media (min-width: 1024px) {
       .nav-menu a { font-size: 0.95rem; }
       .subtext { font-size: 0.6rem; }
 
       /* Slideshow + text side-by-side */
       .slideshow-section {
-        display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 2rem;
+        align-items: center;
       }
 
       /* Videos in 2-column grid */
       .video-grid {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
-        width: 92%; max-width: 1100px; margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        width: 92%;
+        max-width: 1100px;
+        margin: 0 auto;
+        align-items: start;              /* keep columns aligned at the top */
       }
-      .video-grid .video-container { width: 100%; max-width: 100%; margin: 0; }
+
+      .video-grid > .video-container {
+        width: 100%;
+        max-width: none;                  /* no 1000px cap inside columns */
+        margin: 0 0 2rem;                 /* vertical rhythm; grid handles horizontal */
+      }
+
+      .video-grid .iframe-wrap { width: 100%; }
     }
   </style>
 </head>
 <body>
+
   <!-- MOBILE SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <ul>
