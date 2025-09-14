@@ -86,6 +86,7 @@
     .footer-nav {
       text-align: center;
       margin: 2rem 0;
+      padding-bottom: 3.5rem; /* room for the fixed ticker */
     }
 
     .footer-buttons a {
@@ -165,15 +166,15 @@
       75%{color:#ff00ff}100%{color:#00ffff}
     }
 
-    @media (max-width:1000px) {
-      .nav-menu { display:none }
-      .hamburger { display:inline-block }
-      .header-container { padding:0 1rem }
-      .logo { font-size:1.1rem }
-      .login-btn { font-size:0.65rem; padding:0.5rem 0.8rem }
-      .sidebar { width:90%; left:-90%; }
-      .contact-container { margin: 120px 1rem 60px; padding: 1.5rem; }
-    }
+    @media (max-width: 1024px) {
+    .nav-menu { display: none; }
+    .hamburger { display: inline-block; }
+    .header-container { padding: 0 1rem; }
+    .logo { font-size: 1.1rem; }
+    .login-btn { font-size: 0.65rem; padding: 0.5rem 0.8rem; }
+    .sidebar { width: 90%; left: -90%; }
+    .contact-container { margin: 120px 1rem 60px; padding: 1.5rem; }
+  }
   </style>
 </head>
 <body>
@@ -203,7 +204,7 @@
       </nav>
       <div class="header-buttons">
         <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
       </div>
     </div>
   </header>

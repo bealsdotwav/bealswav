@@ -132,9 +132,19 @@
       position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
     }
 
-    /* VIP specific */
-    .vip-highlight { border-color: #00ffff; box-shadow: 0 0 15px #00ffff; }
-    .vip-highlight:hover { box-shadow: 0 0 25px #00ffff; border-color: #00ffff; }
+    /* Remove VIP's idle blue so all videos match at rest */
+    .vip-highlight {
+      /* keep same container look as others; no special idle border/shadow */
+      border: 2px solid #333;
+      box-shadow: 0 0 8px #222;
+    }
+    .vip-highlight:hover {
+      /* hover glow still allowed; use the shared hover effect via .video-container:hover */
+      /* no extra changes needed, but leaving here in case you want a touch more pop: */
+      box-shadow: 0 0 20px var(--glow);
+      border-color: var(--glow);
+    }
+
 
     /* Slideshow */
     .slideshow-section {
@@ -155,19 +165,115 @@
     .slideshow-text p { margin: 0 0 1rem 0; font-size: 0.85rem; line-height: 1.6; color: #ddd; }
     .slideshow-text .login-btn { display: inline-block; }
 
-    /* Linktree */
-    .linktree { margin-bottom: 3rem; text-align: center; }
-    .linktree h3 { margin-bottom: 1rem; font-size: 1rem; color: var(--glow); }
-    .linktree-buttons { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 300px; margin: 0 auto; }
-    .linktree-buttons a {
-      padding: 0.75rem 1rem; width: 100%; border-radius: 10px; text-decoration: none; font-size: 0.75rem;
-      transition: transform 0.2s ease, background 0.2s ease; text-align: center;
+    /* CTA SECTION */
+    .cta-section {
+      width: 92%;
+      max-width: 1000px;
+      margin: 0 auto 3rem;
     }
-    .linktree-buttons a:hover { transform: scale(1.03); }
-    .spotify { background: #1DB954; color: black; }
-    .apple { background: #fa233b; color: white; }
-    .instagram { background: #e1306c; color: white; }
-    .tiktok { background: #010101; color: white; }
+
+    .cta-card {
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      box-shadow: 0 0 8px #1a1a1a;
+    }
+
+    .cta-btns {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    /* the buttons */
+    .cta-btn {
+      display: inline-block;
+      padding: 0.8rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      font-weight: bold;
+      color: #000;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .cta-btn:hover {
+      background: var(--glow);
+      border-color: var(--glow);
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px var(--glow);
+    }
+
+    /* tiny screens keep it tight */
+    @media (max-width: 480px) {
+      .cta-btn { width: 100%; text-align: center; }
+    }
+
+
+    /* FOLLOW & SUPPORT */
+    .linktree {
+      margin: 3rem auto;
+      text-align: center;
+      width: 92%;
+      max-width: 1100px;
+    }
+    .linktree h3 {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      color: var(--glow);
+    }
+
+    /* Buttons container:
+      - mobile: a simple column
+      - desktop: responsive grid (2–4 per row depending on width) */
+    .linktree-buttons {
+      display: grid;
+      gap: 0.85rem;
+      max-width: 100%;
+      margin: 0 auto;
+      grid-template-columns: 1fr; /* mobile default */
+    }
+
+    /* ≥768px: 2 columns */
+    @media (min-width: 768px) {
+      .linktree-buttons {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: 700px;
+      }
+    }
+
+    /* ≥1024px: 4 columns (fills horizontally) */
+    @media (min-width: 1024px) {
+      .linktree-buttons {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        max-width: 1100px;
+      }
+    }
+
+    .linktree-buttons a {
+      display: inline-block;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .linktree-buttons a:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+    /* Brand colors */
+    .spotify   { background: #1DB954; color: #000; }
+    .apple     { background: #fa233b; color: #fff; }
+    .instagram { background: #e1306c; color: #fff; }
+    .tiktok    { background: #010101; color: #fff; }
+    .soundcloud{ background: #ff5500; color: #000; }
+    .youtube   { background: #ff0000; color: #fff; }
+
 
     /* Ticker */
     .ticker { position: fixed; bottom: 0; width: 100%; height: 25px; background: black; overflow: hidden; z-index: 998; }
@@ -244,7 +350,7 @@
       </nav>
       <div class="header-buttons">
         <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
       </div>
     </div>
   </header>
@@ -269,14 +375,16 @@
 
       <!-- 2) FOLLOW & SUPPORT -->
       <section class="linktree">
-        <h3>Follow & Support</h3>
-        <div class="linktree-buttons">
-          <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify" target="_blank" rel="noopener">Spotify</a>
-          <a href="https://music.apple.com/us/artist/beals/1780458418" class="apple" target="_blank" rel="noopener">Apple Music</a>
-          <a href="https://www.instagram.com/bealsprod" class="instagram" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://www.tiktok.com/@bealsprod" class="tiktok" target="_blank" rel="noopener">TikTok</a>
-        </div>
-      </section>
+      <h3>Follow & Support</h3>
+      <div class="linktree-buttons">
+        <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify"   target="_blank" rel="noopener">Spotify</a>
+        <a href="https://music.apple.com/us/artist/beals/1780458418"                                           class="apple"     target="_blank" rel="noopener noreferrer">Apple Music</a>
+        <a href="https://www.instagram.com/bealsprod"                                                          class="instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.tiktok.com/@bealsprod"                                                            class="tiktok"   target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="soundcloud" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+        <a href="https://www.youtube.com/@bealsprod"                                                           class="youtube"   target="_blank" rel="noopener noreferrer">YouTube</a>
+      </div>
+    </section>
 
       <div class="section-divider"></div>
 
@@ -298,11 +406,13 @@
 
       <!-- 4) CTA -->
       <section class="cta-section">
+      <div class="cta-card">
         <div class="cta-btns">
           <a href="beatstore.html" class="cta-btn">Buy Beats Here</a>
           <a href="studio.html" class="cta-btn">Book Studio Time</a>
         </div>
-      </section>
+      </div>
+    </section>
 
       <div class="section-divider"></div>
 
