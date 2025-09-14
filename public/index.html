@@ -71,37 +71,34 @@
     }
     .nav-menu a:hover { color: var(--glow); }
     .subtext { font-size: 0.45rem; color: #aaa; margin-top: 0.15rem; text-align: center; }
-    /* Force header buttons to match contact.html */
-    header .header-buttons {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+    
+    /* Header buttons — scoped to header */
+      header .header-buttons {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      header .login-btn {
+        background: var(--glow);
+        color: #000;
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      header .hamburger {
+        font-size: 1.5rem;
+        line-height: 1;
+        color: var(--accent);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: none;              /* hidden on desktop */
+        appearance: none;
+        -webkit-appearance: none;
+      }
 
-    header .login-btn {
-      background: var(--glow);
-      color: #000;
-      font-size: 0.8rem;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    header .hamburger {
-      font-size: 1.5rem;
-      color: var(--accent);
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: none;
-    }
-    .header-buttons { display: flex; gap: 1rem; align-items: center; }
-    .login-btn {
-      background: var(--glow); color: #000; font-size: 0.8rem;
-      padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; cursor: pointer;
-    }
-    .hamburger { font-size: 1.5rem; color: var(--accent); background: none; border: none; cursor: pointer; display: none; }
 
     /* FOOTER NAV */
     .footer-nav { background: #0d0d0d; padding: 2rem 1rem 4rem; text-align: center; }
@@ -329,13 +326,19 @@
 
     /* Mobile */
     @media (max-width: 768px) {
-      .logo { font-size: 1.1rem; }
-      .header-container { padding: 0 1rem; }
-      .header-buttons { gap: 0.5rem; }
-      .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-      .hamburger { display: inline-block; }
-      .nav-menu { display: none; }
-      .sidebar { width: 200px; }
+    .logo { font-size: 1.1rem; }
+    .header-container { padding: 0 1rem; }
+
+    /* match contact.html mobile header */
+    header .header-buttons { gap: 0.5rem; }
+    header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+    header .hamburger { display: inline-block; }  /* ← makes the red ☰ appear */
+
+    .nav-menu { display: none; }
+    .sidebar { width: 200px; }
+
+    /* (keep your slideshow/video mobile rules here) */
+    
 
       .slideshow-container {
         height: 300px;
@@ -400,6 +403,11 @@
         }
       }
 
+      /* Desktop polish — bigger nav labels & subtext */
+      @media (min-width: 1024px) {
+        .nav-menu a { font-size: 0.95rem; }
+        .subtext   { font-size: 0.6rem; }
+      }
 
       /* small artist line under each video title */
       .video-container .artist-subtext {
