@@ -59,6 +59,18 @@
     .nav-menu .subtext {
       font-size:0.45rem; color:#aaa; margin-top:0.15rem;
     }
+    /* NAV FIXES */
+    .nav-menu ul {
+      display: flex;
+      flex-wrap: wrap;         /* let items wrap instead of overflow */
+      gap: 1rem;               /* smaller spacing than 1.5rem */
+      justify-content: center; /* keep it centered */
+    }
+
+    .nav-menu a {
+      font-size: 0.65rem;      /* slightly smaller text */
+    }
+
     .header-buttons { display:flex; gap:1rem; align-items:center; }
     .login-btn {
       background:var(--glow); color:#000;
@@ -70,6 +82,27 @@
       color:var(--accent); background:none; border:none;
       cursor:pointer;
     }
+
+    .footer-nav {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .footer-buttons a {
+      margin: 0 10px;
+      padding: 8px 12px;
+      background: var(--glow);
+      color: black;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      transition: background 0.2s;
+    }
+
+    .footer-buttons a:hover {
+      background: var(--accent);
+      color: white;
+    }
+
 
     /* SIDEBAR */
     .sidebar {
@@ -132,7 +165,7 @@
       75%{color:#ff00ff}100%{color:#00ffff}
     }
 
-    @media (max-width:768px) {
+    @media (max-width:1000px) {
       .nav-menu { display:none }
       .hamburger { display:inline-block }
       .header-container { padding:0 1rem }

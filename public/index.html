@@ -17,620 +17,208 @@
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
+  <!-- EmailJS (if used elsewhere) -->
   <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS v4 (if needed elsewhere) -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     :root {
-      --glow: #00ffff;
-      --accent: #ff4d6d;
-      --bg-dark: #0a0a0a;
-      --text-color: #ffffff;
+      --glow: #00e0e0;   /* softer cyan */
+      --accent: #ff5c7a; /* softer pink-red */
+      --bg-dark: #0f0f0f;
+      --text: #f5f5f5;
     }
+
     /* RESET */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin:0; padding:0; }
     html, body {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       font-family: 'Press Start 2P', cursive;
       background: var(--bg-dark);
-      color: var(--text-color);
+      color: var(--text);
       overflow-x: hidden;
       scroll-behavior: smooth;
     }
-    
+
     /* CONTAINER */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1.5rem 1rem 5rem;
-    }
-    
+    .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
+
     /****************************************
-     * HEADER (Desktop & Mobile)
+     * HEADER
      ****************************************/
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 999;
-      background: rgba(0, 0, 0, 0.9);
+      position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
+      background: rgba(0,0,0,0.9);
       border-bottom: 1px solid #222;
       transition: transform 0.4s ease, opacity 0.4s ease;
       padding: 1rem;
     }
     .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1400px; margin: 0 auto; padding: 0.5rem 2rem;
     }
-    /* Logo (clickable) on far left */
     .logo {
-      font-size: 1.4rem;
-      color: var(--glow);
+      font-size: 1.4rem; color: var(--glow);
       text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
-      text-decoration: none;
-      margin-right: 1rem;
+      text-decoration: none; margin-right: 1rem;
     }
-    /* Navigation Menu – centered (Desktop only) */
-    .nav-menu {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-    .nav-menu ul {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-    }
-    .nav-menu li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+    .nav-menu { flex: 1; display: flex; justify-content: center; }
+    .nav-menu ul { list-style: none; display: flex; gap: 1.5rem; }
+    .nav-menu li { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .nav-menu a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.75rem;
-      transition: color 0.2s ease;
-      line-height: 1.2;
-      text-align: center;
+      color: var(--accent); text-decoration: none; font-size: 0.75rem;
+      transition: color 0.2s ease; line-height: 1.2; text-align: center;
     }
-    .nav-menu a:hover {
-      color: var(--glow);
-    }
-    .subtext {
-      font-size: 0.45rem;
-      color: #aaa;
-      margin-top: 0.15rem;
-      text-align: center;
-    }
-    
-    /* Header Buttons (only Login remains) */
-    .header-buttons {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
+    .nav-menu a:hover { color: var(--glow); }
+    .subtext { font-size: 0.45rem; color: #aaa; margin-top: 0.15rem; text-align: center; }
+    .header-buttons { display: flex; gap: 1rem; align-items: center; }
     .login-btn {
-      background: var(--glow);
-      color: #000;
-      font-size: 0.8rem;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      text-decoration: none;
-      font-family: 'Press Start 2P', cursive;
-      cursor: pointer;
+      background: var(--glow); color: #000; font-size: 0.8rem;
+      padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; cursor: pointer;
     }
-    /* Hamburger – for mobile only */
-    .hamburger {
-      font-size: 1.5rem;
-      color: var(--accent);
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: none;
-    }
-
-    /* WELCOME SECTION */
-    .welcome-section {
-      text-align: center;
-      margin: 2rem auto 3rem; /* spacing above and below */
-    }
-
-    .welcome-section h2 {
-      font-size: 1.6rem;         /* bigger than your video titles */
-      color: #ffffff;            /* clean white text */
-      text-shadow: 0 0 2px rgba(71, 71, 71, 0.6); /* subtle glow */
-      letter-spacing: 2px;       /* spaced out for modern feel */
-      line-height: 1.4;
-    }
+    .hamburger { font-size: 1.5rem; color: var(--accent); background: none; border: none; cursor: pointer; display: none; }
 
     /* FOOTER NAV */
-    .footer-nav {
-      background: #0d0d0d;
-      padding: 2rem 1rem 4rem; /* space above ticker */
-      text-align: center;
-    }
-
-    .footer-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-    }
-
+    .footer-nav { background: #0d0d0d; padding: 2rem 1rem 4rem; text-align: center; }
+    .footer-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
     .footer-buttons a {
-      display: inline-block;
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      font-size: 0.7rem;
-      text-decoration: none;
-      color: #fff;
-      background: #222;
-      border: 1px solid #333;
+      display: inline-block; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
+      background: var(--accent); color: #000; border: 1px solid var(--accent);
       transition: all 0.2s ease-in-out;
     }
-
     .footer-buttons a:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #000;
-      transform: translateY(-2px);
-      box-shadow: 0 0 10px var(--accent);
+      background: var(--glow); border-color: var(--glow); color: #000;
+      transform: translateY(-2px); box-shadow: 0 0 10px var(--glow);
     }
 
-    /* Mobile tweaks */
-    @media (max-width: 768px) {
-      .footer-buttons {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .footer-buttons a {
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto;
-      }
-    }
-
-
-    /****************************************
-     * MOBILE SIDEBAR (for nav links)
-     ****************************************/
+    /* MOBILE SIDEBAR */
     .sidebar {
-      position: fixed;
-      top: 70px;
-      left: -220px;
-      width: 200px;
-      height: calc(100% - 70px);
-      background: #111;
-      padding: 1.5rem 1rem;
-      z-index: 998;
-      transition: left 0.3s ease;
+      position: fixed; top: 70px; left: -220px; width: 200px; height: calc(100% - 70px);
+      background: #111; padding: 1.5rem 1rem; z-index: 998; transition: left 0.3s ease;
     }
-    .sidebar.open {
-      left: 0;
-    }
-    .sidebar ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .sidebar a {
-      font-size: 0.9rem;
-      color: var(--glow);
-      text-decoration: none;
-    }
-    
+    .sidebar.open { left: 0; }
+    .sidebar ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .sidebar a { font-size: 0.9rem; color: var(--glow); text-decoration: none; }
+
     /****************************************
      * MAIN CONTENT
      ****************************************/
-    main {
-      padding-top: 100px;
-    }
-    
-    /* STUDIO SLIDESHOW SECTION (Top Section) */
-    .studio-slideshow {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .studio-slideshow h2 {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--glow);
-    }
-    /* Slideshow Container for Desktop */
-    .slideshow-container {
-      width: 90%;
-      max-width: 720px;
-      margin: 0 auto;
-      position: relative;
-      border-radius: 10px;
-      box-shadow: 0 0 12px var(--accent);
-      overflow: hidden;
-      height: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--bg-dark);
-    }
-    /* The image slider fills the container */
-    #imageSlider {
-      width: 100%;
-      height: 100%;
-    }
-    /* Desktop images: object-fit set to contain */
-    #imageSlider img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 10px;
-      display: block;
-    }
-    /* Mobile override: force container height and force image to fill container with cover */
-    @media (max-width: 768px) {
-      .slideshow-container {
-        height: 300px;
-        background: var(--bg-dark);
-        overflow: hidden;
-        position: relative;
-      }
-      #imageSlider img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: 0; /* Remove rounding to avoid gaps */
-      }
-    }
-    
-    /* CTA SECTION (Buy Beats/Book Studio Time) */
-    .cta-section {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .cta-btns {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .cta-btn {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      text-decoration: none;
-      font-weight: bold;
-      color: #000;
-      background: var(--accent);
-      transition: background 0.2s ease, transform 0.2s ease;
-    }
-    .cta-btn:hover {
-      background: var(--glow);
-      transform: scale(1.05);
-      color: #000;
-    }
-/* Highlight VIP section */
-    .vip-highlight {
-      border: 2px solid #00ffff !important;
-      box-shadow: 0 0 15px #00ffff !important;
-      border-radius: 12px;
-      padding: 1rem 1.5rem 2rem;
-      background: #111;
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
-      position: relative;
+    main { padding-top: 100px; }
+
+    /* Section divider */
+    .section-divider {
+      width: 80%; height: 2px; margin: 3rem auto;
+      background: linear-gradient(90deg, transparent, var(--glow), transparent);
     }
 
-
-    .vip-highlight:hover {
-      box-shadow: 0 0 25px #00ffff !important;
-      border-color: #00ffff !important;
-    }
-
-
-    .vip-highlight h2 {
-      font-size: 1.15rem;
-      color: #00ffff;
-      margin-bottom: 1rem;
-      text-align: center;
-      text-shadow: 0 0 4px #00ffff;
-    }
-
-    /* Mobile override: reduce glow for legibility */
-    @media (max-width: 768px) {
-      .vip-highlight h2 {
-        text-shadow: none;
-        color: #00e6e6;
-        font-size: 1rem;
-      }
-    }
-
-
-    section#vip-220 {
-      scroll-margin-top: 200px;
-    }
-
-
-    .song-divider {
-      border: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #444, transparent);
-      margin: 30px auto;
-      width: 80%;
-    }
-
-
-    /* Pulse glow animation */
-    @keyframes glowPulse {
-      0% {
-        text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
-      }
-      100% {
-        text-shadow: 0 0 15px var(--glow), 0 0 25px var(--glow);
-      }
-    }
-
-    /* Pre-Save button styled like CTA but with some VIP emphasis */
-    .presave-btn {
-      display: inline-block;
-      margin: 1rem auto 0 auto;
-      padding: 0.8rem 1.5rem;
-      font-weight: bold;
-      font-size: 0.8rem;
-      background: var(--glow);
-      color: black;
-      border-radius: 8px;
-      text-decoration: none;
-      text-align: center;
-      box-shadow: 0 0 8px var(--glow);
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    .presave-btn:hover,
-    .presave-btn:focus {
-      background: var(--accent);
-      color: white;
-      transform: scale(1.05);
-      box-shadow: 0 0 15px var(--accent);
-    }
-    
-    /* Base style for all video containers */
+    /* Video container */
     .video-container {
-      width: 90%;
-      max-width: 720px;
-      margin: 0 auto 3rem;
-      text-align: center;
-      border: 2px solid #333;
-      border-radius: 12px;
-      padding: 1rem 1.5rem 2rem;
-      background: #111;
-      box-shadow: 0 0 8px #222;
-      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+      width: 90%; max-width: 1000px; margin: 0 auto 3rem;
+      text-align: center; border: 2px solid #333; border-radius: 12px;
+      padding: 1rem 1.5rem 2rem; background: #111;
+      box-shadow: 0 0 8px #222; transition: box-shadow 0.3s ease, border-color 0.3s ease;
     }
+    .video-container:hover { box-shadow: 0 0 18px var(--accent); border-color: var(--accent); }
+    .video-container h2 { font-size: 1.2rem; margin-bottom: 1rem; color: var(--glow); }
 
-    /* Headings inside video containers */
-    .video-container h2 {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      color: var(--glow);
+    /* Responsive iframe (no fixed attrs) */
+    .video-container .iframe-wrap {
+      position: relative; width: 100%; max-width: 100%;
+      aspect-ratio: 16 / 9; /* modern, simple */
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 0 12px rgba(255,255,255,0.1);
     }
-
-    /* Iframes inside video containers */
     .video-container iframe {
-      width: 100%;
-      max-width: 720px;
-      height: 500px;
-      border: none;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
-      display: block;
-      margin: 0 auto;
-      transition: box-shadow 0.3s ease;
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
     }
 
-    /* Hover effect for all video containers */
-    .video-container:hover {
-      box-shadow: 0 0 18px var(--accent);
-      border-color: var(--accent);
-    }
+    /* VIP specific */
+    .vip-highlight { border-color: #00ffff; box-shadow: 0 0 15px #00ffff; }
+    .vip-highlight:hover { box-shadow: 0 0 25px #00ffff; border-color: #00ffff; }
 
-    .video-container:hover iframe {
-      box-shadow: 0 0 20px var(--accent);
+    /* Slideshow */
+    .slideshow-section {
+      width: 92%; max-width: 1100px; margin: 0 auto;
     }
+    .slideshow-container {
+      width: 100%; position: relative; border-radius: 10px;
+      border: 2px solid #222; overflow: hidden; height: 500px;
+      display: flex; align-items: center; justify-content: center; background: var(--bg-dark);
+      box-shadow: 0 0 10px #ffff44; transition: box-shadow 0.3s ease;
+    }
+    .slideshow-container:hover { box-shadow: 0 0 25px #ffff44; }
+    #imageSlider { width: 100%; height: 100%; }
+    #imageSlider img { width: 100%; height: auto; object-fit: contain; display: block; border-radius: 10px; }
 
-    /* Specific glow colors for different videos */
+    .slideshow-text { text-align: center; }
+    .slideshow-text h2 { margin-bottom: 0.75rem; color: var(--glow); font-size: 1.2rem; }
+    .slideshow-text p { margin: 0 0 1rem 0; font-size: 0.85rem; line-height: 1.6; color: #ddd; }
+    .slideshow-text .login-btn { display: inline-block; }
 
-    /* No Rest video container glow */
-    #no-rest {
-      border-color: #ff4d6d;
-      box-shadow: 0 0 12px #ff4d6d;
-    }
-    #no-rest:hover {
-      box-shadow: 0 0 25px #ff4d6d;
-      border-color: #ff4d6d;
-    }
-    #no-rest h2 {
-      color: #ff4d6d !important;         /* red text */
-      text-shadow: 0 0 4px #ff4d6d !important;
-    }
-
-    /* Lame video container glow */
-    #lame {
-      border-color: #44ff44;
-      box-shadow: 0 0 12px #44ff44;
-    }
-    #lame:hover {
-      box-shadow: 0 0 25px #44ff44;
-      border-color: #44ff44;
-    }
-    #lame h2 {
-      color: #44ff44 !important;         /* green text */
-      text-shadow: 0 0 4px #44ff44 !important;
-    }
-
-    /* Studio slideshow container glow */
-    .studio-slideshow .slideshow-container {
-      border: 2px solid #222;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ffff44;
-      transition: box-shadow 0.3s ease;
-    }
-    .studio-slideshow .slideshow-container:hover {
-      box-shadow: 0 0 25px #ffff44;
-    }
-
-      /* 23.5 album custom glow */
-    .album-23-5 {
-      border-color: #ffffff;   /* gold border */
-      box-shadow: 0 0 15px #333232;
-    }
-
-    .album-23-5:hover {
-      border-color: #ffffff;
-      box-shadow: 0 0 25px #464544;
-    }
-
-    .album-23-5 h2 {
-      color: #f5f5f5;
-      text-shadow: 0 0 4px #05c5df;
-    }
-
-    
-    /* FOLLOW & SUPPORT SECTION (Bottom Section) */
-    .linktree {
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-    .linktree h3 {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--glow);
-    }
-    .linktree-buttons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      max-width: 300px;
-      margin: 0 auto;
-    }
+    /* Linktree */
+    .linktree { margin-bottom: 3rem; text-align: center; }
+    .linktree h3 { margin-bottom: 1rem; font-size: 1rem; color: var(--glow); }
+    .linktree-buttons { display: flex; flex-direction: column; align-items: center; gap: 1rem; max-width: 300px; margin: 0 auto; }
     .linktree-buttons a {
-      padding: 0.75rem 1rem;
-      width: 100%;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.75rem;
-      transition: transform 0.2s ease, background 0.2s ease;
-      text-align: center;
+      padding: 0.75rem 1rem; width: 100%; border-radius: 10px; text-decoration: none; font-size: 0.75rem;
+      transition: transform 0.2s ease, background 0.2s ease; text-align: center;
     }
-    .linktree-buttons a:hover {
-      transform: scale(1.03);
-    }
+    .linktree-buttons a:hover { transform: scale(1.03); }
     .spotify { background: #1DB954; color: black; }
     .apple { background: #fa233b; color: white; }
     .instagram { background: #e1306c; color: white; }
     .tiktok { background: #010101; color: white; }
-    
-    /****************************************
-     * TICKER
-     ****************************************/
-    .ticker {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      height: 25px;
-      background: black;
-      overflow: hidden;
-      z-index: 998;
-    }
+
+    /* Ticker */
+    .ticker { position: fixed; bottom: 0; width: 100%; height: 25px; background: black; overflow: hidden; z-index: 998; }
     .ticker-content {
-      white-space: nowrap;
-      display: inline-block;
-      padding-left: 100%;
+      white-space: nowrap; display: inline-block; padding-left: 100%;
       animation: scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size: 0.65rem;
-      font-weight: bold;
+      font-size: 0.65rem; font-weight: bold;
     }
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
     @keyframes colorchange {
-      0% { color: #00ffff; }
-      25% { color: #ff4d6d; }
-      50% { color: #a0ff00; }
-      75% { color: #ff00ff; }
-      100% { color: #00ffff; }
+      0% { color: #00ffff; } 25% { color: #ff4d6d; } 50% { color: #a0ff00; } 75% { color: #ff00ff; } 100% { color: #00ffff; }
     }
-    
-    /****************************************
-     * RESPONSIVE QUERIES
-     ****************************************/
+
+    /* Mobile */
     @media (max-width: 768px) {
       .logo { font-size: 1.1rem; }
       .header-container { padding: 0 1rem; }
       .header-buttons { gap: 0.5rem; }
-      .cart-button, .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+      .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
       .hamburger { display: inline-block; }
       .nav-menu { display: none; }
       .sidebar { width: 200px; }
-      
-      /* Mobile: Let the slideshow container remain 300px in height */
-      .slideshow-container { height: 300px; }
-      /* Mobile override for images: ensure they fill the container completely */
-      #imageSlider img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        border-radius: 0;
-      }
-      
-      /* For mobile, force the video container to have the same height (300px) */
-      .video-container {
-        width: 95%;
-        max-width: none;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 1rem;
-        box-sizing: border-box;
-        height: auto !important;
-        box-shadow: 0 0 12px var(--accent);
-        border-radius: 12px;
-      }
-      .video-container iframe {
-        width: 100% !important;
-        height: 250px !important;
-        max-height: none;
-        border-radius: 12px;
-      }
+
+      .slideshow-container { height: 300px; background: var(--bg-dark); overflow: hidden; }
+      #imageSlider img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+
+      .video-container { width: 95%; max-width: none; margin-left: auto; margin-right: auto; padding-bottom: 1rem; height: auto !important; border-radius: 12px; }
+      .video-container .iframe-wrap { aspect-ratio: 16/9; }
     }
 
-    @media (min-width: 769px) {
-      .nav-menu { display: flex; }
-      .hamburger { display: none; }
-    }
-    .video-container {
-      margin-bottom: 5rem; /* slightly more */
-      padding-bottom: 2rem; /* NEW: add padding to avoid overlap */
+    /* Desktop enhancements */
+    @media (min-width: 1024px) {
+      .nav-menu a { font-size: 0.95rem; }
+      .subtext { font-size: 0.6rem; }
+
+      /* Slideshow + text side-by-side */
+      .slideshow-section {
+        display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center;
+      }
+
+      /* Videos in 2-column grid */
+      .video-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        width: 92%; max-width: 1100px; margin: 0 auto;
+      }
+      .video-grid .video-container { width: 100%; max-width: 100%; margin: 0; }
     }
   </style>
 </head>
 <body>
-  <!-- MOBILE SIDEBAR (for nav links) -->
+  <!-- MOBILE SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <ul>
       <li><a href="music.html">🎵 Music</a></li>
@@ -644,34 +232,16 @@
   <!-- HEADER -->
   <header id="mainHeader">
     <div class="header-container">
-      <!-- Logo -->
       <a href="index.html" class="logo">BEALS.WAV</a>
-      <!-- Desktop Navigation -->
       <nav class="nav-menu">
         <ul>
-          <li>
-            <a href="music.html">Music</a>
-            <span class="subtext">Listen to my songs</span>
-          </li>
-          <li>
-            <a href="beatstore.html">Beats</a>
-            <span class="subtext">Buy instrumentals</span>
-          </li>
-          <li>
-            <a href="studio.html">Studio</a>
-            <span class="subtext">Book studio time</span>
-          </li>
-          <li>
-            <a href="faq.html">FAQ</a>
-            <span class="subtext">Questions answered</span>
-          </li>
-          <li>
-            <a href="contact.html">Contact</a>
-            <span class="subtext">Reach out directly</span>
-          </li>
+          <li><a href="music.html">Music</a><span class="subtext">Listen to my songs</span></li>
+          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy instrumentals</span></li>
+          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
+          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
+          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
         </ul>
       </nav>
-      <!-- Header Buttons (only Login remains) -->
       <div class="header-buttons">
         <a href="login.html" class="login-btn" id="loginBtn">Login</a>
         <button class="hamburger" onclick="toggleSidebar()">☰</button>
@@ -679,36 +249,54 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT: Home Page with Slideshow, CTA, Video, and Follow & Support Sections -->
+  <!-- CONTENT -->
   <div class="container">
     <main>
-      
-      <!-- 1) VIDEO SECTION (23.5 - NEW ALBUM) -->
+
+      <!-- 1) ALBUM (FULL WIDTH) -->
       <section id="album-23-5" class="video-container album-23-5">
         <h2>23.5 (FULL ALBUM)</h2>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp" title="23.5 Full Album Playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <div class="iframe-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp"
+            title="23.5 Full Album Playlist"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
       </section>
 
-      <!-- 2) FOLLOW & SUPPORT SECTION (Bottom) -->
+      <div class="section-divider"></div>
+
+      <!-- 2) FOLLOW & SUPPORT -->
       <section class="linktree">
         <h3>Follow & Support</h3>
         <div class="linktree-buttons">
-          <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify" target="_blank">Spotify</a>
-          <a href="https://music.apple.com/us/artist/beals/1780458418" class="apple" target="_blank">Apple Music</a>
-          <a href="https://www.instagram.com/bealsprod" class="instagram" target="_blank">Instagram</a>
-          <a href="https://www.tiktok.com/@bealsprod" class="tiktok" target="_blank">TikTok</a>
+          <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify" target="_blank" rel="noopener">Spotify</a>
+          <a href="https://music.apple.com/us/artist/beals/1780458418" class="apple" target="_blank" rel="noopener">Apple Music</a>
+          <a href="https://www.instagram.com/bealsprod" class="instagram" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@bealsprod" class="tiktok" target="_blank" rel="noopener">TikTok</a>
         </div>
       </section>
 
-      <!-- 3) STUDIO SLIDESHOW SECTION (Top) -->
-      <section class="studio-slideshow">
-        <div class="slideshow-container">
-          <!-- The image slider container -->
-          <div id="imageSlider"></div>
+      <div class="section-divider"></div>
+
+      <!-- 3) STUDIO: SLIDESHOW + TEXT (SIDE-BY-SIDE ON DESKTOP) -->
+      <section class="slideshow-section">
+        <div class="slideshow">
+          <div class="slideshow-container">
+            <div id="imageSlider"></div>
+          </div>
+        </div>
+        <div class="slideshow-text">
+          <h2>Book Studio Time</h2>
+          <p>High-quality recording, mixing, and production services in West Jordan, Utah.</p>
+          <a href="studio.html" class="login-btn">Book Now</a>
         </div>
       </section>
 
-      <!-- 4) CTA SECTION (Buy Beats / Book Studio Time) -->
+      <div class="section-divider"></div>
+
+      <!-- 4) CTA -->
       <section class="cta-section">
         <div class="cta-btns">
           <a href="beatstore.html" class="cta-btn">Buy Beats Here</a>
@@ -716,30 +304,38 @@
         </div>
       </section>
 
+      <div class="section-divider"></div>
 
-      <!-- 5) VIDEO SECTION (VIP 220) -->
-      <section id="vip-220" class="video-container vip-highlight">
-      <h2>VIP (220)</h2>
-      <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" allowfullscreen></iframe>
-      </a>
+      <!-- 5) VIDEOS (GRID ON DESKTOP) -->
+      <section class="video-grid">
+        <div id="vip-220" class="video-container vip-highlight">
+          <h2>VIP (220)</h2>
+          <div class="iframe-wrap">
+            <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" title="VIP (220)" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div id="no-rest" class="video-container">
+          <h2>No Rest – Roman Noodle feat. RPFROMTHETOP &amp; Beals</h2>
+          <div class="iframe-wrap">
+            <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" title="No Rest" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div id="lame" class="video-container">
+          <h2>Lame – Roman Noodle feat. Beals</h2>
+          <div class="iframe-wrap">
+            <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" title="Lame" allowfullscreen></iframe>
+          </div>
+        </div>
       </section>
 
-
-      <!-- 6) VIDEO SECTION (Watch No Rest Video) -->
-      <section id="no-rest" class="video-container">
-      <h2 style="color: var(--glow);">No Rest – Roman Noodle feat. RPFROMTHETOP & Beals</h2>
-      <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" allowfullscreen></iframe>
-      </section>
-
-      <!-- 7) VIDEO SECTION (Watch Lame Video) -->
-      <section id="lame" class="video-container">
-      <h2 style="color: var(--glow);">Lame – Roman Noodle feat. Beals</h2>
-      <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" allowfullscreen></iframe>
-      </section>
     </main>
   </div>
 
-    <!-- FOOTER NAV BUTTONS -->
+  <div class="section-divider"></div>
+
+  <!-- FOOTER NAV BUTTONS -->
   <footer class="footer-nav">
     <div class="footer-buttons">
       <a href="music.html">Music</a>
@@ -753,7 +349,7 @@
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+      Beals {Musician} + {Rapper} + {Beat Maker} -- Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- Based in West Jordan, Utah — © 2025 Beals.wav. All rights reserved. — New release out now! —
     </div>
   </div>
 
@@ -763,8 +359,8 @@
     function toggleSidebar() {
       document.getElementById("sidebar").classList.toggle("open");
     }
-    
-    // Global Login Sync
+
+    // Login Sync
     function checkLoginStatus() {
       const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
       const loginBtn = document.getElementById('loginBtn');
@@ -774,39 +370,26 @@
       }
     }
     document.addEventListener('DOMContentLoaded', checkLoginStatus);
-    
-    // Studio Slideshow Functionality using old version logic with mobile fix:
+
+    // Studio Slideshow
     document.addEventListener('DOMContentLoaded', function() {
       const images = [
-        "assets/images/S1.jpeg",
-        "assets/images/S2.jpeg",
-        "assets/images/S3.jpeg",
-        "assets/images/S4.jpeg",
-        "assets/images/S5.jpeg",
-        "assets/images/S6.jpeg",
-        "assets/images/S7.jpeg",
-        "assets/images/S8.jpeg",
-        "assets/images/S9.jpeg",
-        "assets/images/S10.jpeg",
-        "assets/images/S11.jpeg",
-        "assets/images/S12.jpeg",
-        "assets/images/S13.jpeg",
-        "assets/images/S14.jpeg",
-        "assets/images/S15.jpeg",
-        "assets/images/S16.jpeg",
-        "assets/images/S17.jpeg"
+        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
+        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
+        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
+        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
+        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
+        "assets/images/S16.jpeg","assets/images/S17.jpeg"
       ];
       let currentImageIndex = -1;
       const imageSlider = document.getElementById("imageSlider");
-      
+
       function showNextImage() {
         currentImageIndex = (currentImageIndex + 1) % images.length;
         const newImage = document.createElement("img");
         newImage.src = images[currentImageIndex];
         newImage.alt = "Studio Image " + (currentImageIndex + 1);
-        // Always set width to 100%
         newImage.style.width = "100%";
-        // For mobile, if window.innerWidth < 768px, let the image fill the container's height
         if (window.innerWidth < 768) {
           newImage.style.height = "100%";
           newImage.style.objectFit = "cover";
