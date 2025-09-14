@@ -366,6 +366,16 @@
         .video-grid .iframe-wrap { width: 100%; }
       }
 
+      @media (min-width: 1024px) {
+        .slideshow-section {
+          display: grid;
+          grid-template-columns: 1.2fr 1fr; /* slideshow a little wider than text */
+          gap: 2rem;
+          align-items: center;
+        }
+      }
+
+
       /* small artist line under each video title */
       .video-container .artist-subtext {
         font-size: 0.8rem;
