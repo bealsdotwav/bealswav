@@ -14,6 +14,20 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
+  <script>
+  function closeServiceRequestModal(){
+    const modal = document.getElementById('serviceRequestModal');
+    const form  = document.getElementById('serviceRequestForm');
+    const fileInput = document.getElementById('requestFiles');
+    const fileList  = document.getElementById('fileList');
+
+    modal.style.display = 'none';
+    form.reset();
+    if (fileInput) fileInput.value = '';
+    if (fileList)  fileList.textContent = '';
+  }
+</script>
+
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
@@ -193,6 +207,24 @@
       padding: .45rem .6rem;
     }
 
+    .dropzone {
+      border: 1px dashed #444;
+      background: #111;
+      color: #bbb;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: .75rem;
+      margin: 0 0 10px 0;
+    }
+    .dropzone.dragover {
+      border-color: var(--glow);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(0,224,224,.25);
+    }
+    .modal-file { display: none; }       /* hide the native input */
+    .file-list { font-size: .7rem; color: #ccc; margin-top: 6px; }
+
     /* On narrow screens, allow wrapping & maintain order */
     @media (max-width: 420px) {
       .modal-buttons { flex-wrap: wrap; }
@@ -221,6 +253,33 @@
       .modal-buttons .btn-cancel{ order:1; }
       .modal-buttons .btn-submit{ order:2; }
     }
+
+    /* Dark-mode friendly autofill */
+      .modal-content { color-scheme: dark; } /* hint to browsers */
+
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      textarea:-webkit-autofill,
+      textarea:-webkit-autofill:hover,
+      textarea:-webkit-autofill:focus,
+      select:-webkit-autofill,
+      select:-webkit-autofill:hover,
+      select:-webkit-autofill:focus {
+        -webkit-text-fill-color: #fff !important;
+        -webkit-box-shadow: 0 0 0 1000px #111 inset !important; /* match your field bg */
+        box-shadow: 0 0 0 1000px #111 inset !important;
+        caret-color: #fff;
+        transition: background-color 9999s ease-in-out 0s;
+      }
+
+      /* Firefox */
+      input:-moz-autofill,
+      textarea:-moz-autofill,
+      select:-moz-autofill {
+        box-shadow: 0 0 0 1000px #111 inset !important;
+        -moz-text-fill-color: #fff !important;
+      }
 
 
     /* MOBILE */
@@ -362,18 +421,35 @@
         <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
 
         <form id="serviceRequestForm">
-          <input  id="requestName"       class="modal-input" type="text"  placeholder="Your Name"            required>
-          <input  id="requestEmail"      class="modal-input" type="email" placeholder="Your Email"           required>
-          <input  id="requestBudget"     class="modal-input" type="text"  placeholder="Your Budget (USD)"    required>
-          <input  id="requestTurnaround" class="modal-input" type="text"  placeholder="Desired Turnaround Time" required>
-          <textarea id="requestDetails"  class="modal-textarea" rows="4"  placeholder="Additional Details"   required></textarea>
+  <!-- Hidden field so EmailJS gets the service name -->
+      <input type="hidden" id="requestServiceHidden" name="service" value="">
 
-          <div class="modal-buttons">
-            <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
-            <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
-            <button type="submit" class="btn-submit">Send Request</button>
-          </div>
-        </form>
+      <input  id="requestName"       name="name"       class="modal-input" type="text"  placeholder="Your Name" required>
+      <input  id="requestEmail"      name="email"      class="modal-input" type="email" placeholder="Your Email" required>
+      <input  id="requestBudget"     name="budget"     class="modal-input" type="text"  placeholder="Your Budget (USD)" required>
+      <input  id="requestTurnaround" name="turnaround" class="modal-input" type="text"  placeholder="Desired Turnaround Time" required>
+      <textarea id="requestDetails"  name="details"    class="modal-textarea" rows="4"  placeholder="Additional Details" required></textarea>
+
+  <!-- Attachments -->
+      <div id="dropZone" class="dropzone" onclick="document.getElementById('requestFiles').click()">
+        Drop up to 2 files here or click to upload
+      </div>
+      <input
+        id="requestFiles"
+        name="my_file"            <!-- EmailJS will attach files found in file inputs -->
+        class="modal-file"
+        type="file"
+        accept=".wav,.mp3,.aiff,.flac,.m4a,.ogg,.aac,.zip,.rar,.7z,.mp4,.mov"
+        multiple
+      />
+      <div id="fileList" class="file-list"></div>
+
+      <div class="modal-buttons">
+        <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
+        <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
+        <button type="submit" class="btn-submit">Send Request</button>
+      </div>
+    </form>
       </div>
     </div>
 
@@ -426,38 +502,74 @@
     }
 
     // Open the modal instead of redirecting
-function requestService(serviceName){
-  const title = document.getElementById('serviceModalTitle');
-  if (title) title.textContent = serviceName + ' Request';
-  document.getElementById('serviceRequestModal').style.display = 'flex';
-}
-function closeServiceRequestModal(){
-  document.getElementById('serviceRequestModal').style.display = 'none';
-  document.getElementById('serviceRequestForm').reset();
-}
+      function requestService(serviceName){
+        const title = document.getElementById('serviceModalTitle');
+        if (title) title.textContent = serviceName + ' Request';
+        document.getElementById('requestServiceHidden').value = serviceName;  // <-- set hidden value
+        document.getElementById('serviceRequestModal').style.display = 'flex';
+      }
+    
+// === Attachments config & helpers ===
+    const MAX_FILES = 2;
+    const MAX_EACH_MB = 25;
 
-// Submit via EmailJS (guarded)
-  const srForm = document.getElementById('serviceRequestForm');
-  srForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const payload = {
-      service:    document.getElementById('serviceModalTitle').textContent.replace(' Request',''),
-      name:       document.getElementById('requestName').value.trim(),
-      email:      document.getElementById('requestEmail').value.trim(),
-      budget:     document.getElementById('requestBudget').value.trim(),
-      turnaround: document.getElementById('requestTurnaround').value.trim(),
-      details:    document.getElementById('requestDetails').value.trim()
-    };
+    const srForm    = document.getElementById('serviceRequestForm');
+    const fileInput = document.getElementById('requestFiles');
+    const dropZone  = document.getElementById('dropZone');
+    const fileList  = document.getElementById('fileList');
 
-    try {
-      await emailjs.send('service_wrssjc7','template_kr5nl9p', payload);
-      alert('Thanks! Your request was sent successfully.');
-      closeServiceRequestModal();
-    } catch (err) {
-      console.error(err);
-      alert('There was an error sending your request. Please try again or use the Contact page.');
+    function updateFileList(files){
+      const arr = Array.from(files).slice(0, MAX_FILES);
+
+      // size check
+      for (const f of arr) {
+        if (f.size > MAX_EACH_MB * 1024 * 1024) {
+          alert(`"${f.name}" is over ${MAX_EACH_MB}MB. Please choose a smaller file.`);
+          return;
+        }
+      }
+
+      // put filtered files back into the <input> so EmailJS picks them up
+      const dt = new DataTransfer();
+      arr.forEach(f => dt.items.add(f));
+      if (fileInput) fileInput.files = dt.files;
+
+      fileList && (fileList.textContent = arr.length
+        ? `Attached: ${arr.map(f => f.name).join(', ')}`
+        : '');
     }
-  });
+
+    // native picker
+    fileInput?.addEventListener('change', e => updateFileList(e.target.files));
+
+    // drag & drop
+    dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone?.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer?.files?.length) updateFileList(e.dataTransfer.files);
+    });
+
+    // === Submit with EmailJS (includes attachments) ===
+    srForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (fileInput?.files?.length > MAX_FILES) {
+        alert(`Please attach at most ${MAX_FILES} files.`);
+        return;
+      }
+
+      try {
+        // send the whole form; EmailJS grabs fields + file(s)
+        await emailjs.sendForm('service_wrssjc7', 'template_kr5nl9p', srForm);
+        alert('Thanks! Your request was sent successfully.');
+        closeServiceRequestModal();
+      } catch (err) {
+        console.error(err);
+        alert('There was an error sending your request. Please try again or use the Contact page.');
+      }
+    });
 
 
     /* Slideshow (index-style) */
