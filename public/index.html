@@ -151,8 +151,8 @@
 
     .welcome-section h2 {
       font-size: 1.6rem;         /* bigger than your video titles */
-      color: #ff4d6d;            /* clean red text */
-      text-shadow: 0 0 10px rgba(5, 197, 223, 0.6); /* subtle glow */
+      color: #ffffff;            /* clean white text */
+      text-shadow: 0 0 2px rgba(71, 71, 71, 0.6); /* subtle glow */
       letter-spacing: 2px;       /* spaced out for modern feel */
       line-height: 1.4;
     }
@@ -485,11 +485,11 @@
     .studio-slideshow .slideshow-container {
       border: 2px solid #222;
       border-radius: 10px;
-      box-shadow: 0 0 10px #00cccc;
+      box-shadow: 0 0 10px #ffff44;
       transition: box-shadow 0.3s ease;
     }
     .studio-slideshow .slideshow-container:hover {
-      box-shadow: 0 0 25px #00ffff;
+      box-shadow: 0 0 25px #ffff44;
     }
 
       /* 23.5 album custom glow */
@@ -633,7 +633,7 @@
   <!-- MOBILE SIDEBAR (for nav links) -->
   <div class="sidebar" id="sidebar">
     <ul>
-      <li><a href="music-catalog.html">🎵 Music Catalog</a></li>
+      <li><a href="music.html">🎵 Music</a></li>
       <li><a href="beatstore.html">💽 Beats</a></li>
       <li><a href="studio.html">🎚️ Studio</a></li>
       <li><a href="faq.html">📖 FAQ</a></li>
@@ -650,7 +650,7 @@
       <nav class="nav-menu">
         <ul>
           <li>
-            <a href="music-catalog.html">Music Catalog</a>
+            <a href="music.html">Music</a>
             <span class="subtext">Listen to my songs</span>
           </li>
           <li>
@@ -682,33 +682,14 @@
   <!-- MAIN CONTENT: Home Page with Slideshow, CTA, Video, and Follow & Support Sections -->
   <div class="container">
     <main>
-      <!-- WELCOME HEADING -->
-      <section class="welcome-section">
-        <h2>Welcome to Beals.wav</h2>
-      </section>
+      
       <!-- 1) VIDEO SECTION (23.5 - NEW ALBUM) -->
       <section id="album-23-5" class="video-container album-23-5">
         <h2>23.5 (FULL ALBUM)</h2>
-        <iframe src="https://www.youtube.com/embed/Pn44wXsceNg?rel=0" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp" title="23.5 Full Album Playlist" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </section>
 
-      <!-- 2) STUDIO SLIDESHOW SECTION (Top) -->
-      <section class="studio-slideshow">
-        <div class="slideshow-container">
-          <!-- The image slider container -->
-          <div id="imageSlider"></div>
-        </div>
-      </section>
-
-      <!-- 3) CTA SECTION (Buy Beats / Book Studio Time) -->
-      <section class="cta-section">
-        <div class="cta-btns">
-          <a href="beatstore.html" class="cta-btn">Buy Beats Here</a>
-          <a href="studio.html" class="cta-btn">Book Studio Time</a>
-        </div>
-      </section>
-
-      <!-- 5) FOLLOW & SUPPORT SECTION (Bottom) -->
+      <!-- 2) FOLLOW & SUPPORT SECTION (Bottom) -->
       <section class="linktree">
         <h3>Follow & Support</h3>
         <div class="linktree-buttons">
@@ -719,7 +700,24 @@
         </div>
       </section>
 
-      <!-- 6) VIDEO SECTION (VIP 220) -->
+      <!-- 3) STUDIO SLIDESHOW SECTION (Top) -->
+      <section class="studio-slideshow">
+        <div class="slideshow-container">
+          <!-- The image slider container -->
+          <div id="imageSlider"></div>
+        </div>
+      </section>
+
+      <!-- 4) CTA SECTION (Buy Beats / Book Studio Time) -->
+      <section class="cta-section">
+        <div class="cta-btns">
+          <a href="beatstore.html" class="cta-btn">Buy Beats Here</a>
+          <a href="studio.html" class="cta-btn">Book Studio Time</a>
+        </div>
+      </section>
+
+
+      <!-- 5) VIDEO SECTION (VIP 220) -->
       <section id="vip-220" class="video-container vip-highlight">
       <h2>VIP (220)</h2>
       <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" allowfullscreen></iframe>
@@ -727,13 +725,13 @@
       </section>
 
 
-      <!-- 7) VIDEO SECTION (Watch No Rest Video) -->
+      <!-- 6) VIDEO SECTION (Watch No Rest Video) -->
       <section id="no-rest" class="video-container">
       <h2 style="color: var(--glow);">No Rest – Roman Noodle feat. RPFROMTHETOP & Beals</h2>
       <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" allowfullscreen></iframe>
       </section>
 
-      <!-- 8) VIDEO SECTION (Watch Lame Video) -->
+      <!-- 7) VIDEO SECTION (Watch Lame Video) -->
       <section id="lame" class="video-container">
       <h2 style="color: var(--glow);">Lame – Roman Noodle feat. Beals</h2>
       <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" allowfullscreen></iframe>
@@ -744,7 +742,7 @@
     <!-- FOOTER NAV BUTTONS -->
   <footer class="footer-nav">
     <div class="footer-buttons">
-      <a href="music-catalog.html">Music Catalog</a>
+      <a href="music.html">Music</a>
       <a href="beatstore.html">Beats</a>
       <a href="studio.html">Studio</a>
       <a href="faq.html">FAQ</a>
