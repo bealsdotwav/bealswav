@@ -164,14 +164,43 @@
       width: 100%; padding: 8px; margin-bottom: 10px; border-radius: 6px;
       border: 1px solid #444; background: #111; color: #fff; font-size: .85rem;
     }
-    .modal-buttons { display: flex; justify-content: flex-end; gap: 10px; }
-    .btn-cancel, .btn-submit, .btn-contact {
-      font-family: 'Press Start 2P', cursive; font-size: .65rem; padding: .5rem .8rem;
-      border-radius: 6px; border: 1px solid transparent; cursor: pointer;
+
+    /* Buttons row */
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;              /* pick your gap; 8px looks tight */
     }
-    .btn-cancel  { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .btn-submit  { background: var(--glow);   color: #000; border-color: var(--glow); }
-    .btn-contact { background: transparent;   color: var(--glow); border-color: var(--glow); }
+
+    /* Buttons */
+    .btn-cancel, .btn-submit, .btn-contact {
+      font-family: 'Press Start 2P', cursive;
+      font-size: .65rem;
+      padding: .5rem .8rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+    .btn-cancel { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-submit { background: var(--glow);   color: #000; border-color: var(--glow); }
+
+    /* Contact button smaller so it fits */
+    .btn-contact {
+      background: transparent;
+      color: var(--glow);
+      border: 1px solid var(--glow);
+      font-size: .6rem;
+      padding: .45rem .6rem;
+    }
+
+    /* On narrow screens, allow wrapping & maintain order */
+    @media (max-width: 420px) {
+      .modal-buttons { flex-wrap: wrap; }
+      .modal-buttons .btn-contact { order: 0; }
+      .modal-buttons .btn-cancel  { order: 1; }
+      .modal-buttons .btn-submit  { order: 2; }
+    }
+
 
     /* keep buttons on one row, right-aligned cluster with small gaps */
     .modal-buttons { display:flex; justify-content:flex-end; gap:8px; }
@@ -330,10 +359,15 @@
     <div class="modal-overlay" id="serviceRequestModal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
       <div class="modal-content">
         <h2 id="serviceModalTitle">Service Request</h2>
-        <p>
-          <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
+        <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
+
         <form id="serviceRequestForm">
-          <!-- inputs unchanged -->
+          <input  id="requestName"       class="modal-input" type="text"  placeholder="Your Name"            required>
+          <input  id="requestEmail"      class="modal-input" type="email" placeholder="Your Email"           required>
+          <input  id="requestBudget"     class="modal-input" type="text"  placeholder="Your Budget (USD)"    required>
+          <input  id="requestTurnaround" class="modal-input" type="text"  placeholder="Desired Turnaround Time" required>
+          <textarea id="requestDetails"  class="modal-textarea" rows="4"  placeholder="Additional Details"   required></textarea>
+
           <div class="modal-buttons">
             <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
             <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
