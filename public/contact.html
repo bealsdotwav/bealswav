@@ -37,10 +37,10 @@
     }
     a { color: var(--glow); text-decoration:none; }
 
-    /* LAYOUT WRAPPER (matches index) */
+    /* LAYOUT WRAPPER */
     .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
 
-    /******** HEADER (copied from index) ********/
+    /******** HEADER (matches other pages) ********/
     header {
       position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
       background: rgba(0,0,0,0.9);
@@ -55,10 +55,11 @@
     .logo {
       font-size: 1.4rem; color: var(--glow);
       text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
+      text-decoration: none; margin-right: 1rem;
     }
     .nav-menu { flex: 1; display: flex; justify-content: center; }
     .nav-menu ul { list-style: none; display: flex; gap: 1.5rem; }
-    .nav-menu li { display: flex; flex-direction: column; align-items: center; text-align: center; } /* fixes overlap */
+    .nav-menu li { display: flex; flex-direction: column; align-items: center; text-align: center; }
     .nav-menu a {
       color: var(--accent); text-decoration: none; font-size: 0.75rem;
       transition: color 0.2s ease; line-height: 1.2; text-align: center;
@@ -66,7 +67,35 @@
     .nav-menu a:hover { color: var(--glow); }
     .subtext { font-size: 0.45rem; color: #aaa; margin-top: 0.15rem; text-align: center; }
 
-    /* MOBILE SIDEBAR (matches index) */
+    /* Header buttons — scoped to header (normalize across pages) */
+    header .header-buttons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    header .login-btn {
+      background: var(--glow);
+      color: #000;
+      font-size: 0.8rem;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    header .hamburger {
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--accent);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: none;              /* hidden on desktop */
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    /* MOBILE SIDEBAR */
     .sidebar {
       position: fixed; top: 70px; left: -220px; width: 200px; height: calc(100% - 70px);
       background: #111; padding: 1.5rem 1rem; z-index: 998; transition: left 0.3s ease;
@@ -76,9 +105,9 @@
     .sidebar a { font-size: 0.9rem; color: var(--glow); text-decoration: none; }
 
     /******** MAIN ********/
-    main { padding-top: 100px; } /* create space for fixed header */
+    main { padding-top: 100px; } /* space for fixed header */
 
-    /* CONTACT CARD (kept white card but tightened to match spacing rhythm) */
+    /* CONTACT CARD */
     .contact-container {
       max-width: 680px;
       margin: 0 auto 3rem;
@@ -115,20 +144,20 @@
       transform: translateY(-2px); box-shadow: 0 0 12px var(--glow);
     }
 
-    /* FOOTER (copied from index) */
+    /* FOOTER (now blue like other pages) */
     .footer-nav { background: #0d0d0d; padding: 2rem 1rem 4rem; text-align: center; }
     .footer-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
     .footer-buttons a {
       display: inline-block; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
-      background: var(--accent); color: #000; border: 1px solid var(--accent);
+      background: var(--glow); color: #000; border: 1px solid var(--glow);
       transition: all 0.2s ease-in-out;
     }
     .footer-buttons a:hover {
-      background: var(--glow); border-color: var(--glow); color: #000;
-      transform: translateY(-2px); box-shadow: 0 0 10px var(--glow);
+      background: var(--accent); border-color: var(--accent); color: #fff;
+      transform: translateY(-2px); box-shadow: 0 0 10px var(--accent);
     }
 
-    /* TICKER (same) */
+    /* TICKER */
     .ticker {
       position: fixed; bottom: 0; width: 100%; height: 25px; background: black; overflow: hidden; z-index: 998; border-top:1px solid #222;
     }
@@ -138,26 +167,24 @@
       font-size: 0.65rem; font-weight: bold;
     }
     @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-    @keyframes colorchange { 0% { color: #00ffff; } 25% { color: #ff4d6d; } 50% { color: #a0ff00; } 75% { color: #ff00ff; } 100% { color: #00ffff; } }
+    @keyframes colorchange { 0% { color: #00ffff; } 25% { color: #ff5c7a; } 50% { color: #a0ff00; } 75% { color: #ff00ff; } 100% { color: #00ffff; } }
 
-    /* MOBILE (match contact/header behavior) */
+    /* MOBILE */
     @media (max-width: 768px) {
       .logo { font-size: 1.1rem; }
       .header-container { padding: 0 1rem; }
 
       header .header-buttons { gap: 0.5rem; }
       header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-      header .hamburger { display: inline-block; }
+      header .hamburger { display: inline-block; }  /* show ☰ on mobile */
 
       .nav-menu { display: none; }
       .sidebar { width: 200px; }
 
-      /* If this page doesn't have .contact-container, you can remove this line,
-        but it won't hurt anything if it stays. */
       .contact-container { margin: 0 1rem 3rem; padding: 1.25rem; }
     }
 
-    /* TABLET/DESKTOP polish */
+    /* DESKTOP polish */
     @media (min-width: 1024px) {
       .nav-menu a { font-size: 0.95rem; }
       .subtext { font-size: 0.6rem; }
