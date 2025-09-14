@@ -16,636 +16,197 @@
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
   <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS v4 (if needed elsewhere) -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
-    :root {
-      --glow: #00ffff;      /* Neon/Cyan */
-      --accent: #ff4d6d;    /* Pinkish-Red accent */
-      --bg-dark: #0a0a0a;
-      --text: #ffffff;
-      --soft: #999;
-    }
-    /* GLOBAL RESET */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    /* … */
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow-x: hidden;
-    }
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background: var(--bg-dark);
-      color: var(--text);
-    }
-    a {
-      color: var(--glow);
-      text-decoration: none;
-    }
-        /* ——— HEADER (from beatstore.html) ——— */
-        header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 999;
-      background: rgba(0, 0, 0, 0.9);
-      border-bottom: 1px solid #222;
-      padding: 1rem;
-    }
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0.5rem 2rem;
-    }
-    .logo {
-      font-size: 1.4rem;
-      color: var(--glow);
-      text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
-      text-decoration: none;
-    }
-    /* Desktop Navigation */
-    .nav-menu {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-    .nav-menu ul {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-    }
-    .nav-menu li {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .nav-menu a {
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.75rem;
-      transition: color 0.2s ease;
-    }
-    .nav-menu a:hover {
-      color: var(--glow);
-    }
-    .subtext {
-      font-size: 0.45rem;
-      color: #aaa;
-      margin-top: 0.15rem;
-    }
-    /* Header Buttons */
-    .header-buttons {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-    .login-btn {
-      background: var(--glow);
-      color: #000;
-      font-size: 0.8rem;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    /* Hamburger – Mobile only */
-    .hamburger {
-      font-size: 1.5rem;
-      color: var(--accent);
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: none;
+    :root{
+      --glow:#00e0e0;     /* match index */
+      --accent:#ff5c7a;   /* match index */
+      --bg-dark:#0f0f0f;
+      --text:#f5f5f5;
     }
 
-    /* SIDEBAR */
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: -220px;
-      width: 200px;
-      height: 100%;
-      background: #111;
-      padding: 2rem 1rem;
-      z-index: 998;
-      transition: left 0.3s ease;
+    /* RESET */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:100%;height:100%;overflow-x:hidden}
+    body{font-family:'Press Start 2P',cursive;background:var(--bg-dark);color:var(--text)}
+    a{color:var(--glow);text-decoration:none}
+
+    /* HEADER (unified) */
+    header{
+      position:fixed;top:0;left:0;width:100%;z-index:999;
+      background:rgba(0,0,0,.9);border-bottom:1px solid #222;padding:1rem;
     }
-    .sidebar.open {
-      left: 0;
+    .header-container{
+      display:flex;align-items:center;justify-content:space-between;
+      max-width:1400px;margin:0 auto;padding:.5rem 2rem;
     }
-    .sidebar ul {
-      list-style: none;
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .logo{
+      font-size:1.4rem;color:var(--glow);
+      text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
+      text-decoration:none;margin-right:1rem;
     }
-    .sidebar a {
-      font-size: 0.75rem;
-      color: var(--glow);
+    .nav-menu{flex:1;display:flex;justify-content:center}
+    .nav-menu ul{list-style:none;display:flex;gap:1.5rem}
+    .nav-menu li{display:flex;flex-direction:column;align-items:center;text-align:center}
+    .nav-menu a{
+      color:var(--accent);text-decoration:none;font-size:.75rem;
+      transition:color .2s ease;line-height:1.2;text-align:center;
     }
-    /* MAIN CONTAINER */
-    .container {
-      max-width: 1200px;
-      margin: 120px auto 4rem;
-      padding: 1rem;
+    .nav-menu a:hover{color:var(--glow)}
+    .subtext{font-size:.45rem;color:#aaa;margin-top:.15rem;text-align:center}
+
+    header .header-buttons{display:flex;gap:1rem;align-items:center}
+    header .login-btn{
+      background:var(--glow);color:#000;font-size:.8rem;
+      padding:.5rem 1rem;border-radius:5px;white-space:nowrap;
     }
-    /* TICKER (Bottom Banner) */
-    .ticker {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      height: 25px;
-      background: black;
-      overflow: hidden;
+    header .hamburger{
+      font-size:1.5rem;line-height:1;color:var(--accent);
+      background:transparent;border:none;cursor:pointer;display:none;
+      appearance:none;-webkit-appearance:none;
     }
-    .ticker-content {
-      white-space: nowrap;
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size: 0.65rem;
-      font-weight: bold;
+
+    /* SIDEBAR (align with other pages) */
+    .sidebar{
+      position:fixed;top:70px;left:-220px;width:200px;height:calc(100% - 70px);
+      background:#111;padding:1.5rem 1rem;z-index:998;transition:left .3s ease;
     }
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+    .sidebar.open{left:0}
+    .sidebar ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
+    .sidebar a{font-size:.9rem;color:var(--glow)}
+
+    /* MAIN WRAPPER */
+    .container{max-width:1200px;margin:120px auto 4rem;padding:1rem 1rem 7rem;} /* bottom pad for ticker */
+
+    /* TICKER */
+    .ticker{
+      position:fixed;bottom:0;width:100%;height:25px;background:#000;overflow:hidden;border-top:1px solid #222;z-index:998;
     }
-    @keyframes colorchange {
-      0% { color: #00ffff; }
-      25% { color: #ff4d6d; }
-      50% { color: #a0ff00; }
-      75% { color: #ff00ff; }
-      100% { color: #00ffff; }
+    .ticker-content{
+      white-space:nowrap;display:inline-block;padding-left:100%;
+      animation:scroll 30s linear infinite,colorchange 10s infinite alternate;
+      font-size:.65rem;font-weight:bold;
     }
-    /* SECTION STYLES (STUDIO CONTENT) */
-    .section {
-      margin-bottom: 2rem;
-      background: #111;
-      padding: 1rem;
-      border-radius: 8px;
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+    @keyframes colorchange{
+      0%{color:#00ffff}25%{color:#ff5c7a}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}
     }
-    .section h2 {
-      color: var(--glow);
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
+
+    /* SECTION STYLES */
+    .section{margin-bottom:2rem;background:#111;padding:1rem;border-radius:8px}
+    .section h2{color:var(--glow);font-size:1.1rem;margin-bottom:.5rem}
+    .section p{font-size:.8rem;margin-bottom:1rem;font-family:Arial,sans-serif;color:#fff}
+    .section button{
+      font-family:'Press Start 2P',cursive;font-size:.65rem;padding:.5rem .75rem;border:none;border-radius:4px;cursor:pointer
     }
-    .section p {
-      font-size: 0.8rem;
-      margin-bottom: 1rem;
-      font-family: Arial, sans-serif;
-      color: #fff;
-    }
-    .section button {
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.65rem;
-      padding: 0.5rem 0.75rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .book-now-btn {
-      background: var(--glow);
-      color: #000;
-    }
-    .show-services-btn {
-      background: var(--glow);
-      color: #000;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 0.65rem;
-      padding: 0.5rem 0.75rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-bottom: 1rem;
-    }
+    .book-now-btn{background:var(--glow);color:#000}
+    .show-services-btn{background:var(--glow);color:#000;margin-bottom:1rem}
+
     /* VIRTUAL SERVICES GRID */
-    .virtual-services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-    .service-card {
-      background: #111;
-      padding: 1rem;
-      border-radius: 8px;
-      border: 1px solid #333;
-      font-family: Arial, sans-serif;
-      color: #fff;
-    }
-    .service-card h3 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
-    }
-    .service-card p {
-      font-size: 0.8rem;
-      margin-bottom: 0.5rem;
-    }
-    .service-card button {
-      background: var(--glow);
-      color: #000;
-      font-size: 0.65rem;
-      padding: 0.5rem 0.75rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    /* --------------------------
-       NEW: STUDIO SLIDESHOW 
-       -------------------------- */
-    .studio-slideshow {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .studio-slideshow h2 {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--glow);
-    }
-    .slideshow-container {
-      width: 90%;
-      max-width: 720px;
-      margin: 0 auto;
-      position: relative;
-      border-radius: 10px;
-      box-shadow: 0 0 12px var(--accent);
-      overflow: hidden;
-      min-height: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #imageSlider img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 10px;
-    }
-    @media (max-width: 768px) {
-      .slideshow-container {
-        min-height: auto;
-      }
-      #imageSlider img {
-        max-height: 300px;
-        object-fit: contain;
-      }
-    }
-    /* MODAL FOR VIRTUAL SERVICE REQUEST */
-    .modal-overlay {
-      position: fixed;
-      display: none;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-content {
-      background: #222;
-      padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      color: #fff;
-      text-align: left;
-      font-family: Arial, sans-serif;
-    }
-    .modal-content h2 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-    .modal-content p {
-      font-size: 0.7rem;
-      margin-bottom: 10px;
-    }
-    .modal-input,
-    .modal-textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 0.8rem;
-    }
-    .modal-buttons {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-    .modal-buttons button {
-      padding: 8px 15px;
-      font-size: 0.8rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .btn-cancel {
-      background: var(--accent);
-      color: white;
-    }
-    .btn-submit {
-      background: var(--glow);
-      color: black;
-    }
-    /* CART MODAL & TOAST */
-    .cart-modal {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 300px;
-      background: #111;
-      border: 1px solid #444;
-      padding: 1rem;
-      display: none;
-      z-index: 1000;
-    }
-    .cart-modal h3 {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      color: var(--glow);
-    }
-    .close-cart {
-      position: absolute;
-      top: 5px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1rem;
-      color: var(--accent);
-      cursor: pointer;
-    }
-    .cart-item {
-      font-size: 0.6rem;
-      border-bottom: 1px solid #333;
-      padding: 0.5rem 0;
-    }
-    .cart-item button {
-      float: right;
-      background: none;
-      color: var(--accent);
-      border: none;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
-    .promo-input {
-      width: 100%;
-      background: #222;
-      color: white;
-      padding: 0.4rem;
-      font-size: 0.6rem;
-      margin: 0.5rem 0;
-      border: 1px solid #444;
-      border-radius: 4px;
-    }
-    .cart-total {
-      font-weight: bold;
-      margin-top: 0.5rem;
-      font-size: 0.6rem;
-    }
-    .checkout-btn {
-      width: 100%;
-      margin-top: 0.5rem;
-      background: var(--glow);
-      color: black;
-      font-weight: bold;
-      font-size: 0.6rem;
-      padding: 0.5rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .toast {
-      position: fixed;
-      top: 10px;
-      right: 20px;
-      background: #0f0f0f;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-size: 0.7rem;
-      border: 1px solid var(--accent);
-      z-index: 1100;
-      display: none;
-    }
-    /* MOBILE MEDIA QUERY */
-    @media (max-width: 768px) {
-      header {
-        padding: 0.5rem 1rem;
-      }
-      .header-container {
-        padding: 0 1rem;
-      }
-      .logo {
-        font-size: 1.1rem;
-      }
-      .header-right .cart-button,
-      .header-right .login-btn {
-        font-size: 0.65rem;
-        padding: 0.4rem 0.6rem;
-      }
-      .hamburger {
-        font-size: 1.2rem;
-        margin-right: 0.5rem;
-      }
-      .cart-modal {
-        width: 90%;
-        right: 5%;
-      }
-    }
-    /* --------------------------
-       BOGO CUSTOM MODAL STYLES
-       -------------------------- */
-    .bogo-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      display: none; /* Hidden by default */
-      justify-content: center;
-      align-items: center;
-      z-index: 2000; /* Above cart modal */
-    }
-    .bogo-modal-content {
-      background: #222;
-      color: #fff;
-      padding: 1.5rem;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-      font-family: 'Press Start 2P', cursive;
-      text-align: center;
-    }
-    .bogo-modal-content h2 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-      color: var(--glow);
-    }
-    .bogo-modal-content p {
-      font-size: 0.65rem;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-    }
-    .bogo-actions {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-    .bogo-btn {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-    }
-    .bogo-btn-alt {
-      background: var(--glow);
-      color: #000;
-    }
-    @media (max-width: 768px) {
-  /* hide the desktop menu */
-  .nav-menu {
-    display: none !important;
-  }
+    .virtual-services{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+    .service-card{background:#111;padding:1rem;border-radius:8px;border:1px solid #333;font-family:Arial,sans-serif;color:#fff}
+    .service-card h3{font-size:1rem;margin-bottom:.5rem;color:var(--accent)}
+    .service-card p{font-size:.8rem;margin-bottom:.5rem}
+    .service-card button{background:var(--glow);color:#000;font-size:.65rem;padding:.5rem .75rem;border:none;border-radius:4px;cursor:pointer}
 
-  /* show the hamburger */
-  .hamburger {
-    display: inline-block !important;
-  }
+    /* SLIDESHOW */
+    .studio-slideshow{text-align:center;margin-bottom:3rem}
+    .studio-slideshow h2{margin-bottom:1rem;font-size:1rem;color:var(--glow)}
+    .slideshow-container{
+      width:90%;max-width:720px;margin:0 auto;position:relative;border-radius:10px;
+      box-shadow:0 0 12px var(--accent);overflow:hidden;min-height:500px;display:flex;align-items:center;justify-content:center;
+    }
+    #imageSlider img{width:100%;height:auto;object-fit:contain;border-radius:10px}
 
-  /* tighten up the header padding */
-  .header-container {
-    padding: 0 1rem !important;
-  }
+    /* MODAL */
+    .modal-overlay{
+      position:fixed;display:none;top:0;left:0;width:100%;height:100%;
+      background:rgba(0,0,0,.7);justify-content:center;align-items:center;z-index:1000;
+    }
+    .modal-content{
+      background:#222;padding:20px;border-radius:10px;width:90%;max-width:400px;color:#fff;text-align:left;font-family:Arial,sans-serif;
+    }
+    .modal-content h2{font-size:1rem;margin-bottom:10px}
+    .modal-content p{font-size:.7rem;margin-bottom:10px}
+    .modal-input,.modal-textarea{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ccc;border-radius:4px;font-size:.8rem}
+    .modal-buttons{display:flex;justify-content:flex-end;gap:10px}
+    .modal-buttons button{padding:8px 15px;font-size:.8rem;border:none;border-radius:5px;cursor:pointer}
+    .btn-cancel{background:var(--accent);color:#fff}
+    .btn-submit{background:var(--glow);color:#000}
 
-  /* shrink the logo & push it left */
-  .logo {
-    font-size: 1.1rem !important;
-    margin-right: auto;
-  }
-
-  /* collapse the login button */
-  .header-buttons {
-    gap: 0.5rem !important;
-  }
-  .login-btn {
-    font-size: 0.65rem !important;
-    padding: 0.3rem 0.6rem !important;
-  }
-}
-/* FOOTER NAVIGATION BUTTONS */
-    .footer-nav {
-      text-align: center;
-      margin: 3rem auto 6rem;
+    /* CART & TOAST (unchanged) */
+    .cart-modal{
+      position:fixed;top:70px;right:20px;width:300px;background:#111;border:1px solid #444;padding:1rem;display:none;z-index:1000;
+    }
+    .cart-modal h3{font-size:.65rem;margin-bottom:1rem;color:var(--glow)}
+    .close-cart{position:absolute;top:5px;right:10px;background:none;border:none;font-size:1rem;color:var(--accent);cursor:pointer}
+    .cart-item{font-size:.6rem;border-bottom:1px solid #333;padding:.5rem 0}
+    .cart-item button{float:right;background:none;color:var(--accent);border:none;font-size:.7rem;cursor:pointer}
+    .promo-input{width:100%;background:#222;color:#fff;padding:.4rem;font-size:.6rem;margin:.5rem 0;border:1px solid #444;border-radius:4px}
+    .cart-total{font-weight:bold;margin-top:.5rem;font-size:.6rem}
+    .checkout-btn{width:100%;margin-top:.5rem;background:var(--glow);color:#000;font-weight:bold;font-size:.6rem;padding:.5rem;border:none;border-radius:4px;cursor:pointer}
+    .toast{
+      position:fixed;top:10px;right:20px;background:#0f0f0f;color:#fff;padding:10px 15px;border-radius:5px;font-size:.7rem;border:1px solid var(--accent);z-index:1100;display:none;
     }
 
-    .footer-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+    /* FOOTER NAV BUTTONS (unified) */
+    .footer-nav{text-align:center;margin:3rem auto 6rem}
+    .footer-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
+    .footer-buttons a{
+      display:inline-block;padding:.7rem 1.2rem;border-radius:8px;font-size:.75rem;color:#000;background:var(--glow);
+      text-decoration:none;transition:background .2s ease,transform .2s ease,box-shadow .2s ease;box-shadow:0 0 6px var(--glow);border:1px solid var(--glow);
+    }
+    .footer-buttons a:hover{background:var(--accent);color:#fff;transform:scale(1.05);box-shadow:0 0 12px var(--accent);border-color:var(--accent)}
+    @media (max-width:600px){
+      .footer-buttons{flex-direction:column;gap:.75rem}
+      .footer-buttons a{width:90%;max-width:300px;margin:0 auto}
     }
 
-    .footer-buttons a {
-      display: inline-block;
-      padding: 0.7rem 1.2rem;
-      border-radius: 8px;
-      font-size: 0.75rem;
-      color: #000;
-      background: var(--glow);
-      text-decoration: none;
-      text-shadow: none;
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 0 6px var(--glow);
+    /* MOBILE */
+    @media (max-width:768px){
+      .logo{font-size:1.1rem}
+      .header-container{padding:0 1rem}
+      header .header-buttons{gap:.5rem}
+      header .login-btn{font-size:.65rem;padding:.3rem .6rem}
+      header .hamburger{display:inline-block}        /* show ☰ on mobile */
+      .nav-menu{display:none}                        /* hide desktop nav */
+      .sidebar{width:200px}
+
+      .slideshow-container{min-height:auto}
+      #imageSlider img{max-height:300px;object-fit:contain}
     }
 
-    .footer-buttons a:hover {
-      background: var(--accent);
-      color: #fff;
-      transform: scale(1.05);
-      box-shadow: 0 0 12px var(--accent);
+    /* DESKTOP polish */
+    @media (min-width:1024px){
+      .nav-menu a{font-size:.95rem}
+      .subtext{font-size:.6rem}
     }
-
-    /* Mobile friendly: stack buttons */
-    @media (max-width: 600px) {
-      .footer-buttons {
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-      .footer-buttons a {
-        width: 90%;
-        max-width: 300px;
-        margin: 0 auto;
-      }
-    }
-
   </style>
 </head>
 <body>
-    <!-- HEADER (from beatstore.html) -->
-    <header id="mainHeader">
-      <div class="header-container">
-        <!-- Logo -->
-        <a href="index.html" class="logo">BEALS.WAV</a>
-  
-        <!-- Desktop Navigation -->
-        <nav class="nav-menu">
-          <ul>
-            <li>
-              <a href="music.html">Music</a>
-              <span class="subtext">Listen to my songs</span>
-            </li>
-            <li>
-              <a href="beatstore.html">Beats</a>
-              <span class="subtext">Buy instrumentals</span>
-            </li>
-            <li>
-              <a href="studio.html">Studio</a>
-              <span class="subtext">Book studio time</span>
-            </li>
-            <li>
-              <a href="faq.html">FAQ</a>
-              <span class="subtext">Questions answered</span>
-            </li>
-            <li>
-              <a href="contact.html">Contact</a>
-              <span class="subtext">Reach out directly</span>
-            </li>
-          </ul>
-        </nav>
-  
-        <!-- Login + Hamburger -->
-        <div class="header-buttons">
-          <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-          <button class="hamburger" onclick="toggleSidebar()">☰</button>
-        </div>
+  <!-- HEADER -->
+  <header id="mainHeader">
+    <div class="header-container">
+      <a href="index.html" class="logo">BEALS.WAV</a>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="music.html">Music</a><span class="subtext">Listen to my songs</span></li>
+          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy instrumentals</span></li>
+          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
+          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
+          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
+        </ul>
+      </nav>
+      <div class="header-buttons">
+        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
       </div>
-    </header>
-  
+    </div>
+  </header>
 
-  <!-- SIDEBAR (UNCHANGED) -->
+  <!-- SIDEBAR -->
   <div class="sidebar" id="sidebar">
     <ul>
       <li><a href="music.html">🎵 Music</a></li>
@@ -656,14 +217,11 @@
     </ul>
   </div>
 
-  <!-- BOGO CUSTOM MODAL (UNCHANGED) -->
+  <!-- BOGO MODAL (unchanged) -->
   <div class="bogo-overlay" id="bogoOverlay">
     <div class="bogo-modal-content">
       <h2>BOGO Promo</h2>
-      <p>
-        You have an odd number of eligible beats.<br/>
-        Add another beat for free or continue anyway.
-      </p>
+      <p>You have an odd number of eligible beats.<br/>Add another beat for free or continue anyway.</p>
       <div class="bogo-actions">
         <button class="bogo-btn" id="bogoAddBeatBtn">Add Another</button>
         <button class="bogo-btn bogo-btn-alt" id="bogoProceedBtn">Proceed</button>
@@ -671,31 +229,29 @@
     </div>
   </div>
 
-  <!-- MAIN CONTAINER -->
+  <!-- MAIN -->
   <div class="container">
-    <!-- In-Person Studio Sessions (UPDATED) -->
     <section class="section" id="inPersonSection">
       <h2 style="font-size:1.2rem;">In-Person Studio Sessions</h2>
-      <p style="font-size:1rem; margin-bottom:1rem;">
+      <p style="font-size:1rem;margin-bottom:1rem;">
         Secure your session in our West Jordan, UT studio – no upfront payment required. Our team ensures a flawless recording experience.
       </p>
       <button class="book-now-btn" onclick="toggleInPersonDetails()">Book Now</button>
-      <!-- Collapsible Details (hidden by default) using Arial for clarity -->
-      <div id="inPersonDetails" style="display:none; margin-top:1rem; background:#222; padding:1rem; border-radius:8px; font-family: Arial, sans-serif;">
-        <h3 style="font-size:1.1rem; color:var(--glow); margin-bottom:0.75rem;">Session Pricing &amp; Rules</h3>
-        <ul style="list-style-type: disc; margin-left:1.5rem; font-size:0.9rem; line-height:1.5; margin-bottom:1rem;">
-          <li><strong>$30/hour</strong> (2‑hour, $60 minimum)</li>
+      <div id="inPersonDetails" style="display:none;margin-top:1rem;background:#222;padding:1rem;border-radius:8px;font-family:Arial,sans-serif;">
+        <h3 style="font-size:1.1rem;color:var(--glow);margin-bottom:.75rem;">Session Pricing &amp; Rules</h3>
+        <ul style="list-style:disc;margin-left:1.5rem;font-size:.9rem;line-height:1.5;margin-bottom:1rem;">
+          <li><strong>$30/hour</strong> (2-hour, $60 minimum)</li>
           <li>Every 2 hours booked grants an extra 30 minutes free</li>
           <li>Mixing costs an additional <strong>$20</strong> per song</li>
           <li>Max 2 people per session</li>
           <li>Our audio engineer will guide your session</li>
           <li>No smoking indoors – please respect the space and gear</li>
         </ul>
-        <p style="font-size:0.9rem; margin-bottom:1rem; line-height:1.5;">
-          The full studio address is shared only after booking confirmation. Our studio team will contact you within 24 hours after booking.  we require payment of 50% upfront and 50% upon final delivery.
-          Questions? <a href="contact.html" style="color:var(--glow); text-decoration:underline;">Contact Us</a>
+        <p style="font-size:.9rem;margin-bottom:1rem;line-height:1.5;">
+          The full studio address is shared only after booking confirmation. Our studio team will contact you within 24 hours after booking. we require payment of 50% upfront and 50% upon final delivery.
+          Questions? <a href="contact.html" style="color:var(--glow);text-decoration:underline;">Contact Us</a>
         </p>
-        <label style="display:inline-block; font-size:0.9rem; cursor:pointer;">
+        <label style="display:inline-block;font-size:.9rem;cursor:pointer;">
           <input type="checkbox" id="agreeCheckbox" onclick="toggleBookingButton()"> Click here to agree + continue booking
         </label>
         <div style="margin-top:1rem;">
@@ -704,7 +260,6 @@
       </div>
     </section>
 
-    <!-- Virtual Studio Services (UNCHANGED except consistent font size) -->
     <section class="section">
       <h2 style="font-size:1.2rem;">Virtual Studio Services</h2>
       <p style="font-size:1rem;">
@@ -712,33 +267,28 @@
         Please review the service details below and submit a request with your specifications.
       </p>
       <button class="show-services-btn" onclick="toggleServices()">Book Now</button>
-      <div class="hidden-services" id="hidden-services" style="display:none;">
+      <div id="hidden-services" style="display:none;">
         <div class="virtual-services">
-          <!-- Service Card: Mixing a Song -->
           <div class="service-card">
             <h3>Mixing a Song</h3>
             <p>Bring your track to life with professional mixing. <br><strong>Price: $49.99+</strong></p>
             <button onclick="openServiceRequestModal('Mixing a Song')">Request Service</button>
           </div>
-          <!-- Service Card: Mixing + Mastering -->
           <div class="service-card">
             <h3>Mixing + Mastering</h3>
             <p>Get a completely polished sound. <br><strong>Price: $69.99+</strong></p>
             <button onclick="openServiceRequestModal('Mixing + Mastering')">Request Service</button>
           </div>
-          <!-- Service Card: Video Editing/Recording -->
           <div class="service-card">
             <h3>Video Editing/Recording</h3>
             <p>Create professional music videos. <br><strong>Price: $89.99+</strong></p>
             <button onclick="openServiceRequestModal('Video Editing/Recording')">Request Service</button>
           </div>
-          <!-- Service Card: Custom Beat Creation -->
           <div class="service-card">
             <h3>Custom Beat Creation</h3>
             <p>Unique beats tailored to your style. <br><strong>Price: $99.99+</strong></p>
             <button onclick="openServiceRequestModal('Custom Beat Creation')">Request Service</button>
           </div>
-          <!-- Service Card: Artist Coaching & Development -->
           <div class="service-card">
             <h3>Artist Coaching & Development</h3>
             <p>Expert guidance on career growth, songwriting, etc. <br><strong>Price: Negotiable</strong></p>
@@ -748,7 +298,6 @@
       </div>
     </section>
 
-    <!-- Studio Slideshow (UNCHANGED) -->
     <section class="studio-slideshow">
       <h2 style="font-size:1rem;">Peek Inside the Studio</h2>
       <div class="slideshow-container">
@@ -757,26 +306,7 @@
     </section>
   </div>
 
-  <!-- Modal for Virtual Service Request (UNCHANGED, with added debug logging and session saving call) -->
-  <div class="modal-overlay" id="serviceRequestModal">
-    <div class="modal-content">
-      <button class="close-modal" onclick="closeServiceRequestModal()">✖</button>
-      <h2 id="serviceModalTitle">Service Request</h2>
-      <form id="serviceRequestForm">
-        <input type="text" id="requestName" class="modal-input" placeholder="Your Name" required>
-        <input type="email" id="requestEmail" class="modal-input" placeholder="Your Email" required>
-        <input type="text" id="requestBudget" class="modal-input" placeholder="Your Budget (USD)" required>
-        <input type="text" id="requestTurnaround" class="modal-input" placeholder="Desired Turnaround Time" required>
-        <textarea id="requestDetails" class="modal-textarea" rows="4" placeholder="Additional Details" required></textarea>
-        <div class="modal-buttons">
-          <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
-          <button type="submit" class="btn-submit">Submit Request</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-    <!-- FOOTER NAV BUTTONS -->
+  <!-- FOOTER NAV BUTTONS -->
   <section class="footer-nav">
     <div class="footer-buttons">
       <a href="music.html">Music</a>
@@ -787,17 +317,15 @@
     </div>
   </section>
 
-  <!-- TICKER FOOTER (UNCHANGED) -->
+  <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+      Beals {Musician} + {Rapper} + {Beat Maker} — Beals.wav {Recording Studio} — {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} — Based in West Jordan, Utah — © 2025 Beals.wav. All rights reserved. — New release out now! —
     </div>
   </div>
 
-  <!-- TOAST Notification (UNCHANGED) -->
+  <!-- CART/TOAST -->
   <div class="toast" id="toast">Added to cart</div>
-
-  <!-- CART MODAL (UNCHANGED) -->
   <div class="cart-modal" id="cartModal">
     <button class="close-cart" onclick="toggleCart()">✖</button>
     <h3>Your Cart</h3>
@@ -807,249 +335,131 @@
     <button class="checkout-btn" onclick="checkout()">Checkout</button>
   </div>
 
-  <!-- JAVASCRIPT FOR IN-PERSON COLLAPSIBLE -->
   <script>
-    function toggleInPersonDetails() {
-      const details = document.getElementById("inPersonDetails");
-      details.style.display = (details.style.display === "none" || details.style.display === "") ? "block" : "none";
-    }
-    function toggleBookingButton() {
-      const isChecked = document.getElementById("agreeCheckbox").checked;
-      document.getElementById("inPersonBookBtn").style.display = isChecked ? "inline-block" : "none";
-    }
-    function proceedToCalendly() {
-      window.open('https://calendly.com/beals-wav/30min', '_blank');
-    }
-  </script>
+    /* Header helpers */
+    function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
 
-  <!-- EMAILJS INITIALIZATION & EXISTING SCRIPTS -->
-  <script>
-    // Initialize EmailJS with your public key
-    window.addEventListener("load", function() {
-      if (window.emailjs && emailjs.init) {
+    // Login sync
+    function checkLoginStatus(){
+      const btn=document.getElementById('loginBtn');
+      if(!btn) return;
+      const inL=localStorage.getItem('loggedIn')==='true';
+      btn.textContent=inL?'Account':'Login';
+      btn.href=inL?'account.html':'login.html';
+    }
+    document.addEventListener('DOMContentLoaded',checkLoginStatus);
+
+    /* In-person collapsible */
+    function toggleInPersonDetails(){
+      const el=document.getElementById('inPersonDetails');
+      el.style.display=(el.style.display==='none'||!el.style.display)?'block':'none';
+    }
+    function toggleBookingButton(){
+      const on=document.getElementById('agreeCheckbox').checked;
+      document.getElementById('inPersonBookBtn').style.display=on?'inline-block':'none';
+    }
+    function proceedToCalendly(){ window.open('https://calendly.com/beals-wav/30min','_blank'); }
+
+    /* Virtual services toggle */
+    function toggleServices(){
+      const hs=document.getElementById('hidden-services');
+      hs.style.display=(hs.style.display==='block')?'none':'block';
+    }
+
+    /* EmailJS init */
+    window.addEventListener("load", function(){
+      if(window.emailjs && emailjs.init){
         emailjs.init("OLr0UvCY_0eYzwwFV");
-        console.log("EmailJS initialized with key: OLr0UvCY_0eYzwwFV");
-      } else {
-        console.error("EmailJS library not loaded or emailjs.init not found.");
       }
     });
 
-    // SIDEBAR toggle
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
+    /* Service request modal */
+    function openServiceRequestModal(serviceName){
+      document.getElementById("serviceModalTitle").textContent=serviceName+" Request";
+      document.getElementById("serviceRequestModal").style.display="flex";
     }
-
-    // Virtual Services toggle
-    function toggleServices() {
-      const hiddenServices = document.getElementById("hidden-services");
-      hiddenServices.style.display = (hiddenServices.style.display === "block") ? "none" : "block";
-    }
-
-    // Modal for Virtual Service Request functions
-    function openServiceRequestModal(serviceName) {
-      document.getElementById("serviceModalTitle").textContent = serviceName + " Request";
-      document.getElementById("serviceRequestModal").style.display = "flex";
-    }
-    function closeServiceRequestModal() {
-      document.getElementById("serviceRequestModal").style.display = "none";
+    function closeServiceRequestModal(){
+      document.getElementById("serviceRequestModal").style.display="none";
       document.getElementById("serviceRequestForm").reset();
     }
-
-    // Virtual Service Request form submission, with debug logging and session save
-    document.getElementById("serviceRequestForm").addEventListener("submit", function(e) {
+    document.getElementById("serviceRequestForm").addEventListener("submit",function(e){
       e.preventDefault();
-      const name = document.getElementById("requestName").value.trim();
-      const email = document.getElementById("requestEmail").value.trim();
-      const budget = document.getElementById("requestBudget").value.trim();
-      const turnaround = document.getElementById("requestTurnaround").value.trim();
-      const details = document.getElementById("requestDetails").value.trim();
-      const serviceRequested = document.getElementById("serviceModalTitle").textContent.trim();
+      const name=document.getElementById("requestName").value.trim();
+      const email=document.getElementById("requestEmail").value.trim();
+      const budget=document.getElementById("requestBudget").value.trim();
+      const turnaround=document.getElementById("requestTurnaround").value.trim();
+      const details=document.getElementById("requestDetails").value.trim();
+      const serviceRequested=document.getElementById("serviceModalTitle").textContent.trim();
 
-      // Construct the payload for EmailJS
-      const payload = {
-        service: serviceRequested,
-        name: name,
-        email: email,
-        budget: budget,
-        turnaround: turnaround,
-        details: details
-      };
-      console.log("Sending payload to EmailJS:", payload);
-
-      emailjs.send("service_wrssjc7", "template_kr5nl9p", payload)
-        .then(function(response) {
-          console.log("SUCCESS", response);
-          // After emailJS sends the email, also save the session to the backend
-          fetch("/save-session", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: email,                      // Use the email provided in the form
-              serviceType: serviceRequested,     // e.g., "Mixing + Mastering Request"
-              // For demo purposes, we use the current time as the booking time
-              dateBooked: new Date().toISOString(),
-              details: details
-            })
+      const payload={service:serviceRequested,name,email,budget,turnaround,details};
+      emailjs.send("service_wrssjc7","template_kr5nl9p",payload)
+        .then(function(){
+          fetch("/save-session",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({email,serviceType:serviceRequested,dateBooked:new Date().toISOString(),details})
           })
-          .then(res => res.json())
-          .then(sessionResponse => {
-            console.log("Session saved:", sessionResponse);
-            alert("Your request has been received and saved! We will contact you within 24-48 hours.");
-            closeServiceRequestModal();
-          })
-          .catch(err => {
-            console.error("Session saving failed:", err);
-            alert("Email sent, but there was an error saving your session. Please contact support.");
-          });
-        }, function(error) {
-          console.error("FAILED", error);
-          alert("There was an error sending your request. Please try again later.");
-        });
+          .then(r=>r.json())
+          .then(()=>{ alert("Your request has been received and saved! We will contact you within 24-48 hours."); closeServiceRequestModal(); })
+          .catch(()=>{ alert("Email sent, but there was an error saving your session. Please contact support."); });
+        })
+        .catch(()=>{ alert("There was an error sending your request. Please try again later."); });
     });
 
-    // CART & TOAST functions
-    function toggleCart() {
-      const modal = document.getElementById("cartModal");
-      modal.style.display = (modal.style.display === "block") ? "none" : "block";
+    /* Cart & toast */
+    function toggleCart(){
+      const m=document.getElementById("cartModal");
+      m.style.display=(m.style.display==="block")?"none":"block";
       renderCart();
     }
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.innerText = message;
-      toast.style.display = "block";
-      setTimeout(() => { toast.style.display = "none"; }, 2000);
+    function showToast(msg){
+      const t=document.getElementById("toast"); t.innerText=msg; t.style.display="block";
+      setTimeout(()=>t.style.display="none",2000);
     }
-    let cart = JSON.parse(sessionStorage.getItem("beatCart")) || [];
-    function renderCart() {
-      const container = document.getElementById("cartItems");
-      if (!container) return;
-      container.innerHTML = "";
-      let total = 0;
-      cart.forEach((item, index) => {
-        total += item.price;
-        container.innerHTML += `
-          <div class="cart-item">
-            ${item.title} (${item.license}) - $${item.price.toFixed(2)}
-            <button onclick="removeFromCart(${index})">✕</button>
-          </div>`;
+    let cart=JSON.parse(sessionStorage.getItem("beatCart"))||[];
+    function renderCart(){
+      const c=document.getElementById("cartItems"); if(!c) return;
+      c.innerHTML=""; let total=0;
+      cart.forEach((i,idx)=>{ total+=i.price;
+        c.innerHTML+=`<div class="cart-item">${i.title} (${i.license}) - $${i.price.toFixed(2)} <button onclick="removeFromCart(${idx})">✕</button></div>`;
       });
-      const promo = document.getElementById("promoCode")?.value.trim().toUpperCase();
-      if (promo === "BEALS15") total *= 0.85;
-      const cartTotal = document.getElementById("cartTotal");
-      if (cartTotal) {
-        cartTotal.innerText = "Total: $" + total.toFixed(2);
-      }
+      const promo=(document.getElementById("promoCode")?.value||"").trim().toUpperCase();
+      if(promo==="BEALS15") total*=0.85;
+      const totalEl=document.getElementById("cartTotal"); if(totalEl){ totalEl.innerText="Total: $"+total.toFixed(2); }
     }
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      sessionStorage.setItem("beatCart", JSON.stringify(cart));
-      renderCart();
+    function removeFromCart(idx){
+      cart.splice(idx,1); sessionStorage.setItem("beatCart",JSON.stringify(cart)); renderCart();
     }
 
-    // BOGO CUSTOM MODAL logic
-    const bogoOverlay = document.getElementById("bogoOverlay");
-    const bogoAddBeatBtn = document.getElementById("bogoAddBeatBtn");
-    const bogoProceedBtn = document.getElementById("bogoProceedBtn");
-    let bogoProceedFlag = false;
-    bogoAddBeatBtn.onclick = () => {
-      window.location.href = "beatstore.html";
-    };
-    bogoProceedBtn.onclick = () => {
-      bogoOverlay.style.display = "none";
-      bogoProceedFlag = true;
-      finalizeCheckout();
-    };
-    function checkBogo() {
-      const eligibleCount = cart.filter(item => item.license !== "Exclusive").length;
-      if (eligibleCount % 2 !== 0 && eligibleCount > 0) {
-        bogoOverlay.style.display = "flex";
-        return false;
-      }
+    /* BOGO */
+    const bogoOverlay=document.getElementById("bogoOverlay");
+    const bogoAddBeatBtn=document.getElementById("bogoAddBeatBtn");
+    const bogoProceedBtn=document.getElementById("bogoProceedBtn");
+    bogoAddBeatBtn.onclick=()=>{ location.href="beatstore.html"; };
+    bogoProceedBtn.onclick=()=>{ bogoOverlay.style.display="none"; finalizeCheckout(); };
+    function checkBogo(){
+      const ct=cart.filter(it=>it.license!=="Exclusive").length;
+      if(ct%2!==0 && ct>0){ bogoOverlay.style.display="flex"; return false; }
       return true;
     }
-    async function checkout() {
-      if (!cart.length) {
-        showToast("Your cart is empty.");
-        return;
-      }
-      if (!checkBogo()) return;
+    async function checkout(){
+      if(!cart.length) return showToast("Your cart is empty.");
+      if(!checkBogo()) return;
       finalizeCheckout();
     }
-    async function finalizeCheckout() {
-      const email = prompt("Enter your email to proceed with checkout:");
-      if (!email || !/\S+@\S+\.\S+/.test(email)) {
-        showToast("Please enter a valid email.");
-        return;
-      }
-      try {
-        const res = await fetch("http://localhost:4242/create-checkout-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ cartItems: cart, customerEmail: email })
+    async function finalizeCheckout(){
+      const email=prompt("Enter your email to proceed with checkout:");
+      if(!email || !/\S+@\S+\.\S+/.test(email)) return showToast("Please enter a valid email.");
+      try{
+        const res=await fetch("http://localhost:4242/create-checkout-session",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({cartItems:cart,customerEmail:email})
         });
-        const data = await res.json();
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          console.error(data);
-          showToast("Error creating checkout session.");
-        }
-      } catch (err) {
-        console.error(err);
-        showToast("Checkout failed. Try again.");
-      }
+        const data=await res.json();
+        if(data.url){ location.href=data.url; } else { showToast("Error creating checkout session."); }
+      }catch{ showToast("Checkout failed. Try again."); }
     }
-
-    // Global login sync
-    function checkLoginStatus() {
-      const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-      const loginBtn = document.getElementById('loginBtn');
-      if (loginBtn) {
-        loginBtn.textContent = isLoggedIn ? 'Account' : 'Login';
-        loginBtn.href = isLoggedIn ? 'account.html' : 'login.html';
-      }
-    }
-    document.addEventListener('DOMContentLoaded', checkLoginStatus);
-
-    // STUDIO SLIDESHOW FUNCTIONALITY
-    const images = [
-      "assets/images/S1.jpeg",
-      "assets/images/S2.jpeg",
-      "assets/images/S3.jpeg",
-      "assets/images/S4.jpeg",
-      "assets/images/S5.jpeg",
-      "assets/images/S6.jpeg",
-      "assets/images/S7.jpeg",
-      "assets/images/S8.jpeg",
-      "assets/images/S9.jpeg",
-      "assets/images/S10.jpeg",
-      "assets/images/S11.jpeg",
-      "assets/images/S12.jpeg",
-      "assets/images/S13.jpeg",
-      "assets/images/S14.jpeg",
-      "assets/images/S15.jpeg",
-      "assets/images/S16.jpeg",
-      "assets/images/S17.jpeg"
-    ];
-    let currentImageIndex = -1;
-    const imageSlider = document.getElementById("imageSlider");
-    function showNextImage() {
-      currentImageIndex = (currentImageIndex + 1) % images.length;
-      const newImage = document.createElement("img");
-      newImage.src = images[currentImageIndex];
-      newImage.alt = "Studio Image " + (currentImageIndex + 1);
-      newImage.style.width = "100%";
-      newImage.style.height = "auto";
-      newImage.style.objectFit = "contain";
-      newImage.style.opacity = 0;
-      newImage.style.transition = "opacity 2s ease-in-out";
-      imageSlider.innerHTML = "";
-      imageSlider.appendChild(newImage);
-      void newImage.offsetWidth;
-      newImage.style.opacity = 1;
-    }
-    showNextImage();
-    setInterval(showNextImage, 5000);
   </script>
 </body>
 </html>
