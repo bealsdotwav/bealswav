@@ -16,7 +16,6 @@
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://player.beatstars.com">
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
@@ -25,6 +24,7 @@
       --accent:#ff5c7a;   /* match index */
       --bg-dark:#0f0f0f;
       --text:#f5f5f5;
+      --card:#101010;
     }
 
     /* RESET */
@@ -37,6 +37,7 @@
     header{
       position:fixed;top:0;left:0;width:100%;z-index:999;
       background:rgba(0,0,0,.9);border-bottom:1px solid #222;padding:1rem;
+      backdrop-filter: saturate(1.1) blur(4px);
     }
     .header-container{
       display:flex;align-items:center;justify-content:space-between;
@@ -56,11 +57,11 @@
     }
     .nav-menu a:hover{color:var(--glow)}
     .subtext{font-size:.45rem;color:#aaa;margin-top:.15rem;text-align:center}
-
     header .header-buttons{display:flex;gap:1rem;align-items:center}
     header .login-btn{
       background:var(--glow);color:#000;font-size:.8rem;
-      padding:.5rem 1rem;border-radius:5px;white-space:nowrap;
+      padding:.5rem 1rem;border-radius:5px;white-space:nowrap;border:1px solid var(--glow);
+      box-shadow:0 0 8px rgba(0,224,224,.35);
     }
     header .hamburger{
       font-size:1.5rem;line-height:1;color:var(--accent);
@@ -68,17 +69,88 @@
       appearance:none;-webkit-appearance:none;
     }
 
-    /* SIDEBAR (align with other pages) */
+    /* SIDEBAR */
     .sidebar{
       position:fixed;top:70px;left:-220px;width:200px;height:calc(100% - 70px);
       background:#111;padding:1.5rem 1rem;z-index:998;transition:left .3s ease;
+      border-right:1px solid #222;
     }
     .sidebar.open{left:0}
     .sidebar ul{list-style:none;display:flex;flex-direction:column;gap:1rem}
     .sidebar a{font-size:.9rem;color:var(--glow)}
 
-    /* MAIN WRAPPER */
-    .container{max-width:1200px;margin:120px auto 4rem;padding:1rem 1rem 7rem;} /* bottom pad for ticker */
+    /* MAIN */
+    .container{max-width:1200px;margin:120px auto 4rem;padding:1rem 1rem 7rem;}
+
+    /* SECTION CARDS – subtle modern polish */
+    .section{
+      margin-bottom:2rem;background:var(--card);
+      padding:1rem;border-radius:12px;border:1px solid #1b1b1b;
+      box-shadow:0 0 12px rgba(255,92,122,.08), inset 0 0 0 1px rgba(255,255,255,.02);
+    }
+    .section h2{color:var(--glow);font-size:1.1rem;margin-bottom:.5rem;letter-spacing:.02em}
+    .section p{font-size:.8rem;margin-bottom:1rem;font-family:Arial,sans-serif;color:#fff}
+    .section button{
+      font-family:'Press Start 2P',cursive;font-size:.65rem;padding:.55rem .9rem;border:none;border-radius:8px;cursor:pointer;
+      box-shadow:0 0 10px rgba(0,224,224,.25);transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+      border:1px solid var(--glow);
+    }
+    .section button:hover{transform:translateY(-2px);box-shadow:0 0 14px rgba(255,92,122,.35)}
+    .book-now-btn,.show-services-btn{background:var(--glow);color:#000}
+    .show-services-btn{margin-bottom:1rem}
+
+    /* VIRTUAL SERVICES GRID */
+    .virtual-services{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+    .service-card{
+      background:#0f0f0f;padding:1rem;border-radius:10px;border:1px solid #222;font-family:Arial,sans-serif;color:#fff;
+      box-shadow:0 0 10px rgba(0,0,0,.35);
+    }
+    .service-card h3{font-size:1rem;margin-bottom:.5rem;color:var(--accent)}
+    .service-card p{font-size:.8rem;margin-bottom:.75rem}
+    .service-card button{background:var(--glow);color:#000;font-size:.65rem;padding:.5rem .75rem;border:none;border-radius:6px;cursor:pointer}
+
+    /* SLIDESHOW (no heading) */
+    .slideshow-container{
+      width:90%;max-width:920px;margin:2.5rem auto 0;position:relative;border-radius:14px;
+      box-shadow:0 0 16px rgba(255,92,122,.25), 0 0 8px rgba(0,224,224,.15);
+      overflow:hidden;min-height:520px;background:#0b0b0b;border:1px solid #1b1b1b;
+      display:flex;align-items:center;justify-content:center;
+    }
+    #imageSlider{position:relative;width:100%;height:100%}
+    #imageSlider img{
+      width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 900ms ease;
+      position:absolute;left:0;top:0;
+    }
+    #imageSlider img.active{opacity:1}
+
+    .slider-arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
+      background:rgba(0,0,0,.55);border:1px solid var(--accent);color:#fff;
+      padding:.4rem .6rem;border-radius:10px;cursor:pointer;user-select:none;
+      font-size:1.25rem;line-height:1;z-index:2;
+    }
+    .slider-arrow:hover{background:rgba(0,0,0,.7)}
+    .slider-arrow.left{left:10px}
+    .slider-arrow.right{right:10px}
+
+    .slider-dots{display:flex;justify-content:center;gap:8px;margin:.6rem auto 0}
+    .slider-dots button{
+      width:8px;height:8px;border-radius:50%;border:1px solid var(--accent);background:transparent;opacity:.6;cursor:pointer;
+    }
+    .slider-dots button.active{background:var(--accent);opacity:1}
+
+    /* FOOTER NAV BUTTONS (unified) */
+    .footer-nav{text-align:center;margin:3rem auto 6rem}
+    .footer-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
+    .footer-buttons a{
+      display:inline-block;padding:.7rem 1.2rem;border-radius:8px;font-size:.75rem;color:#000;background:var(--glow);
+      text-decoration:none;transition:background .2s ease,transform .2s ease,box-shadow .2s ease;box-shadow:0 0 6px var(--glow);border:1px solid var(--glow);
+    }
+    .footer-buttons a:hover{background:var(--accent);color:#fff;transform:scale(1.05);box-shadow:0 0 12px var(--accent);border-color:var(--accent)}
+    @media (max-width:600px){
+      .footer-buttons{flex-direction:column;gap:.75rem}
+      .footer-buttons a{width:90%;max-width:300px;margin:0 auto}
+    }
 
     /* TICKER */
     .ticker{
@@ -94,88 +166,18 @@
       0%{color:#00ffff}25%{color:#ff5c7a}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}
     }
 
-    /* SECTION STYLES */
-    .section{margin-bottom:2rem;background:#111;padding:1rem;border-radius:8px}
-    .section h2{color:var(--glow);font-size:1.1rem;margin-bottom:.5rem}
-    .section p{font-size:.8rem;margin-bottom:1rem;font-family:Arial,sans-serif;color:#fff}
-    .section button{
-      font-family:'Press Start 2P',cursive;font-size:.65rem;padding:.5rem .75rem;border:none;border-radius:4px;cursor:pointer
-    }
-    .book-now-btn{background:var(--glow);color:#000}
-    .show-services-btn{background:var(--glow);color:#000;margin-bottom:1rem}
-
-    /* VIRTUAL SERVICES GRID */
-    .virtual-services{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
-    .service-card{background:#111;padding:1rem;border-radius:8px;border:1px solid #333;font-family:Arial,sans-serif;color:#fff}
-    .service-card h3{font-size:1rem;margin-bottom:.5rem;color:var(--accent)}
-    .service-card p{font-size:.8rem;margin-bottom:.5rem}
-    .service-card button{background:var(--glow);color:#000;font-size:.65rem;padding:.5rem .75rem;border:none;border-radius:4px;cursor:pointer}
-
-    /* SLIDESHOW */
-    .studio-slideshow{text-align:center;margin-bottom:3rem}
-    .studio-slideshow h2{margin-bottom:1rem;font-size:1rem;color:var(--glow)}
-    .slideshow-container{
-      width:90%;max-width:720px;margin:0 auto;position:relative;border-radius:10px;
-      box-shadow:0 0 12px var(--accent);overflow:hidden;min-height:500px;display:flex;align-items:center;justify-content:center;
-    }
-    #imageSlider img{width:100%;height:auto;object-fit:contain;border-radius:10px}
-
-    /* MODAL */
-    .modal-overlay{
-      position:fixed;display:none;top:0;left:0;width:100%;height:100%;
-      background:rgba(0,0,0,.7);justify-content:center;align-items:center;z-index:1000;
-    }
-    .modal-content{
-      background:#222;padding:20px;border-radius:10px;width:90%;max-width:400px;color:#fff;text-align:left;font-family:Arial,sans-serif;
-    }
-    .modal-content h2{font-size:1rem;margin-bottom:10px}
-    .modal-content p{font-size:.7rem;margin-bottom:10px}
-    .modal-input,.modal-textarea{width:100%;padding:8px;margin-bottom:10px;border:1px solid #ccc;border-radius:4px;font-size:.8rem}
-    .modal-buttons{display:flex;justify-content:flex-end;gap:10px}
-    .modal-buttons button{padding:8px 15px;font-size:.8rem;border:none;border-radius:5px;cursor:pointer}
-    .btn-cancel{background:var(--accent);color:#fff}
-    .btn-submit{background:var(--glow);color:#000}
-
-    /* CART & TOAST (unchanged) */
-    .cart-modal{
-      position:fixed;top:70px;right:20px;width:300px;background:#111;border:1px solid #444;padding:1rem;display:none;z-index:1000;
-    }
-    .cart-modal h3{font-size:.65rem;margin-bottom:1rem;color:var(--glow)}
-    .close-cart{position:absolute;top:5px;right:10px;background:none;border:none;font-size:1rem;color:var(--accent);cursor:pointer}
-    .cart-item{font-size:.6rem;border-bottom:1px solid #333;padding:.5rem 0}
-    .cart-item button{float:right;background:none;color:var(--accent);border:none;font-size:.7rem;cursor:pointer}
-    .promo-input{width:100%;background:#222;color:#fff;padding:.4rem;font-size:.6rem;margin:.5rem 0;border:1px solid #444;border-radius:4px}
-    .cart-total{font-weight:bold;margin-top:.5rem;font-size:.6rem}
-    .checkout-btn{width:100%;margin-top:.5rem;background:var(--glow);color:#000;font-weight:bold;font-size:.6rem;padding:.5rem;border:none;border-radius:4px;cursor:pointer}
-    .toast{
-      position:fixed;top:10px;right:20px;background:#0f0f0f;color:#fff;padding:10px 15px;border-radius:5px;font-size:.7rem;border:1px solid var(--accent);z-index:1100;display:none;
-    }
-
-    /* FOOTER NAV BUTTONS (unified) */
-    .footer-nav{text-align:center;margin:3rem auto 6rem}
-    .footer-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem}
-    .footer-buttons a{
-      display:inline-block;padding:.7rem 1.2rem;border-radius:8px;font-size:.75rem;color:#000;background:var(--glow);
-      text-decoration:none;transition:background .2s ease,transform .2s ease,box-shadow .2s ease;box-shadow:0 0 6px var(--glow);border:1px solid var(--glow);
-    }
-    .footer-buttons a:hover{background:var(--accent);color:#fff;transform:scale(1.05);box-shadow:0 0 12px var(--accent);border-color:var(--accent)}
-    @media (max-width:600px){
-      .footer-buttons{flex-direction:column;gap:.75rem}
-      .footer-buttons a{width:90%;max-width:300px;margin:0 auto}
-    }
-
     /* MOBILE */
     @media (max-width:768px){
       .logo{font-size:1.1rem}
       .header-container{padding:0 1rem}
       header .header-buttons{gap:.5rem}
       header .login-btn{font-size:.65rem;padding:.3rem .6rem}
-      header .hamburger{display:inline-block}        /* show ☰ on mobile */
-      .nav-menu{display:none}                        /* hide desktop nav */
+      header .hamburger{display:inline-block}
+      .nav-menu{display:none}
       .sidebar{width:200px}
 
-      .slideshow-container{min-height:auto}
-      #imageSlider img{max-height:300px;object-fit:contain}
+      .slideshow-container{min-height:360px}
+      #imageSlider img{object-fit:cover}
     }
 
     /* DESKTOP polish */
@@ -217,28 +219,17 @@
     </ul>
   </div>
 
-  <!-- BOGO MODAL (unchanged) -->
-  <div class="bogo-overlay" id="bogoOverlay">
-    <div class="bogo-modal-content">
-      <h2>BOGO Promo</h2>
-      <p>You have an odd number of eligible beats.<br/>Add another beat for free or continue anyway.</p>
-      <div class="bogo-actions">
-        <button class="bogo-btn" id="bogoAddBeatBtn">Add Another</button>
-        <button class="bogo-btn bogo-btn-alt" id="bogoProceedBtn">Proceed</button>
-      </div>
-    </div>
-  </div>
-
   <!-- MAIN -->
   <div class="container">
+    <!-- In-Person -->
     <section class="section" id="inPersonSection">
       <h2 style="font-size:1.2rem;">In-Person Studio Sessions</h2>
       <p style="font-size:1rem;margin-bottom:1rem;">
         Secure your session in our West Jordan, UT studio – no upfront payment required. Our team ensures a flawless recording experience.
       </p>
       <button class="book-now-btn" onclick="toggleInPersonDetails()">Book Now</button>
-      <div id="inPersonDetails" style="display:none;margin-top:1rem;background:#222;padding:1rem;border-radius:8px;font-family:Arial,sans-serif;">
-        <h3 style="font-size:1.1rem;color:var(--glow);margin-bottom:.75rem;">Session Pricing &amp; Rules</h3>
+      <div id="inPersonDetails" style="display:none;margin-top:1rem;background:#0d0d0d;padding:1rem;border-radius:10px;border:1px solid #1f1f1f;font-family:Arial,sans-serif;">
+        <h3 style="font-size:1.05rem;color:var(--glow);margin-bottom:.75rem;">Session Pricing &amp; Rules</h3>
         <ul style="list-style:disc;margin-left:1.5rem;font-size:.9rem;line-height:1.5;margin-bottom:1rem;">
           <li><strong>$30/hour</strong> (2-hour, $60 minimum)</li>
           <li>Every 2 hours booked grants an extra 30 minutes free</li>
@@ -248,7 +239,7 @@
           <li>No smoking indoors – please respect the space and gear</li>
         </ul>
         <p style="font-size:.9rem;margin-bottom:1rem;line-height:1.5;">
-          The full studio address is shared only after booking confirmation. Our studio team will contact you within 24 hours after booking. we require payment of 50% upfront and 50% upon final delivery.
+          The full studio address is shared only after booking confirmation. Our team will contact you within 24 hours. We require payment of 50% upfront and 50% upon final delivery.
           Questions? <a href="contact.html" style="color:var(--glow);text-decoration:underline;">Contact Us</a>
         </p>
         <label style="display:inline-block;font-size:.9rem;cursor:pointer;">
@@ -260,11 +251,11 @@
       </div>
     </section>
 
+    <!-- Virtual -->
     <section class="section">
       <h2 style="font-size:1.2rem;">Virtual Studio Services</h2>
       <p style="font-size:1rem;">
-        Request our professional services for virtual projects such as mixing, mastering, video editing, custom beat creation, and more.
-        Please review the service details below and submit a request with your specifications.
+        Request professional services for mixing, mastering, video editing, custom beats, and more. Review details below and submit your request.
       </p>
       <button class="show-services-btn" onclick="toggleServices()">Book Now</button>
       <div id="hidden-services" style="display:none;">
@@ -291,18 +282,21 @@
           </div>
           <div class="service-card">
             <h3>Artist Coaching & Development</h3>
-            <p>Expert guidance on career growth, songwriting, etc. <br><strong>Price: Negotiable</strong></p>
+            <p>Guidance on career growth, songwriting, and more. <br><strong>Price: Negotiable</strong></p>
             <button onclick="openServiceRequestModal('Artist Coaching & Development')">Request Service</button>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="studio-slideshow">
-      <h2 style="font-size:1rem;">Peek Inside the Studio</h2>
-      <div class="slideshow-container">
+    <!-- Slideshow (no heading text) -->
+    <section>
+      <div class="slideshow-container" aria-label="Studio gallery">
+        <button class="slider-arrow left" id="prevSlide" aria-label="Previous image">‹</button>
         <div id="imageSlider"></div>
+        <button class="slider-arrow right" id="nextSlide" aria-label="Next image">›</button>
       </div>
+      <div class="slider-dots" id="sliderDots" aria-hidden="true"></div>
     </section>
   </div>
 
@@ -324,22 +318,28 @@
     </div>
   </div>
 
-  <!-- CART/TOAST -->
-  <div class="toast" id="toast">Added to cart</div>
-  <div class="cart-modal" id="cartModal">
-    <button class="close-cart" onclick="toggleCart()">✖</button>
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <input class="promo-input" id="promoCode" placeholder="Promo code (e.g. BEALS15)" />
-    <div class="cart-total" id="cartTotal">Total: $0.00</div>
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  <!-- SERVICE REQUEST MODAL -->
+  <div class="modal-overlay" id="serviceRequestModal">
+    <div class="modal-content">
+      <button class="btn-cancel" onclick="closeServiceRequestModal()" style="float:right">✖</button>
+      <h2 id="serviceModalTitle">Service Request</h2>
+      <form id="serviceRequestForm">
+        <input type="text" id="requestName" class="modal-input" placeholder="Your Name" required>
+        <input type="email" id="requestEmail" class="modal-input" placeholder="Your Email" required>
+        <input type="text" id="requestBudget" class="modal-input" placeholder="Your Budget (USD)" required>
+        <input type="text" id="requestTurnaround" class="modal-input" placeholder="Desired Turnaround Time" required>
+        <textarea id="requestDetails" class="modal-textarea" rows="4" placeholder="Additional Details" required></textarea>
+        <div class="modal-buttons">
+          <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
+          <button type="submit" class="btn-submit">Submit Request</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>
     /* Header helpers */
     function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
-
-    // Login sync
     function checkLoginStatus(){
       const btn=document.getElementById('loginBtn');
       if(!btn) return;
@@ -392,74 +392,77 @@
       const serviceRequested=document.getElementById("serviceModalTitle").textContent.trim();
 
       const payload={service:serviceRequested,name,email,budget,turnaround,details};
+      if(!(window.emailjs && emailjs.send)){ alert("Form ready, but email service is unavailable."); return; }
       emailjs.send("service_wrssjc7","template_kr5nl9p",payload)
         .then(function(){
-          fetch("/save-session",{
-            method:"POST",
-            headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({email,serviceType:serviceRequested,dateBooked:new Date().toISOString(),details})
-          })
-          .then(r=>r.json())
-          .then(()=>{ alert("Your request has been received and saved! We will contact you within 24-48 hours."); closeServiceRequestModal(); })
-          .catch(()=>{ alert("Email sent, but there was an error saving your session. Please contact support."); });
+          alert("Your request has been sent! We’ll get back to you within 24–48 hours.");
+          closeServiceRequestModal();
         })
         .catch(()=>{ alert("There was an error sending your request. Please try again later."); });
     });
 
-    /* Cart & toast */
-    function toggleCart(){
-      const m=document.getElementById("cartModal");
-      m.style.display=(m.style.display==="block")?"none":"block";
-      renderCart();
-    }
-    function showToast(msg){
-      const t=document.getElementById("toast"); t.innerText=msg; t.style.display="block";
-      setTimeout(()=>t.style.display="none",2000);
-    }
-    let cart=JSON.parse(sessionStorage.getItem("beatCart"))||[];
-    function renderCart(){
-      const c=document.getElementById("cartItems"); if(!c) return;
-      c.innerHTML=""; let total=0;
-      cart.forEach((i,idx)=>{ total+=i.price;
-        c.innerHTML+=`<div class="cart-item">${i.title} (${i.license}) - $${i.price.toFixed(2)} <button onclick="removeFromCart(${idx})">✕</button></div>`;
+    /* SLIDESHOW */
+    const images=[
+      "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg","assets/images/S4.jpeg",
+      "assets/images/S5.jpeg","assets/images/S6.jpeg","assets/images/S7.jpeg","assets/images/S8.jpeg",
+      "assets/images/S9.jpeg","assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
+      "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg","assets/images/S16.jpeg",
+      "assets/images/S17.jpeg"
+    ];
+    const slider=document.getElementById('imageSlider');
+    const dots=document.getElementById('sliderDots');
+    const prevBtn=document.getElementById('prevSlide');
+    const nextBtn=document.getElementById('nextSlide');
+
+    let idx=0, timer=null;
+
+    function buildDots(){
+      dots.innerHTML='';
+      images.forEach((_,i)=>{
+        const b=document.createElement('button');
+        b.addEventListener('click',()=>show(i,true));
+        dots.appendChild(b);
       });
-      const promo=(document.getElementById("promoCode")?.value||"").trim().toUpperCase();
-      if(promo==="BEALS15") total*=0.85;
-      const totalEl=document.getElementById("cartTotal"); if(totalEl){ totalEl.innerText="Total: $"+total.toFixed(2); }
-    }
-    function removeFromCart(idx){
-      cart.splice(idx,1); sessionStorage.setItem("beatCart",JSON.stringify(cart)); renderCart();
     }
 
-    /* BOGO */
-    const bogoOverlay=document.getElementById("bogoOverlay");
-    const bogoAddBeatBtn=document.getElementById("bogoAddBeatBtn");
-    const bogoProceedBtn=document.getElementById("bogoProceedBtn");
-    bogoAddBeatBtn.onclick=()=>{ location.href="beatstore.html"; };
-    bogoProceedBtn.onclick=()=>{ bogoOverlay.style.display="none"; finalizeCheckout(); };
-    function checkBogo(){
-      const ct=cart.filter(it=>it.license!=="Exclusive").length;
-      if(ct%2!==0 && ct>0){ bogoOverlay.style.display="flex"; return false; }
-      return true;
+    function show(newIndex, user=false){
+      idx=( (newIndex%images.length)+images.length )%images.length;
+      const img=document.createElement('img');
+      img.alt="Studio Image "+(idx+1);
+      img.loading="lazy";
+      img.src=images[idx];
+      // fade swap
+      const prev=slider.querySelector('img.active');
+      img.className=''; slider.appendChild(img);
+      requestAnimationFrame(()=>{
+        img.classList.add('active');
+        if(prev){ prev.classList.remove('active'); setTimeout(()=>prev.remove(),900); }
+      });
+      // dots
+      [...dots.children].forEach((d,i)=>d.classList.toggle('active', i===idx));
+      // autoplay reset on manual action
+      if(user){ restartTimer(); }
     }
-    async function checkout(){
-      if(!cart.length) return showToast("Your cart is empty.");
-      if(!checkBogo()) return;
-      finalizeCheckout();
-    }
-    async function finalizeCheckout(){
-      const email=prompt("Enter your email to proceed with checkout:");
-      if(!email || !/\S+@\S+\.\S+/.test(email)) return showToast("Please enter a valid email.");
-      try{
-        const res=await fetch("http://localhost:4242/create-checkout-session",{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify({cartItems:cart,customerEmail:email})
-        });
-        const data=await res.json();
-        if(data.url){ location.href=data.url; } else { showToast("Error creating checkout session."); }
-      }catch{ showToast("Checkout failed. Try again."); }
-    }
+
+    function next(){ show(idx+1); }
+    function prev(){ show(idx-1); }
+
+    function startTimer(){ timer=setInterval(next,5000); }
+    function stopTimer(){ if(timer){ clearInterval(timer); timer=null; } }
+    function restartTimer(){ stopTimer(); startTimer(); }
+
+    // Pause on hover (desktop)
+    const sc=document.querySelector('.slideshow-container');
+    sc.addEventListener('mouseenter',stopTimer);
+    sc.addEventListener('mouseleave',startTimer);
+
+    prevBtn.addEventListener('click',()=>{ prev(); restartTimer(); });
+    nextBtn.addEventListener('click',()=>{ next(); restartTimer(); });
+
+    // init
+    buildDots();
+    show(0);
+    startTimer();
   </script>
 </body>
 </html>
