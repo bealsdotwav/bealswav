@@ -257,17 +257,18 @@
 
     /* Desktop: keep 4 columns; center only the last two items */
     @media (min-width: 1024px) {
-      .linktree-buttons {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-      /* 5th button (Instagram) sits in column 2 */
-      .linktree-buttons a:nth-child(5) { grid-column: 2; }
-      /* 6th button (TikTok) sits in column 3 */
-      .linktree-buttons a:nth-child(6) { grid-column: 3; }
+    .linktree-buttons {
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns */
+      max-width: 1100px;
+      margin: 0 auto;
     }
 
+    /* remove any previous nth-child column overrides for items 5 & 6 */
+    .linktree-buttons a:nth-child(5),
+    .linktree-buttons a:nth-child(6) {
+      grid-column: auto;
+    }
+  }
     .linktree-buttons a {
       display: inline-block;
       padding: 0.85rem 1rem;
@@ -344,45 +345,39 @@
 
     /* Desktop enhancements */
       @media (min-width: 1024px) {
-        .nav-menu a { font-size: 0.95rem; }
-        .subtext { font-size: 0.6rem; }
-
-        /* Slideshow + text side-by-side */
-        .slideshow-section {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr;
-          gap: 2rem;
-          align-items: center;
-        }
-
-        /* Videos in 2-column grid */
         .video-grid {
           display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); /* key change */
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
           gap: 2rem;
           width: 92%;
           max-width: 1100px;
           margin: 0 auto;
           align-items: start;
-          overflow-x: hidden; /* safety */
+          overflow-x: hidden;
         }
 
         .video-grid > .video-container {
           width: 100%;
-          max-width: none;   /* ignore the 1000px cap when in the grid */
+          max-width: none;
           margin: 0 0 2rem;
-          min-width: 0;      /* let the card shrink to the column */
-        }
-
-        .video-grid .video-container h2 {
           min-width: 0;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;  /* keep single line on desktop */
         }
 
         .video-grid .iframe-wrap { width: 100%; }
       }
+
+      /* small artist line under each video title */
+      .video-container .artist-subtext {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        color: #bbbbbb;
+        margin: -0.35rem 0 0.75rem;
+        text-align: center;
+      }
+
+      /* tighten margin under h2 */
+      .video-container h2 { margin-bottom: 0.5rem; }
+      </style>
 
   <!-- MOBILE SIDEBAR -->
   <div class="sidebar" id="sidebar">
@@ -468,20 +463,23 @@
       <section class="video-grid">
         <div id="vip-220" class="video-container vip-highlight">
           <h2>VIP (220)</h2>
+            <p class="artist-subtext">Beals</p>
           <div class="iframe-wrap">
             <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" title="VIP (220)" allowfullscreen></iframe>
           </div>
         </div>
 
         <div id="no-rest" class="video-container">
-          <h2>No Rest – Roman Noodle feat. RPFROMTHETOP &amp; Beals</h2>
+          <h2>No Rest</h2>
+           <p class="artist-subtext">Roman Noodle feat. RPFROMTHETOP, Beals</p>
           <div class="iframe-wrap">
             <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" title="No Rest" allowfullscreen></iframe>
           </div>
         </div>
 
         <div id="lame" class="video-container">
-          <h2>Lame – Roman Noodle feat. Beals</h2>
+          <h2>Lame</h2>
+           <p class="artist-subtext">Roman Noodle feat. Beals</p>
           <div class="iframe-wrap">
             <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" title="Lame" allowfullscreen></iframe>
           </div>
@@ -489,11 +487,12 @@
 
         <!-- ROMAN NOODLE - BREAKING POINT (ALBUM) (playlist) -->
         <div id="breaking-point" class="video-container">
-          <h2>Breaking Point (Album) — Roman Noodle</h2>
+          <h2>Breaking Point (Album)</h2>
+           <p class="artist-subtext">Roman Noodle</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj"
-              title="Roman Noodle — Breaking Point (Album)"
+              title="Breaking Point (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
@@ -501,11 +500,12 @@
 
         <!-- WHAT IS GOING ON -->
         <div id="what-is-going-on" class="video-container">
-          <h2>WHAT IS GOING ON (feat. Beals)</h2>
+          <h2>WHAT IS GOING ON</h2>
+           <p class="artist-subtext">RPFROMTHETOP feat. Beals</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/6ogFoT19EO8"
-              title="WHAT IS GOING ON (feat. Beals)"
+              title="WHAT IS GOING ON"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
@@ -513,11 +513,12 @@
 
         <!-- RPFROMTHETOP - FOREVER (ALBUM) -->
         <div id="forever-album" class="video-container">
-          <h2>Forever (Album) — RPFROMTHETOP</h2>
+          <h2>Forever (Album)</h2>
+           <p class="artist-subtext">RPFROMTHETOP</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_les7EfKzmDdmr5wEhIOM3NZKXiCL7AExM"
-              title="RPFROMTHETOP — Forever (Album)"
+              title="Forever (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
@@ -525,11 +526,12 @@
 
         <!-- Cartier & Beals - Back to Back -->
         <div id="back-to-back" class="video-container">
-          <h2>Back to Back — Cartier & Beals</h2>
+          <h2>Back to Back</h2>
+           <p class="artist-subtext">Cartier & Beals</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/z56pau7bf-Y"
-              title="Back to Back — Cartier & Beals"
+              title="Back to Back"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen></iframe>
           </div>
@@ -538,6 +540,7 @@
         <!-- MERAKI album playlist -->
         <div id="meraki" class="video-container">
           <h2>MERAKI (Album)</h2>
+          <p class="artist-subtext">Beals</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE"
