@@ -16,21 +16,19 @@
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
   <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS v4 (if needed elsewhere) -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     :root {
-      --glow: #00ffff;
-      --accent: #ff4d6d;
-      --bg-dark: #0a0a0a;
-      --text: #ffffff;
-      --soft: #999;
+      /* match index/music */
+      --glow:    #00e0e0;
+      --accent:  #ff5c7a;
+      --bg-dark: #0f0f0f;
+      --text:    #f5f5f5;
+      --soft:    #999;
     }
+
     /* RESET */
     * { box-sizing: border-box; margin:0; padding:0; }
     html, body {
@@ -42,11 +40,12 @@
     }
     a { color: var(--glow); text-decoration:none; }
 
-    /* HEADER (from beatstore.html) */
+    /* HEADER (match index/music) */
     header {
       position:fixed; top:0; left:0; width:100%;
       background:rgba(0,0,0,0.9); border-bottom:1px solid #222;
       z-index:999; padding:1rem;
+      transition: transform .4s ease, opacity .4s ease;
     }
     .header-container {
       display:flex; align-items:center; justify-content:space-between;
@@ -55,37 +54,28 @@
     .logo {
       font-size:1.4rem; color:var(--glow);
       text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
+      text-decoration:none; margin-right:1rem;
     }
-    .nav-menu {
-      flex:1; display:flex; justify-content:center;
-    }
-    .nav-menu ul {
-      list-style:none; display:flex; gap:1.5rem;
-    }
-    .nav-menu li {
-      display:flex; flex-direction:column; align-items:center;
-      text-align:center;
-    }
+    .nav-menu { flex:1; display:flex; justify-content:center; }
+    .nav-menu ul { list-style:none; display:flex; gap:1.5rem; }
+    .nav-menu li { display:flex; flex-direction:column; align-items:center; text-align:center; }
     .nav-menu a {
-      color:var(--accent); font-size:0.75rem;
+      color:var(--accent); font-size:0.75rem; line-height:1.2; text-align:center;
       transition:color 0.2s;
     }
     .nav-menu a:hover { color:var(--glow); }
-    .nav-menu .subtext {
-      font-size:0.45rem; color:#aaa; margin-top:0.15rem;
+    .subtext { font-size:0.45rem; color:#aaa; margin-top:0.15rem; text-align:center; }
+
+    /* Header buttons */
+    header .header-buttons { display:flex; gap:1rem; align-items:center; }
+    header .login-btn {
+      background:var(--glow); color:#000; font-size:0.8rem;
+      padding:0.5rem 1rem; border-radius:5px; text-decoration:none; cursor:pointer; white-space:nowrap;
     }
-    .header-buttons {
-      display:flex; gap:1rem; align-items:center;
-    }
-    .login-btn {
-      background:var(--glow); color:#000;
-      padding:0.5rem 1rem; border-radius:5px;
-      font-size:0.8rem;
-    }
-    .hamburger {
-      display:none; font-size:1.5rem;
-      color:var(--accent); background:none; border:none;
-      cursor:pointer;
+    header .hamburger {
+      font-size:1.5rem; line-height:1; color:var(--accent);
+      background:transparent; border:none; cursor:pointer; display:none;
+      appearance:none; -webkit-appearance:none;
     }
 
     /* SIDEBAR */
@@ -106,34 +96,24 @@
     }
 
     /* FAQ LIST */
-    .faq-container {
-      max-width:800px; margin:0 auto 2rem; padding:0 1rem;
-    }
+    .faq-container { max-width:800px; margin:0 auto 2rem; padding:0 1rem; }
     .faq-item {
       border:1px solid var(--accent); border-radius:5px;
-      margin-bottom:1rem; overflow:hidden;
-      transition:box-shadow 0.2s;
+      margin-bottom:1rem; overflow:hidden; transition:box-shadow 0.2s;
     }
     .faq-item:hover { box-shadow:0 0 8px rgba(255,77,109,0.5); }
     .faq-question {
       background:var(--accent); padding:0.8rem 1rem;
-      font-size:0.9rem; cursor:pointer; position:relative;
+      font-size:0.9rem; cursor:pointer; position:relative; color:#000;
     }
     .faq-question::after {
       content:'▼'; position:absolute; right:1rem; top:50%;
       transform:translateY(-50%); transition:transform 0.2s;
     }
-    .faq-item.open .faq-question::after {
-      transform:translateY(-50%) rotate(-180deg);
-    }
+    .faq-item.open .faq-question::after { transform:translateY(-50%) rotate(-180deg); }
     .faq-answer {
-      display:none;
-      background: var(--bg-dark);
-      padding:0.6rem 1rem;           /* tighter vertical padding */
-      color:#ddd;
-      font-size:0.9rem;
-      line-height:1.4;              /* a bit more compact */
-      letter-spacing:0.02rem;
+      display:none; background: var(--bg-dark);
+      padding:0.6rem 1rem; color:#ddd; font-size:0.9rem; line-height:1.4; letter-spacing:0.02rem;
       border-top:1px solid var(--accent);
     }
     .faq-item.open .faq-answer { display:block; }
@@ -145,91 +125,61 @@
     }
     .faq-contact a { color:var(--glow); text-decoration:underline; }
 
+    /* FOOTER NAV BUTTONS (match music.html) */
+    .footer-nav { text-align:center; margin: 3rem auto 6rem; }
+    .footer-buttons {
+      display:flex; flex-wrap:wrap; justify-content:center; gap:1rem;
+    }
+    .footer-buttons a {
+      display:inline-block; padding:0.7rem 1.2rem; border-radius:8px;
+      font-size:0.75rem; color:#000; background:var(--glow);
+      text-decoration:none; text-shadow:none;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow:0 0 6px var(--glow);
+    }
+    .footer-buttons a:hover {
+      background:var(--accent); color:#fff; transform:scale(1.05); box-shadow:0 0 12px var(--accent);
+    }
+    @media (max-width:600px){
+      .footer-buttons { flex-direction:column; gap:0.75rem; }
+      .footer-buttons a { width:90%; max-width:300px; margin:0 auto; }
+    }
+
     /* TICKER */
     .ticker {
       position:fixed; bottom:0; width:100%; height:25px;
-      background:black; overflow:hidden; border-top:1px solid #222;
+      background:black; overflow:hidden; border-top:1px solid #222; z-index:998;
     }
     .ticker-content {
-      display:inline-block; white-space:nowrap;
-      padding-left:100%;
+      display:inline-block; white-space:nowrap; padding-left:100%;
       animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
       font-size:0.65rem; font-weight:bold;
     }
     @keyframes scroll { 0% {transform:translateX(0);} 100% {transform:translateX(-100%);} }
     @keyframes colorchange {
-      0% {color:#00ffff;} 25% {color:#ff4d6d;}
-      50% {color:#a0ff00;} 75% {color:#ff00ff;} 100% {color:#00ffff;}
+      0% {color:#00ffff;} 25% {color:#ff4d6d;} 50% {color:#a0ff00;} 75% {color:#ff00ff;} 100% {color:#00ffff;}
     }
 
-    /* CART & TOAST */
-    .toast {
-      position:fixed; top:10px; right:20px;
-      background:#0f0f0f; color:#fff;
-      padding:10px 15px; border-radius:5px;
-      font-size:0.7rem; border:1px solid var(--accent);
-      z-index:1100; display:none;
-    }
-    .cart-modal {
-      position:fixed; top:70px; right:20px;
-      width:300px; background:#111; border:1px solid #444;
-      padding:1rem; display:none; z-index:1000;
-    }
-    .cart-modal h3 { color:var(--glow); font-size:0.65rem; margin-bottom:1rem; }
-    .close-cart {
-      position:absolute; top:5px; right:10px;
-      background:none; border:none; color:var(--accent);
-      font-size:1rem; cursor:pointer;
-    }
-    .cart-item { font-size:0.6rem; padding:0.5rem 0; border-bottom:1px solid #333; }
-    .cart-item button {
-      float:right; background:none; border:none;
-      color:var(--accent); font-size:0.7rem; cursor:pointer;
-    }
-    .promo-input {
-      width:100%; background:#222; color:#fff;
-      padding:0.4rem; font-size:0.6rem; margin:0.5rem 0;
-      border:1px solid #444; border-radius:4px;
-    }
-    .cart-total {
-      font-weight:bold; margin-top:0.5rem; font-size:0.6rem;
-    }
-    .checkout-btn {
-      width:100%; margin-top:0.5rem;
-      background:var(--glow); color:#000;
-      padding:0.5rem; border:none; border-radius:4px;
-      cursor:pointer; font-size:0.6rem; font-weight:bold;
-    }
-
-    /* BOGO MODAL */
-    .bogo-overlay {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.7); display:none;
-      justify-content:center; align-items:center; z-index:2000;
-    }
-    .bogo-modal-content {
-      background:#222; color:#fff; padding:1.5rem;
-      border-radius:8px; text-align:center; max-width:400px;
-    }
-    .bogo-actions {
-      display:flex; justify-content:center; gap:1rem; margin-top:1rem;
-    }
-    .bogo-btn, .bogo-btn-alt {
-      padding:0.4rem 0.8rem; border:none; border-radius:4px;
-      font-size:0.65rem; cursor:pointer; font-family:'Press Start 2P',cursive;
-    }
-    .bogo-btn { background:var(--accent); color:#fff }
-    .bogo-btn-alt { background:var(--glow); color:#000 }
-
-    /* MOBILE */
+    /* MOBILE header tweaks */
     @media (max-width:768px) {
       .nav-menu { display:none }
-      .hamburger { display:inline-block }
+      header .hamburger { display:inline-block }
       .header-container { padding:0 1rem }
       .logo { font-size:1.1rem }
-      .login-btn { font-size:0.65rem; padding:0.3rem 0.6rem }
+      header .header-buttons { gap:0.5rem; }
+      header .login-btn { font-size:0.65rem; padding:0.3rem 0.6rem; }
       .faq-question { font-size:0.8rem; padding:0.6rem 0.8rem }
       .faq-answer { font-size:0.85rem; line-height:1.4; padding:0.5rem 0.8rem; }
+    }
+
+    /* Desktop-up nav sizing (match index/music) */
+    @media (min-width:1024px){
+      .nav-menu a { font-size:0.95rem; }
+      .subtext { font-size:0.6rem; }
+    }
+    @media (min-width:769px){
+      .nav-menu { display:flex }
+      header .hamburger { display:none }
     }
   </style>
 </head>
@@ -260,7 +210,7 @@
       </nav>
       <div class="header-buttons">
         <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation">☰</button>
       </div>
     </div>
   </header>
@@ -289,7 +239,7 @@
     <div class="faq-item">
       <div class="faq-question" onclick="toggleFaq(this)">How many people can I bring with me?</div>
       <div class="faq-answer">
-        Max 2 guests (plus our engineer). <a href="contact.html">Contact us</a> for special exceptions.
+        Max 2 guests (plus our engineer). <a href="contact.html">Contact us</a> for special exceptions.
       </div>
     </div>
     <div class="faq-item">
@@ -313,7 +263,7 @@
     <div class="faq-item">
       <div class="faq-question" onclick="toggleFaq(this)">What is Beals.wav?</div>
       <div class="faq-answer">
-        A full service studio in West Jordan, UT offering recording, mixing, mastering, virtual sessions & beat sales.
+        A full service studio in West Jordan, UT offering recording, mixing, mastering, virtual sessions & beat sales.
       </div>
     </div>
     <div class="faq-item">
@@ -329,94 +279,28 @@
     Can’t find what you’re looking for? <a href="contact.html">Contact us here</a>.
   </div>
 
+  <!-- FOOTER NAV BUTTONS -->
+  <section class="footer-nav">
+    <div class="footer-buttons">
+      <a href="music.html">Music</a>
+      <a href="beatstore.html">Beats</a>
+      <a href="studio.html">Studio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </section>
+
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
     </div>
-  </div>
-
-  <!-- TOAST & CART MODAL -->
-  <div class="toast" id="toast">Added to cart</div>
-  <div class="cart-modal" id="cartModal">
-    <button class="close-cart" onclick="toggleCart()">✖</button>
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <input class="promo-input" id="promoCode" placeholder="Promo code (e.g. BEALS15)" />
-    <div class="cart-total" id="cartTotal">Total: $0.00</div>
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
   </div>
 
   <script>
     /* Sidebar toggle */
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
-    }
-    /* Cart & toast */
-    let cart = JSON.parse(sessionStorage.getItem('beatCart')) || [];
-    function toggleCart() {
-      const m = document.getElementById('cartModal');
-      m.style.display = m.style.display === 'block' ? 'none' : 'block';
-      renderCart();
-    }
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerText = msg; t.style.display = 'block';
-      setTimeout(()=> t.style.display='none',2000);
-    }
-    function renderCart(){
-      const c = document.getElementById('cartItems');
-      c.innerHTML='';
-      let total=0;
-      cart.forEach((i,idx)=>{
-        total+=i.price;
-        c.innerHTML+=`
-          <div class="cart-item">
-            ${i.title} (${i.license}) – $${i.price.toFixed(2)}
-            <button onclick="removeFromCart(${idx})">✕</button>
-          </div>`;
-      });
-      if((document.getElementById('promoCode').value||'').trim().toUpperCase()==='BEALS15'){
-        total*=0.85;
-      }
-      document.getElementById('cartTotal').innerText='Total: $'+total.toFixed(2);
-    }
-    function removeFromCart(idx){
-      cart.splice(idx,1);
-      sessionStorage.setItem('beatCart',JSON.stringify(cart));
-      renderCart();
-    }
-
-    /* BOGO modal logic */
-    const bogoOv=document.getElementById('bogoOverlay'),
-          bogoAdd=document.getElementById('bogoAddBeatBtn'),
-          bogoGo=document.getElementById('bogoProceedBtn');
-    bogoAdd.onclick=()=>location.href='beatstore.html';
-    bogoGo.onclick=()=>{bogoOv.style.display='none';checkout();};
-    function checkBogo(){
-      const ct=cart.filter(it=>it.license!=='Exclusive').length;
-      if(ct&&ct%2){bogoOv.style.display='flex'; return false;}
-      return true;
-    }
-    async function checkout(){
-      if(!cart.length) return showToast('Your cart is empty.');
-      if(!checkBogo()) return;
-      const email=prompt('Enter your email:');
-      if(!email||!/\S+@\S+\.\S+/.test(email)){
-        return showToast('Please enter a valid email.');
-      }
-      try{
-        let res=await fetch('http://localhost:4242/create-checkout-session',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({cartItems:cart,customerEmail:email})
-        });
-        let {url}=await res.json();
-        if(url) location.href=url;
-        else showToast('Error creating checkout session.');
-      }catch{
-        showToast('Checkout failed. Try again.');
-      }
     }
 
     /* Login sync */
