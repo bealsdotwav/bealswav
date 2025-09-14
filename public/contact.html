@@ -16,12 +16,6 @@
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
-  <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS v4 (if needed elsewhere) -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
     :root {
@@ -29,8 +23,8 @@
       --accent: #ff4d6d;
       --bg-dark: #0a0a0a;
       --text: #ffffff;
-      --soft: #999;
     }
+
     /* RESET */
     * { box-sizing: border-box; margin:0; padding:0 }
     html, body {
@@ -42,7 +36,7 @@
     }
     a { color: var(--glow); text-decoration:none }
 
-    /* HEADER (from beatstore.html) */
+    /* HEADER */
     header {
       position:fixed; top:0; left:0; width:100%;
       background:rgba(0,0,0,0.9); border-bottom:1px solid #222;
@@ -56,27 +50,16 @@
       font-size:1.4rem; color:var(--glow);
       text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
     }
-    .nav-menu {
-      flex:1; display:flex; justify-content:center;
-    }
-    .nav-menu ul {
-      list-style:none; display:flex; gap:1.5rem;
-    }
-    .nav-menu li {
-      display:flex; flex-direction:column; align-items:center;
-      text-align:center;
-    }
+    .nav-menu { flex:1; display:flex; justify-content:center; }
+    .nav-menu ul { list-style:none; display:flex; gap:1.5rem; }
     .nav-menu a {
-      color:var(--accent); font-size:0.75rem;
-      transition:color 0.2s;
+      color:var(--accent); font-size:0.75rem; transition:color 0.2s;
     }
     .nav-menu a:hover { color:var(--glow) }
     .nav-menu .subtext {
       font-size:0.45rem; color:#aaa; margin-top:0.15rem;
     }
-    .header-buttons {
-      display:flex; gap:1rem; align-items:center;
-    }
+    .header-buttons { display:flex; gap:1rem; align-items:center; }
     .login-btn {
       background:var(--glow); color:#000;
       padding:0.5rem 1rem; border-radius:5px;
@@ -149,65 +132,6 @@
       75%{color:#ff00ff}100%{color:#00ffff}
     }
 
-    /* CART & TOAST */
-    .cart-modal {
-      position:fixed; top:70px; right:20px;
-      width:300px; background:#111; border:1px solid #444;
-      padding:1rem; display:none; z-index:1000;
-    }
-    .cart-modal h3 { color:var(--glow); font-size:0.65rem; margin-bottom:1rem }
-    .close-cart {
-      position:absolute; top:5px; right:10px;
-      background:none; border:none; color:var(--accent);
-      font-size:1rem; cursor:pointer;
-    }
-    .cart-item { font-size:0.6rem; padding:0.5rem 0; border-bottom:1px solid #333; }
-    .cart-item button {
-      float:right; background:none; border:none;
-      color:var(--accent); font-size:0.7rem; cursor:pointer;
-    }
-    .promo-input {
-      width:100%; background:#222; color:#fff;
-      padding:0.4rem; font-size:0.6rem; margin:0.5rem 0;
-      border:1px solid #444; border-radius:4px;
-    }
-    .cart-total { font-weight:bold; margin-top:0.5rem; font-size:0.6rem; }
-    .checkout-btn {
-      width:100%; margin-top:0.5rem;
-      background:var(--glow); color:#000;
-      padding:0.5rem; border:none; border-radius:4px;
-      cursor:pointer; font-size:0.6rem; font-weight:bold;
-    }
-    .toast {
-      position:fixed; top:10px; right:20px;
-      background:#0f0f0f; color:#fff;
-      padding:10px 15px; border-radius:5px;
-      font-size:0.7rem; border:1px solid var(--accent);
-      z-index:1100; display:none;
-    }
-
-    /* BOGO CUSTOM MODAL */
-    .bogo-overlay {
-      position:fixed; top:0; left:0; width:100%; height:100%;
-      background:rgba(0,0,0,0.7); display:none;
-      justify-content:center; align-items:center; z-index:2000;
-    }
-    .bogo-modal-content {
-      background:#222; color:#fff; padding:1.5rem;
-      border-radius:8px; text-align:center; max-width:400px;
-      font-family:'Press Start 2P', cursive;
-    }
-    .bogo-actions {
-      display:flex; justify-content:center; gap:1rem; margin-top:1rem;
-    }
-    .bogo-btn, .bogo-btn-alt {
-      padding:0.4rem 0.8rem; border:none; border-radius:4px;
-      font-size:0.65rem; cursor:pointer; font-family:'Press Start 2P', cursive;
-    }
-    .bogo-btn { background:var(--accent); color:#fff }
-    .bogo-btn-alt { background:var(--glow); color:#000 }
-
-    /* MOBILE: tightened form margins */
     @media (max-width:768px) {
       .nav-menu { display:none }
       .hamburger { display:inline-block }
@@ -215,11 +139,7 @@
       .logo { font-size:1.1rem }
       .login-btn { font-size:0.65rem; padding:0.5rem 0.8rem }
       .sidebar { width:90%; left:-90%; }
-      /* shrink form width */
-      .contact-container {
-        margin: 120px 1rem 60px;  /* left/right = 1rem */
-        padding: 1.5rem;
-      }
+      .contact-container { margin: 120px 1rem 60px; padding: 1.5rem; }
     }
   </style>
 </head>
@@ -241,26 +161,11 @@
       <a href="index.html" class="logo">BEALS.WAV</a>
       <nav class="nav-menu">
         <ul>
-          <li>
-            <a href="music.html">Music Catalog</a>
-            <span class="subtext">Listen to my songs</span>
-          </li>
-          <li>
-            <a href="beatstore.html">Beats</a>
-            <span class="subtext">Buy instrumentals</span>
-          </li>
-          <li>
-            <a href="studio.html">Studio</a>
-            <span class="subtext">Book studio time</span>
-          </li>
-          <li>
-            <a href="faq.html">FAQ</a>
-            <span class="subtext">Questions answered</span>
-          </li>
-          <li>
-            <a href="contact.html">Contact</a>
-            <span class="subtext">Reach out directly</span>
-          </li>
+          <li><a href="music.html">Music Catalog</a><span class="subtext">Listen to my songs</span></li>
+          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy instrumentals</span></li>
+          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
+          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
+          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
         </ul>
       </nav>
       <div class="header-buttons">
@@ -269,21 +174,6 @@
       </div>
     </div>
   </header>
-
-  <!-- BOGO CUSTOM MODAL -->
-  <div class="bogo-overlay" id="bogoOverlay">
-    <div class="bogo-modal-content">
-      <h2>BOGO Promo</h2>
-      <p>
-        You have an odd number of eligible beats.<br>
-        Add another beat for free or continue anyway.
-      </p>
-      <div class="bogo-actions">
-        <button class="bogo-btn" id="bogoAddBeatBtn">Add Another</button>
-        <button class="bogo-btn bogo-btn-alt" id="bogoProceedBtn">Proceed</button>
-      </div>
-    </div>
-  </div>
 
   <!-- CONTACT FORM -->
   <div class="contact-container">
@@ -297,94 +187,32 @@
       <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
-    <!-- Status message will appear here -->
     <div id="statusMsg" style="margin-top:1rem; font-size:0.9rem; text-align:center;"></div>
   </div>
+
+  <!-- FOOTER NAV BUTTONS -->
+  <footer class="footer-nav">
+    <div class="footer-buttons">
+      <a href="music.html">Music</a>
+      <a href="beatstore.html">Beats</a>
+      <a href="studio.html">Studio</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </footer>
 
   <!-- TICKER -->
   <div class="ticker">
     <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
     </div>
   </div>
 
-  <!-- CART MODAL & TOAST -->
-  <div class="cart-modal" id="cartModal">
-    <button class="close-cart" onclick="toggleCart()">✖</button>
-    <h3>Your Cart</h3>
-    <div id="cartItems"></div>
-    <input class="promo-input" id="promoCode" placeholder="Promo code (e.g. BEALS15)" />
-    <div class="cart-total" id="cartTotal">Total: $0.00</div>
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
-  </div>
-  <div class="toast" id="toast">Added to cart</div>
-
   <script>
-    // Sidebar toggle
     function toggleSidebar() {
       document.getElementById('sidebar').classList.toggle('open');
     }
-    // Cart & toast logic
-    let cart = JSON.parse(sessionStorage.getItem('beatCart')) || [];
-    function toggleCart() {
-      const m = document.getElementById('cartModal');
-      m.style.display = m.style.display==='block'?'none':'block';
-      renderCart();
-    }
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerText=msg; t.style.display='block';
-      setTimeout(()=>t.style.display='none',2000);
-    }
-    function renderCart(){
-      const c = document.getElementById('cartItems');
-      c.innerHTML=''; let total=0;
-      cart.forEach((i,idx)=>{
-        total+=i.price;
-        c.innerHTML+=`<div class="cart-item">
-          ${i.title} (${i.license}) – $${i.price.toFixed(2)}
-          <button onclick="removeFromCart(${idx})">✕</button>
-        </div>`;
-      });
-      if((document.getElementById('promoCode').value||'').trim().toUpperCase()==='BEALS15'){
-        total*=0.85;
-      }
-      document.getElementById('cartTotal').innerText='Total: $'+total.toFixed(2);
-    }
-    function removeFromCart(idx){
-      cart.splice(idx,1);
-      sessionStorage.setItem('beatCart',JSON.stringify(cart));
-      renderCart();
-    }
-    // BOGO
-    const bogoOv=document.getElementById('bogoOverlay'),
-          bogoAdd=document.getElementById('bogoAddBeatBtn'),
-          bogoGo=document.getElementById('bogoProceedBtn');
-    bogoAdd.onclick=()=>location.href='beatstore.html';
-    bogoGo.onclick=()=>{bogoOv.style.display='none';checkout();};
-    function checkBogo(){
-      const ct=cart.filter(x=>x.license!=='Exclusive').length;
-      if(ct&&ct%2){bogoOv.style.display='flex';return false;}
-      return true;
-    }
-    async function checkout(){
-      if(!cart.length) return showToast('Your cart is empty.');
-      if(!checkBogo()) return;
-      const email=prompt('Enter your email:');
-      if(!email||!/\S+@\S+\.\S+/.test(email)) return showToast('Please enter a valid email.');
-      try{
-        let res=await fetch('http://localhost:4242/create-checkout-session',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({cartItems:cart,customerEmail:email})
-        });
-        let {url}=await res.json();
-        if(url) location.href=url;
-        else showToast('Error creating checkout session.');
-      }catch{
-        showToast('Checkout failed. Try again.');
-      }
-    }
+
     // Login sync
     function checkLoginStatus(){
       const btn=document.getElementById('loginBtn');
@@ -395,7 +223,7 @@
     }
     document.addEventListener('DOMContentLoaded',checkLoginStatus);
 
-    // ←—— REAL contact‐form handler
+    // Contact form handler
     document.getElementById('contactForm').addEventListener('submit', async e => {
       e.preventDefault();
       const status = document.getElementById('statusMsg');
