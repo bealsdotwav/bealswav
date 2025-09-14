@@ -65,12 +65,6 @@
     }
     .nav-menu a:hover { color: var(--glow); }
     .subtext { font-size: 0.45rem; color: #aaa; margin-top: 0.15rem; text-align: center; }
-    .header-buttons { display: flex; gap: 1rem; align-items: center; }
-    .login-btn {
-      background: var(--glow); color: #000; font-size: 0.8rem;
-      padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; cursor: pointer;
-    }
-    .hamburger { font-size: 1.5rem; color: var(--accent); background: none; border: none; cursor: pointer; display: none; }
 
     /* MOBILE SIDEBAR (matches index) */
     .sidebar {
@@ -146,15 +140,20 @@
     @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
     @keyframes colorchange { 0% { color: #00ffff; } 25% { color: #ff4d6d; } 50% { color: #a0ff00; } 75% { color: #ff00ff; } 100% { color: #00ffff; } }
 
-    /* MOBILE (match index behavior) */
+    /* MOBILE (match contact/header behavior) */
     @media (max-width: 768px) {
       .logo { font-size: 1.1rem; }
       .header-container { padding: 0 1rem; }
-      .header-buttons { gap: 0.5rem; }
-      .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-      .hamburger { display: inline-block; }
+
+      header .header-buttons { gap: 0.5rem; }
+      header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+      header .hamburger { display: inline-block; }
+
       .nav-menu { display: none; }
       .sidebar { width: 200px; }
+
+      /* If this page doesn't have .contact-container, you can remove this line,
+        but it won't hurt anything if it stays. */
       .contact-container { margin: 0 1rem 3rem; padding: 1.25rem; }
     }
 
