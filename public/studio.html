@@ -14,20 +14,6 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <script>
-  function closeServiceRequestModal(){
-    const modal = document.getElementById('serviceRequestModal');
-    const form  = document.getElementById('serviceRequestForm');
-    const fileInput = document.getElementById('requestFiles');
-    const fileList  = document.getElementById('fileList');
-
-    modal.style.display = 'none';
-    form.reset();
-    if (fileInput) fileInput.value = '';
-    if (fileList)  fileList.textContent = '';
-  }
-</script>
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const overlay = document.getElementById('serviceRequestModal');
@@ -522,14 +508,8 @@
     if (fl) fl.textContent = '';
 
     document.getElementById('serviceRequestModal').style.display = 'flex';
-
-    // NEW: focus first field
+    document.body.style.overflow = 'hidden';       // ← keep this here
     setTimeout(() => document.getElementById('requestName')?.focus(), 0);
-  }
-
-  function requestService(serviceName){
-  /* ...existing code... */
-  document.body.style.overflow = 'hidden';  // NEW
   }
 
   function closeServiceRequestModal(){
