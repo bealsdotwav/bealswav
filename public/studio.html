@@ -28,6 +28,21 @@
   }
 </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('serviceRequestModal');
+    overlay?.addEventListener('click', (e) => {
+      if (e.target === overlay) closeServiceRequestModal();
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeServiceRequestModal();
+  });
+</script>
+
   <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
@@ -222,7 +237,15 @@
       color: #fff;
       box-shadow: 0 0 10px rgba(0,224,224,.25);
     }
-    .modal-file { display: none; }       /* hide the native input */
+    /* Visually hide input but keep it clickable via <label for> */
+    .modal-file{
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+    .dropzone{ cursor: pointer; }
     .file-list { font-size: .7rem; color: #ccc; margin-top: 6px; }
 
     /* On narrow screens, allow wrapping & maintain order */
@@ -233,26 +256,6 @@
       .modal-buttons .btn-submit  { order: 2; }
     }
 
-
-    /* keep buttons on one row, right-aligned cluster with small gaps */
-    .modal-buttons { display:flex; justify-content:flex-end; gap:8px; }
-
-    /* make the Contact button a touch smaller so it fits nicely */
-    .modal-buttons .btn-contact{
-      font-size:.6rem;
-      padding:.45rem .6rem;
-      border:1px solid var(--glow);
-      color:var(--glow);
-      background:transparent;
-    }
-
-    /* optional: on narrow screens let them wrap cleanly */
-    @media (max-width:420px){
-      .modal-buttons{ flex-wrap:wrap; }
-      .modal-buttons .btn-contact{ order:0; }
-      .modal-buttons .btn-cancel{ order:1; }
-      .modal-buttons .btn-submit{ order:2; }
-    }
 
     /* Dark-mode friendly autofill */
       .modal-content { color-scheme: dark; } /* hint to browsers */
@@ -415,13 +418,13 @@
   </div>
 
   <!-- Service Request Modal -->
-    <div class="modal-overlay" id="serviceRequestModal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
-      <div class="modal-content">
-        <h2 id="serviceModalTitle">Service Request</h2>
-        <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
+<div class="modal-overlay" id="serviceRequestModal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+  <div class="modal-content">
+    <h2 id="serviceModalTitle">Service Request</h2>
+    <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
 
-        <form id="serviceRequestForm">
-  <!-- Hidden field so EmailJS gets the service name -->
+    <form id="serviceRequestForm" enctype="multipart/form-data">
+      <!-- Hidden field so EmailJS gets the service name -->
       <input type="hidden" id="requestServiceHidden" name="service" value="">
 
       <input  id="requestName"       name="name"       class="modal-input" type="text"  placeholder="Your Name" required>
@@ -430,29 +433,33 @@
       <input  id="requestTurnaround" name="turnaround" class="modal-input" type="text"  placeholder="Desired Turnaround Time" required>
       <textarea id="requestDetails"  name="details"    class="modal-textarea" rows="4"  placeholder="Additional Details" required></textarea>
 
-  <!-- Attachments -->
-      <div id="dropZone" class="dropzone" onclick="document.getElementById('requestFiles').click()">
+      <!-- Attachments -->
+      <!-- EmailJS will attach files from any <input type="file"> named "my_file" -->
+      <label id="dropZone" for="requestFiles" class="dropzone">
         Drop up to 2 files here or click to upload
-      </div>
+      </label>
+
       <input
         id="requestFiles"
-        name="my_file"            <!-- EmailJS will attach files found in file inputs -->
+        name="my_file"
         class="modal-file"
         type="file"
         accept=".wav,.mp3,.aiff,.flac,.m4a,.ogg,.aac,.zip,.rar,.7z,.mp4,.mov"
         multiple
-      />
-      <div id="fileList" class="file-list"></div>
+      >
 
+      <div id="fileList" class="file-list" aria-live="polite"></div>
+
+      <!-- Buttons -->
       <div class="modal-buttons">
         <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
         <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
         <button type="submit" class="btn-submit">Send Request</button>
       </div>
     </form>
-      </div>
-    </div>
-
+  </div>
+</div>
+  
   <!-- FOOTER NAV BUTTONS -->
   <section class="footer-nav">
     <div class="footer-buttons">
@@ -472,77 +479,117 @@
   </div>
 
   <script>
-    /* Sidebar + login */
-    function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
-    function checkLoginStatus(){
-      const btn=document.getElementById('loginBtn');
-      if(!btn) return;
-      const inL=localStorage.getItem('loggedIn')==='true';
-      btn.textContent=inL?'Account':'Login';
-      btn.href=inL?'account.html':'login.html';
-    }
-    document.addEventListener('DOMContentLoaded',checkLoginStatus);
+  /* Sidebar + login */
+  function toggleSidebar(){ document.getElementById('sidebar').classList.toggle('open'); }
+  function checkLoginStatus(){
+    const btn=document.getElementById('loginBtn');
+    if(!btn) return;
+    const inL=localStorage.getItem('loggedIn')==='true';
+    btn.textContent=inL?'Account':'Login';
+    btn.href=inL?'account.html':'login.html';
+  }
+  document.addEventListener('DOMContentLoaded',checkLoginStatus);
 
-    /* In-person collapsible */
-    function toggleInPersonDetails(){
-      const el=document.getElementById('inPersonDetails');
-      el.style.display=(el.style.display==='none'||!el.style.display)?'block':'none';
-    }
-    function toggleBookingButton(){
-      const on=document.getElementById('agreeCheckbox').checked;
-      document.getElementById('inPersonBookBtn').style.display=on?'inline-block':'none';
-    }
-    function proceedToCalendly(){ window.open('https://calendly.com/beals-wav/30min','_blank'); }
+  /* In-person collapsible */
+  function toggleInPersonDetails(){
+    const el=document.getElementById('inPersonDetails');
+    el.style.display=(el.style.display==='none'||!el.style.display)?'block':'none';
+  }
+  function toggleBookingButton(){
+    const on=document.getElementById('agreeCheckbox').checked;
+    document.getElementById('inPersonBookBtn').style.display=on?'inline-block':'none';
+  }
+  function proceedToCalendly(){ window.open('https://calendly.com/beals-wav/30min','_blank'); }
 
-     /* ▼ Add this function here ▼ */
-    function toggleServices(){
-      const hs = document.getElementById('hidden-services');
-      if (!hs) return;
-      hs.style.display = (hs.style.display === 'block') ? 'none' : 'block';
-    }
+  /* Virtual services toggle */
+  function toggleServices(){
+    const hs = document.getElementById('hidden-services');
+    if (!hs) return;
+    hs.style.display = (hs.style.display === 'block') ? 'none' : 'block';
+  }
 
-    // Open the modal instead of redirecting
-      function requestService(serviceName){
-        const title = document.getElementById('serviceModalTitle');
-        if (title) title.textContent = serviceName + ' Request';
-        document.getElementById('requestServiceHidden').value = serviceName;  // <-- set hidden value
-        document.getElementById('serviceRequestModal').style.display = 'flex';
-      }
-    
-// === Attachments config & helpers ===
-    const MAX_FILES = 2;
-    const MAX_EACH_MB = 25;
+  /* Open modal and reset file UI */
+    function requestService(serviceName){
+    const title = document.getElementById('serviceModalTitle');
+    if (title) title.textContent = serviceName + ' Request';
+    const hidden = document.getElementById('requestServiceHidden');
+    if (hidden) hidden.value = serviceName;
 
-    const srForm    = document.getElementById('serviceRequestForm');
+    // reset file UI each time the modal opens
+    const fi = document.getElementById('requestFiles');
+    const fl = document.getElementById('fileList');
+    if (fi) fi.value = '';
+    if (fl) fl.textContent = '';
+
+    document.getElementById('serviceRequestModal').style.display = 'flex';
+
+    // NEW: focus first field
+    setTimeout(() => document.getElementById('requestName')?.focus(), 0);
+  }
+
+  function requestService(serviceName){
+  /* ...existing code... */
+  document.body.style.overflow = 'hidden';  // NEW
+  }
+
+  function closeServiceRequestModal(){
+    const modal = document.getElementById('serviceRequestModal');
+    const form  = document.getElementById('serviceRequestForm');
     const fileInput = document.getElementById('requestFiles');
-    const dropZone  = document.getElementById('dropZone');
     const fileList  = document.getElementById('fileList');
 
-    function updateFileList(files){
-      const arr = Array.from(files).slice(0, MAX_FILES);
+    modal.style.display = 'none';
+    form.reset();
+    if (fileInput) fileInput.value = '';
+    if (fileList)  fileList.textContent = '';
+    document.body.style.overflow = '';        // NEW (restore scroll)
+  }
 
-      // size check
-      for (const f of arr) {
-        if (f.size > MAX_EACH_MB * 1024 * 1024) {
-          alert(`"${f.name}" is over ${MAX_EACH_MB}MB. Please choose a smaller file.`);
-          return;
-        }
+
+  // === Attachments config & helpers ===
+  const MAX_FILES = 2;
+  const MAX_EACH_MB = 25;
+
+  const srForm    = document.getElementById('serviceRequestForm');
+  const fileInput = document.getElementById('requestFiles');
+  const dropZone  = document.getElementById('dropZone');
+  const fileList  = document.getElementById('fileList');
+
+  function updateFileList(files){
+    const arr = Array.from(files || []).slice(0, MAX_FILES);
+
+    // size check
+    for (const f of arr) {
+      if (f.size > MAX_EACH_MB * 1024 * 1024) {
+        alert(`"${f.name}" is over ${MAX_EACH_MB}MB. Please choose a smaller file.`);
+        return;
       }
+    }
 
-      // put filtered files back into the <input> so EmailJS picks them up
+    // Rebuild FileList if supported (lets us enforce the 2-file cap nicely)
+    if ('DataTransfer' in window) {
       const dt = new DataTransfer();
       arr.forEach(f => dt.items.add(f));
       if (fileInput) fileInput.files = dt.files;
-
-      fileList && (fileList.textContent = arr.length
-        ? `Attached: ${arr.map(f => f.name).join(', ')}`
-        : '');
+    } else {
+      // No DataTransfer: if this came from drag/drop, ask to click instead
+      if (files !== fileInput?.files) {
+        alert('Drag-and-drop is not supported in this browser. Click the box to choose files instead.');
+        return;
+      }
+      // If it was the native picker, fileInput already has the files.
     }
 
-    // native picker
-    fileInput?.addEventListener('change', e => updateFileList(e.target.files));
+    if (fileList) {
+      fileList.textContent = arr.length ? `Attached: ${arr.map(f => f.name).join(', ')}` : '';
+    }
+  }
 
-    // drag & drop
+  // native picker
+  fileInput?.addEventListener('change', e => updateFileList(e.target.files));
+
+  // drag & drop (only if supported)
+  if ('DataTransfer' in window) {
     dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
     dropZone?.addEventListener('drop', e => {
@@ -550,71 +597,73 @@
       dropZone.classList.remove('dragover');
       if (e.dataTransfer?.files?.length) updateFileList(e.dataTransfer.files);
     });
+  } else {
+    // keep cursor sane on old browsers
+    dropZone?.addEventListener('dragover', e => e.preventDefault());
+  }
 
-    // === Submit with EmailJS (includes attachments) ===
-    srForm?.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // === Submit with EmailJS (includes attachments) ===
+  srForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      if (fileInput?.files?.length > MAX_FILES) {
-        alert(`Please attach at most ${MAX_FILES} files.`);
-        return;
+    if (fileInput?.files?.length > MAX_FILES) {
+      alert(`Please attach at most ${MAX_FILES} files.`);
+      return;
+    }
+
+    try {
+      await emailjs.sendForm('service_wrssjc7', 'template_kr5nl9p', srForm);
+      alert('Thanks! Your request was sent successfully.');
+      closeServiceRequestModal();
+    } catch (err) {
+      console.error(err);
+      alert('There was an error sending your request. Please try again or use the Contact page.');
+    }
+  });
+
+  /* Slideshow (index-style) */
+  document.addEventListener('DOMContentLoaded', function() {
+    const images = [
+      "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
+      "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
+      "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
+      "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
+      "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
+      "assets/images/S16.jpeg","assets/images/S17.jpeg"
+    ];
+    let currentImageIndex = -1;
+    const imageSlider = document.getElementById("imageSlider");
+
+    function showNextImage() {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      const newImage = document.createElement("img");
+      newImage.src = images[currentImageIndex];
+      newImage.alt = "Studio Image " + (currentImageIndex + 1);
+
+      if (window.innerWidth < 768) {
+        newImage.style.width  = "100%";
+        newImage.style.height = "100%";
+        newImage.style.objectFit = "cover";
+      } else {
+        newImage.style.width  = "100%";
+        newImage.style.height = "auto";
+        newImage.style.objectFit = "contain";
       }
 
-      try {
-        // send the whole form; EmailJS grabs fields + file(s)
-        await emailjs.sendForm('service_wrssjc7', 'template_kr5nl9p', srForm);
-        alert('Thanks! Your request was sent successfully.');
-        closeServiceRequestModal();
-      } catch (err) {
-        console.error(err);
-        alert('There was an error sending your request. Please try again or use the Contact page.');
+      newImage.style.opacity = 0;
+      newImage.style.transition = "opacity 2s ease-in-out";
+
+      if (imageSlider) {
+        imageSlider.innerHTML = "";
+        imageSlider.appendChild(newImage);
+        void newImage.offsetWidth; /* trigger reflow for fade */
+        newImage.style.opacity = 1;
       }
-    });
+    }
 
-
-    /* Slideshow (index-style) */
-    document.addEventListener('DOMContentLoaded', function() {
-      const images = [
-        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
-        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
-        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
-        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
-        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
-        "assets/images/S16.jpeg","assets/images/S17.jpeg"
-      ];
-      let currentImageIndex = -1;
-      const imageSlider = document.getElementById("imageSlider");
-
-      function showNextImage() {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        const newImage = document.createElement("img");
-        newImage.src = images[currentImageIndex];
-        newImage.alt = "Studio Image " + (currentImageIndex + 1);
-
-        if (window.innerWidth < 768) {
-          newImage.style.width  = "100%";
-          newImage.style.height = "100%";
-          newImage.style.objectFit = "cover";
-        } else {
-          newImage.style.width  = "100%";
-          newImage.style.height = "auto";
-          newImage.style.objectFit = "contain";
-        }
-
-        newImage.style.opacity = 0;
-        newImage.style.transition = "opacity 2s ease-in-out";
-
-        if (imageSlider) {
-          imageSlider.innerHTML = "";
-          imageSlider.appendChild(newImage);
-          void newImage.offsetWidth; /* trigger reflow for fade */
-          newImage.style.opacity = 1;
-        }
-      }
-
-      showNextImage();
-      setInterval(showNextImage, 5000);
-    });
-  </script>
-</body>
+    showNextImage();
+    setInterval(showNextImage, 5000);
+  });
+</script>
+  </body>
 </html>
