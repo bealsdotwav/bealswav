@@ -30,12 +30,14 @@
 </script>
 
   <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
-    window.addEventListener('load', () => {
-      if (window.emailjs?.init) emailjs.init('OLr0UvCY_0eYzwwFV');
-    });
-  </script>
+  if (window.emailjs?.init) {
+    emailjs.init({ publicKey: 'OLr0UvCY_0eYzwwFV' });
+    console.log('EmailJS ready');
+  } else {
+    console.warn('EmailJS failed to load');
+  }
+</script>
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
