@@ -14,30 +14,23 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.getElementById('serviceRequestModal');
-    overlay?.addEventListener('click', (e) => {
-      if (e.target === overlay) closeServiceRequestModal();
-    });
-  });
-</script>
-
-<script>
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeServiceRequestModal();
-  });
-</script>
-
-  <!-- EmailJS -->
   <script>
-  if (window.emailjs?.init) {
-    emailjs.init({ publicKey: 'OLr0UvCY_0eYzwwFV' });
-    console.log('EmailJS ready');
-  } else {
-    console.warn('EmailJS failed to load');
-  }
-</script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('serviceRequestModal');
+      overlay?.addEventListener('click', (e) => {
+        if (e.target === overlay) closeServiceRequestModal();
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeServiceRequestModal();
+    });
+  </script>
+
+  <!-- EmailJS SDK (deferred) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <!-- Retro Font -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -151,7 +144,6 @@
       .footer-buttons a{width:90%;max-width:300px;margin:0 auto}
     }
 
-
     /* TICKER */
     .ticker{position:fixed;bottom:0;width:100%;height:25px;background:#000;overflow:hidden;border-top:1px solid #222;z-index:998;}
     .ticker-content{
@@ -186,7 +178,7 @@
     .modal-buttons {
       display: flex;
       justify-content: flex-end;
-      gap: 8px;              /* pick your gap; 8px looks tight */
+      gap: 8px;
     }
 
     /* Buttons */
@@ -244,34 +236,32 @@
       .modal-buttons .btn-submit  { order: 2; }
     }
 
-
     /* Dark-mode friendly autofill */
-      .modal-content { color-scheme: dark; } /* hint to browsers */
+    .modal-content { color-scheme: dark; }
 
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      textarea:-webkit-autofill,
-      textarea:-webkit-autofill:hover,
-      textarea:-webkit-autofill:focus,
-      select:-webkit-autofill,
-      select:-webkit-autofill:hover,
-      select:-webkit-autofill:focus {
-        -webkit-text-fill-color: #fff !important;
-        -webkit-box-shadow: 0 0 0 1000px #111 inset !important; /* match your field bg */
-        box-shadow: 0 0 0 1000px #111 inset !important;
-        caret-color: #fff;
-        transition: background-color 9999s ease-in-out 0s;
-      }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+      -webkit-text-fill-color: #fff !important;
+      -webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+      box-shadow: 0 0 0 1000px #111 inset !important;
+      caret-color: #fff;
+      transition: background-color 9999s ease-in-out 0s;
+    }
 
-      /* Firefox */
-      input:-moz-autofill,
-      textarea:-moz-autofill,
-      select:-moz-autofill {
-        box-shadow: 0 0 0 1000px #111 inset !important;
-        -moz-text-fill-color: #fff !important;
-      }
-
+    /* Firefox */
+    input:-moz-autofill,
+    textarea:-moz-autofill,
+    select:-moz-autofill {
+      box-shadow: 0 0 0 1000px #111 inset !important;
+      -moz-text-fill-color: #fff !important;
+    }
 
     /* MOBILE */
     @media (max-width:768px){
@@ -406,48 +396,48 @@
   </div>
 
   <!-- Service Request Modal -->
-<div class="modal-overlay" id="serviceRequestModal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
-  <div class="modal-content">
-    <h2 id="serviceModalTitle">Service Request</h2>
-    <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
+  <div class="modal-overlay" id="serviceRequestModal" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+    <div class="modal-content">
+      <h2 id="serviceModalTitle">Service Request</h2>
+      <p>Fill this quick form and we’ll email you back. Prefer the contact page? <strong>See below.</strong></p>
 
-    <form id="serviceRequestForm" enctype="multipart/form-data">
-      <!-- Hidden field so EmailJS gets the service name -->
-      <input type="hidden" id="requestServiceHidden" name="service" value="">
+      <form id="serviceRequestForm" enctype="multipart/form-data">
+        <!-- Hidden field so EmailJS gets the service name -->
+        <input type="hidden" id="requestServiceHidden" name="service" value="">
 
-      <input  id="requestName"       name="name"       class="modal-input" type="text"  placeholder="Your Name" required>
-      <input  id="requestEmail"      name="email"      class="modal-input" type="email" placeholder="Your Email" required>
-      <input  id="requestBudget"     name="budget"     class="modal-input" type="text"  placeholder="Your Budget (USD)" required>
-      <input  id="requestTurnaround" name="turnaround" class="modal-input" type="text"  placeholder="Desired Turnaround Time" required>
-      <textarea id="requestDetails"  name="details"    class="modal-textarea" rows="4"  placeholder="Additional Details" required></textarea>
+        <input  id="requestName"       name="name"       class="modal-input" type="text"  placeholder="Your Name" required>
+        <input  id="requestEmail"      name="email"      class="modal-input" type="email" placeholder="Your Email" required>
+        <input  id="requestBudget"     name="budget"     class="modal-input" type="text"  placeholder="Your Budget (USD)" required>
+        <input  id="requestTurnaround" name="turnaround" class="modal-input" type="text"  placeholder="Desired Turnaround Time" required>
+        <textarea id="requestDetails"  name="details"    class="modal-textarea" rows="4"  placeholder="Additional Details" required></textarea>
 
-      <!-- Attachments -->
-      <!-- EmailJS will attach files from any <input type="file"> named "my_file" -->
-      <label id="dropZone" for="requestFiles" class="dropzone">
-        Drop up to 2 files here or click to upload
-      </label>
+        <!-- Attachments -->
+        <!-- EmailJS will attach files from any <input type="file"> named "my_file" -->
+        <label id="dropZone" for="requestFiles" class="dropzone">
+          Drop up to 2 files here or click to upload
+        </label>
 
-      <input
-        id="requestFiles"
-        name="my_file"
-        class="modal-file"
-        type="file"
-        accept=".wav,.mp3,.aiff,.flac,.m4a,.ogg,.aac,.zip,.rar,.7z,.mp4,.mov"
-        multiple
-      >
+        <input
+          id="requestFiles"
+          name="my_file"
+          class="modal-file"
+          type="file"
+          accept=".wav,.mp3,.aiff,.flac,.m4a,.ogg,.aac,.zip,.rar,.7z,.mp4,.mov"
+          multiple
+        >
 
-      <div id="fileList" class="file-list" aria-live="polite"></div>
+        <div id="fileList" class="file-list" aria-live="polite"></div>
 
-      <!-- Buttons -->
-      <div class="modal-buttons">
-        <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
-        <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
-        <button type="submit" class="btn-submit">Send Request</button>
-      </div>
-    </form>
+        <!-- Buttons -->
+        <div class="modal-buttons">
+          <button class="btn-contact" type="button" onclick="location.href='contact.html'">Contact page</button>
+          <button type="button" class="btn-cancel" onclick="closeServiceRequestModal()">Cancel</button>
+          <button type="submit" class="btn-submit">Send Request</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
-  
+
   <!-- FOOTER NAV BUTTONS -->
   <section class="footer-nav">
     <div class="footer-buttons">
@@ -497,20 +487,19 @@
   }
 
   /* Open modal and reset file UI */
-    function requestService(serviceName){
+  function requestService(serviceName){
     const title = document.getElementById('serviceModalTitle');
     if (title) title.textContent = serviceName + ' Request';
     const hidden = document.getElementById('requestServiceHidden');
     if (hidden) hidden.value = serviceName;
 
-    // reset file UI each time the modal opens
     const fi = document.getElementById('requestFiles');
     const fl = document.getElementById('fileList');
     if (fi) fi.value = '';
     if (fl) fl.textContent = '';
 
     document.getElementById('serviceRequestModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';       // ← keep this here
+    document.body.style.overflow = 'hidden';
     setTimeout(() => document.getElementById('requestName')?.focus(), 0);
   }
 
@@ -524,15 +513,14 @@
     form.reset();
     if (fileInput) fileInput.value = '';
     if (fileList)  fileList.textContent = '';
-    document.body.style.overflow = '';        // NEW (restore scroll)
+    document.body.style.overflow = '';
   }
-
 
   // === Attachments config & helpers ===
   const MAX_FILES = 2;
-  const MAX_EACH_MB = 25;
+  const MAX_EACH_MB = 10;
 
-  const srForm    = document.getElementById('serviceRequestForm');
+  const srForm    = document.getElementById('serviceRequestForm'); // declared BEFORE use
   const fileInput = document.getElementById('requestFiles');
   const dropZone  = document.getElementById('dropZone');
   const fileList  = document.getElementById('fileList');
@@ -540,7 +528,6 @@
   function updateFileList(files){
     const arr = Array.from(files || []).slice(0, MAX_FILES);
 
-    // size check
     for (const f of arr) {
       if (f.size > MAX_EACH_MB * 1024 * 1024) {
         alert(`"${f.name}" is over ${MAX_EACH_MB}MB. Please choose a smaller file.`);
@@ -548,18 +535,10 @@
       }
     }
 
-    // Rebuild FileList if supported (lets us enforce the 2-file cap nicely)
     if ('DataTransfer' in window) {
       const dt = new DataTransfer();
       arr.forEach(f => dt.items.add(f));
       if (fileInput) fileInput.files = dt.files;
-    } else {
-      // No DataTransfer: if this came from drag/drop, ask to click instead
-      if (files !== fileInput?.files) {
-        alert('Drag-and-drop is not supported in this browser. Click the box to choose files instead.');
-        return;
-      }
-      // If it was the native picker, fileInput already has the files.
     }
 
     if (fileList) {
@@ -567,10 +546,8 @@
     }
   }
 
-  // native picker
   fileInput?.addEventListener('change', e => updateFileList(e.target.files));
 
-  // drag & drop (only if supported)
   if ('DataTransfer' in window) {
     dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
     dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
@@ -580,30 +557,34 @@
       if (e.dataTransfer?.files?.length) updateFileList(e.dataTransfer.files);
     });
   } else {
-    // keep cursor sane on old browsers
     dropZone?.addEventListener('dragover', e => e.preventDefault());
   }
 
-  // === Submit with EmailJS (includes attachments) ===
+  // === Submit with EmailJS (robust: pass publicKey) ===
   srForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (fileInput?.files?.length > MAX_FILES) {
-      alert(`Please attach at most ${MAX_FILES} files.`);
+    if (!(window.emailjs && typeof emailjs.sendForm === 'function')) {
+      alert('We couldn’t reach our email service. Please try again in a minute or use the Contact page.');
       return;
     }
 
+    const submitBtn = e.submitter || srForm.querySelector('.btn-submit');
+    submitBtn?.setAttribute('disabled', 'disabled');
+
     try {
-      await emailjs.sendForm('service_wrssjc7', 'template_kr5nl9p', srForm);
+      await emailjs.sendForm('service_wrssjc7','template_kr5nl9p', srForm, { publicKey: 'OLr0UvCY_0eYzwwFV' });
       alert('Thanks! Your request was sent successfully.');
       closeServiceRequestModal();
     } catch (err) {
-      console.error(err);
+      console.error('EmailJS sendForm error:', err);
       alert('There was an error sending your request. Please try again or use the Contact page.');
+    } finally {
+      submitBtn?.removeAttribute('disabled');
     }
   });
 
-  /* Slideshow (index-style) */
+  /* Slideshow */
   document.addEventListener('DOMContentLoaded', function() {
     const images = [
       "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
@@ -638,7 +619,7 @@
       if (imageSlider) {
         imageSlider.innerHTML = "";
         imageSlider.appendChild(newImage);
-        void newImage.offsetWidth; /* trigger reflow for fade */
+        void newImage.offsetWidth;
         newImage.style.opacity = 1;
       }
     }
@@ -646,6 +627,6 @@
     showNextImage();
     setInterval(showNextImage, 5000);
   });
-</script>
-  </body>
+  </script>
+</body>
 </html>
