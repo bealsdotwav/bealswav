@@ -73,44 +73,56 @@
     .subtext { font-size: 0.45rem; color: #aaa; margin-top: 0.15rem; text-align: center; }
     
     /* Header buttons — scoped to header */
-      header .header-buttons {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-      }
-      header .login-btn {
-        background: var(--glow);
-        color: #000;
-        font-size: 0.8rem;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      header .hamburger {
-        font-size: 1.5rem;
-        line-height: 1;
-        color: var(--accent);
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        display: none;              /* hidden on desktop */
-        appearance: none;
-        -webkit-appearance: none;
-      }
+    header .header-buttons { display: flex; gap: 1rem; align-items: center; }
+    header .login-btn {
+      background: var(--glow); color: #000; font-size: 0.8rem;
+      padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; cursor: pointer;
+    }
+    header .hamburger {
+      font-size: 1.5rem; line-height: 1; color: var(--accent);
+      background: transparent; border: none; cursor: pointer; display: none;
+      appearance: none; -webkit-appearance: none;
+    }
 
+    /* GENERIC PRIMARY BUTTON (for “Book Now”) */
+    .btn-primary {
+      display: inline-block;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #000;
+      background: var(--glow);
+      border: 1px solid var(--glow);
+      text-decoration: none;
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease;
+      box-shadow: 0 0 6px var(--glow);
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px var(--accent);
+    }
 
     /* FOOTER NAV */
     .footer-nav { background: #0d0d0d; padding: 2rem 1rem 4rem; text-align: center; }
     .footer-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
     .footer-buttons a {
       display: inline-block; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
-      background: var(--accent); color: #000; border: 1px solid var(--accent);
-      transition: all 0.2s ease-in-out;
+      /* FIX: make default blue to match other pages */
+      background: var(--glow); color: #000; border: 1px solid var(--glow);
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      box-shadow: 0 0 6px var(--glow);
     }
     .footer-buttons a:hover {
-      background: var(--glow); border-color: var(--glow); color: #000;
-      transform: translateY(-2px); box-shadow: 0 0 10px var(--glow);
+      background: var(--accent); border-color: var(--accent); color: #fff;
+      transform: translateY(-2px); box-shadow: 0 0 12px var(--accent);
+    }
+    /* FIX: make footer buttons stack vertically on small screens */
+    @media (max-width: 600px) {
+      .footer-buttons { flex-direction: column; gap: 0.75rem; }
+      .footer-buttons a { width: 90%; max-width: 300px; margin: 0 auto; }
     }
 
     /* MOBILE SIDEBAR */
@@ -142,45 +154,30 @@
     }
     .video-container:hover { box-shadow: 0 0 18px var(--accent); border-color: var(--accent); }
 
-    /* ⬇️ REPLACE your old .video-container h2 block with this one */
     .video-container h2 {
       font-size: clamp(1rem, 1.4vw, 1.2rem);
       margin-bottom: 1rem;
       color: var(--glow);
       line-height: 1.3;
     }
-
-    /* Desktop: keep single line with ellipsis */
     @media (min-width: 1024px) {
-      .video-container h2 {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      .video-container h2 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     }
-
-    /* Mobile/tablet: allow wrapping */
     @media (max-width: 1023px) {
-      .video-container h2 {
-        white-space: normal;
-      }
+      .video-container h2 { white-space: normal; }
     }
 
-    /* Responsive iframe (no fixed attrs) */
+    /* Responsive iframe */
     .video-container .iframe-wrap {
       position: relative; width: 100%; max-width: 100%;
-      aspect-ratio: 16 / 9; /* modern, simple */
+      aspect-ratio: 16 / 9;
       border-radius: 10px; overflow: hidden;
       box-shadow: 0 0 12px rgba(255,255,255,0.1);
     }
-    .video-container iframe {
-      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
-    }
+    .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
     /* Slideshow */
-    .slideshow-section {
-      width: 92%; max-width: 1100px; margin: 0 auto;
-    }
+    .slideshow-section { width: 92%; max-width: 1100px; margin: 0 auto; }
     .slideshow-container {
       width: 100%; position: relative; border-radius: 10px;
       border: 2px solid #222; overflow: hidden; height: 500px;
@@ -194,112 +191,33 @@
     .slideshow-text { text-align: center; }
     .slideshow-text h2 { margin-bottom: 0.75rem; color: var(--glow); font-size: 1.2rem; }
     .slideshow-text p { margin: 0 0 1rem 0; font-size: 0.85rem; line-height: 1.6; color: #ddd; }
-    .slideshow-text .login-btn { display: inline-block; }
 
     /* CTA SECTION */
-    .cta-section {
-      width: 92%;
-      max-width: 1000px;
-      margin: 0 auto 3rem;
-    }
-
-    .cta-card {
-      background: #111;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 1.25rem 1rem;
-      box-shadow: 0 0 8px #1a1a1a;
-    }
-
-    .cta-btns {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    /* the buttons */
+    .cta-section { width: 92%; max-width: 1000px; margin: 0 auto 3rem; }
+    .cta-card { background: #111; border: 1px solid #2a2a2a; border-radius: 12px; padding: 1.25rem 1rem; box-shadow: 0 0 8px #1a1a1a; }
+    .cta-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
     .cta-btn {
-      display: inline-block;
-      padding: 0.8rem 1.4rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      text-decoration: none;
-      font-weight: bold;
-      color: #000;
-      background: var(--accent);
-      border: 1px solid var(--accent);
+      display: inline-block; padding: 0.8rem 1.4rem; border-radius: 8px; font-size: 0.9rem; text-decoration: none; font-weight: bold;
+      color: #000; background: var(--accent); border: 1px solid var(--accent);
       transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
     }
-
-    .cta-btn:hover {
-      background: var(--glow);
-      border-color: var(--glow);
-      transform: translateY(-2px);
-      box-shadow: 0 0 12px var(--glow);
-    }
-
-    /* tiny screens keep it tight */
-    @media (max-width: 480px) {
-      .cta-btn { width: 100%; text-align: center; }
-    }
-
+    .cta-btn:hover { background: var(--glow); border-color: var(--glow); transform: translateY(-2px); box-shadow: 0 0 12px var(--glow); }
+    @media (max-width: 480px) { .cta-btn { width: 100%; text-align: center; } }
 
     /* FOLLOW & SUPPORT */
-    .linktree {
-      margin: 3rem auto;
-      text-align: center;
-      width: 92%;
-      max-width: 1100px;
-    }
-    .linktree h3 {
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      color: var(--glow);
-    }
+    .linktree { margin: 3rem auto; text-align: center; width: 92%; max-width: 1100px; }
+    .linktree h3 { margin-bottom: 1rem; font-size: 1rem; color: var(--glow); }
 
-    /* Buttons container:
-      - mobile: a simple column
-      - desktop: responsive grid (2–4 per row depending on width) */
     .linktree-buttons {
-      display: grid;
-      gap: 0.85rem;
-      max-width: 100%;
-      margin: 0 auto;
-      grid-template-columns: 1fr; /* mobile default */
+      display: grid; gap: 0.85rem; max-width: 100%; margin: 0 auto; grid-template-columns: 1fr; /* mobile default */
     }
+    @media (min-width: 768px) { .linktree-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 700px; } }
+    @media (min-width: 1024px) { .linktree-buttons { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1100px; } }
 
-    /* ≥768px: 2 columns */
-    @media (min-width: 768px) {
-      .linktree-buttons {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        max-width: 700px;
-      }
-    }
-
-    /* Desktop: keep 4 columns; center only the last two items */
-    @media (min-width: 1024px) {
-    .linktree-buttons {
-      grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3 columns */
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* remove any previous nth-child column overrides for items 5 & 6 */
-    .linktree-buttons a:nth-child(5),
-    .linktree-buttons a:nth-child(6) {
-      grid-column: auto;
-    }
-  }
     .linktree-buttons a {
-      display: inline-block;
-      padding: 0.85rem 1rem;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.8rem;
+      display: inline-block; padding: 0.85rem 1rem; border-radius: 10px; text-decoration: none; font-size: 0.8rem;
       transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-      text-align: center;
-      border: 1px solid rgba(255,255,255,0.08);
+      text-align: center; border: 1px solid rgba(255,255,255,0.08);
     }
     .linktree-buttons a:hover { transform: translateY(-2px); filter: brightness(1.05); }
 
@@ -310,7 +228,6 @@
     .tiktok    { background: #010101; color: #fff; }
     .soundcloud{ background: #ff5500; color: #000; }
     .youtube   { background: #ff0000; color: #fff; }
-
 
     /* Ticker */
     .ticker { position: fixed; bottom: 0; width: 100%; height: 25px; background: black; overflow: hidden; z-index: 998; }
@@ -326,101 +243,46 @@
 
     /* Mobile */
     @media (max-width: 768px) {
-    .logo { font-size: 1.1rem; }
-    .header-container { padding: 0 1rem; }
+      .logo { font-size: 1.1rem; }
+      .header-container { padding: 0 1rem; }
+      header .header-buttons { gap: 0.5rem; }
+      header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+      header .hamburger { display: inline-block; }
+      .nav-menu { display: none; }
+      .sidebar { width: 200px; }
 
-    /* match contact.html mobile header */
-    header .header-buttons { gap: 0.5rem; }
-    header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-    header .hamburger { display: inline-block; }  /* ← makes the red ☰ appear */
-
-    .nav-menu { display: none; }
-    .sidebar { width: 200px; }
-
-    /* (keep your slideshow/video mobile rules here) */
-    
-
-      .slideshow-container {
-        height: 300px;
-        background: var(--bg-dark);
-        overflow: hidden;
-        margin-bottom: 0.75rem; /* add space below the slideshow */
-      }
-
-      #imageSlider img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 0;
-      }
-
-      .slideshow-text {
-        margin-top: 0.5rem; /* nudge the text down a touch */
-      }
+      .slideshow-container { height: 300px; background: var(--bg-dark); overflow: hidden; margin-bottom: 0.75rem; }
+      #imageSlider img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+      .slideshow-text { margin-top: 0.5rem; }
 
       .video-container {
-        width: 95%;
-        max-width: none;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 1rem;
-        height: auto !important;
-        border-radius: 12px;
+        width: 95%; max-width: none; margin-left: auto; margin-right: auto;
+        padding-bottom: 1rem; height: auto !important; border-radius: 12px;
       }
-
       .video-container .iframe-wrap { aspect-ratio: 16/9; }
     }
 
     /* Desktop enhancements */
-      @media (min-width: 1024px) {
-        .video-grid {
-          display: grid;
-          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-          gap: 2rem;
-          width: 92%;
-          max-width: 1100px;
-          margin: 0 auto;
-          align-items: start;
-          overflow-x: hidden;
-        }
-
-        .video-grid > .video-container {
-          width: 100%;
-          max-width: none;
-          margin: 0 0 2rem;
-          min-width: 0;
-        }
-
-        .video-grid .iframe-wrap { width: 100%; }
+    @media (min-width: 1024px) {
+      .video-grid {
+        display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 2rem; width: 92%; max-width: 1100px; margin: 0 auto; align-items: start; overflow-x: hidden;
       }
+      .video-grid > .video-container { width: 100%; max-width: none; margin: 0 0 2rem; min-width: 0; }
+      .video-grid .iframe-wrap { width: 100%; }
+      .slideshow-section { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+      .nav-menu a { font-size: 0.95rem; }
+      .subtext   { font-size: 0.6rem; }
+    }
 
-      @media (min-width: 1024px) {
-        .slideshow-section {
-          display: grid;
-          grid-template-columns: 1.2fr 1fr; /* slideshow a little wider than text */
-          gap: 2rem;
-          align-items: center;
-        }
-      }
-
-      /* Desktop polish — bigger nav labels & subtext */
-      @media (min-width: 1024px) {
-        .nav-menu a { font-size: 0.95rem; }
-        .subtext   { font-size: 0.6rem; }
-      }
-
-      /* small artist line under each video title */
-      .video-container .artist-subtext {
-        font-size: 0.8rem;
-        line-height: 1.4;
-        color: #bbbbbb;
-        margin: -0.35rem 0 0.75rem;
-        text-align: center;
-      }
-
-      /* tighten margin under h2 */
-      .video-container h2 { margin-bottom: 0.5rem; }
-      </style>
+    /* small artist line under each video title */
+    .video-container .artist-subtext {
+      font-size: 0.8rem; line-height: 1.4; color: #bbbbbb; margin: -0.35rem 0 0.75rem; text-align: center;
+    }
+    .video-container h2 { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
 
   <!-- MOBILE SIDEBAR -->
   <div class="sidebar" id="sidebar">
@@ -473,16 +335,16 @@
 
       <!-- 2) FOLLOW & SUPPORT -->
       <section class="linktree">
-      <h3>Follow & Support</h3>
-      <div class="linktree-buttons">
-        <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify"   target="_blank" rel="noopener">Spotify</a>
-        <a href="https://music.apple.com/us/artist/beals/1780458418"                                           class="apple"     target="_blank" rel="noopener noreferrer">Apple Music</a>
-        <a href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="soundcloud" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-        <a href="https://www.youtube.com/@bealsprod"                                                           class="youtube"   target="_blank" rel="noopener noreferrer">YouTube</a>
-        <a href="https://www.instagram.com/bealsprod"                                                          class="instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://www.tiktok.com/@bealsprod"                                                            class="tiktok"   target="_blank" rel="noopener noreferrer">TikTok</a>
-      </div>
-    </section>
+        <h3>Follow & Support</h3>
+        <div class="linktree-buttons">
+          <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify" target="_blank" rel="noopener">Spotify</a>
+          <a href="https://music.apple.com/us/artist/beals/1780458418" class="apple" target="_blank" rel="noopener noreferrer">Apple Music</a>
+          <a href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="soundcloud" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+          <a href="https://www.youtube.com/@bealsprod" class="youtube" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://www.instagram.com/bealsprod" class="instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.tiktok.com/@bealsprod" class="tiktok" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </div>
+      </section>
 
       <div class="section-divider"></div>
 
@@ -496,17 +358,18 @@
         <div class="slideshow-text">
           <h2>Book Studio Time</h2>
           <p>High-quality recording, mixing, and production services in West Jordan, Utah.</p>
-          <a href="studio.html" class="login-btn">Book Now</a>
+          <!-- FIX: styled as a proper button -->
+          <a href="studio.html" class="btn-primary">Book Now</a>
         </div>
       </section>
 
       <div class="section-divider"></div>
 
-     <!-- 5) VIDEOS (GRID ON DESKTOP) -->
+      <!-- 5) VIDEOS (GRID ON DESKTOP) -->
       <section class="video-grid">
         <div id="vip-220" class="video-container vip-highlight">
           <h2>VIP (220)</h2>
-            <p class="artist-subtext">Beals</p>
+          <p class="artist-subtext">Beals</p>
           <div class="iframe-wrap">
             <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" title="VIP (220)" allowfullscreen></iframe>
           </div>
@@ -514,7 +377,7 @@
 
         <div id="no-rest" class="video-container">
           <h2>No Rest</h2>
-           <p class="artist-subtext">Roman Noodle feat. RPFROMTHETOP, Beals</p>
+          <p class="artist-subtext">Roman Noodle feat. RPFROMTHETOP, Beals</p>
           <div class="iframe-wrap">
             <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" title="No Rest" allowfullscreen></iframe>
           </div>
@@ -522,16 +385,15 @@
 
         <div id="lame" class="video-container">
           <h2>Lame</h2>
-           <p class="artist-subtext">Roman Noodle feat. Beals</p>
+          <p class="artist-subtext">Roman Noodle feat. Beals</p>
           <div class="iframe-wrap">
             <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" title="Lame" allowfullscreen></iframe>
           </div>
         </div>
 
-        <!-- ROMAN NOODLE - BREAKING POINT (ALBUM) (playlist) -->
         <div id="breaking-point" class="video-container">
           <h2>Breaking Point (Album)</h2>
-           <p class="artist-subtext">Roman Noodle</p>
+          <p class="artist-subtext">Roman Noodle</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj"
@@ -541,10 +403,9 @@
           </div>
         </div>
 
-        <!-- WHAT IS GOING ON -->
         <div id="what-is-going-on" class="video-container">
           <h2>WHAT IS GOING ON</h2>
-           <p class="artist-subtext">RPFROMTHETOP feat. Beals</p>
+          <p class="artist-subtext">RPFROMTHETOP feat. Beals</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/6ogFoT19EO8"
@@ -554,10 +415,9 @@
           </div>
         </div>
 
-        <!-- RPFROMTHETOP - FOREVER (ALBUM) -->
         <div id="forever-album" class="video-container">
           <h2>Forever (Album)</h2>
-           <p class="artist-subtext">RPFROMTHETOP</p>
+          <p class="artist-subtext">RPFROMTHETOP</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_les7EfKzmDdmr5wEhIOM3NZKXiCL7AExM"
@@ -567,10 +427,9 @@
           </div>
         </div>
 
-        <!-- Cartier & Beals - Back to Back -->
         <div id="back-to-back" class="video-container">
           <h2>Back to Back</h2>
-           <p class="artist-subtext">Cartier & Beals</p>
+          <p class="artist-subtext">Cartier & Beals</p>
           <div class="iframe-wrap">
             <iframe
               src="https://www.youtube.com/embed/z56pau7bf-Y"
@@ -580,7 +439,6 @@
           </div>
         </div>
 
-        <!-- MERAKI album playlist -->
         <div id="meraki" class="video-container">
           <h2>MERAKI (Album)</h2>
           <p class="artist-subtext">Beals</p>
@@ -595,9 +453,8 @@
       </section>
 
       <div class="section-divider"></div>
-          </main>
-      </div>
-
+    </main>
+  </div>
 
   <!-- FOOTER NAV BUTTONS -->
   <footer class="footer-nav">
