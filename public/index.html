@@ -186,7 +186,15 @@
     }
     .slideshow-container:hover { box-shadow: 0 0 25px #ffff44; }
     #imageSlider { width: 100%; height: 100%; }
-    #imageSlider img{width:100%;height:100%;object-fit:contain;display:block;border-radius:10px}
+    /* FIX: fill the frame on desktop too */
+    #imageSlider img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;   /* was contain */
+      display: block;
+      border-radius: 10px;
+    }
+
 
     .slideshow-text { text-align: center; }
     .slideshow-text h2 { margin-bottom: 0.75rem; color: var(--glow); font-size: 1.2rem; }
