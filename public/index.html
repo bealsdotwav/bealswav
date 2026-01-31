@@ -18,40 +18,33 @@
   <!-- Modern font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Optional preconnect for embeds -->
   <link rel="preconnect" href="https://www.youtube.com">
   <link rel="preconnect" href="https://i.ytimg.com">
 
   <style>
     :root{
-      /* Cloudy soft base */
-      --bg0:#eef0f3;
-      --bg1:#e7eaee;
-      --panel: rgba(255,255,255,0.72);
-      --panel2: rgba(255,255,255,0.52);
-      --border: rgba(15, 23, 42, 0.10);
-      --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
-
-      /* Logo-ish blues */
       --ink: #0b1b2b;
       --muted: rgba(11, 27, 43, 0.62);
-      --blue: #2d6cdf;
-      --blue2:#1e5ad1;
-      --sky: #66c0ff;
 
-      /* Accents (used sparingly) */
-      --accent: #ff5a7a;
+      /* Logo-derived accents (soft) */
+      --accent:  #1787ab;   /* deeper teal-blue */
+      --accent2: #3eb7db;   /* brighter cyan */
 
-      --r-xl: 22px;
+      --panel: rgba(255,255,255,0.72);
+      --panel2: rgba(255,255,255,0.52);
+      --border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 18px 55px rgba(15, 23, 42, 0.14);
+
+      --r-xl: 24px;
       --r-lg: 18px;
       --r-md: 14px;
 
-      --max: 1100px;
+      --max: 1120px;
     }
 
-    *{ box-sizing: border-box; }
+    * { box-sizing: border-box; }
     html, body { height: 100%; }
     body{
       margin:0;
@@ -59,19 +52,28 @@
       color: var(--ink);
       overflow-x:hidden;
 
-      /* Cloudy texture using layered gradients (no images needed) */
+      /* Your background image as the entire background */
       background:
-        radial-gradient(900px 600px at 15% 10%, rgba(102,192,255,0.28), transparent 55%),
-        radial-gradient(900px 600px at 85% 12%, rgba(45,108,223,0.18), transparent 60%),
-        radial-gradient(900px 600px at 55% 85%, rgba(255,90,122,0.10), transparent 60%),
-        radial-gradient(700px 500px at 30% 55%, rgba(255,255,255,0.75), transparent 65%),
-        linear-gradient(180deg, var(--bg0) 0%, var(--bg1) 45%, #dfe6f3 100%);
+        linear-gradient(180deg, rgba(238,240,243,0.76), rgba(231,234,238,0.72)),
+        url("/assets/images/background.jpg") center / cover no-repeat fixed;
+    }
+
+    /* Soft overlay for readability */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(900px 600px at 20% 18%, rgba(62,183,219,0.16), transparent 60%),
+        radial-gradient(900px 600px at 85% 18%, rgba(23,135,171,0.14), transparent 62%),
+        radial-gradient(800px 600px at 55% 88%, rgba(255,90,122,0.08), transparent 60%);
+      pointer-events:none;
+      z-index:-1;
     }
 
     a{ color: inherit; }
     img{ max-width:100%; display:block; }
 
-    /* Layout */
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
@@ -84,7 +86,7 @@
       top:0;
       z-index: 50;
       backdrop-filter: blur(14px);
-      background: rgba(239,241,244,0.70);
+      background: rgba(239,241,244,0.72);
       border-bottom: 1px solid rgba(15,23,42,0.10);
     }
     .nav{
@@ -107,7 +109,7 @@
       height: 34px;
       width: auto;
       object-fit: contain;
-      filter: drop-shadow(0 10px 18px rgba(15,23,42,0.10));
+      filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12));
     }
 
     .nav-links{
@@ -118,7 +120,7 @@
 
     .nav-links a{
       text-decoration:none;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.95rem;
       color: rgba(11,27,43,0.72);
       padding: 10px 12px;
@@ -146,7 +148,7 @@
     .drawer{
       display:none;
       border-top: 1px solid rgba(15,23,42,0.10);
-      background: rgba(239,241,244,0.84);
+      background: rgba(239,241,244,0.86);
       backdrop-filter: blur(14px);
     }
     .drawer .drawer-inner{
@@ -157,22 +159,29 @@
     }
     .drawer a{
       text-decoration:none;
-      font-weight: 600;
+      font-weight: 700;
       padding: 12px 12px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.48);
       border: 1px solid rgba(15,23,42,0.08);
       color: rgba(11,27,43,0.78);
     }
 
-    /* Buttons */
+    /* Cards / buttons */
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap: 8px;
+      gap: 10px;
       text-decoration:none;
-      font-weight: 700;
+      font-weight: 800;
       border-radius: 16px;
       padding: 14px 16px;
       border: 1px solid transparent;
@@ -184,11 +193,11 @@
     .btn:active{ transform: translateY(1px); }
 
     .btn-primary{
-      background: linear-gradient(135deg, var(--blue), var(--sky));
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       color: #07111b;
-      box-shadow: 0 18px 40px rgba(45,108,223,0.20);
+      box-shadow: 0 18px 40px rgba(23,135,171,0.24);
     }
-    .btn-primary:hover{ filter: brightness(1.02); }
+    .btn-primary:hover{ filter: brightness(1.03); }
 
     .btn-dark{
       background: rgba(11,27,43,0.92);
@@ -197,76 +206,61 @@
     }
 
     .btn-soft{
-      background: rgba(255,255,255,0.58);
+      background: rgba(255,255,255,0.62);
       border-color: rgba(15,23,42,0.10);
-      color: rgba(11,27,43,0.82);
+      color: rgba(11,27,43,0.84);
       box-shadow: 0 14px 30px rgba(15,23,42,0.08);
     }
 
-    /* Main */
-    main{ padding: 18px 0 72px; }
+    main{ padding: 18px 0 78px; }
 
-    /* Hero */
+    /* HERO AREA: left text + big carousel card */
     .hero{
-      margin-top: 12px;
+      margin-top: 14px;
       display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 0.95fr 1.05fr;
       gap: 14px;
       align-items: stretch;
     }
-
-    .card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--r-xl);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-
     .hero-left{
-      position: relative;
       padding: 18px;
+      position: relative;
     }
-
     .hero-left::before{
       content:"";
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(600px 260px at 20% 15%, rgba(102,192,255,0.30), transparent 60%),
-        radial-gradient(600px 260px at 85% 18%, rgba(45,108,223,0.18), transparent 60%),
-        radial-gradient(600px 260px at 60% 85%, rgba(255,90,122,0.10), transparent 60%);
+        radial-gradient(600px 260px at 20% 15%, rgba(62,183,219,0.20), transparent 60%),
+        radial-gradient(600px 260px at 85% 18%, rgba(23,135,171,0.16), transparent 60%),
+        radial-gradient(600px 260px at 60% 85%, rgba(255,90,122,0.08), transparent 60%);
       filter: blur(18px);
-      opacity: 0.75;
+      opacity: 0.85;
       pointer-events:none;
     }
-
     .hero-left > *{ position: relative; }
 
     .kicker{
-      font-weight: 700;
-      letter-spacing: 0.08em;
+      font-weight: 800;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
       font-size: 0.78rem;
-      color: rgba(45,108,223,0.85);
+      color: rgba(23,135,171,0.92);
     }
-
     .headline{
       margin: 10px 0 8px;
-      font-size: clamp(1.6rem, 1.2rem + 2.1vw, 2.6rem);
-      line-height: 1.05;
+      font-size: clamp(1.6rem, 1.15rem + 2.25vw, 2.7rem);
+      line-height: 1.06;
       letter-spacing: -0.02em;
       color: rgba(11,27,43,0.96);
     }
-
     .subhead{
       margin: 0;
       font-size: 1.02rem;
       line-height: 1.55;
       color: var(--muted);
-      max-width: 60ch;
+      max-width: 62ch;
     }
-
     .hero-actions{
       margin-top: 16px;
       display:flex;
@@ -274,46 +268,188 @@
       gap: 10px;
     }
 
-    .hero-right{
-      padding: 16px;
-      display:flex;
-      flex-direction:column;
-      gap: 12px;
-      justify-content: space-between;
+    /* Big feature carousel card */
+    .feature-carousel{
+      position: relative;
+      padding: 14px;
+      border-radius: var(--r-xl);
+      overflow:hidden;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.12);
+      box-shadow: var(--shadow);
+      min-height: 360px;
+    }
+    .feature-carousel::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(900px 420px at 30% 25%, rgba(62,183,219,0.24), transparent 62%),
+        radial-gradient(900px 420px at 80% 70%, rgba(23,135,171,0.18), transparent 64%);
+      filter: blur(18px);
+      opacity: 0.85;
+      pointer-events:none;
     }
 
-    .quick{
+    .fc-inner{ position: relative; height: 100%; display:flex; flex-direction:column; }
+    .fc-top{
       display:flex;
-      flex-direction:column;
+      align-items:center;
+      justify-content:space-between;
       gap: 10px;
+      padding: 8px 6px 10px;
     }
-
-    .quick h2{
-      margin: 0;
-      font-size: 1.05rem;
-      color: rgba(11,27,43,0.90);
+    .fc-top .label{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 900;
       letter-spacing: -0.01em;
+      color: rgba(11,27,43,0.92);
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.58);
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: rgba(11,27,43,0.78);
+      user-select:none;
+    }
+    .fc-controls{
+      display:flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .icon-btn{
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.62);
+      cursor:pointer;
+      font-weight: 900;
+      color: rgba(11,27,43,0.80);
+      transition: transform 120ms ease, filter 120ms ease;
+    }
+    .icon-btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
+    .icon-btn:active{ transform: translateY(1px); }
+
+    .fc-viewport{
+      position: relative;
+      flex: 1;
+      border-radius: calc(var(--r-xl) - 6px);
+      overflow:hidden;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(11,27,43,0.04);
     }
 
-    .quick p{
+    .fc-track{
+      display:flex;
+      height: 100%;
+      width: 100%;
+      transform: translateX(0);
+      transition: transform 520ms cubic-bezier(.2,.85,.2,1);
+      will-change: transform;
+      touch-action: pan-y;
+    }
+
+    .fc-slide{
+      min-width: 100%;
+      height: 100%;
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap: 14px;
+      position: relative;
+    }
+
+    .fc-slide::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      opacity: 0.85;
+      pointer-events:none;
+      background:
+        radial-gradient(700px 360px at 30% 20%, rgba(255,255,255,0.55), transparent 60%),
+        radial-gradient(700px 360px at 85% 80%, rgba(255,255,255,0.36), transparent 62%);
+    }
+
+    .slide-content{ position: relative; z-index: 1; }
+
+    .slide-title{
       margin: 0;
-      color: var(--muted);
-      line-height: 1.45;
-      font-size: 0.98rem;
+      font-size: 1.45rem;
+      letter-spacing: -0.02em;
+      color: rgba(11,27,43,0.95);
+    }
+    .slide-desc{
+      margin: 8px 0 0;
+      color: rgba(11,27,43,0.64);
+      line-height: 1.5;
+      max-width: 60ch;
     }
 
-    .quick-grid{
-      display:grid;
-      grid-template-columns: 1fr;
+    .slide-actions{
+      position: relative;
+      z-index: 1;
+      display:flex;
       gap: 10px;
-      margin-top: 10px;
+      flex-wrap: wrap;
     }
 
-    /* Sections */
-    .section{
-      margin-top: 16px;
+    .slide-visual{
+      position:absolute;
+      right: -40px;
+      bottom: -60px;
+      width: 360px;
+      height: 360px;
+      border-radius: 999px;
+      filter: blur(0.2px);
+      opacity: 0.9;
+      transform: rotate(8deg);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.80), transparent 55%),
+                  radial-gradient(circle at 65% 70%, rgba(255,255,255,0.55), transparent 58%);
+      border: 1px solid rgba(255,255,255,0.45);
+      box-shadow: 0 22px 65px rgba(15,23,42,0.14);
     }
 
+    /* per-slide color themes (soft) */
+    .t-release{ background: linear-gradient(135deg, rgba(62,183,219,0.24), rgba(255,255,255,0.12)); }
+    .t-music{   background: linear-gradient(135deg, rgba(29,185,84,0.18), rgba(255,255,255,0.10)); }
+    .t-studio{  background: linear-gradient(135deg, rgba(23,135,171,0.20), rgba(255,255,255,0.12)); }
+    .t-beats{   background: linear-gradient(135deg, rgba(255,85,0,0.14), rgba(255,255,255,0.10)); }
+    .t-faq{     background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(255,255,255,0.10)); }
+    .t-contact{ background: linear-gradient(135deg, rgba(255,90,122,0.12), rgba(255,255,255,0.10)); }
+    .t-login{   background: linear-gradient(135deg, rgba(17,24,39,0.16), rgba(255,255,255,0.10)); }
+
+    .dots{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 0 2px;
+    }
+    .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.20);
+      background: rgba(255,255,255,0.60);
+      cursor:pointer;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+    .dot[aria-current="true"]{
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: rgba(15,23,42,0.10);
+      transform: scale(1.12);
+    }
+
+    .section{ margin-top: 18px; }
     .section-head{
       display:flex;
       justify-content:space-between;
@@ -321,25 +457,21 @@
       gap: 12px;
       margin: 18px 0 10px;
     }
-
-    .section-head h2,
-    .section-head h3{
+    .section-head h2, .section-head h3{
       margin:0;
       letter-spacing: -0.01em;
       color: rgba(11,27,43,0.92);
     }
-
     .section-head p{
       margin:0;
       color: var(--muted);
       font-size: 0.96rem;
     }
-
     .divider{
       height: 1px;
       width: 100%;
       margin: 18px 0;
-      background: linear-gradient(90deg, transparent, rgba(15,23,42,0.12), transparent);
+      background: linear-gradient(90deg, transparent, rgba(15,23,42,0.14), transparent);
     }
 
     /* Album + Follow */
@@ -349,12 +481,9 @@
       gap: 14px;
       align-items: start;
     }
-
     .pad{ padding: 14px; }
 
-    .video-title{
-      padding: 14px 14px 10px;
-    }
+    .video-title{ padding: 14px 14px 10px; }
     .video-title h3{
       margin:0;
       font-size: 1.05rem;
@@ -398,7 +527,7 @@
       justify-content:center;
       padding: 14px 12px;
       border-radius: 16px;
-      font-weight: 800;
+      font-weight: 900;
       text-decoration:none;
       border: 1px solid rgba(15,23,42,0.10);
       color: rgba(255,255,255,0.92);
@@ -414,14 +543,13 @@
     .instagram{ background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); }
     .tiktok{ background: #0b0b0f; }
 
-    /* Slideshow */
+    /* Studio slideshow section */
     .slideshow-section{
       display:grid;
       grid-template-columns: 1.1fr 0.9fr;
       gap: 14px;
       align-items: stretch;
     }
-
     .slideshow-container{
       border-radius: var(--r-xl);
       overflow:hidden;
@@ -459,7 +587,7 @@
       font-size: 1.0rem;
     }
 
-    /* Video grid */
+    /* Videos grid */
     .video-grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -467,12 +595,11 @@
       align-items:start;
     }
 
-    /* Footer */
     footer{
       margin-top: 22px;
       padding: 18px 0 70px;
       border-top: 1px solid rgba(15,23,42,0.10);
-      background: rgba(239,241,244,0.60);
+      background: rgba(239,241,244,0.66);
       backdrop-filter: blur(10px);
     }
     .footer-links{
@@ -482,10 +609,10 @@
     }
     .footer-links a{
       text-decoration:none;
-      font-weight: 700;
+      font-weight: 800;
       padding: 12px 14px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.58);
+      background: rgba(255,255,255,0.62);
       border: 1px solid rgba(15,23,42,0.10);
       color: rgba(11,27,43,0.82);
     }
@@ -497,7 +624,7 @@
       max-width: 70ch;
     }
 
-    /* Ticker (make it less painful) */
+    /* Ticker */
     .ticker{
       position: fixed;
       bottom: 0;
@@ -516,17 +643,19 @@
       padding-left: 100%;
       animation: scroll 28s linear infinite;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 700;
       opacity: 0.92;
     }
     @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
     /* Mobile */
-    @media (max-width: 900px){
+    @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .feature-grid{ grid-template-columns: 1fr; }
       .slideshow-section{ grid-template-columns: 1fr; }
       .video-grid{ grid-template-columns: 1fr; }
+      .feature-carousel{ min-height: 340px; }
+      .slide-visual{ right: -70px; bottom: -90px; width: 320px; height: 320px; }
     }
 
     @media (max-width: 760px){
@@ -534,15 +663,18 @@
       .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
       .links{ grid-template-columns: 1fr; }
 
-      /* Make hero more “big center objects” on mobile */
       .hero-left{ padding: 18px 16px; }
       .headline{ font-size: 2.05rem; }
       .btn{ width: 100%; padding: 16px; border-radius: 18px; }
       .hero-actions{ gap: 10px; }
 
+      .feature-carousel{ padding: 12px; min-height: 360px; }
+      .fc-top{ padding: 6px 4px 8px; }
+      .slide-title{ font-size: 1.35rem; }
+      .slide-visual{ opacity: 0.75; }
+
       .slideshow-container{ min-height: 260px; }
       #imageSlider img{ min-height: 260px; }
-
       .ticker-content{ font-size: 0.82rem; }
     }
 
@@ -557,13 +689,7 @@
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="index.html" aria-label="Beals.wav Home">
-          <img
-            src="/assets/images/logo.jpeg?v=1"
-            alt="beals.wav"
-            decoding="async"
-            fetchpriority="high"
-            onerror="this.onerror=null; this.src='/assets/images/S1.jpeg?v=1';"
-          />
+          <img src="/assets/images/logo.jpeg?v=1" alt="beals.wav" decoding="async" fetchpriority="high">
         </a>
 
         <nav class="nav-links" aria-label="Primary navigation">
@@ -593,7 +719,6 @@
 
   <main>
     <div class="wrap">
-
       <!-- HERO -->
       <section class="hero">
         <div class="card hero-left">
@@ -608,17 +733,119 @@
           </div>
         </div>
 
-        <div class="card hero-right">
-          <div class="quick">
-            <h2>Start here</h2>
-            <p>Shortcuts to the main stuff.</p>
-            <div class="quick-grid">
-              <a class="btn btn-soft" href="contact.html">Contact</a>
-              <a class="btn btn-soft" href="faq.html">FAQ</a>
-              <a class="btn btn-soft" href="login.html" id="loginBtn">Login</a>
+        <!-- BIG FEATURE CAROUSEL -->
+        <section class="feature-carousel" aria-label="Explore Beals.wav">
+          <div class="fc-inner">
+            <div class="fc-top">
+              <div class="label">
+                Explore
+                <span class="pill" id="fcPill">Latest</span>
+              </div>
+              <div class="fc-controls">
+                <button class="icon-btn" id="fcPrev" aria-label="Previous">‹</button>
+                <button class="icon-btn" id="fcNext" aria-label="Next">›</button>
+              </div>
             </div>
+
+            <div class="fc-viewport" id="fcViewport">
+              <div class="fc-track" id="fcTrack">
+                <!-- Slide 1: Latest Release -->
+                <div class="fc-slide t-release" data-pill="Latest">
+                  <div class="slide-content">
+                    <h2 class="slide-title">Listen to 23.5</h2>
+                    <p class="slide-desc">Latest release. Full playlist, clean embeds, no weird detours.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="#album-23-5">Play now</a>
+                    <a class="btn btn-soft" href="music.html">More music</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+                <!-- Slide 2: Music -->
+                <div class="fc-slide t-music" data-pill="Music">
+                  <div class="slide-content">
+                    <h2 class="slide-title">Music</h2>
+                    <p class="slide-desc">Singles, albums, features. Everything in one place.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="music.html">Browse music</a>
+                    <a class="btn btn-soft" href="#videos">Jump to videos</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+                <!-- Slide 3: Studio -->
+                <div class="fc-slide t-studio" data-pill="Studio">
+                  <div class="slide-content">
+                    <h2 class="slide-title">Book Studio Time</h2>
+                    <p class="slide-desc">Recording, mixing, production. West Jordan, Utah.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="studio.html">Book studio</a>
+                    <a class="btn btn-soft" href="#studio">See the studio</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+                <!-- Slide 4: Beats -->
+                <div class="fc-slide t-beats" data-pill="Beats">
+                  <div class="slide-content">
+                    <h2 class="slide-title">Buy Beats</h2>
+                    <p class="slide-desc">Licenses, checkout, quick delivery. The usual human commerce ritual.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="beatstore.html">Open beat store</a>
+                    <a class="btn btn-soft" href="contact.html">Custom work</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+                <!-- Slide 5: FAQ -->
+                <div class="fc-slide t-faq" data-pill="FAQ">
+                  <div class="slide-content">
+                    <h2 class="slide-title">FAQ</h2>
+                    <p class="slide-desc">Answers before you have to email anyone. Efficient.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="faq.html">Read FAQ</a>
+                    <a class="btn btn-soft" href="contact.html">Still need help</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+                <!-- Slide 6: Contact -->
+                <div class="fc-slide t-contact" data-pill="Contact">
+                  <div class="slide-content">
+                    <h2 class="slide-title">Contact</h2>
+                    <p class="slide-desc">Bookings, questions, collabs. Send it.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="contact.html">Contact</a>
+                    <a class="btn btn-soft" href="studio.html">Studio services</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+                <!-- Slide 7: Login -->
+                <div class="fc-slide t-login" data-pill="Account">
+                  <div class="slide-content">
+                    <h2 class="slide-title">Account</h2>
+                    <p class="slide-desc">Login to view purchases and sessions.</p>
+                  </div>
+                  <div class="slide-actions">
+                    <a class="btn btn-primary" href="login.html" id="fcLoginBtn">Login</a>
+                    <a class="btn btn-soft" href="account.html" id="fcAccountBtn" style="display:none;">Account</a>
+                  </div>
+                  <div class="slide-visual"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="dots" id="fcDots" aria-label="Carousel pagination"></div>
           </div>
-        </div>
+        </section>
       </section>
 
       <div class="divider"></div>
@@ -664,7 +891,7 @@
       <div class="divider"></div>
 
       <!-- STUDIO SLIDESHOW -->
-      <section class="section slideshow-section">
+      <section class="section slideshow-section" id="studio">
         <div class="slideshow-container card">
           <div id="imageSlider"></div>
         </div>
@@ -680,7 +907,7 @@
       <div class="divider"></div>
 
       <!-- VIDEOS GRID -->
-      <section class="section">
+      <section class="section" id="videos">
         <div class="section-head">
           <h2>Videos</h2>
           <p>Singles + projects.</p>
@@ -856,34 +1083,44 @@
       });
     })();
 
-    // Login Sync (desktop + mobile)
+    // Login Sync (desktop + mobile + carousel)
     function syncLoginButtons() {
       const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
       const text = isLoggedIn ? 'Account' : 'Login';
       const href = isLoggedIn ? 'account.html' : 'login.html';
 
       const mobile = document.getElementById('loginBtnMobile');
-      const desktop = document.getElementById('loginBtn');
-
       if (mobile) { mobile.textContent = text; mobile.href = href; }
-      if (desktop) { desktop.textContent = text; desktop.href = href; }
+
+      const fcLogin = document.getElementById('fcLoginBtn');
+      const fcAcct = document.getElementById('fcAccountBtn');
+      if (fcLogin && fcAcct) {
+        if (isLoggedIn) {
+          fcLogin.style.display = 'none';
+          fcAcct.style.display = 'inline-flex';
+        } else {
+          fcLogin.style.display = 'inline-flex';
+          fcAcct.style.display = 'none';
+        }
+      }
     }
     document.addEventListener('DOMContentLoaded', syncLoginButtons);
 
-    // Studio Slideshow (same logic as your working version)
+    // Studio Slideshow
     document.addEventListener('DOMContentLoaded', function() {
       const images = [
-        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
-        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
-        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
-        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
-        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
-        "assets/images/S16.jpeg","assets/images/S17.jpeg"
+        "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
+        "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
+        "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
+        "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
+        "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
+        "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
       ];
       let currentImageIndex = -1;
       const imageSlider = document.getElementById("imageSlider");
 
       function showNextImage() {
+        if (!imageSlider) return;
         currentImageIndex = (currentImageIndex + 1) % images.length;
         const newImage = document.createElement("img");
         newImage.src = images[currentImageIndex];
@@ -891,15 +1128,99 @@
         newImage.style.opacity = 0;
         newImage.style.transition = "opacity 900ms ease-in-out";
 
-        if (imageSlider) {
-          imageSlider.innerHTML = "";
-          imageSlider.appendChild(newImage);
-          void newImage.offsetWidth;
-          newImage.style.opacity = 1;
-        }
+        imageSlider.innerHTML = "";
+        imageSlider.appendChild(newImage);
+        void newImage.offsetWidth;
+        newImage.style.opacity = 1;
       }
       showNextImage();
       setInterval(showNextImage, 4500);
+    });
+
+    // Feature Carousel (smooth, swipe, dots, auto-rotate)
+    document.addEventListener('DOMContentLoaded', function(){
+      const track = document.getElementById('fcTrack');
+      const dotsWrap = document.getElementById('fcDots');
+      const pill = document.getElementById('fcPill');
+      const prevBtn = document.getElementById('fcPrev');
+      const nextBtn = document.getElementById('fcNext');
+      const viewport = document.getElementById('fcViewport');
+
+      if (!track || !dotsWrap || !pill || !prevBtn || !nextBtn || !viewport) return;
+
+      const slides = Array.from(track.querySelectorAll('.fc-slide'));
+      let idx = 0;
+      let timer = null;
+
+      function setIndex(i, userAction=false){
+        idx = (i + slides.length) % slides.length;
+        track.style.transform = `translateX(-${idx * 100}%)`;
+
+        const pillText = slides[idx].getAttribute('data-pill') || 'Explore';
+        pill.textContent = pillText;
+
+        const dots = dotsWrap.querySelectorAll('.dot');
+        dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
+
+        if (userAction) restart();
+      }
+
+      // dots
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.className = 'dot';
+        b.type = 'button';
+        b.setAttribute('aria-label', `Go to slide ${i+1}`);
+        b.setAttribute('aria-current', i === 0 ? 'true' : 'false');
+        b.addEventListener('click', () => setIndex(i, true));
+        dotsWrap.appendChild(b);
+      });
+
+      prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
+      nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
+
+      // auto-rotate
+      function start(){
+        timer = setInterval(() => setIndex(idx + 1), 5200);
+      }
+      function stop(){
+        if (timer) clearInterval(timer);
+        timer = null;
+      }
+      function restart(){
+        stop();
+        start();
+      }
+
+      // pause on hover/focus
+      viewport.addEventListener('mouseenter', stop);
+      viewport.addEventListener('mouseleave', start);
+      viewport.addEventListener('focusin', stop);
+      viewport.addEventListener('focusout', start);
+
+      // swipe (pointer)
+      let startX = 0, dx = 0, down = false;
+      viewport.addEventListener('pointerdown', (e) => {
+        down = true;
+        startX = e.clientX;
+        dx = 0;
+        viewport.setPointerCapture(e.pointerId);
+        stop();
+      });
+      viewport.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        dx = e.clientX - startX;
+      });
+      viewport.addEventListener('pointerup', () => {
+        if (!down) return;
+        down = false;
+        if (Math.abs(dx) > 40) setIndex(idx + (dx < 0 ? 1 : -1), true);
+        else restart();
+      });
+
+      // init
+      setIndex(0);
+      start();
     });
   </script>
 </body>
