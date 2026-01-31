@@ -17,7 +17,6 @@ const { body, validationResult } = require('express-validator');
 
 const app = express();
 const PORT = process.env.PORT || 4242;
-app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── ENV CHECK ────────────────────────────────────────────────────────────────
 if (!process.env.MONGODB_URI) {
