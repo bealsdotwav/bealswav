@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f17" />
   <title>Home | Beals.wav</title>
+
+  <!-- SEO (basic, clean) -->
+  <meta name="description" content="Beals.wav — Music, beats, and studio services. Based in West Jordan, Utah." />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Beals.wav" />
+  <meta property="og:description" content="Music, beats, and studio services. West Jordan, Utah." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.bealswav.com/" />
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4926KVF6L"></script>
@@ -15,536 +25,1005 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <!-- Retro Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS (if used elsewhere) -->
-  <link rel="preconnect" href="https://player.beatstars.com">
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Modern font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Optional preconnect for embeds -->
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link rel="preconnect" href="https://www.google.com">
+  <link rel="preconnect" href="https://i.ytimg.com">
 
   <style>
-    :root {
-      --glow: #00e0e0;   /* softer cyan */
-      --accent: #ff5c7a; /* softer pink-red */
-      --bg-dark: #0f0f0f;
-      --text: #f5f5f5;
+    /* =========
+      Modern, clean system
+    ========= */
+    :root{
+      --bg: #0b0f17;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.10);
+      --border-2: rgba(255,255,255,0.14);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.62);
+      --muted-2: rgba(255,255,255,0.45);
+
+      --primary: #7c3aed;     /* violet */
+      --primary-2: #22c55e;   /* green accent */
+      --accent: #38bdf8;      /* sky */
+      --danger: #ef4444;
+
+      --shadow: 0 16px 40px rgba(0,0,0,0.45);
+      --shadow-soft: 0 10px 28px rgba(0,0,0,0.35);
+
+      --r-lg: 18px;
+      --r-md: 14px;
+      --r-sm: 12px;
+
+      --max: 1160px;
     }
 
-    /* RESET */
-    * { box-sizing: border-box; margin:0; padding:0; }
-    html, body {
-      width: 100%; height: 100%;
-      font-family: 'Press Start 2P', cursive;
-      background: var(--bg-dark);
+    /* Reset */
+    *{ box-sizing:border-box; }
+    html, body { height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
       color: var(--text);
-      overflow-x: hidden;
-      scroll-behavior: smooth;
+      background:
+        radial-gradient(900px 600px at 12% 8%, rgba(124,58,237,0.18), transparent 60%),
+        radial-gradient(900px 600px at 88% 10%, rgba(56,189,248,0.16), transparent 55%),
+        radial-gradient(900px 600px at 65% 92%, rgba(34,197,94,0.12), transparent 60%),
+        linear-gradient(180deg, #070a10 0%, var(--bg) 35%, #070a10 100%);
+      overflow-x:hidden;
     }
 
-    /* CONTAINER */
-    .container { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
+    a{ color: inherit; }
+    img{ max-width:100%; display:block; }
 
-    /****************************************
-     * HEADER
-     ****************************************/
-    header {
-      position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
-      background: rgba(0,0,0,0.9);
-      border-bottom: 1px solid #222;
-      transition: transform 0.4s ease, opacity 0.4s ease;
-      padding: 1rem;
-    }
-    .header-container {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 1400px; margin: 0 auto; padding: 0.5rem 2rem;
-    }
-    .logo {
-      font-size: 1.4rem; color: var(--glow);
-      text-shadow: 0 0 5px var(--glow), 0 0 10px var(--glow);
-      text-decoration: none; margin-right: 1rem;
-    }
-    .nav-menu { flex: 1; display: flex; justify-content: center; }
-    .nav-menu ul { list-style: none; display: flex; gap: 1.5rem; }
-    .nav-menu li { display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .nav-menu a {
-      color: var(--accent); text-decoration: none; font-size: 0.75rem;
-      transition: color 0.2s ease; line-height: 1.2; text-align: center;
-    }
-    .nav-menu a:hover { color: var(--glow); }
-    .subtext { font-size: 0.45rem; color: #aaa; margin-top: 0.15rem; text-align: center; }
-    
-    /* Header buttons — scoped to header */
-    header .header-buttons { display: flex; gap: 1rem; align-items: center; }
-    header .login-btn {
-      background: var(--glow); color: #000; font-size: 0.8rem;
-      padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; cursor: pointer;
-    }
-    header .hamburger {
-      font-size: 1.5rem; line-height: 1; color: var(--accent);
-      background: transparent; border: none; cursor: pointer; display: none;
-      appearance: none; -webkit-appearance: none;
+    /* Layout helpers */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px;
     }
 
-    /* GENERIC PRIMARY BUTTON (for “Book Now”) */
-    .btn-primary {
-      display: inline-block;
-      padding: 0.7rem 1.2rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: #000;
-      background: var(--glow);
-      border: 1px solid var(--glow);
-      text-decoration: none;
-      transition: background .2s ease, transform .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease;
-      box-shadow: 0 0 6px var(--glow);
-    }
-    .btn-primary:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      transform: translateY(-2px);
-      box-shadow: 0 0 12px var(--accent);
+    /* =========
+      Header
+    ========= */
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(11,15,23,0.70);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    /* FOOTER NAV */
-    .footer-nav { background: #0d0d0d; padding: 2rem 1rem 4rem; text-align: center; }
-    .footer-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
-    .footer-buttons a {
-      display: inline-block; padding: 0.6rem 1rem; border-radius: 8px; font-size: 0.7rem; text-decoration: none;
-      /* Default blue to match other pages */
-      background: var(--glow); color: #000; border: 1px solid var(--glow);
-      transition: background .2s ease, transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-      box-shadow: 0 0 6px var(--glow);
-    }
-    .footer-buttons a:hover {
-      background: var(--accent); border-color: var(--accent); color: #fff;
-      transform: translateY(-2px); box-shadow: 0 0 12px var(--accent);
-    }
-    /* Stack vertically on small screens */
-    @media (max-width: 600px) {
-      .footer-buttons { flex-direction: column; gap: 0.75rem; }
-      .footer-buttons a { width: 90%; max-width: 300px; margin: 0 auto; }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
+      gap: 14px;
     }
 
-    /* MOBILE SIDEBAR */
-    .sidebar {
-      position: fixed; top: 70px; left: -220px; width: 200px; height: calc(100% - 70px);
-      background: #111; padding: 1.5rem 1rem; z-index: 998; transition: left 0.3s ease;
-    }
-    .sidebar.open { left: 0; }
-    .sidebar ul { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
-    .sidebar a { font-size: 0.9rem; color: var(--glow); text-decoration: none; }
-
-    /****************************************
-     * MAIN CONTENT
-     ****************************************/
-    main { padding-top: 100px; }
-
-    /* Section divider */
-    .section-divider {
-      width: 80%; height: 2px; margin: 3rem auto;
-      background: linear-gradient(90deg, transparent, var(--glow), transparent);
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      text-decoration:none;
+      user-select:none;
     }
 
-    /* Video container */
-    .video-container {
-      width: 90%; max-width: 1000px; margin: 0 auto 3rem;
-      text-align: center; border: 2px solid #333; border-radius: 12px;
-      padding: 1rem 1.5rem 2rem; background: #111;
-      box-shadow: 0 0 8px #222; transition: box-shadow 0.3s ease, border-color 0.3s ease;
-    }
-    .video-container:hover { box-shadow: 0 0 18px var(--accent); border-color: var(--accent); }
-
-    .video-container h2 {
-      font-size: clamp(1rem, 1.4vw, 1.2rem);
-      margin-bottom: 1rem;
-      color: var(--glow);
-      line-height: 1.3;
-    }
-    @media (min-width: 1024px) {
-      .video-container h2 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    }
-    @media (max-width: 1023px) {
-      .video-container h2 { white-space: normal; }
-    }
-
-    /* Responsive iframe */
-    .video-container .iframe-wrap {
-      position: relative; width: 100%; max-width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 10px; overflow: hidden;
-      box-shadow: 0 0 12px rgba(255,255,255,0.1);
-    }
-    .video-container iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-
-    /* Slideshow */
-    .slideshow-section { width: 92%; max-width: 1100px; margin: 0 auto; }
-    .slideshow-container {
-      width: 100%; position: relative; border-radius: 10px;
-      border: 2px solid #222; overflow: hidden; height: 500px;
-      display: flex; align-items: center; justify-content: center; background: var(--bg-dark);
-      box-shadow: 0 0 10px #ffff44; transition: box-shadow 0.3s ease;
-    }
-    .slideshow-container:hover { box-shadow: 0 0 25px #ffff44; }
-    #imageSlider { width: 100%; height: 100%; }
-    /* FIX: fill the frame on desktop too */
-    #imageSlider img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;   /* was contain */
-      display: block;
+    .brand-mark{
+      width: 34px;
+      height: 34px;
       border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(124,58,237,0.95), rgba(56,189,248,0.90));
+      box-shadow: 0 10px 28px rgba(124,58,237,0.20);
+      border: 1px solid rgba(255,255,255,0.12);
     }
 
-
-    .slideshow-text { text-align: center; }
-    .slideshow-text h2 { margin-bottom: 0.75rem; color: var(--glow); font-size: 1.2rem; }
-    .slideshow-text p { margin: 0 0 1rem 0; font-size: 0.85rem; line-height: 1.6; color: #ddd; }
-
-    /* CTA SECTION */
-    .cta-section { width: 92%; max-width: 1000px; margin: 0 auto 3rem; }
-    .cta-card { background: #111; border: 1px solid #2a2a2a; border-radius: 12px; padding: 1.25rem 1rem; box-shadow: 0 0 8px #1a1a1a; }
-    .cta-btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
-    .cta-btn {
-      display: inline-block; padding: 0.8rem 1.4rem; border-radius: 8px; font-size: 0.9rem; text-decoration: none; font-weight: bold;
-      color: #000; background: var(--accent); border: 1px solid var(--accent);
-      transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height: 1.05;
     }
-    .cta-btn:hover { background: var(--glow); border-color: var(--glow); transform: translateY(-2px); box-shadow: 0 0 12px var(--glow); }
-    @media (max-width: 480px) { .cta-btn { width: 100%; text-align: center; } }
-
-    /* FOLLOW & SUPPORT */
-    .linktree { margin: 3rem auto; text-align: center; width: 92%; max-width: 1100px; }
-    .linktree h3 { margin-bottom: 1rem; font-size: 1rem; color: var(--glow); }
-
-    .linktree-buttons {
-      display: grid; gap: 0.85rem; max-width: 100%; margin: 0 auto; grid-template-columns: 1fr; /* mobile default */
+    .brand-text strong{
+      font-size: 0.98rem;
+      letter-spacing: 0.2px;
     }
-    @media (min-width: 768px) { .linktree-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 700px; } }
-    @media (min-width: 1024px) { .linktree-buttons { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1100px; } }
-
-    .linktree-buttons a {
-      display: inline-block; padding: 0.85rem 1rem; border-radius: 10px; text-decoration: none; font-size: 0.8rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
-      text-align: center; border: 1px solid rgba(255,255,255,0.08);
-    }
-    .linktree-buttons a:hover { transform: translateY(-2px); filter: brightness(1.05); }
-
-    /* Brand colors */
-    .spotify   { background: #1DB954; color: #000; }
-    .apple     { background: #fa233b; color: #fff; }
-    .instagram { background: #e1306c; color: #fff; }
-    .tiktok    { background: #010101; color: #fff; }
-    .soundcloud{ background: #ff5500; color: #000; }
-    .youtube   { background: #ff0000; color: #fff; }
-
-    /* Ticker */
-    .ticker { position: fixed; bottom: 0; width: 100%; height: 25px; background: black; overflow: hidden; z-index: 998; }
-    .ticker-content {
-      white-space: nowrap; display: inline-block; padding-left: 100%;
-      animation: scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size: 0.65rem; font-weight: bold;
-    }
-    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
-    @keyframes colorchange {
-      0% { color: #00ffff; } 25% { color: #ff4d6d; } 50% { color: #a0ff00; } 75% { color: #ff00ff; } 100% { color: #00ffff; }
+    .brand-text span{
+      font-size: 0.78rem;
+      color: var(--muted);
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
-      .logo { font-size: 1.1rem; }
-      .header-container { padding: 0 1rem; }
-      header .header-buttons { gap: 0.5rem; }
-      header .login-btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
-      header .hamburger { display: inline-block; }
-      .nav-menu { display: none; }
-      .sidebar { width: 200px; }
-
-      /* mobile slideshow spacing & cover */
-      .slideshow-container {
-        height: 300px;
-        background: var(--bg-dark);
-        overflow: hidden;
-        margin-bottom: 1rem;   /* more space under slideshow */
-      }
-      #imageSlider img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 0;
-      }
-      .slideshow-text {
-        margin-top: 0.75rem;
-      }
-
-      .video-container {
-        width: 95%; max-width: none; margin-left: auto; margin-right: auto;
-        padding-bottom: 1rem; height: auto !important; border-radius: 12px;
-      }
-      .video-container .iframe-wrap { aspect-ratio: 16/9; }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap: 16px;
     }
 
-    /* Desktop enhancements */
-    @media (min-width: 1024px) {
-      .video-grid {
-        display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: 2rem; width: 92%; max-width: 1100px; margin: 0 auto; align-items: start; overflow-x: hidden;
-      }
-      .video-grid > .video-container { width: 100%; max-width: none; margin: 0 0 2rem; min-width: 0; }
-      .video-grid .iframe-wrap { width: 100%; }
-      .slideshow-section { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
-      .nav-menu a { font-size: 0.95rem; }
-      .subtext   { font-size: 0.6rem; }
+    .nav-links a{
+      text-decoration:none;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.78);
+      padding: 8px 10px;
+      border-radius: 10px;
+      transition: background 160ms ease, color 160ms ease;
     }
 
-    /* small artist line under each video title */
-    .video-container .artist-subtext {
-      font-size: 0.8rem; line-height: 1.4; color: #bbbbbb; margin: -0.35rem 0 0.75rem; text-align: center;
+    .nav-links a:hover{
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.95);
     }
-    .video-container h2 { margin-bottom: 0.5rem; }
+
+    .nav-cta{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 8px;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration:none;
+      border: 1px solid transparent;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease, color 140ms ease;
+      user-select:none;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+
+    .btn:active{ transform: translateY(1px); }
+
+    .btn-ghost{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.90);
+    }
+    .btn-ghost:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.14);
+    }
+
+    .btn-primary{
+      background: linear-gradient(135deg, rgba(124,58,237,1), rgba(56,189,248,0.95));
+      border-color: rgba(255,255,255,0.12);
+      color: #0b0f17;
+      box-shadow: 0 12px 34px rgba(124,58,237,0.20);
+    }
+    .btn-primary:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+      box-shadow: 0 16px 44px rgba(124,58,237,0.22);
+    }
+
+    .hamburger{
+      display:none;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.92);
+      cursor:pointer;
+    }
+
+    /* Mobile menu */
+    .mobile-drawer{
+      display:none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: rgba(11,15,23,0.78);
+      backdrop-filter: blur(14px);
+    }
+    .mobile-drawer .drawer-links{
+      display:flex;
+      flex-direction:column;
+      padding: 10px 0 14px;
+      gap: 4px;
+    }
+    .mobile-drawer a{
+      text-decoration:none;
+      padding: 12px 12px;
+      border-radius: 12px;
+      color: rgba(255,255,255,0.84);
+      transition: background 160ms ease;
+    }
+    .mobile-drawer a:hover{
+      background: rgba(255,255,255,0.06);
+    }
+
+    /* =========
+      Hero
+    ========= */
+    main{
+      padding: 28px 0 70px;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 18px;
+      align-items:stretch;
+      margin-top: 10px;
+    }
+
+    .hero-card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
+      position: relative;
+    }
+
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset: -2px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.20), rgba(56,189,248,0.14), rgba(34,197,94,0.12));
+      filter: blur(26px);
+      opacity: 0.55;
+      pointer-events:none;
+    }
+
+    .hero-inner{
+      position: relative;
+      padding: 18px;
+    }
+
+    .hero-title{
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .kicker{
+      font-size: 0.86rem;
+      color: var(--muted);
+      letter-spacing: 0.2px;
+    }
+
+    .headline{
+      font-size: clamp(1.35rem, 1.15rem + 1.2vw, 2.05rem);
+      line-height: 1.08;
+      margin:0;
+      letter-spacing: -0.02em;
+    }
+
+    .subhead{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.98rem;
+      max-width: 60ch;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 0.86rem;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .pill strong{
+      color: rgba(255,255,255,0.92);
+      font-weight: 600;
+    }
+
+    /* =========
+      Sections
+    ========= */
+    .section{
+      margin-top: 18px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 12px;
+      margin: 18px 0 10px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size: 1.18rem;
+      letter-spacing: -0.01em;
+    }
+
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .divider{
+      height: 1px;
+      width: 100%;
+      margin: 18px 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    }
+
+    /* =========
+      Video cards
+    ========= */
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
+    }
+
+    .card-pad{
+      padding: 14px;
+    }
+
+    .video-title{
+      display:flex;
+      flex-direction:column;
+      gap: 4px;
+      padding: 14px 14px 10px;
+    }
+
+    .video-title h3{
+      margin:0;
+      font-size: 1.02rem;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.94);
+      line-height: 1.2;
+    }
+
+    .video-title span{
+      font-size: 0.90rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .iframe-wrap{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,0.35);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      overflow:hidden;
+    }
+
+    .iframe-wrap iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    .featured-grid{
+      display:grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 16px;
+    }
+
+    .video-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    /* =========
+      Support links
+    ========= */
+    .links-grid{
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .link-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      text-decoration:none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.90);
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+      user-select:none;
+    }
+    .link-btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.14);
+    }
+
+    /* Brand accent slivers */
+    .link-btn.spotify{ border-color: rgba(34,197,94,0.30); }
+    .link-btn.apple{ border-color: rgba(255,255,255,0.18); }
+    .link-btn.soundcloud{ border-color: rgba(249,115,22,0.35); }
+    .link-btn.youtube{ border-color: rgba(239,68,68,0.35); }
+    .link-btn.instagram{ border-color: rgba(236,72,153,0.35); }
+    .link-btn.tiktok{ border-color: rgba(56,189,248,0.35); }
+
+    /* =========
+      CTA panel
+    ========= */
+    .cta{
+      display:grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      align-items:stretch;
+    }
+
+    .cta-card{
+      background:
+        radial-gradient(700px 360px at 10% 10%, rgba(124,58,237,0.20), transparent 55%),
+        radial-gradient(700px 360px at 90% 30%, rgba(56,189,248,0.16), transparent 55%),
+        rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-soft);
+      padding: 16px;
+      overflow:hidden;
+    }
+
+    .cta-card h3{
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .cta-card p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    .cta-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+    }
+
+    .btn-success{
+      background: linear-gradient(135deg, rgba(34,197,94,1), rgba(56,189,248,0.90));
+      border-color: rgba(255,255,255,0.12);
+      color: #06120b;
+      box-shadow: 0 12px 34px rgba(34,197,94,0.16);
+    }
+    .btn-success:hover{ transform: translateY(-1px); }
+
+    .btn-outline{
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.92);
+    }
+    .btn-outline:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+
+    /* =========
+      Footer
+    ========= */
+    footer{
+      margin-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: rgba(11,15,23,0.45);
+      backdrop-filter: blur(12px);
+    }
+
+    .footer-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap: 16px;
+      padding: 18px 0;
+      flex-wrap:wrap;
+    }
+
+    .footer-links{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a{
+      text-decoration:none;
+      color: rgba(255,255,255,0.70);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+      font-size: 0.92rem;
+    }
+    .footer-links a:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.92);
+    }
+
+    .fineprint{
+      color: var(--muted-2);
+      font-size: 0.88rem;
+      line-height: 1.45;
+      max-width: 58ch;
+    }
+
+    /* =========
+      Responsive
+    ========= */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .featured-grid{ grid-template-columns: 1fr; }
+      .cta{ grid-template-columns: 1fr; }
+      .links-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px){
+      .nav-links{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+      .nav-cta .btn-ghost{ display:none; } /* reduce clutter */
+      .video-grid{ grid-template-columns: 1fr; }
+      .links-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .brand-text span{ display:none; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ scroll-behavior:auto !important; transition:none !important; animation:none !important; }
+    }
   </style>
 </head>
+
 <body>
 
-  <!-- MOBILE SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <ul>
-      <li><a href="music.html">🎵 Music</a></li>
-      <li><a href="beatstore.html">💽 Beats</a></li>
-      <li><a href="studio.html">🎚️ Studio</a></li>
-      <li><a href="faq.html">📖 FAQ</a></li>
-      <li><a href="contact.html">✉️ Contact</a></li>
-    </ul>
-  </div>
-
   <!-- HEADER -->
-  <header id="mainHeader">
-    <div class="header-container">
-      <a href="index.html" class="logo">BEALS.WAV</a>
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="music.html">Music</a><span class="subtext">Listen to my songs</span></li>
-          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy instrumentals</span></li>
-          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
-          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
-          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
-        </ul>
-      </nav>
-      <div class="header-buttons">
-        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="index.html" aria-label="Beals.wav Home">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <strong>BEALS.WAV</strong>
+            <span>Music • Beats • Studio</span>
+          </div>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="music.html">Music</a>
+          <a href="beatstore.html">Beat Store</a>
+          <a href="studio.html">Studio</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+
+        <div class="nav-cta">
+          <a class="btn btn-ghost" href="login.html" id="loginBtn">Login</a>
+          <a class="btn btn-primary" href="studio.html">Book Studio</a>
+          <button class="hamburger" id="menuBtn" aria-label="Toggle menu">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <div class="wrap">
+        <div class="drawer-links">
+          <a href="music.html">Music</a>
+          <a href="beatstore.html">Beat Store</a>
+          <a href="studio.html">Studio</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contact.html">Contact</a>
+          <a href="login.html" id="loginBtnMobile">Login</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- CONTENT -->
-  <div class="container">
-    <main>
+  <!-- MAIN -->
+  <main>
+    <div class="wrap">
 
-      <!-- 1) ALBUM (FULL WIDTH) -->
-      <section id="album-23-5" class="video-container album-23-5">
-        <h2>23.5 (Album)</h2>
-        <div class="iframe-wrap">
-          <iframe
-            src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp"
-            title="23.5 (Album)"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
-        </div>
-      </section>
+      <!-- HERO -->
+      <section class="hero" aria-label="Hero">
+        <div class="hero-card">
+          <div class="hero-inner">
+            <div class="hero-title">
+              <div class="kicker">Beals.wav</div>
+              <h1 class="headline">Music, beats, and studio services built to sound expensive.</h1>
+              <p class="subhead">
+                West Jordan, Utah. Recording, mixing, production, and a beat catalog that actually respects artists.
+              </p>
+            </div>
 
-      <div class="section-divider"></div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="music.html">Listen</a>
+              <a class="btn btn-success" href="beatstore.html">Buy Beats</a>
+              <a class="btn btn-outline" href="contact.html">Contact</a>
+            </div>
 
-      <!-- 2) FOLLOW & SUPPORT -->
-      <section class="linktree">
-        <h3>Follow & Support</h3>
-        <div class="linktree-buttons">
-          <a href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" class="spotify" target="_blank" rel="noopener">Spotify</a>
-          <a href="https://music.apple.com/us/artist/beals/1780458418" class="apple" target="_blank" rel="noopener noreferrer">Apple Music</a>
-          <a href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="soundcloud" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-          <a href="https://www.youtube.com/@bealsprod" class="youtube" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a href="https://www.instagram.com/bealsprod" class="instagram" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.tiktok.com/@bealsprod" class="tiktok" target="_blank" rel="noopener noreferrer">TikTok</a>
-        </div>
-      </section>
-
-      <div class="section-divider"></div>
-
-      <!-- 3) STUDIO: SLIDESHOW + TEXT (SIDE-BY-SIDE ON DESKTOP) -->
-      <section class="slideshow-section">
-        <div class="slideshow">
-          <div class="slideshow-container">
-            <div id="imageSlider"></div>
-          </div>
-        </div>
-        <div class="slideshow-text">
-          <h2>Book Studio Time</h2>
-          <p>High-quality recording, mixing, and production services in West Jordan, Utah.</p>
-          <a href="studio.html" class="btn-primary">Book Now</a>
-        </div>
-      </section>
-
-      <div class="section-divider"></div>
-
-      <!-- 5) VIDEOS (GRID ON DESKTOP) -->
-      <section class="video-grid">
-        <div id="vip-220" class="video-container vip-highlight">
-          <h2>VIP (220)</h2>
-          <p class="artist-subtext">Beals</p>
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0" title="VIP (220)" allowfullscreen></iframe>
+            <div class="pill-row" aria-label="Highlights">
+              <div class="pill"><strong>Studio</strong> Recording + Mixing</div>
+              <div class="pill"><strong>Beats</strong> Tagged previews</div>
+              <div class="pill"><strong>Sessions</strong> Book online</div>
+            </div>
           </div>
         </div>
 
-        <div id="no-rest" class="video-container">
-          <h2>No Rest</h2>
-          <p class="artist-subtext">Roman Noodle feat. RPFROMTHETOP, Beals</p>
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0" title="No Rest" allowfullscreen></iframe>
-          </div>
-        </div>
+        <div class="card">
+          <div class="card-pad">
+            <div class="section-head" style="margin:0 0 10px;">
+              <h2 style="margin:0;">Quick actions</h2>
+              <p style="margin:0;">Do the obvious things.</p>
+            </div>
 
-        <div id="lame" class="video-container">
-          <h2>Lame</h2>
-          <p class="artist-subtext">Roman Noodle feat. Beals</p>
-          <div class="iframe-wrap">
-            <iframe src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0" title="Lame" allowfullscreen></iframe>
-          </div>
-        </div>
+            <div class="cta-actions">
+              <a class="btn btn-outline" href="studio.html">Studio Pricing</a>
+              <a class="btn btn-outline" href="beatstore.html">Beat Store</a>
+              <a class="btn btn-outline" href="music.html">Catalog</a>
+              <a class="btn btn-outline" href="faq.html">FAQ</a>
+            </div>
 
-        <div id="breaking-point" class="video-container">
-          <h2>Breaking Point (Album)</h2>
-          <p class="artist-subtext">Roman Noodle</p>
-          <div class="iframe-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj"
-              title="Breaking Point (Album)"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
-          </div>
-        </div>
+            <div class="divider"></div>
 
-        <div id="what-is-going-on" class="video-container">
-          <h2>WHAT IS GOING ON</h2>
-          <p class="artist-subtext">RPFROMTHETOP feat. Beals</p>
-          <div class="iframe-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/6ogFoT19EO8"
-              title="WHAT IS GOING ON"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div id="forever-album" class="video-container">
-          <h2>Forever (Album)</h2>
-          <p class="artist-subtext">RPFROMTHETOP</p>
-          <div class="iframe-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_les7EfKzmDdmr5wEhIOM3NZKXiCL7AExM"
-              title="Forever (Album)"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div id="back-to-back" class="video-container">
-          <h2>Back to Back</h2>
-          <p class="artist-subtext">Cartier & Beals</p>
-          <div class="iframe-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/z56pau7bf-Y"
-              title="Back to Back"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div id="meraki" class="video-container">
-          <h2>MERAKI (Album)</h2>
-          <p class="artist-subtext">Beals</p>
-          <div class="iframe-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE"
-              title="MERAKI (Album)"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen></iframe>
+            <p class="fineprint" style="margin:0;">
+              If a YouTube embed ever throws a tantrum again, it’s either YouTube changing rules or a video/playlist
+              being restricted. This page uses the strict embed format to minimize that drama.
+            </p>
           </div>
         </div>
       </section>
 
-      <div class="section-divider"></div>
-    </main>
-  </div>
+      <div class="divider"></div>
 
-  <!-- FOOTER NAV BUTTONS -->
-  <footer class="footer-nav">
-    <div class="footer-buttons">
-      <a href="music.html">Music</a>
-      <a href="beatstore.html">Beats</a>
-      <a href="studio.html">Studio</a>
-      <a href="faq.html">FAQ</a>
-      <a href="contact.html">Contact</a>
+      <!-- FEATURED ALBUM + FOLLOW -->
+      <section class="featured-grid section" aria-label="Featured">
+        <!-- 23.5 (Album playlist) -->
+        <article class="card" id="album-23-5">
+          <div class="video-title">
+            <h3>23.5 (Album)</h3>
+            <span>Playlist</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
+              title="23.5 (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
+
+        <!-- Follow & Support -->
+        <article class="card">
+          <div class="card-pad">
+            <div class="section-head" style="margin:0 0 10px;">
+              <h2 style="margin:0;">Follow & Support</h2>
+              <p style="margin:0;">Streaming links that don’t look like 2009.</p>
+            </div>
+
+            <div class="links-grid" aria-label="Follow links">
+              <a class="link-btn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
+              <a class="link-btn apple" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple Music</a>
+              <a class="link-btn soundcloud" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+              <a class="link-btn youtube" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
+              <a class="link-btn instagram" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a class="link-btn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="cta-actions">
+              <a class="btn btn-primary" href="music.html">Music Page</a>
+              <a class="btn btn-success" href="beatstore.html">Buy Beats</a>
+              <a class="btn btn-outline" href="studio.html">Book Studio</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- STUDIO + BEATS CTA -->
+      <section class="cta section" aria-label="Calls to action">
+        <div class="cta-card">
+          <h3>Book Studio Time</h3>
+          <p>High-quality recording, mixing, and production services in West Jordan, Utah. Clean signal chain, serious workflow.</p>
+          <div class="cta-actions">
+            <a class="btn btn-primary" href="studio.html">Book Now</a>
+            <a class="btn btn-outline" href="contact.html">Ask a Question</a>
+          </div>
+        </div>
+
+        <div class="cta-card">
+          <h3>Buy Beats</h3>
+          <p>Browse instrumentals, license instantly, and stop arguing with your DAW at 2 AM.</p>
+          <div class="cta-actions">
+            <a class="btn btn-success" href="beatstore.html">Open Beat Store</a>
+            <a class="btn btn-outline" href="music.html">Hear Releases</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- VIDEOS GRID -->
+      <section class="section" aria-label="Videos">
+        <div class="section-head">
+          <h2>Videos</h2>
+          <p>Singles + projects.</p>
+        </div>
+
+        <div class="video-grid">
+          <!-- VIP (220) -->
+          <article class="card" id="vip-220">
+            <div class="video-title">
+              <h3>VIP (220)</h3>
+              <span>Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0&playsinline=1"
+                title="VIP (220)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- No Rest -->
+          <article class="card" id="no-rest">
+            <div class="video-title">
+              <h3>No Rest</h3>
+              <span>Roman Noodle feat. RPFROMTHETOP, Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0&playsinline=1"
+                title="No Rest"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Lame -->
+          <article class="card" id="lame">
+            <div class="video-title">
+              <h3>Lame</h3>
+              <span>Roman Noodle feat. Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0&playsinline=1"
+                title="Lame"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Breaking Point (Album playlist) -->
+          <article class="card" id="breaking-point">
+            <div class="video-title">
+              <h3>Breaking Point (Album)</h3>
+              <span>Roman Noodle</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj&rel=0&playsinline=1"
+                title="Breaking Point (Album)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- WHAT IS GOING ON -->
+          <article class="card" id="what-is-going-on">
+            <div class="video-title">
+              <h3>WHAT IS GOING ON</h3>
+              <span>RPFROMTHETOP feat. Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/6ogFoT19EO8?rel=0&playsinline=1"
+                title="WHAT IS GOING ON"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Forever (Album) - Single video (because OLAK5uy_* playlists are unreliable) -->
+          <article class="card" id="forever-album">
+            <div class="video-title">
+              <h3>Forever (Album)</h3>
+              <span>RPFROMTHETOP</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/flR4pt-oC_A?rel=0&playsinline=1"
+                title="Forever (Album) – RPFROMTHETOP"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- Back to Back -->
+          <article class="card" id="back-to-back">
+            <div class="video-title">
+              <h3>Back to Back</h3>
+              <span>Cartier & Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/z56pau7bf-Y?rel=0&playsinline=1"
+                title="Back to Back"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+
+          <!-- MERAKI (Album playlist) -->
+          <article class="card" id="meraki">
+            <div class="video-title">
+              <h3>MERAKI (Album)</h3>
+              <span>Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe
+                loading="lazy"
+                src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE&rel=0&playsinline=1"
+                title="MERAKI (Album)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <div>
+          <div class="brand" style="gap:10px; pointer-events:none;">
+            <div class="brand-mark" aria-hidden="true"></div>
+            <div class="brand-text">
+              <strong>BEALS.WAV</strong>
+              <span>West Jordan, Utah</span>
+            </div>
+          </div>
+          <p class="fineprint" style="margin:10px 0 0;">
+            © 2025 Beals.wav. All rights reserved.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-links" aria-label="Footer navigation">
+            <a href="music.html">Music</a>
+            <a href="beatstore.html">Beat Store</a>
+            <a href="studio.html">Studio</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+          </div>
+          <p class="fineprint" style="margin:10px 0 0;">
+            Recording • Mixing • Production • Beats • Music videos • Songwriting
+          </p>
+        </div>
+      </div>
     </div>
   </footer>
 
-  <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} -- Beals.wav {Recording Studio} -- {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} -- Based in West Jordan, Utah — © 2025 Beals.wav. All rights reserved. — New release out now! —
-    </div>
-  </div>
-
-  <!-- SCRIPTS -->
+  <!-- Scripts -->
   <script>
-    // Sidebar Toggle
-    function toggleSidebar() {
-      document.getElementById("sidebar").classList.toggle("open");
-    }
-
-    // Login Sync
-    function checkLoginStatus() {
+    // Login Sync (desktop + mobile)
+    function syncLoginButtons() {
       const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+
       const loginBtn = document.getElementById('loginBtn');
+      const loginBtnMobile = document.getElementById('loginBtnMobile');
+
+      const text = isLoggedIn ? 'Account' : 'Login';
+      const href = isLoggedIn ? 'account.html' : 'login.html';
+
       if (loginBtn) {
-        loginBtn.textContent = isLoggedIn ? 'Account' : 'Login';
-        loginBtn.href = isLoggedIn ? 'account.html' : 'login.html';
+        loginBtn.textContent = text;
+        loginBtn.href = href;
+      }
+      if (loginBtnMobile) {
+        loginBtnMobile.textContent = text;
+        loginBtnMobile.href = href;
       }
     }
-    document.addEventListener('DOMContentLoaded', checkLoginStatus);
 
-    // Studio Slideshow
-    document.addEventListener('DOMContentLoaded', function() {
-      const images = [
-        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
-        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
-        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
-        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
-        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
-        "assets/images/S16.jpeg","assets/images/S17.jpeg"
-      ];
-      let currentImageIndex = -1;
-      const imageSlider = document.getElementById("imageSlider");
+    // Mobile drawer toggle
+    function setupMobileMenu() {
+      const btn = document.getElementById('menuBtn');
+      const drawer = document.getElementById('mobileDrawer');
+      if (!btn || !drawer) return;
 
-      function showNextImage() {
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        const newImage = document.createElement("img");
-        newImage.src = images[currentImageIndex];
-        newImage.alt = "Studio Image " + (currentImageIndex + 1);
+      btn.addEventListener('click', function () {
+        const isOpen = drawer.style.display === 'block';
+        drawer.style.display = isOpen ? 'none' : 'block';
+      });
 
-        // Let CSS control sizing (prevents desktop cropping)
-
-        newImage.style.opacity = 0;
-        newImage.style.transition = "opacity 2s ease-in-out";
-
-        if (imageSlider) {
-          imageSlider.innerHTML = "";
-          imageSlider.appendChild(newImage);
-          void newImage.offsetWidth;
-          newImage.style.opacity = 1;
+      // Close drawer when a link is clicked (mobile)
+      drawer.addEventListener('click', function (e) {
+        const target = e.target;
+        if (target && target.tagName === 'A') {
+          drawer.style.display = 'none';
         }
-      }
-      showNextImage();
-      setInterval(showNextImage, 5000);
+      });
+
+      // Close drawer when resizing up
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 760) drawer.style.display = 'none';
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      syncLoginButtons();
+      setupMobileMenu();
     });
   </script>
 </body>
