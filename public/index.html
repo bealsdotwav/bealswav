@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0f14" />
-  <title>Home | Beals.wav</title>
+  <meta name="theme-color" content="#f5f0e8" />
+  <title>Beals.wav</title>
 
   <!-- SEO -->
-  <meta name="description" content="Beals.wav — Music, beats, and studio services. Based in West Jordan, Utah." />
+  <meta name="description" content="Beals.wav — Music, beats, and studio services. West Jordan, Utah." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.bealswav.com/" />
 
@@ -29,7 +29,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Preconnect for embeds -->
   <link rel="preconnect" href="https://www.youtube.com">
@@ -38,28 +38,34 @@
 
   <style>
     :root{
-      /* New palette: deep slate + warm sand + electric teal */
-      --bg: #0a0f14;
-      --bg2:#070b10;
-      --card: rgba(255,255,255,0.06);
-      --card2: rgba(255,255,255,0.08);
-      --stroke: rgba(255,255,255,0.10);
-      --stroke2: rgba(255,255,255,0.14);
+      /* Logo-derived palette (sampled):
+        light: #efe2f2 / #ebdcef / #e8daed
+        accent: #79a5c4
+        deep:   #145b75
+      */
 
-      --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.64);
-      --muted2: rgba(255,255,255,0.45);
+      --paper: #f5f0e8;     /* warm soft white/tan */
+      --paper2:#f0ebe2;     /* slightly darker */
+      --ink:   #0b1b24;     /* readable deep ink */
+      --ink2:  rgba(11,27,36,0.72);
+      --ink3:  rgba(11,27,36,0.55);
 
-      --brand: #2dd4bf;    /* teal */
-      --brand2:#fbbf24;    /* warm accent */
-      --ink: #071016;
+      --blue:  #79a5c4;     /* soft logo blue */
+      --teal:  #145b75;     /* logo deep teal */
+      --teal2: #0f4b61;
+      --sand:  #fbbf24;     /* small warmth for highlights (used lightly) */
 
-      --shadow: 0 18px 48px rgba(0,0,0,0.45);
-      --shadow2: 0 10px 28px rgba(0,0,0,0.35);
+      --card:  rgba(255,255,255,0.68);
+      --card2: rgba(255,255,255,0.78);
+      --stroke: rgba(11,27,36,0.10);
+      --stroke2: rgba(11,27,36,0.14);
 
-      --r-xl: 22px;
-      --r-lg: 18px;
-      --r-md: 14px;
+      --shadow: 0 18px 50px rgba(11,27,36,0.12);
+      --shadow2: 0 10px 30px rgba(11,27,36,0.10);
+
+      --r-xl: 28px;
+      --r-lg: 20px;
+      --r-md: 16px;
 
       --max: 1180px;
       --pad: 18px;
@@ -68,21 +74,21 @@
     }
 
     *{ box-sizing: border-box; }
-    html, body { height:100%; }
+    html, body { height: 100%; }
     body{
-      margin:0;
+      margin: 0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
+      color: var(--ink);
       background:
-        radial-gradient(1000px 650px at 10% 10%, rgba(45,212,191,0.16), transparent 60%),
-        radial-gradient(1000px 650px at 85% 0%, rgba(251,191,36,0.12), transparent 55%),
-        radial-gradient(900px 650px at 60% 100%, rgba(45,212,191,0.10), transparent 60%),
-        linear-gradient(180deg, var(--bg2) 0%, var(--bg) 30%, var(--bg2) 100%);
-      overflow-x:hidden;
+        radial-gradient(900px 520px at 12% 10%, rgba(121,165,196,0.28), transparent 60%),
+        radial-gradient(900px 520px at 92% 18%, rgba(20,91,117,0.18), transparent 58%),
+        radial-gradient(900px 520px at 60% 110%, rgba(121,165,196,0.18), transparent 60%),
+        linear-gradient(180deg, var(--paper) 0%, var(--paper2) 100%);
+      overflow-x: hidden;
     }
 
     a{ color: inherit; }
-    img{ max-width:100%; display:block; }
+    img{ max-width: 100%; display: block; }
 
     .wrap{
       max-width: var(--max);
@@ -90,16 +96,43 @@
       padding: 0 var(--pad);
     }
 
-    /* Top progress bar */
-    .progress{
+    /* Grain overlay (subtle, non-distracting) */
+    .grain{
       position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--brand), var(--brand2));
-      z-index: 1000;
-      box-shadow: 0 0 18px rgba(45,212,191,0.25);
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+      background-size: 260px 260px;
+    }
+
+    /* Soft blobs (parallax) */
+    .blob{
+      position: fixed;
+      z-index: 0;
+      filter: blur(38px);
+      opacity: 0.38;
+      pointer-events: none;
+      transform: translate3d(0,0,0);
+    }
+    .blob.b1{
+      width: 520px; height: 520px;
+      left: -160px; top: 160px;
+      background: radial-gradient(circle at 30% 30%, rgba(121,165,196,0.9), transparent 60%);
+    }
+    .blob.b2{
+      width: 520px; height: 520px;
+      right: -200px; top: 40px;
+      background: radial-gradient(circle at 30% 30%, rgba(20,91,117,0.75), transparent 62%);
+      opacity: 0.26;
+    }
+    .blob.b3{
+      width: 620px; height: 620px;
+      left: 22%; bottom: -280px;
+      background: radial-gradient(circle at 30% 30%, rgba(121,165,196,0.55), transparent 62%);
+      opacity: 0.24;
     }
 
     /* Header */
@@ -107,366 +140,349 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      backdrop-filter: blur(14px);
-      background: rgba(10,15,20,0.72);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(245,240,232,0.72);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(11,27,36,0.08);
     }
 
     .nav{
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 14px 0;
+      padding: 12px 0;
     }
 
     .brand{
-      display:flex;
-      align-items:center;
+      display: flex;
+      align-items: center;
       gap: 12px;
-      text-decoration:none;
-      user-select:none;
+      text-decoration: none;
+      user-select: none;
+      min-width: 180px;
     }
 
-    .mark{
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(45,212,191,0.95), rgba(251,191,36,0.92));
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 12px 34px rgba(45,212,191,0.16);
-    }
-
-    .brand-text{
-      display:flex;
-      flex-direction:column;
-      line-height: 1.05;
-    }
-    .brand-text strong{
-      letter-spacing: 0.2px;
-      font-size: 0.98rem;
-    }
-    .brand-text span{
-      font-size: 0.80rem;
-      color: var(--muted);
+    .brand img{
+      width: 150px;
+      height: auto;
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(11,27,36,0.10);
+      border: 1px solid rgba(11,27,36,0.08);
+      background: rgba(255,255,255,0.5);
     }
 
     .nav-links{
-      display:flex;
-      gap: 12px;
-      align-items:center;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .nav-links a{
-      text-decoration:none;
-      color: rgba(255,255,255,0.76);
+      text-decoration: none;
+      color: var(--ink2);
+      font-weight: 650;
       font-size: 0.95rem;
-      padding: 9px 11px;
-      border-radius: 12px;
+      padding: 10px 12px;
+      border-radius: 999px;
       transition: background var(--ease), color var(--ease), border-color var(--ease);
       border: 1px solid transparent;
     }
+
     .nav-links a:hover{
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.10);
-      color: rgba(255,255,255,0.92);
+      background: rgba(121,165,196,0.14);
+      border-color: rgba(11,27,36,0.10);
+      color: var(--ink);
     }
 
     .nav-cta{
-      display:flex;
+      display: flex;
+      align-items: center;
       gap: 10px;
-      align-items:center;
     }
 
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       gap: 10px;
-      text-decoration:none;
-      border-radius: 14px;
       padding: 12px 14px;
-      font-weight: 700;
-      font-size: 0.96rem;
+      border-radius: 999px;
       border: 1px solid transparent;
-      cursor:pointer;
-      user-select:none;
-      transition: transform var(--ease), background var(--ease), border-color var(--ease), box-shadow var(--ease);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.96rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform var(--ease), box-shadow var(--ease), background var(--ease), border-color var(--ease);
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
     }
     .btn:active{ transform: translateY(1px); }
 
     .btn-primary{
-      background: linear-gradient(135deg, rgba(45,212,191,1), rgba(251,191,36,0.92));
-      color: var(--ink);
-      border-color: rgba(255,255,255,0.12);
-      box-shadow: 0 16px 44px rgba(45,212,191,0.14);
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color: #f7f4ee;
+      box-shadow: 0 14px 34px rgba(20,91,117,0.20);
     }
-    .btn-primary:hover{ transform: translateY(-1px); }
+    .btn-primary:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 18px 44px rgba(20,91,117,0.24);
+    }
 
     .btn-ghost{
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.10);
-      color: rgba(255,255,255,0.90);
+      background: rgba(255,255,255,0.62);
+      border-color: rgba(11,27,36,0.12);
+      color: var(--ink);
+      box-shadow: 0 10px 24px rgba(11,27,36,0.08);
     }
     .btn-ghost:hover{
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.14);
       transform: translateY(-1px);
+      background: rgba(255,255,255,0.76);
+      border-color: rgba(11,27,36,0.14);
     }
 
     .hamburger{
-      display:none;
+      display: none;
       width: 46px;
       height: 46px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      color: rgba(255,255,255,0.92);
-      cursor:pointer;
+      border-radius: 999px;
+      border: 1px solid rgba(11,27,36,0.14);
+      background: rgba(255,255,255,0.62);
+      color: var(--ink);
+      box-shadow: 0 10px 24px rgba(11,27,36,0.08);
+      cursor: pointer;
     }
 
     .mobile-drawer{
-      display:none;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(10,15,20,0.78);
-      backdrop-filter: blur(14px);
+      display: none;
+      border-top: 1px solid rgba(11,27,36,0.08);
+      background: rgba(245,240,232,0.80);
+      backdrop-filter: blur(12px);
     }
     .drawer-links{
-      display:flex;
+      display: flex;
       flex-direction: column;
       padding: 10px 0 14px;
-      gap: 6px;
+      gap: 8px;
     }
     .drawer-links a{
       padding: 12px 12px;
-      border-radius: 14px;
-      text-decoration:none;
-      color: rgba(255,255,255,0.86);
-      border: 1px solid transparent;
-      transition: background var(--ease), border-color var(--ease);
-    }
-    .drawer-links a:hover{
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.10);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--ink);
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(11,27,36,0.10);
+      box-shadow: 0 10px 24px rgba(11,27,36,0.06);
+      font-weight: 750;
     }
 
     /* Main */
-    main{ padding: 26px 0 80px; }
+    main{
+      position: relative;
+      z-index: 1;
+      padding: 26px 0 78px;
+    }
 
-    /* HERO: less is more */
+    /* HERO: sculpted, fewer choices */
     .hero{
       position: relative;
       border-radius: var(--r-xl);
-      border: 1px solid rgba(255,255,255,0.10);
-      background:
-        radial-gradient(900px 420px at 10% 15%, rgba(45,212,191,0.18), transparent 60%),
-        radial-gradient(900px 420px at 85% 20%, rgba(251,191,36,0.12), transparent 55%),
-        rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.58);
+      border: 1px solid rgba(11,27,36,0.10);
       box-shadow: var(--shadow);
-      overflow:hidden;
+      overflow: hidden;
     }
 
-    .hero::after{
+    /* Decorative shape layer */
+    .hero::before{
       content:"";
       position:absolute;
-      inset:-2px;
-      background: linear-gradient(135deg, rgba(45,212,191,0.10), rgba(251,191,36,0.08), transparent);
-      filter: blur(28px);
-      opacity: 0.75;
-      pointer-events:none;
-      transform: translate3d(0,0,0);
+      inset: -2px;
+      background:
+        radial-gradient(900px 420px at 18% 18%, rgba(121,165,196,0.35), transparent 62%),
+        radial-gradient(900px 420px at 86% 10%, rgba(20,91,117,0.22), transparent 60%),
+        radial-gradient(900px 420px at 70% 110%, rgba(121,165,196,0.22), transparent 62%);
+      opacity: 0.85;
+      pointer-events: none;
     }
 
     .hero-inner{
       position: relative;
       padding: 28px;
-      display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
       gap: 18px;
       align-items: center;
     }
 
     .hero h1{
-      margin:0;
-      font-size: clamp(1.8rem, 1.3rem + 2vw, 3.1rem);
+      margin: 0;
+      font-size: clamp(2.0rem, 1.4rem + 2.2vw, 3.2rem);
       line-height: 1.02;
       letter-spacing: -0.03em;
+      color: var(--ink);
     }
 
     .hero p{
       margin: 12px 0 0;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 1.05rem;
       max-width: 62ch;
+      line-height: 1.55;
+      color: var(--ink2);
+      font-size: 1.05rem;
     }
 
     .hero-actions{
-      display:flex;
-      flex-direction: column;
+      display: grid;
       gap: 12px;
       align-items: stretch;
-      justify-content: center;
     }
 
     .btn-big{
       padding: 16px 16px;
-      border-radius: 16px;
+      border-radius: 18px;
       font-size: 1.05rem;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .btn-outline{
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.92);
-      box-shadow: var(--shadow2);
+      background: rgba(255,255,255,0.70);
+      border-color: rgba(11,27,36,0.14);
+      color: var(--ink);
+      box-shadow: 0 10px 26px rgba(11,27,36,0.08);
     }
     .btn-outline:hover{
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.16);
       transform: translateY(-1px);
+      background: rgba(255,255,255,0.82);
+      border-color: rgba(11,27,36,0.16);
     }
 
-    .hero-meta{
-      margin-top: 16px;
-      display:flex;
-      gap: 10px;
+    /* Minimal chips */
+    .chip-row{
+      display: flex;
       flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
     }
     .chip{
-      display:inline-flex;
-      align-items:center;
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.05);
-      color: rgba(255,255,255,0.80);
-      font-size: 0.92rem;
+      background: rgba(255,255,255,0.66);
+      border: 1px solid rgba(11,27,36,0.10);
+      color: var(--ink2);
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(11,27,36,0.06);
     }
-    .chip strong{ color: rgba(255,255,255,0.94); font-weight: 700; }
+    .chip b{ color: var(--ink); }
 
     /* Scroll hint */
     .scroll-hint{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap: 10px;
-      margin: 14px auto 0;
+      margin-top: 16px;
       width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       padding: 10px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.05);
-      color: rgba(255,255,255,0.70);
-      font-size: 0.92rem;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(11,27,36,0.10);
+      color: var(--ink2);
       cursor: pointer;
-      user-select:none;
-      transition: transform var(--ease), background var(--ease), border-color var(--ease);
+      user-select: none;
+      transition: transform var(--ease), background var(--ease);
+      box-shadow: 0 10px 24px rgba(11,27,36,0.06);
     }
-    .scroll-hint:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.14);
-    }
+    .scroll-hint:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.76); }
+
     .dot{
-      width: 8px; height: 8px; border-radius: 999px;
-      background: var(--brand);
-      box-shadow: 0 0 18px rgba(45,212,191,0.40);
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: var(--teal);
+      box-shadow: 0 0 18px rgba(20,91,117,0.28);
       animation: pulse 1.6s ease-in-out infinite;
     }
     @keyframes pulse{
-      0%,100%{ transform: scale(1); opacity: 0.75; }
+      0%,100%{ transform: scale(1); opacity: 0.65; }
       50%{ transform: scale(1.35); opacity: 1; }
     }
 
-    /* Sections */
-    .section{ margin-top: 26px; }
-    .section-head{
+    /* Section sculpting: “curved panels” */
+    .panel{
+      margin-top: 22px;
+      border-radius: var(--r-xl);
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(11,27,36,0.10);
+      box-shadow: var(--shadow2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .panel-head{
+      padding: 18px 18px 10px;
       display:flex;
-      align-items:flex-end;
+      align-items: flex-end;
       justify-content: space-between;
       gap: 12px;
-      margin: 0 0 12px;
     }
-    .section-head h2{
+    .panel-head h2{
       margin:0;
       font-size: 1.22rem;
       letter-spacing: -0.01em;
+      color: var(--ink);
     }
-    .section-head p{
+    .panel-head p{
       margin:0;
-      color: var(--muted);
+      color: var(--ink3);
+      font-weight: 650;
       font-size: 0.96rem;
     }
 
-    .divider{
-      height: 1px;
-      width: 100%;
-      margin: 22px 0;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    /* Featured: big album + side actions */
+    .featured-grid{
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 14px;
+      padding: 14px;
     }
 
-    /* Cards */
     .card{
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      border-radius: var(--r-xl);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
+      border-radius: var(--r-lg);
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(11,27,36,0.10);
+      box-shadow: 0 10px 28px rgba(11,27,36,0.08);
+      overflow: hidden;
     }
 
-    /* Featured: album gets center stage */
-    .featured{
-      display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 16px;
-      align-items: stretch;
-    }
-
-    .card-pad{ padding: 16px; }
-
-    .big-link{
+    .card-title{
+      padding: 14px 16px 10px;
       display:flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 4px;
+    }
+    .card-title h3{
+      margin:0;
+      font-size: 1.02rem;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .card-title span{
+      color: var(--ink3);
+      font-weight: 650;
+      font-size: 0.92rem;
+      line-height: 1.35;
     }
 
-    .big-link a{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      text-decoration:none;
-      transition: transform var(--ease), background var(--ease), border-color var(--ease);
-      font-weight: 800;
-    }
-    .big-link a:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.14);
-    }
-    .big-link small{
-      color: var(--muted);
-      font-weight: 600;
-      display:block;
-      margin-top: 2px;
-    }
-
-    /* Iframe */
+    /* Iframes */
     .iframe-wrap{
       position: relative;
       width: 100%;
       aspect-ratio: 16/9;
-      background: rgba(0,0,0,0.35);
-      border-top: 1px solid rgba(255,255,255,0.08);
-      overflow:hidden;
+      background: rgba(11,27,36,0.06);
+      border-top: 1px solid rgba(11,27,36,0.08);
+      overflow: hidden;
     }
     .iframe-wrap iframe{
       position:absolute;
@@ -476,88 +492,112 @@
       border:0;
     }
 
-    /* Smaller details appear as you scroll */
+    /* Big action list (non-redundant) */
+    .action-stack{
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .action-stack a{
+      display:flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(11,27,36,0.12);
+      text-decoration:none;
+      box-shadow: 0 10px 24px rgba(11,27,36,0.06);
+      transition: transform var(--ease), background var(--ease), border-color var(--ease);
+    }
+    .action-stack a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.84);
+      border-color: rgba(11,27,36,0.14);
+    }
+    .action-stack strong{
+      font-size: 1.0rem;
+      letter-spacing: -0.01em;
+    }
+    .action-stack small{
+      display:block;
+      margin-top: 2px;
+      color: var(--ink3);
+      font-weight: 650;
+    }
+    .arrow{ color: var(--teal); font-weight: 900; }
+
+    /* Follow links (smaller, down page) */
     .links-grid{
       display:grid;
       grid-template-columns: repeat(6, minmax(0,1fr));
       gap: 10px;
+      padding: 0 18px 18px;
     }
     .link-btn{
       display:flex;
       align-items:center;
       justify-content:center;
       padding: 12px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      border: 1px solid rgba(11,27,36,0.10);
+      background: rgba(255,255,255,0.66);
       text-decoration:none;
-      font-weight: 700;
-      font-size: 0.94rem;
-      color: rgba(255,255,255,0.90);
+      font-weight: 850;
+      color: var(--ink);
       transition: transform var(--ease), background var(--ease), border-color var(--ease);
-      user-select:none;
+      box-shadow: 0 10px 22px rgba(11,27,36,0.06);
     }
     .link-btn:hover{
       transform: translateY(-1px);
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.82);
+      border-color: rgba(11,27,36,0.14);
     }
 
+    /* CTA row (sculpted) */
     .cta-row{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      align-items: stretch;
+      gap: 14px;
+      padding: 14px;
     }
     .cta-card{
-      border-radius: var(--r-xl);
-      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--r-lg);
+      border: 1px solid rgba(11,27,36,0.10);
       background:
-        radial-gradient(700px 380px at 15% 15%, rgba(45,212,191,0.16), transparent 55%),
-        radial-gradient(700px 380px at 85% 30%, rgba(251,191,36,0.12), transparent 55%),
-        rgba(255,255,255,0.06);
-      box-shadow: var(--shadow2);
+        radial-gradient(700px 360px at 18% 18%, rgba(121,165,196,0.24), transparent 58%),
+        radial-gradient(700px 360px at 86% 30%, rgba(20,91,117,0.16), transparent 58%),
+        rgba(255,255,255,0.68);
+      box-shadow: 0 10px 28px rgba(11,27,36,0.08);
       padding: 18px;
-      overflow:hidden;
     }
     .cta-card h3{ margin:0 0 8px; letter-spacing:-0.01em; }
-    .cta-card p{ margin:0 0 12px; color: var(--muted); line-height:1.55; }
-
+    .cta-card p{
+      margin:0 0 12px;
+      color: var(--ink2);
+      line-height: 1.55;
+      font-weight: 600;
+    }
     .cta-actions{
       display:flex;
-      flex-wrap: wrap;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
-    /* Video grid down the page */
+    /* Videos grid (deeper down) */
     .video-grid{
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+      padding: 14px;
     }
 
-    .video-title{
-      padding: 14px 16px 10px;
-      display:flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .video-title h3{
-      margin:0;
-      font-size: 1.02rem;
-      letter-spacing:-0.01em;
-    }
-    .video-title span{
-      color: var(--muted);
-      font-size: 0.92rem;
-      line-height: 1.35;
-    }
-
-    /* Reveal animation */
+    /* Reveal */
     .reveal{
       opacity: 0;
       transform: translateY(14px);
-      transition: opacity 500ms ease, transform 500ms ease;
+      transition: opacity 520ms ease, transform 520ms ease;
     }
     .reveal.in{
       opacity: 1;
@@ -567,44 +607,39 @@
     /* Footer */
     footer{
       margin-top: 26px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(10,15,20,0.55);
-      backdrop-filter: blur(12px);
+      padding: 18px 0 24px;
+      border-top: 1px solid rgba(11,27,36,0.10);
+      background: rgba(245,240,232,0.65);
+      backdrop-filter: blur(10px);
     }
     .footer-inner{
       display:flex;
+      align-items:flex-start;
       justify-content: space-between;
       gap: 16px;
-      padding: 18px 0;
       flex-wrap: wrap;
-      align-items:flex-start;
     }
-    .footer-links{
+    .fineprint{
+      color: var(--ink3);
+      font-weight: 650;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      max-width: 64ch;
+    }
+    .footer-mini{
       display:flex;
       gap: 10px;
       flex-wrap: wrap;
     }
-    .footer-links a{
+    .footer-mini a{
       text-decoration:none;
-      color: rgba(255,255,255,0.72);
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
       padding: 10px 12px;
-      border-radius: 12px;
-      transition: background var(--ease), border-color var(--ease), color var(--ease);
-      font-weight: 700;
-      font-size: 0.94rem;
-    }
-    .footer-links a:hover{
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.14);
-      color: rgba(255,255,255,0.92);
-    }
-    .fineprint{
-      color: var(--muted2);
-      font-size: 0.90rem;
-      line-height: 1.45;
-      max-width: 62ch;
+      border-radius: 999px;
+      border: 1px solid rgba(11,27,36,0.10);
+      background: rgba(255,255,255,0.62);
+      font-weight: 800;
+      color: var(--ink);
+      box-shadow: 0 10px 22px rgba(11,27,36,0.06);
     }
 
     /* Back to top */
@@ -614,35 +649,31 @@
       bottom: 16px;
       z-index: 60;
       opacity: 0;
-      pointer-events:none;
+      pointer-events: none;
       transform: translateY(8px);
       transition: opacity var(--ease), transform var(--ease);
     }
     .to-top.show{
       opacity: 1;
-      pointer-events:auto;
+      pointer-events: auto;
       transform: translateY(0);
     }
     .to-top button{
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.92);
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
+      border: 1px solid rgba(11,27,36,0.14);
+      background: rgba(255,255,255,0.70);
+      color: var(--ink);
       cursor:pointer;
-      box-shadow: var(--shadow2);
-    }
-    .to-top button:hover{
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.14);
+      box-shadow: 0 12px 26px rgba(11,27,36,0.10);
+      font-weight: 900;
     }
 
     /* Responsive */
     @media (max-width: 980px){
-      .hero-inner{ grid-template-columns: 1fr; padding: 22px; }
-      .hero-actions{ flex-direction: row; }
-      .featured{ grid-template-columns: 1fr; }
+      .hero-inner{ grid-template-columns: 1fr; }
+      .featured-grid{ grid-template-columns: 1fr; }
       .cta-row{ grid-template-columns: 1fr; }
       .links-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
@@ -650,11 +681,10 @@
     @media (max-width: 760px){
       .nav-links{ display:none; }
       .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
-      .brand-text span{ display:none; }
-
-      .hero-actions{ flex-direction: column; }
+      .brand img{ width: 140px; }
       .video-grid{ grid-template-columns: 1fr; }
       .links-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .btn-big{ font-size: 1.02rem; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -664,25 +694,25 @@
 </head>
 
 <body>
-  <div class="progress" id="progressBar"></div>
+  <!-- background layers -->
+  <div class="blob b1" id="blob1" aria-hidden="true"></div>
+  <div class="blob b2" id="blob2" aria-hidden="true"></div>
+  <div class="blob b3" id="blob3" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
 
   <!-- HEADER -->
   <header>
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="index.html" aria-label="Beals.wav Home">
-          <div class="mark" aria-hidden="true"></div>
-          <div class="brand-text">
-            <strong>BEALS.WAV</strong>
-            <span>Music • Beats • Studio</span>
-          </div>
+          <!-- Put your uploaded logo here -->
+          <img src="C:\Users\o2mer\OneDrive\Desktop\bealswav-site\public\assets\images\beals.wav banner (1).JPEG" alt="beals.wav logo" />
         </a>
 
         <nav class="nav-links" aria-label="Primary navigation">
           <a href="music.html">Music</a>
           <a href="beatstore.html">Beat Store</a>
           <a href="studio.html">Studio</a>
-          <a href="faq.html">FAQ</a>
           <a href="contact.html">Contact</a>
         </nav>
 
@@ -701,7 +731,6 @@
           <a href="music.html">Music</a>
           <a href="beatstore.html">Beat Store</a>
           <a href="studio.html">Studio</a>
-          <a href="faq.html">FAQ</a>
           <a href="contact.html">Contact</a>
           <a href="login.html" id="loginBtnMobile">Login</a>
         </div>
@@ -713,24 +742,22 @@
   <main>
     <div class="wrap">
 
-      <!-- HERO: BIG + SIMPLE -->
+      <!-- HERO -->
       <section class="hero" aria-label="Hero">
         <div class="hero-inner">
           <div>
-            <h1>Beals.wav</h1>
-            <p>
-              Music, beats, and studio services in West Jordan, Utah. Clean sound, fast workflow, zero fluff.
-            </p>
+            <h1>Music. Beats. Studio.</h1>
+            <p>Beals.wav is based in West Jordan, Utah. Recording, mixing, production, and licensed beats.</p>
 
-            <div class="hero-meta">
-              <span class="chip"><strong>Studio</strong> Recording + Mixing</span>
-              <span class="chip"><strong>Beats</strong> Instant licensing</span>
-              <span class="chip"><strong>Music</strong> Albums + Singles</span>
+            <div class="chip-row" aria-label="Highlights">
+              <div class="chip"><b>Studio</b> sessions</div>
+              <div class="chip"><b>Beats</b> licensing</div>
+              <div class="chip"><b>Releases</b> videos + albums</div>
             </div>
 
             <div class="scroll-hint" id="scrollHint" role="button" aria-label="Scroll to featured section">
               <span class="dot" aria-hidden="true"></span>
-              <span>Scroll for music + details</span>
+              <span>Scroll for featured + work</span>
             </div>
           </div>
 
@@ -742,118 +769,121 @@
         </div>
       </section>
 
-      <div class="divider"></div>
-
-      <!-- FEATURED: 23.5 + ONE CLEAN PANEL -->
-      <section class="featured section reveal" id="featured" data-reveal>
-        <article class="card">
-          <div class="video-title">
-            <h3>23.5 (Album)</h3>
-            <span>Playlist</span>
-          </div>
-          <div class="iframe-wrap">
-            <iframe
-              loading="lazy"
-              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
-              title="23.5 (Album)"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-pad">
-            <div class="section-head" style="margin:0 0 10px;">
-              <h2 style="margin:0;">Start here</h2>
-              <p style="margin:0;">Everything else lives below.</p>
-            </div>
-
-            <div class="big-link">
-              <a href="studio.html">
-                <div>
-                  Studio
-                  <small>Record, mix, and finish tracks.</small>
-                </div>
-                <span aria-hidden="true">→</span>
-              </a>
-              <a href="beatstore.html">
-                <div>
-                  Beat Store
-                  <small>Browse, license, and download.</small>
-                </div>
-                <span aria-hidden="true">→</span>
-              </a>
-              <a href="music.html">
-                <div>
-                  Music
-                  <small>Releases, albums, features.</small>
-                </div>
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="section-head" style="margin:0 0 10px;">
-              <h2 style="margin:0;">Follow</h2>
-              <p style="margin:0;">Small buttons belong down here.</p>
-            </div>
-
-            <div class="links-grid" aria-label="Follow links">
-              <a class="link-btn" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
-              <a class="link-btn" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple</a>
-              <a class="link-btn" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-              <a class="link-btn" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
-              <a class="link-btn" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
-              <a class="link-btn" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <div class="divider"></div>
-
-      <!-- CTA ROW: now it belongs here -->
-      <section class="cta-row section reveal" data-reveal>
-        <div class="cta-card">
-          <h3>Book Studio Time</h3>
-          <p>High-quality recording, mixing, and production. Clean chain, serious workflow, fast turnaround.</p>
-          <div class="cta-actions">
-            <a class="btn btn-primary" href="studio.html">Book Now</a>
-            <a class="btn btn-ghost" href="contact.html">Ask a Question</a>
-          </div>
+      <!-- FEATURED -->
+      <section class="panel reveal" id="featured" data-reveal aria-label="Featured">
+        <div class="panel-head">
+          <h2>Featured</h2>
+          <p>23.5 (Album)</p>
         </div>
 
-        <div class="cta-card">
-          <h3>Buy Beats</h3>
-          <p>Browse instrumentals, license instantly, and get back to making music instead of debating menus.</p>
-          <div class="cta-actions">
-            <a class="btn btn-primary" href="beatstore.html">Open Beat Store</a>
-            <a class="btn btn-ghost" href="music.html">Hear Releases</a>
-          </div>
-        </div>
-      </section>
-
-      <div class="divider"></div>
-
-      <!-- VIDEOS: deeper down -->
-      <section class="section reveal" data-reveal aria-label="Videos">
-        <div class="section-head">
-          <h2>Videos</h2>
-          <p>Singles + projects.</p>
-        </div>
-
-        <div class="video-grid">
-          <article class="card" id="vip-220">
-            <div class="video-title">
-              <h3>VIP (220)</h3>
-              <span>Beals</span>
+        <div class="featured-grid">
+          <article class="card" id="album-23-5">
+            <div class="card-title">
+              <h3>23.5</h3>
+              <span>Playlist</span>
             </div>
             <div class="iframe-wrap">
               <iframe
                 loading="lazy"
+                src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
+                title="23.5 (Album)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="action-stack" aria-label="Primary navigation">
+              <a href="studio.html">
+                <div>
+                  <strong>Studio</strong>
+                  <small>Recording, mixing, production.</small>
+                </div>
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
+
+              <a href="beatstore.html">
+                <div>
+                  <strong>Beat Store</strong>
+                  <small>Browse and license beats.</small>
+                </div>
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
+
+              <a href="contact.html">
+                <div>
+                  <strong>Contact</strong>
+                  <small>Questions or booking help.</small>
+                </div>
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
+
+              <a class="btn btn-primary" href="music.html" style="justify-content:center; margin-top: 6px;">
+                View Music Page
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <div class="panel-head" style="padding-top: 0;">
+          <h2>Follow</h2>
+          <p>Links live down here.</p>
+        </div>
+
+        <div class="links-grid" aria-label="Follow links">
+          <a class="link-btn" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
+          <a class="link-btn" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple</a>
+          <a class="link-btn" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+          <a class="link-btn" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a class="link-btn" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="link-btn" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="panel reveal" data-reveal aria-label="Services">
+        <div class="panel-head">
+          <h2>Services</h2>
+          <p>Studio + Beats</p>
+        </div>
+
+        <div class="cta-row">
+          <div class="cta-card">
+            <h3>Studio</h3>
+            <p>Book time for recording, mixing, and production.</p>
+            <div class="cta-actions">
+              <a class="btn btn-primary" href="studio.html">Book Now</a>
+              <a class="btn btn-ghost" href="faq.html">FAQ</a>
+            </div>
+          </div>
+
+          <div class="cta-card">
+            <h3>Beat Store</h3>
+            <p>Browse beats and license instantly.</p>
+            <div class="cta-actions">
+              <a class="btn btn-primary" href="beatstore.html">Open Store</a>
+              <a class="btn btn-ghost" href="contact.html">Contact</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIDEOS -->
+      <section class="panel reveal" data-reveal aria-label="Videos">
+        <div class="panel-head">
+          <h2>Work</h2>
+          <p>Videos + projects</p>
+        </div>
+
+        <div class="video-grid">
+          <article class="card" id="vip-220">
+            <div class="card-title">
+              <h3>VIP (220)</h3>
+              <span>Beals</span>
+            </div>
+            <div class="iframe-wrap">
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0&playsinline=1"
                 title="VIP (220)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -863,13 +893,12 @@
           </article>
 
           <article class="card" id="no-rest">
-            <div class="video-title">
+            <div class="card-title">
               <h3>No Rest</h3>
               <span>Roman Noodle feat. RPFROMTHETOP, Beals</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0&playsinline=1"
                 title="No Rest"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -879,13 +908,12 @@
           </article>
 
           <article class="card" id="lame">
-            <div class="video-title">
+            <div class="card-title">
               <h3>Lame</h3>
               <span>Roman Noodle feat. Beals</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0&playsinline=1"
                 title="Lame"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -895,13 +923,12 @@
           </article>
 
           <article class="card" id="breaking-point">
-            <div class="video-title">
+            <div class="card-title">
               <h3>Breaking Point (Album)</h3>
               <span>Roman Noodle</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj&rel=0&playsinline=1"
                 title="Breaking Point (Album)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -911,13 +938,12 @@
           </article>
 
           <article class="card" id="what-is-going-on">
-            <div class="video-title">
+            <div class="card-title">
               <h3>WHAT IS GOING ON</h3>
               <span>RPFROMTHETOP feat. Beals</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/6ogFoT19EO8?rel=0&playsinline=1"
                 title="WHAT IS GOING ON"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -927,13 +953,12 @@
           </article>
 
           <article class="card" id="forever-album">
-            <div class="video-title">
+            <div class="card-title">
               <h3>Forever (Album)</h3>
               <span>RPFROMTHETOP</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/flR4pt-oC_A?rel=0&playsinline=1"
                 title="Forever (Album) – RPFROMTHETOP"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -943,13 +968,12 @@
           </article>
 
           <article class="card" id="back-to-back">
-            <div class="video-title">
+            <div class="card-title">
               <h3>Back to Back</h3>
               <span>Cartier & Beals</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/z56pau7bf-Y?rel=0&playsinline=1"
                 title="Back to Back"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -959,13 +983,12 @@
           </article>
 
           <article class="card" id="meraki">
-            <div class="video-title">
+            <div class="card-title">
               <h3>MERAKI (Album)</h3>
               <span>Beals</span>
             </div>
             <div class="iframe-wrap">
-              <iframe
-                loading="lazy"
+              <iframe loading="lazy"
                 src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE&rel=0&playsinline=1"
                 title="MERAKI (Album)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -983,30 +1006,14 @@
   <footer>
     <div class="wrap">
       <div class="footer-inner">
-        <div>
-          <div class="brand" style="gap:12px; pointer-events:none;">
-            <div class="mark" aria-hidden="true"></div>
-            <div class="brand-text">
-              <strong>BEALS.WAV</strong>
-              <span>West Jordan, Utah</span>
-            </div>
-          </div>
-          <p class="fineprint" style="margin:10px 0 0;">
-            © 2025 Beals.wav. All rights reserved.
-          </p>
+        <div class="fineprint">
+          © 2025 Beals.wav. West Jordan, Utah.
         </div>
-
-        <div>
-          <div class="footer-links" aria-label="Footer navigation">
-            <a href="music.html">Music</a>
-            <a href="beatstore.html">Beat Store</a>
-            <a href="studio.html">Studio</a>
-            <a href="faq.html">FAQ</a>
-            <a href="contact.html">Contact</a>
-          </div>
-          <p class="fineprint" style="margin:10px 0 0;">
-            Recording • Mixing • Production • Beats • Music videos • Songwriting
-          </p>
+        <div class="footer-mini" aria-label="Footer navigation">
+          <a href="music.html">Music</a>
+          <a href="beatstore.html">Beat Store</a>
+          <a href="studio.html">Studio</a>
+          <a href="contact.html">Contact</a>
         </div>
       </div>
     </div>
@@ -1018,7 +1025,7 @@
   </div>
 
   <script>
-    // Login Sync
+    // Login sync (desktop + mobile)
     function syncLoginButtons() {
       const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
       const loginBtn = document.getElementById('loginBtn');
@@ -1051,6 +1058,14 @@
       });
     }
 
+    // Smooth jump to featured
+    function setupScrollHint() {
+      const hint = document.getElementById('scrollHint');
+      const target = document.getElementById('featured');
+      if (!hint || !target) return;
+      hint.addEventListener('click', () => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+
     // Reveal on scroll
     function setupReveal() {
       const items = document.querySelectorAll('[data-reveal]');
@@ -1068,53 +1083,53 @@
       items.forEach(el => obs.observe(el));
     }
 
-    // Scroll progress + back to top + slight parallax glow
-    function setupScrollUI() {
-      const bar = document.getElementById('progressBar');
-      const toTop = document.getElementById('toTop');
-      const toTopBtn = document.getElementById('toTopBtn');
+    // Back to top
+    function setupToTop() {
+      const wrap = document.getElementById('toTop');
+      const btn = document.getElementById('toTopBtn');
 
-      function onScroll() {
-        const doc = document.documentElement;
-        const scrollTop = doc.scrollTop || document.body.scrollTop;
-        const scrollHeight = doc.scrollHeight - doc.clientHeight;
-        const p = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
-
-        if (bar) bar.style.width = (p * 100).toFixed(2) + '%';
-
-        if (toTop) {
-          if (scrollTop > 700) toTop.classList.add('show');
-          else toTop.classList.remove('show');
-        }
+      function onScroll(){
+        const y = window.scrollY || document.documentElement.scrollTop || 0;
+        if (y > 700) wrap.classList.add('show');
+        else wrap.classList.remove('show');
       }
-
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
 
-      if (toTopBtn) {
-        toTopBtn.addEventListener('click', () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      }
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
-    // Scroll hint button -> jump to featured
-    function setupScrollHint() {
-      const hint = document.getElementById('scrollHint');
-      const featured = document.getElementById('featured');
-      if (!hint || !featured) return;
+    // Very light parallax for the blobs (desktop only)
+    function setupParallax() {
+      const b1 = document.getElementById('blob1');
+      const b2 = document.getElementById('blob2');
+      const b3 = document.getElementById('blob3');
+      if (!b1 || !b2 || !b3) return;
 
-      hint.addEventListener('click', () => {
-        featured.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      let raf = 0;
+      window.addEventListener('mousemove', (e) => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (window.innerWidth < 980) return;
+
+        const x = (e.clientX / window.innerWidth) - 0.5;
+        const y = (e.clientY / window.innerHeight) - 0.5;
+
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          b1.style.transform = `translate(${x * 14}px, ${y * 10}px)`;
+          b2.style.transform = `translate(${x * -18}px, ${y * 12}px)`;
+          b3.style.transform = `translate(${x * 10}px, ${y * -10}px)`;
+        });
       });
     }
 
     document.addEventListener('DOMContentLoaded', function(){
       syncLoginButtons();
       setupMobileMenu();
-      setupReveal();
-      setupScrollUI();
       setupScrollHint();
+      setupReveal();
+      setupToTop();
+      setupParallax();
     });
   </script>
 </body>
