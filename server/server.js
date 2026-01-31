@@ -101,18 +101,6 @@ app.use(bodyParser.json());
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
 
-const fs = require('fs');
-
-app.get('/__debug/logo', (_req, res) => {
-  const p = path.join(PUBLIC_DIR, 'assets', 'images', 'logo.jpeg');
-  fs.access(p, fs.constants.R_OK, (err) => {
-    if (err) {
-      return res.status(404).json({ ok: false, path: p });
-    }
-    res.json({ ok: true, path: p });
-  });
-});
-
 // ─── DATABASE (ONLY CONNECT IF CONFIGURED) ────────────────────────────────────
 if (HAS_DB) {
   mongoose
