@@ -175,7 +175,7 @@ async function sendEmail(options) {
 
 // Health check
 app.get('/', (_req, res) => {
-  res.send('🎵 Beals.wav server up and running!');
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // — REGISTER — validate input, hash password, save user, send verification email
