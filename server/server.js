@@ -93,7 +93,9 @@ app.use('/contact',  apiLimiter);
 
 // ─── BODY PARSING & STATIC ────────────────────────────────────────────────────
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../public')));
+
+const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+app.use(express.static(PUBLIC_DIR));
 
 // ─── MONGOOSE SETUP ───────────────────────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI, {
