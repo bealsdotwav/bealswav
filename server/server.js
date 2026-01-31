@@ -101,6 +101,18 @@ app.use(bodyParser.json());
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
 
+const fs = require('fs');
+
+app.get('/__debug/logo', (_req, res) => {
+  const p = path.join(PUBLIC_DIR, 'assets', 'images', 'logo.jpeg');
+  fs.access(p, fs.constants.R_OK, (err) => {
+    if (err) {
+      return res.status(404).json({ ok: false, path: p });
+    }
+    res.json({ ok: true, path: p });
+  });
+});
+
 // ─── DATABASE (ONLY CONNECT IF CONFIGURED) ────────────────────────────────────
 if (HAS_DB) {
   mongoose
@@ -400,35 +412,6 @@ app.post(
   }
 );
 
-// — STRIPE CHECKOUT SESSION —
-app.post('/create-checkout-session', requireStripe, async (req, res, next) => {
-  try {
-    const stripe = getStripe();
-    const { cartItems, customerEmail } = req.body;
-
-    const line_items = (cartItems || []).map((item) => ({
-      price_data: {
-        currency: 'usd',
-        product_data: { name: `${item.title} - ${item.license}` },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: 1,
-    }));
-
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
-      customer_email: customerEmail,
-      line_items,
-      success_url: `${req.protocol}://${req.get('host')}/account.html?status=success`,
-      cancel_url: `${req.protocol}://${req.get('host')}/beatstore.html?status=cancel`,
-    });
-
-    res.json({ url: session.url });
-  } catch (err) {
-    next(err);
-  }
-});
 
 // — SAVE SESSION —
 app.post(
