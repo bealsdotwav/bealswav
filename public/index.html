@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0f17" />
+  <meta name="theme-color" content="#0a0f14" />
   <title>Home | Beals.wav</title>
 
-  <!-- SEO (basic, clean) -->
+  <!-- SEO -->
   <meta name="description" content="Beals.wav — Music, beats, and studio services. Based in West Jordan, Utah." />
   <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.bealswav.com/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Beals.wav" />
@@ -16,7 +17,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.bealswav.com/" />
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4926KVF6L"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -25,106 +26,115 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <!-- Modern font -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Optional preconnect for embeds -->
+  <!-- Preconnect for embeds -->
   <link rel="preconnect" href="https://www.youtube.com">
   <link rel="preconnect" href="https://www.google.com">
   <link rel="preconnect" href="https://i.ytimg.com">
 
   <style>
-    /* =========
-      Modern, clean system
-    ========= */
     :root{
-      --bg: #0b0f17;
-      --panel: rgba(255,255,255,0.06);
-      --panel-2: rgba(255,255,255,0.08);
-      --border: rgba(255,255,255,0.10);
-      --border-2: rgba(255,255,255,0.14);
+      /* New palette: deep slate + warm sand + electric teal */
+      --bg: #0a0f14;
+      --bg2:#070b10;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.08);
+      --stroke: rgba(255,255,255,0.10);
+      --stroke2: rgba(255,255,255,0.14);
+
       --text: rgba(255,255,255,0.92);
-      --muted: rgba(255,255,255,0.62);
-      --muted-2: rgba(255,255,255,0.45);
+      --muted: rgba(255,255,255,0.64);
+      --muted2: rgba(255,255,255,0.45);
 
-      --primary: #7c3aed;     /* violet */
-      --primary-2: #22c55e;   /* green accent */
-      --accent: #38bdf8;      /* sky */
-      --danger: #ef4444;
+      --brand: #2dd4bf;    /* teal */
+      --brand2:#fbbf24;    /* warm accent */
+      --ink: #071016;
 
-      --shadow: 0 16px 40px rgba(0,0,0,0.45);
-      --shadow-soft: 0 10px 28px rgba(0,0,0,0.35);
+      --shadow: 0 18px 48px rgba(0,0,0,0.45);
+      --shadow2: 0 10px 28px rgba(0,0,0,0.35);
 
+      --r-xl: 22px;
       --r-lg: 18px;
       --r-md: 14px;
-      --r-sm: 12px;
 
-      --max: 1160px;
+      --max: 1180px;
+      --pad: 18px;
+
+      --ease: 180ms ease;
     }
 
-    /* Reset */
-    *{ box-sizing:border-box; }
+    *{ box-sizing: border-box; }
     html, body { height:100%; }
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color: var(--text);
       background:
-        radial-gradient(900px 600px at 12% 8%, rgba(124,58,237,0.18), transparent 60%),
-        radial-gradient(900px 600px at 88% 10%, rgba(56,189,248,0.16), transparent 55%),
-        radial-gradient(900px 600px at 65% 92%, rgba(34,197,94,0.12), transparent 60%),
-        linear-gradient(180deg, #070a10 0%, var(--bg) 35%, #070a10 100%);
+        radial-gradient(1000px 650px at 10% 10%, rgba(45,212,191,0.16), transparent 60%),
+        radial-gradient(1000px 650px at 85% 0%, rgba(251,191,36,0.12), transparent 55%),
+        radial-gradient(900px 650px at 60% 100%, rgba(45,212,191,0.10), transparent 60%),
+        linear-gradient(180deg, var(--bg2) 0%, var(--bg) 30%, var(--bg2) 100%);
       overflow-x:hidden;
     }
 
     a{ color: inherit; }
     img{ max-width:100%; display:block; }
 
-    /* Layout helpers */
     .wrap{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 18px;
+      padding: 0 var(--pad);
     }
 
-    /* =========
-      Header
-    ========= */
+    /* Top progress bar */
+    .progress{
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--brand), var(--brand2));
+      z-index: 1000;
+      box-shadow: 0 0 18px rgba(45,212,191,0.25);
+    }
+
+    /* Header */
     header{
       position: sticky;
       top: 0;
       z-index: 50;
       backdrop-filter: blur(14px);
-      background: rgba(11,15,23,0.70);
+      background: rgba(10,15,20,0.72);
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
     .nav{
       display:flex;
       align-items:center;
-      justify-content:space-between;
+      justify-content: space-between;
+      gap: 12px;
       padding: 14px 0;
-      gap: 14px;
     }
 
     .brand{
       display:flex;
       align-items:center;
-      gap: 10px;
+      gap: 12px;
       text-decoration:none;
       user-select:none;
     }
 
-    .brand-mark{
+    .mark{
       width: 34px;
       height: 34px;
-      border-radius: 10px;
-      background:
-        linear-gradient(135deg, rgba(124,58,237,0.95), rgba(56,189,248,0.90));
-      box-shadow: 0 10px 28px rgba(124,58,237,0.20);
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(45,212,191,0.95), rgba(251,191,36,0.92));
       border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 12px 34px rgba(45,212,191,0.16);
     }
 
     .brand-text{
@@ -133,58 +143,66 @@
       line-height: 1.05;
     }
     .brand-text strong{
-      font-size: 0.98rem;
       letter-spacing: 0.2px;
+      font-size: 0.98rem;
     }
     .brand-text span{
-      font-size: 0.78rem;
+      font-size: 0.80rem;
       color: var(--muted);
     }
 
     .nav-links{
       display:flex;
+      gap: 12px;
       align-items:center;
-      gap: 16px;
     }
 
     .nav-links a{
       text-decoration:none;
-      font-size: 0.92rem;
-      color: rgba(255,255,255,0.78);
-      padding: 8px 10px;
-      border-radius: 10px;
-      transition: background 160ms ease, color 160ms ease;
+      color: rgba(255,255,255,0.76);
+      font-size: 0.95rem;
+      padding: 9px 11px;
+      border-radius: 12px;
+      transition: background var(--ease), color var(--ease), border-color var(--ease);
+      border: 1px solid transparent;
     }
-
     .nav-links a:hover{
       background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.95);
+      border-color: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.92);
     }
 
     .nav-cta{
       display:flex;
-      align-items:center;
       gap: 10px;
+      align-items:center;
     }
 
     .btn{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap: 8px;
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-weight: 600;
-      font-size: 0.92rem;
+      gap: 10px;
       text-decoration:none;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-weight: 700;
+      font-size: 0.96rem;
       border: 1px solid transparent;
-      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease, color 140ms ease;
-      user-select:none;
       cursor:pointer;
-      white-space:nowrap;
+      user-select:none;
+      transition: transform var(--ease), background var(--ease), border-color var(--ease), box-shadow var(--ease);
+      white-space: nowrap;
     }
-
     .btn:active{ transform: translateY(1px); }
+
+    .btn-primary{
+      background: linear-gradient(135deg, rgba(45,212,191,1), rgba(251,191,36,0.92));
+      color: var(--ink);
+      border-color: rgba(255,255,255,0.12);
+      box-shadow: 0 16px 44px rgba(45,212,191,0.14);
+    }
+    .btn-primary:hover{ transform: translateY(-1px); }
 
     .btn-ghost{
       background: rgba(255,255,255,0.06);
@@ -194,232 +212,262 @@
     .btn-ghost:hover{
       background: rgba(255,255,255,0.10);
       border-color: rgba(255,255,255,0.14);
-    }
-
-    .btn-primary{
-      background: linear-gradient(135deg, rgba(124,58,237,1), rgba(56,189,248,0.95));
-      border-color: rgba(255,255,255,0.12);
-      color: #0b0f17;
-      box-shadow: 0 12px 34px rgba(124,58,237,0.20);
-    }
-    .btn-primary:hover{
       transform: translateY(-1px);
-      border-color: rgba(255,255,255,0.18);
-      box-shadow: 0 16px 44px rgba(124,58,237,0.22);
     }
 
     .hamburger{
       display:none;
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.10);
       color: rgba(255,255,255,0.92);
       cursor:pointer;
     }
 
-    /* Mobile menu */
     .mobile-drawer{
       display:none;
       border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(11,15,23,0.78);
+      background: rgba(10,15,20,0.78);
       backdrop-filter: blur(14px);
     }
-    .mobile-drawer .drawer-links{
+    .drawer-links{
       display:flex;
-      flex-direction:column;
+      flex-direction: column;
       padding: 10px 0 14px;
-      gap: 4px;
+      gap: 6px;
     }
-    .mobile-drawer a{
-      text-decoration:none;
+    .drawer-links a{
       padding: 12px 12px;
-      border-radius: 12px;
-      color: rgba(255,255,255,0.84);
-      transition: background 160ms ease;
+      border-radius: 14px;
+      text-decoration:none;
+      color: rgba(255,255,255,0.86);
+      border: 1px solid transparent;
+      transition: background var(--ease), border-color var(--ease);
     }
-    .mobile-drawer a:hover{
+    .drawer-links a:hover{
       background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.10);
     }
 
-    /* =========
-      Hero
-    ========= */
-    main{
-      padding: 28px 0 70px;
-    }
+    /* Main */
+    main{ padding: 26px 0 80px; }
 
+    /* HERO: less is more */
     .hero{
-      display:grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 18px;
-      align-items:stretch;
-      margin-top: 10px;
-    }
-
-    .hero-card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      box-shadow: var(--shadow-soft);
-      overflow:hidden;
       position: relative;
+      border-radius: var(--r-xl);
+      border: 1px solid rgba(255,255,255,0.10);
+      background:
+        radial-gradient(900px 420px at 10% 15%, rgba(45,212,191,0.18), transparent 60%),
+        radial-gradient(900px 420px at 85% 20%, rgba(251,191,36,0.12), transparent 55%),
+        rgba(255,255,255,0.06);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
 
-    .hero-card::before{
+    .hero::after{
       content:"";
       position:absolute;
-      inset: -2px;
-      background: linear-gradient(135deg, rgba(124,58,237,0.20), rgba(56,189,248,0.14), rgba(34,197,94,0.12));
-      filter: blur(26px);
-      opacity: 0.55;
+      inset:-2px;
+      background: linear-gradient(135deg, rgba(45,212,191,0.10), rgba(251,191,36,0.08), transparent);
+      filter: blur(28px);
+      opacity: 0.75;
       pointer-events:none;
+      transform: translate3d(0,0,0);
     }
 
     .hero-inner{
       position: relative;
-      padding: 18px;
+      padding: 28px;
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+      align-items: center;
     }
 
-    .hero-title{
-      display:flex;
-      flex-direction:column;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .kicker{
-      font-size: 0.86rem;
-      color: var(--muted);
-      letter-spacing: 0.2px;
-    }
-
-    .headline{
-      font-size: clamp(1.35rem, 1.15rem + 1.2vw, 2.05rem);
-      line-height: 1.08;
+    .hero h1{
       margin:0;
-      letter-spacing: -0.02em;
+      font-size: clamp(1.8rem, 1.3rem + 2vw, 3.1rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
     }
 
-    .subhead{
-      margin: 0;
+    .hero p{
+      margin: 12px 0 0;
       color: var(--muted);
-      line-height: 1.45;
-      font-size: 0.98rem;
-      max-width: 60ch;
+      line-height: 1.5;
+      font-size: 1.05rem;
+      max-width: 62ch;
     }
 
     .hero-actions{
       display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-      margin-top: 14px;
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+      justify-content: center;
     }
 
-    .pill-row{
+    .btn-big{
+      padding: 16px 16px;
+      border-radius: 16px;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .btn-outline{
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.92);
+      box-shadow: var(--shadow2);
+    }
+    .btn-outline:hover{
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.16);
+      transform: translateY(-1px);
+    }
+
+    .hero-meta{
+      margin-top: 16px;
       display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-      margin-top: 14px;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-
-    .pill{
+    .chip{
       display:inline-flex;
       align-items:center;
       gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.80);
+      font-size: 0.92rem;
+    }
+    .chip strong{ color: rgba(255,255,255,0.94); font-weight: 700; }
+
+    /* Scroll hint */
+    .scroll-hint{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      margin: 14px auto 0;
+      width: fit-content;
+      padding: 10px 14px;
       border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 0.86rem;
-      color: rgba(255,255,255,0.78);
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.70);
+      font-size: 0.92rem;
+      cursor: pointer;
+      user-select:none;
+      transition: transform var(--ease), background var(--ease), border-color var(--ease);
+    }
+    .scroll-hint:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .dot{
+      width: 8px; height: 8px; border-radius: 999px;
+      background: var(--brand);
+      box-shadow: 0 0 18px rgba(45,212,191,0.40);
+      animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); opacity: 0.75; }
+      50%{ transform: scale(1.35); opacity: 1; }
     }
 
-    .pill strong{
-      color: rgba(255,255,255,0.92);
-      font-weight: 600;
-    }
-
-    /* =========
-      Sections
-    ========= */
-    .section{
-      margin-top: 18px;
-    }
-
+    /* Sections */
+    .section{ margin-top: 26px; }
     .section-head{
       display:flex;
       align-items:flex-end;
-      justify-content:space-between;
+      justify-content: space-between;
       gap: 12px;
-      margin: 18px 0 10px;
+      margin: 0 0 12px;
     }
-
     .section-head h2{
       margin:0;
-      font-size: 1.18rem;
+      font-size: 1.22rem;
       letter-spacing: -0.01em;
     }
-
     .section-head p{
       margin:0;
       color: var(--muted);
-      font-size: 0.94rem;
+      font-size: 0.96rem;
     }
 
     .divider{
       height: 1px;
       width: 100%;
-      margin: 18px 0;
+      margin: 22px 0;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
     }
 
-    /* =========
-      Video cards
-    ========= */
+    /* Cards */
     .card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--r-lg);
-      box-shadow: var(--shadow-soft);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow2);
       overflow:hidden;
     }
 
-    .card-pad{
-      padding: 14px;
+    /* Featured: album gets center stage */
+    .featured{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 16px;
+      align-items: stretch;
     }
 
-    .video-title{
+    .card-pad{ padding: 16px; }
+
+    .big-link{
       display:flex;
-      flex-direction:column;
-      gap: 4px;
-      padding: 14px 14px 10px;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .video-title h3{
-      margin:0;
-      font-size: 1.02rem;
-      letter-spacing: -0.01em;
-      color: rgba(255,255,255,0.94);
-      line-height: 1.2;
+    .big-link a{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      text-decoration:none;
+      transition: transform var(--ease), background var(--ease), border-color var(--ease);
+      font-weight: 800;
     }
-
-    .video-title span{
-      font-size: 0.90rem;
+    .big-link a:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .big-link small{
       color: var(--muted);
-      line-height: 1.35;
+      font-weight: 600;
+      display:block;
+      margin-top: 2px;
     }
 
+    /* Iframe */
     .iframe-wrap{
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
       background: rgba(0,0,0,0.35);
       border-top: 1px solid rgba(255,255,255,0.08);
       overflow:hidden;
     }
-
     .iframe-wrap iframe{
       position:absolute;
       inset:0;
@@ -428,27 +476,12 @@
       border:0;
     }
 
-    .featured-grid{
-      display:grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap: 16px;
-    }
-
-    .video-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    /* =========
-      Support links
-    ========= */
+    /* Smaller details appear as you scroll */
     .links-grid{
       display:grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0,1fr));
       gap: 10px;
     }
-
     .link-btn{
       display:flex;
       align-items:center;
@@ -458,10 +491,10 @@
       border: 1px solid rgba(255,255,255,0.10);
       background: rgba(255,255,255,0.06);
       text-decoration:none;
-      font-weight: 600;
-      font-size: 0.92rem;
+      font-weight: 700;
+      font-size: 0.94rem;
       color: rgba(255,255,255,0.90);
-      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+      transition: transform var(--ease), background var(--ease), border-color var(--ease);
       user-select:none;
     }
     .link-btn:hover{
@@ -470,138 +503,158 @@
       border-color: rgba(255,255,255,0.14);
     }
 
-    /* Brand accent slivers */
-    .link-btn.spotify{ border-color: rgba(34,197,94,0.30); }
-    .link-btn.apple{ border-color: rgba(255,255,255,0.18); }
-    .link-btn.soundcloud{ border-color: rgba(249,115,22,0.35); }
-    .link-btn.youtube{ border-color: rgba(239,68,68,0.35); }
-    .link-btn.instagram{ border-color: rgba(236,72,153,0.35); }
-    .link-btn.tiktok{ border-color: rgba(56,189,248,0.35); }
-
-    /* =========
-      CTA panel
-    ========= */
-    .cta{
+    .cta-row{
       display:grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
-      align-items:stretch;
+      align-items: stretch;
     }
-
     .cta-card{
-      background:
-        radial-gradient(700px 360px at 10% 10%, rgba(124,58,237,0.20), transparent 55%),
-        radial-gradient(700px 360px at 90% 30%, rgba(56,189,248,0.16), transparent 55%),
-        rgba(255,255,255,0.06);
+      border-radius: var(--r-xl);
       border: 1px solid rgba(255,255,255,0.10);
-      border-radius: var(--r-lg);
-      box-shadow: var(--shadow-soft);
-      padding: 16px;
+      background:
+        radial-gradient(700px 380px at 15% 15%, rgba(45,212,191,0.16), transparent 55%),
+        radial-gradient(700px 380px at 85% 30%, rgba(251,191,36,0.12), transparent 55%),
+        rgba(255,255,255,0.06);
+      box-shadow: var(--shadow2);
+      padding: 18px;
       overflow:hidden;
     }
-
-    .cta-card h3{
-      margin: 0 0 8px;
-      letter-spacing: -0.01em;
-    }
-
-    .cta-card p{
-      margin: 0 0 12px;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 0.98rem;
-    }
+    .cta-card h3{ margin:0 0 8px; letter-spacing:-0.01em; }
+    .cta-card p{ margin:0 0 12px; color: var(--muted); line-height:1.55; }
 
     .cta-actions{
       display:flex;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
       gap: 10px;
     }
 
-    .btn-success{
-      background: linear-gradient(135deg, rgba(34,197,94,1), rgba(56,189,248,0.90));
-      border-color: rgba(255,255,255,0.12);
-      color: #06120b;
-      box-shadow: 0 12px 34px rgba(34,197,94,0.16);
-    }
-    .btn-success:hover{ transform: translateY(-1px); }
-
-    .btn-outline{
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.12);
-      color: rgba(255,255,255,0.92);
-    }
-    .btn-outline:hover{
-      background: rgba(255,255,255,0.10);
-      border-color: rgba(255,255,255,0.16);
-      transform: translateY(-1px);
+    /* Video grid down the page */
+    .video-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
     }
 
-    /* =========
-      Footer
-    ========= */
+    .video-title{
+      padding: 14px 16px 10px;
+      display:flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .video-title h3{
+      margin:0;
+      font-size: 1.02rem;
+      letter-spacing:-0.01em;
+    }
+    .video-title span{
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    /* Reveal animation */
+    .reveal{
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+    .reveal.in{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
     footer{
-      margin-top: 22px;
+      margin-top: 26px;
       border-top: 1px solid rgba(255,255,255,0.08);
-      background: rgba(11,15,23,0.45);
+      background: rgba(10,15,20,0.55);
       backdrop-filter: blur(12px);
     }
-
     .footer-inner{
       display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
+      justify-content: space-between;
       gap: 16px;
       padding: 18px 0;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
+      align-items:flex-start;
     }
-
     .footer-links{
       display:flex;
       gap: 10px;
-      flex-wrap:wrap;
+      flex-wrap: wrap;
     }
-
     .footer-links a{
       text-decoration:none;
-      color: rgba(255,255,255,0.70);
+      color: rgba(255,255,255,0.72);
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.10);
       padding: 10px 12px;
       border-radius: 12px;
-      transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
-      font-size: 0.92rem;
+      transition: background var(--ease), border-color var(--ease), color var(--ease);
+      font-weight: 700;
+      font-size: 0.94rem;
     }
     .footer-links a:hover{
       background: rgba(255,255,255,0.10);
       border-color: rgba(255,255,255,0.14);
       color: rgba(255,255,255,0.92);
     }
-
     .fineprint{
-      color: var(--muted-2);
-      font-size: 0.88rem;
+      color: var(--muted2);
+      font-size: 0.90rem;
       line-height: 1.45;
-      max-width: 58ch;
+      max-width: 62ch;
     }
 
-    /* =========
-      Responsive
-    ========= */
+    /* Back to top */
+    .to-top{
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 60;
+      opacity: 0;
+      pointer-events:none;
+      transform: translateY(8px);
+      transition: opacity var(--ease), transform var(--ease);
+    }
+    .to-top.show{
+      opacity: 1;
+      pointer-events:auto;
+      transform: translateY(0);
+    }
+    .to-top button{
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.92);
+      cursor:pointer;
+      box-shadow: var(--shadow2);
+    }
+    .to-top button:hover{
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.14);
+    }
+
+    /* Responsive */
     @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
-      .featured-grid{ grid-template-columns: 1fr; }
-      .cta{ grid-template-columns: 1fr; }
-      .links-grid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .hero-inner{ grid-template-columns: 1fr; padding: 22px; }
+      .hero-actions{ flex-direction: row; }
+      .featured{ grid-template-columns: 1fr; }
+      .cta-row{ grid-template-columns: 1fr; }
+      .links-grid{ grid-template-columns: repeat(3, minmax(0,1fr)); }
     }
 
     @media (max-width: 760px){
       .nav-links{ display:none; }
       .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
-      .nav-cta .btn-ghost{ display:none; } /* reduce clutter */
-      .video-grid{ grid-template-columns: 1fr; }
-      .links-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .brand-text span{ display:none; }
+
+      .hero-actions{ flex-direction: column; }
+      .video-grid{ grid-template-columns: 1fr; }
+      .links-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -611,13 +664,14 @@
 </head>
 
 <body>
+  <div class="progress" id="progressBar"></div>
 
   <!-- HEADER -->
   <header>
     <div class="wrap">
       <div class="nav">
         <a class="brand" href="index.html" aria-label="Beals.wav Home">
-          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="mark" aria-hidden="true"></div>
           <div class="brand-text">
             <strong>BEALS.WAV</strong>
             <span>Music • Beats • Studio</span>
@@ -634,7 +688,7 @@
 
         <div class="nav-cta">
           <a class="btn btn-ghost" href="login.html" id="loginBtn">Login</a>
-          <a class="btn btn-primary" href="studio.html">Book Studio</a>
+          <a class="btn btn-primary" href="#featured">Play 23.5</a>
           <button class="hamburger" id="menuBtn" aria-label="Toggle menu">☰</button>
         </div>
       </div>
@@ -659,62 +713,40 @@
   <main>
     <div class="wrap">
 
-      <!-- HERO -->
+      <!-- HERO: BIG + SIMPLE -->
       <section class="hero" aria-label="Hero">
-        <div class="hero-card">
-          <div class="hero-inner">
-            <div class="hero-title">
-              <div class="kicker">Beals.wav</div>
-              <h1 class="headline">Music, beats, and studio services built to sound expensive.</h1>
-              <p class="subhead">
-                West Jordan, Utah. Recording, mixing, production, and a beat catalog that actually respects artists.
-              </p>
+        <div class="hero-inner">
+          <div>
+            <h1>Beals.wav</h1>
+            <p>
+              Music, beats, and studio services in West Jordan, Utah. Clean sound, fast workflow, zero fluff.
+            </p>
+
+            <div class="hero-meta">
+              <span class="chip"><strong>Studio</strong> Recording + Mixing</span>
+              <span class="chip"><strong>Beats</strong> Instant licensing</span>
+              <span class="chip"><strong>Music</strong> Albums + Singles</span>
             </div>
 
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="music.html">Listen</a>
-              <a class="btn btn-success" href="beatstore.html">Buy Beats</a>
-              <a class="btn btn-outline" href="contact.html">Contact</a>
-            </div>
-
-            <div class="pill-row" aria-label="Highlights">
-              <div class="pill"><strong>Studio</strong> Recording + Mixing</div>
-              <div class="pill"><strong>Beats</strong> Tagged previews</div>
-              <div class="pill"><strong>Sessions</strong> Book online</div>
+            <div class="scroll-hint" id="scrollHint" role="button" aria-label="Scroll to featured section">
+              <span class="dot" aria-hidden="true"></span>
+              <span>Scroll for music + details</span>
             </div>
           </div>
-        </div>
 
-        <div class="card">
-          <div class="card-pad">
-            <div class="section-head" style="margin:0 0 10px;">
-              <h2 style="margin:0;">Quick actions</h2>
-              <p style="margin:0;">Do the obvious things.</p>
-            </div>
-
-            <div class="cta-actions">
-              <a class="btn btn-outline" href="studio.html">Studio Pricing</a>
-              <a class="btn btn-outline" href="beatstore.html">Beat Store</a>
-              <a class="btn btn-outline" href="music.html">Catalog</a>
-              <a class="btn btn-outline" href="faq.html">FAQ</a>
-            </div>
-
-            <div class="divider"></div>
-
-            <p class="fineprint" style="margin:0;">
-              If a YouTube embed ever throws a tantrum again, it’s either YouTube changing rules or a video/playlist
-              being restricted. This page uses the strict embed format to minimize that drama.
-            </p>
+          <div class="hero-actions" aria-label="Primary actions">
+            <a class="btn btn-primary btn-big" href="studio.html">Book Studio Time</a>
+            <a class="btn btn-outline btn-big" href="beatstore.html">Buy Beats</a>
+            <a class="btn btn-ghost btn-big" href="music.html">Listen</a>
           </div>
         </div>
       </section>
 
       <div class="divider"></div>
 
-      <!-- FEATURED ALBUM + FOLLOW -->
-      <section class="featured-grid section" aria-label="Featured">
-        <!-- 23.5 (Album playlist) -->
-        <article class="card" id="album-23-5">
+      <!-- FEATURED: 23.5 + ONE CLEAN PANEL -->
+      <section class="featured section reveal" id="featured" data-reveal>
+        <article class="card">
           <div class="video-title">
             <h3>23.5 (Album)</h3>
             <span>Playlist</span>
@@ -731,29 +763,51 @@
           </div>
         </article>
 
-        <!-- Follow & Support -->
         <article class="card">
           <div class="card-pad">
             <div class="section-head" style="margin:0 0 10px;">
-              <h2 style="margin:0;">Follow & Support</h2>
-              <p style="margin:0;">Streaming links that don’t look like 2009.</p>
+              <h2 style="margin:0;">Start here</h2>
+              <p style="margin:0;">Everything else lives below.</p>
             </div>
 
-            <div class="links-grid" aria-label="Follow links">
-              <a class="link-btn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
-              <a class="link-btn apple" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple Music</a>
-              <a class="link-btn soundcloud" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-              <a class="link-btn youtube" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
-              <a class="link-btn instagram" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
-              <a class="link-btn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
+            <div class="big-link">
+              <a href="studio.html">
+                <div>
+                  Studio
+                  <small>Record, mix, and finish tracks.</small>
+                </div>
+                <span aria-hidden="true">→</span>
+              </a>
+              <a href="beatstore.html">
+                <div>
+                  Beat Store
+                  <small>Browse, license, and download.</small>
+                </div>
+                <span aria-hidden="true">→</span>
+              </a>
+              <a href="music.html">
+                <div>
+                  Music
+                  <small>Releases, albums, features.</small>
+                </div>
+                <span aria-hidden="true">→</span>
+              </a>
             </div>
 
             <div class="divider"></div>
 
-            <div class="cta-actions">
-              <a class="btn btn-primary" href="music.html">Music Page</a>
-              <a class="btn btn-success" href="beatstore.html">Buy Beats</a>
-              <a class="btn btn-outline" href="studio.html">Book Studio</a>
+            <div class="section-head" style="margin:0 0 10px;">
+              <h2 style="margin:0;">Follow</h2>
+              <p style="margin:0;">Small buttons belong down here.</p>
+            </div>
+
+            <div class="links-grid" aria-label="Follow links">
+              <a class="link-btn" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
+              <a class="link-btn" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple</a>
+              <a class="link-btn" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+              <a class="link-btn" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
+              <a class="link-btn" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
+              <a class="link-btn" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
             </div>
           </div>
         </article>
@@ -761,38 +815,37 @@
 
       <div class="divider"></div>
 
-      <!-- STUDIO + BEATS CTA -->
-      <section class="cta section" aria-label="Calls to action">
+      <!-- CTA ROW: now it belongs here -->
+      <section class="cta-row section reveal" data-reveal>
         <div class="cta-card">
           <h3>Book Studio Time</h3>
-          <p>High-quality recording, mixing, and production services in West Jordan, Utah. Clean signal chain, serious workflow.</p>
+          <p>High-quality recording, mixing, and production. Clean chain, serious workflow, fast turnaround.</p>
           <div class="cta-actions">
             <a class="btn btn-primary" href="studio.html">Book Now</a>
-            <a class="btn btn-outline" href="contact.html">Ask a Question</a>
+            <a class="btn btn-ghost" href="contact.html">Ask a Question</a>
           </div>
         </div>
 
         <div class="cta-card">
           <h3>Buy Beats</h3>
-          <p>Browse instrumentals, license instantly, and stop arguing with your DAW at 2 AM.</p>
+          <p>Browse instrumentals, license instantly, and get back to making music instead of debating menus.</p>
           <div class="cta-actions">
-            <a class="btn btn-success" href="beatstore.html">Open Beat Store</a>
-            <a class="btn btn-outline" href="music.html">Hear Releases</a>
+            <a class="btn btn-primary" href="beatstore.html">Open Beat Store</a>
+            <a class="btn btn-ghost" href="music.html">Hear Releases</a>
           </div>
         </div>
       </section>
 
       <div class="divider"></div>
 
-      <!-- VIDEOS GRID -->
-      <section class="section" aria-label="Videos">
+      <!-- VIDEOS: deeper down -->
+      <section class="section reveal" data-reveal aria-label="Videos">
         <div class="section-head">
           <h2>Videos</h2>
           <p>Singles + projects.</p>
         </div>
 
         <div class="video-grid">
-          <!-- VIP (220) -->
           <article class="card" id="vip-220">
             <div class="video-title">
               <h3>VIP (220)</h3>
@@ -805,12 +858,10 @@
                 title="VIP (220)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- No Rest -->
           <article class="card" id="no-rest">
             <div class="video-title">
               <h3>No Rest</h3>
@@ -823,12 +874,10 @@
                 title="No Rest"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- Lame -->
           <article class="card" id="lame">
             <div class="video-title">
               <h3>Lame</h3>
@@ -841,12 +890,10 @@
                 title="Lame"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- Breaking Point (Album playlist) -->
           <article class="card" id="breaking-point">
             <div class="video-title">
               <h3>Breaking Point (Album)</h3>
@@ -859,12 +906,10 @@
                 title="Breaking Point (Album)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- WHAT IS GOING ON -->
           <article class="card" id="what-is-going-on">
             <div class="video-title">
               <h3>WHAT IS GOING ON</h3>
@@ -877,12 +922,10 @@
                 title="WHAT IS GOING ON"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- Forever (Album) - Single video (because OLAK5uy_* playlists are unreliable) -->
           <article class="card" id="forever-album">
             <div class="video-title">
               <h3>Forever (Album)</h3>
@@ -895,12 +938,10 @@
                 title="Forever (Album) – RPFROMTHETOP"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- Back to Back -->
           <article class="card" id="back-to-back">
             <div class="video-title">
               <h3>Back to Back</h3>
@@ -913,12 +954,10 @@
                 title="Back to Back"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
 
-          <!-- MERAKI (Album playlist) -->
           <article class="card" id="meraki">
             <div class="video-title">
               <h3>MERAKI (Album)</h3>
@@ -931,8 +970,7 @@
                 title="MERAKI (Album)"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
+                allowfullscreen></iframe>
             </div>
           </article>
         </div>
@@ -946,8 +984,8 @@
     <div class="wrap">
       <div class="footer-inner">
         <div>
-          <div class="brand" style="gap:10px; pointer-events:none;">
-            <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand" style="gap:12px; pointer-events:none;">
+            <div class="mark" aria-hidden="true"></div>
             <div class="brand-text">
               <strong>BEALS.WAV</strong>
               <span>West Jordan, Utah</span>
@@ -974,56 +1012,109 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Back to top -->
+  <div class="to-top" id="toTop">
+    <button aria-label="Back to top" id="toTopBtn">↑</button>
+  </div>
+
   <script>
-    // Login Sync (desktop + mobile)
+    // Login Sync
     function syncLoginButtons() {
       const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-
       const loginBtn = document.getElementById('loginBtn');
       const loginBtnMobile = document.getElementById('loginBtnMobile');
 
       const text = isLoggedIn ? 'Account' : 'Login';
       const href = isLoggedIn ? 'account.html' : 'login.html';
 
-      if (loginBtn) {
-        loginBtn.textContent = text;
-        loginBtn.href = href;
-      }
-      if (loginBtnMobile) {
-        loginBtnMobile.textContent = text;
-        loginBtnMobile.href = href;
-      }
+      if (loginBtn) { loginBtn.textContent = text; loginBtn.href = href; }
+      if (loginBtnMobile) { loginBtnMobile.textContent = text; loginBtnMobile.href = href; }
     }
 
-    // Mobile drawer toggle
+    // Mobile menu toggle
     function setupMobileMenu() {
       const btn = document.getElementById('menuBtn');
       const drawer = document.getElementById('mobileDrawer');
       if (!btn || !drawer) return;
 
       btn.addEventListener('click', function () {
-        const isOpen = drawer.style.display === 'block';
-        drawer.style.display = isOpen ? 'none' : 'block';
+        drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
       });
 
-      // Close drawer when a link is clicked (mobile)
-      drawer.addEventListener('click', function (e) {
-        const target = e.target;
-        if (target && target.tagName === 'A') {
-          drawer.style.display = 'none';
-        }
+      drawer.addEventListener('click', function(e){
+        const t = e.target;
+        if (t && t.tagName === 'A') drawer.style.display = 'none';
       });
 
-      // Close drawer when resizing up
-      window.addEventListener('resize', function () {
+      window.addEventListener('resize', function(){
         if (window.innerWidth > 760) drawer.style.display = 'none';
       });
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    // Reveal on scroll
+    function setupReveal() {
+      const items = document.querySelectorAll('[data-reveal]');
+      if (!items.length) return;
+
+      const obs = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            obs.unobserve(entry.target);
+          }
+        }
+      }, { threshold: 0.12 });
+
+      items.forEach(el => obs.observe(el));
+    }
+
+    // Scroll progress + back to top + slight parallax glow
+    function setupScrollUI() {
+      const bar = document.getElementById('progressBar');
+      const toTop = document.getElementById('toTop');
+      const toTopBtn = document.getElementById('toTopBtn');
+
+      function onScroll() {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const scrollHeight = doc.scrollHeight - doc.clientHeight;
+        const p = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+
+        if (bar) bar.style.width = (p * 100).toFixed(2) + '%';
+
+        if (toTop) {
+          if (scrollTop > 700) toTop.classList.add('show');
+          else toTop.classList.remove('show');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      if (toTopBtn) {
+        toTopBtn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    }
+
+    // Scroll hint button -> jump to featured
+    function setupScrollHint() {
+      const hint = document.getElementById('scrollHint');
+      const featured = document.getElementById('featured');
+      if (!hint || !featured) return;
+
+      hint.addEventListener('click', () => {
+        featured.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
       syncLoginButtons();
       setupMobileMenu();
+      setupReveal();
+      setupScrollUI();
+      setupScrollHint();
     });
   </script>
 </body>
