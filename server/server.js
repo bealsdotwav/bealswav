@@ -1,22 +1,30 @@
 // server.js
 
 // ─── IMPORTS & CONFIG ─────────────────────────────────────────────────────────
-const express             = require('express');
-const helmet              = require('helmet');
-const rateLimit           = require('express-rate-limit');
-const cors                = require('cors');
-const mongoose            = require('mongoose');
-const path                = require('path');
-require('dotenv').config();  // load .env
-const bodyParser          = require('body-parser');
-const bcrypt              = require('bcrypt');
-const stripe              = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const crypto              = require('crypto');
-const nodemailer          = require('nodemailer');
+const express = require('express');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config(); // load .env
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const { body, validationResult } = require('express-validator');
 
 const app = express();
 const PORT = process.env.PORT || 4242;
+
+// ─── STATIC FILES (PUBLIC) ───────────────────────────────────────────────────
+// Assumes repo structure:
+//  - server.js
+//  - public/index.html
+//  - public/assets/...
+const PUBLIC_DIR = path.join(__dirname, 'public');
+app.use(express.static(PUBLIC_DIR));
 
 // ─── ENV CHECK ────────────────────────────────────────────────────────────────
 if (!process.env.MONGODB_URI) {
@@ -33,24 +41,24 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
-        defaultSrc:    ["'self'"],
-        scriptSrc:     [
+        defaultSrc: ["'self'"],
+        scriptSrc: [
           "'self'",
           "'unsafe-inline'",
           "https://cdn.jsdelivr.net",
           "https://www.googletagmanager.com"
         ],
         "script-src-attr": ["'unsafe-inline'"],
-        styleSrc:      ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc:       ["'self'", "https://fonts.gstatic.com"],
-        imgSrc:        ["'self'", "data:"],
-        connectSrc:    [
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        imgSrc: ["'self'", "data:"],
+        connectSrc: [
           "'self'",
           "https://api.emailjs.com",
           "https://www.google-analytics.com",
           "https://www.googletagmanager.com"
         ],
-        frameSrc:      [
+        frameSrc: [
           "'self'",
           "https://www.youtube.com",
           "https://www.youtube-nocookie.com",
@@ -59,19 +67,19 @@ app.use(
         ]
       }
     },
-    frameguard:                { action: 'sameorigin' },
+    frameguard: { action: 'sameorigin' },
     crossOriginResourcePolicy: { policy: 'cross-origin' }
   })
 );
 
-
 // trust proxy if you’re behind one (Render, Heroku, etc.)
 app.enable('trust proxy');
 
-// only allow your front‑end origins
+// only allow your front-end origins
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? ['https://bealswav.com']
+  ? ['https://bealswav.com', 'https://www.bealswav.com']
   : ['http://localhost:4242'];
+
 app.use(cors({ origin: allowedOrigins }));
 
 // redirect HTTP → HTTPS in prod
@@ -82,44 +90,43 @@ app.use((req, res, next) => {
   next();
 });
 
-// rate‑limit on register & contact to prevent spam
+// rate-limit on register & contact to prevent spam
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,    // 15 minutes
-  max:      100,               // limit each IP to 100 requests per windowMs
-  message:  'Too many requests from this IP, please try again later.'
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later.'
 });
 app.use('/register', apiLimiter);
-app.use('/contact',  apiLimiter);
+app.use('/contact', apiLimiter);
 
-// ─── BODY PARSING & STATIC ────────────────────────────────────────────────────
+// ─── BODY PARSING ────────────────────────────────────────────────────────────
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../public')));
 
 // ─── MONGOOSE SETUP ───────────────────────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser:    true,
+  useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('✅  MongoDB connected'))
-.catch(err => {
-  console.error('❌  MongoDB connection error:', err);
-  process.exit(1);
-});
+  .then(() => console.log('✅  MongoDB connected'))
+  .catch(err => {
+    console.error('❌  MongoDB connection error:', err);
+    process.exit(1);
+  });
 
 // ─── USER MODEL ────────────────────────────────────────────────────────────────
 const userSchema = new mongoose.Schema({
-  email:             { type: String, required: true, unique: true },
-  password:          { type: String, required: true },
-  emailVerified:     { type: Boolean, default: false },
-  verifyToken:       String,
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  emailVerified: { type: Boolean, default: false },
+  verifyToken: String,
   verifyTokenExpiry: Date,
-  resetToken:        String,
-  resetTokenExpiry:  Date,
+  resetToken: String,
+  resetTokenExpiry: Date,
   sessions: [{
     serviceType: String,
-    dateBooked:  String,
-    status:      String,
-    details:     String
+    dateBooked: String,
+    status: String,
+    details: String
   }]
 }, { timestamps: true });
 
@@ -130,8 +137,8 @@ let transporterPromise = (async () => {
   if (process.env.ZOHO_SMTP_USER && process.env.ZOHO_SMTP_PASS) {
     // → Zoho SMTP relay for production
     return nodemailer.createTransport({
-      host:   'smtp.zoho.com',
-      port:   465,
+      host: 'smtp.zoho.com',
+      port: 465,
       secure: true,
       auth: {
         user: process.env.ZOHO_SMTP_USER,
@@ -143,10 +150,10 @@ let transporterPromise = (async () => {
   const testAcct = await nodemailer.createTestAccount();
   console.log('ℹ️  Ethereal SMTP account:', testAcct);
   return nodemailer.createTransport({
-    host:     testAcct.smtp.host,
-    port:     testAcct.smtp.port,
-    secure:   testAcct.smtp.secure,
-    auth:     { user: testAcct.user, pass: testAcct.pass }
+    host: testAcct.smtp.host,
+    port: testAcct.smtp.port,
+    secure: testAcct.smtp.secure,
+    auth: { user: testAcct.user, pass: testAcct.pass }
   });
 })();
 
@@ -154,7 +161,7 @@ let transporterPromise = (async () => {
 transporterPromise.then(transporter => {
   transporter.verify(err => {
     if (err) console.error('❌ SMTP connect error:', err);
-    else    console.log('✅ SMTP ready to send');
+    else console.log('✅ SMTP ready to send');
   });
 });
 
@@ -171,11 +178,16 @@ async function sendEmail(options) {
   return info;
 }
 
-// ─── ROUTES ────────────────────────────────────────────────────────────────────
+// ─── ROUTES ───────────────────────────────────────────────────────────────────
 
-// Health check
+// Health check (moved off / so your site can actually load)
+app.get('/health', (_req, res) => {
+  res.send('ok');
+});
+
+// Serve homepage
 app.get('/', (_req, res) => {
-  res.send('🎵 Beals.wav server up and running!');
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });
 
 // — REGISTER — validate input, hash password, save user, send verification email
@@ -195,19 +207,20 @@ app.post('/register', [
     }
 
     const hashed = await bcrypt.hash(password, 12);
-    const token  = crypto.randomBytes(32).toString('hex');
+    const token = crypto.randomBytes(32).toString('hex');
+
     await new User({
       email,
-      password:          hashed,
-      verifyToken:       token,
-      verifyTokenExpiry: Date.now() + 24*60*60*1000
+      password: hashed,
+      verifyToken: token,
+      verifyTokenExpiry: Date.now() + 24 * 60 * 60 * 1000
     }).save();
 
     const verifyUrl = `${req.protocol}://${req.get('host')}/verify-email?token=${token}`;
     await sendEmail({
-      to:      email,
+      to: email,
       subject: 'Verify your Beals.wav account',
-      html:    `<p>Click to verify your account: <a href="${verifyUrl}">${verifyUrl}</a></p>`
+      html: `<p>Click to verify your account: <a href="${verifyUrl}">${verifyUrl}</a></p>`
     });
 
     res.json({ message: 'Registered—check your email to verify.' });
@@ -221,19 +234,19 @@ app.get('/verify-email', async (req, res, next) => {
   try {
     const { token } = req.query;
     const u = await User.findOne({
-      verifyToken:       token,
+      verifyToken: token,
       verifyTokenExpiry: { $gt: Date.now() }
     });
     if (!u) {
       return res.status(400).send('Invalid or expired verification link.');
     }
 
-    u.emailVerified       = true;
-    u.verifyToken         = undefined;
-    u.verifyTokenExpiry   = undefined;
+    u.emailVerified = true;
+    u.verifyToken = undefined;
+    u.verifyTokenExpiry = undefined;
     await u.save();
 
-    res.sendFile(path.join(__dirname, '../public/verify-email.html'));
+    res.sendFile(path.join(PUBLIC_DIR, 'verify-email.html'));
   } catch (err) {
     next(err);
   }
@@ -258,15 +271,15 @@ app.post('/login', [
     if (!u.emailVerified) {
       // resend verification
       const token = crypto.randomBytes(32).toString('hex');
-      u.verifyToken       = token;
-      u.verifyTokenExpiry = Date.now() + 24*60*60*1000;
+      u.verifyToken = token;
+      u.verifyTokenExpiry = Date.now() + 24 * 60 * 60 * 1000;
       await u.save();
 
       const verifyUrl = `${req.protocol}://${req.get('host')}/verify-email?token=${token}`;
       await sendEmail({
-        to:      email,
+        to: email,
         subject: 'Please verify your Beals.wav account',
-        html:    `<p>Click to verify: <a href="${verifyUrl}">${verifyUrl}</a></p>`
+        html: `<p>Click to verify: <a href="${verifyUrl}">${verifyUrl}</a></p>`
       });
       return res.status(403).json({ message: 'Email not verified. New link sent.' });
     }
@@ -286,15 +299,15 @@ app.post('/request-reset', [
     const u = await User.findOne({ email });
     if (u) {
       const token = crypto.randomBytes(32).toString('hex');
-      u.resetToken       = token;
-      u.resetTokenExpiry = Date.now() + 60*60*1000;
+      u.resetToken = token;
+      u.resetTokenExpiry = Date.now() + 60 * 60 * 1000;
       await u.save();
 
       const resetUrl = `${req.protocol}://${req.get('host')}/reset-password.html?token=${token}`;
       await sendEmail({
-        to:      email,
+        to: email,
         subject: 'Beals.wav password reset',
-        html:    `<p>Reset your password: <a href="${resetUrl}">${resetUrl}</a></p>`
+        html: `<p>Reset your password: <a href="${resetUrl}">${resetUrl}</a></p>`
       });
     }
     // Always respond 200 to avoid email enumeration
@@ -317,15 +330,15 @@ app.post('/reset-password', [
 
     const { token, newPassword } = req.body;
     const u = await User.findOne({
-      resetToken:        token,
+      resetToken: token,
       resetTokenExpiry: { $gt: Date.now() }
     });
     if (!u) {
       return res.status(400).json({ message: 'Invalid or expired reset token.' });
     }
 
-    u.password         = await bcrypt.hash(newPassword, 12);
-    u.resetToken       = undefined;
+    u.password = await bcrypt.hash(newPassword, 12);
+    u.resetToken = undefined;
     u.resetTokenExpiry = undefined;
     await u.save();
 
@@ -341,20 +354,22 @@ app.post('/create-checkout-session', async (req, res, next) => {
     const { cartItems, customerEmail } = req.body;
     const line_items = cartItems.map(item => ({
       price_data: {
-        currency:     'usd',
+        currency: 'usd',
         product_data: { name: `${item.title} - ${item.license}` },
-        unit_amount:  Math.round(item.price * 100)
+        unit_amount: Math.round(item.price * 100)
       },
       quantity: 1
     }));
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      mode:                 'payment',
-      customer_email:       customerEmail,
+      mode: 'payment',
+      customer_email: customerEmail,
       line_items,
-      success_url:          `${req.protocol}://${req.get('host')}/account.html?status=success`,
-      cancel_url:           `${req.protocol}://${req.get('host')}/beatstore.html?status=cancel`
+      success_url: `${req.protocol}://${req.get('host')}/account.html?status=success`,
+      cancel_url: `${req.protocol}://${req.get('host')}/beatstore.html?status=cancel`
     });
+
     res.json({ url: session.url });
   } catch (err) {
     next(err);
@@ -416,14 +431,14 @@ app.post('/contact', [
 
     const { name, email, message } = req.body;
     await sendEmail({
-      to:      process.env.SENDER_EMAIL,      // Zoho inbox
-      cc:      'beals.wav@gmail.com',         // personal Gmail
+      to: process.env.SENDER_EMAIL,     // Zoho inbox
+      cc: 'beals.wav@gmail.com',        // personal Gmail
       replyTo: email,
       subject: `📬 New contact from ${name}`,
-      text:    `Name: ${name}\nEmail: ${email}\n\n${message}`,
-      html:    `<p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-                <p>${message}</p>`
+      text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
+      html: `<p><strong>Name:</strong> ${name}</p>
+             <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+             <p>${message}</p>`
     });
 
     console.log(`✉️  Contact from ${name} <${email}>`);
@@ -441,5 +456,5 @@ app.use((err, _req, res, _next) => {
 
 // ─── START SERVER ─────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`🎵 Server listening at http://localhost:${PORT}`);
+  console.log(`🎵 Server listening on port ${PORT}`);
 });
