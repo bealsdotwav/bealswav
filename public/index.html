@@ -64,7 +64,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO (BACK, 2.5–3s)
+       INTRO (guaranteed ~2.8–3.0s visible then fades)
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -77,12 +77,19 @@
         radial-gradient(900px 600px at 25% 30%, rgba(62,183,219,0.70), transparent 60%),
         radial-gradient(900px 600px at 75% 70%, rgba(23,135,171,0.80), transparent 62%),
         linear-gradient(135deg, rgba(8,24,44,1), rgba(15,88,135,1));
-      animation: introFade 2.85s ease-in-out forwards;
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
     }
-    @keyframes introFade{
-      0%   { opacity: 1; transform: scale(1); filter: saturate(1.45) brightness(1.05); }
-      45%  { filter: saturate(1.75) brightness(1.20); }
-      85%  { opacity: 1; }
+
+    /* hold for 2.2s, then fade out over 0.7s (total 2.9s) */
+    .intro.play{
+      animation: introOut 2.9s ease-in-out forwards;
+    }
+
+    @keyframes introOut{
+      0%   { opacity: 1; transform: scale(1); filter: saturate(1.55) brightness(1.06); }
+      75%  { opacity: 1; transform: scale(1.002); }
       100% { opacity: 0; transform: scale(1.01); pointer-events:none; }
     }
 
@@ -112,7 +119,7 @@
       letter-spacing: -0.02em;
       color: rgba(255,255,255,0.92);
       font-size: clamp(1.05rem, 0.95rem + 1.0vw, 1.35rem);
-      text-transform: lowercase;
+      text-transform: none;
     }
     .introLogoWrap{
       width: min(90%, 980px);
@@ -252,11 +259,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (FORCE-CLICK, FORCE-RENDER)
-       - No overlay weirdness
-       - Slide itself has data-href
-       - JS click navigates
-       - Images load via <img> preloading (not HEAD), with extension probing
+       CAROUSEL
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -346,18 +349,24 @@
       height: 100%;
       position: relative;
       overflow:hidden;
-      cursor: pointer;
       background:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.12), transparent 62%),
         linear-gradient(135deg, rgba(23,135,171,0.30), rgba(62,183,219,0.18));
     }
 
+    /* background layer via real <img> */
     .slideMedia{
       position:absolute;
       inset:0;
       z-index:1;
-      background-size: cover;
-      background-position: center;
+      background:
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.10), transparent 62%),
+        linear-gradient(135deg, rgba(23,135,171,0.55), rgba(8,24,44,0.55));
+    }
+    .slideMedia img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
       transform: scale(1.02);
     }
     .slideMedia::after{
@@ -367,7 +376,7 @@
       background:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.16), transparent 62%),
         radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.20), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.50));
+        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.52));
       pointer-events:none;
     }
 
@@ -376,11 +385,11 @@
       left: 18px;
       right: 18px;
       bottom: 18px;
-      z-index:2;
+      z-index:3;
       display:flex;
       flex-direction:column;
       gap: 10px;
-      pointer-events:none; /* nothing blocks clicks */
+      pointer-events:none; /* overlay never blocks link */
     }
 
     .tag{
@@ -411,6 +420,16 @@
       font-size: 1.02rem;
       text-shadow: 0 16px 60px rgba(0,0,0,0.40);
       max-width: 70ch;
+    }
+
+    /* Full-slide link to guarantee clickability */
+    .slideLink{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      display:block;
+      cursor:pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
     /* embed slide */
@@ -744,9 +763,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       FIXED TICKER (MOVING, ALWAYS)
-       - No “starts offscreen so you think it’s broken”
-       - Two copies, translate by 50% for perfect loop
+       TICKER (pixel-perfect loop)
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
@@ -760,9 +777,8 @@
     }
     .tickerTrack{
       display:flex;
-      width: max-content;
+      width:max-content;
       will-change: transform;
-      animation: tickerMove 24s linear infinite;
       transform: translateX(0);
     }
     .tickerItem{
@@ -778,10 +794,6 @@
       white-space: nowrap;
       text-shadow: 0 0 10px rgba(0,255,255,0.18);
       animation: tickerColor 9s ease-in-out infinite alternate;
-    }
-    @keyframes tickerMove{
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
     }
     @keyframes tickerColor{
       0%{color:#00ffff}
@@ -811,20 +823,19 @@
       .links{ grid-template-columns: 1fr; }
     }
 
-    /* Keep everything else respectful of reduced motion,
-       but DO NOT disable ticker/carousel if user wants movement. */
     @media (prefers-reduced-motion: reduce){
       .slideImg{ transition:none !important; }
       .track{ transition:none !important; }
+      /* ticker still moves because you explicitly want movement */
     }
   </style>
 </head>
 
 <body>
   <!-- Intro -->
-  <div class="intro" id="intro">
+  <div class="intro" id="intro" aria-label="Intro screen">
     <div class="introFrame">
-      <div class="introTitle">welcome to the beals.wav experience</div>
+      <div class="introTitle">Welcome to the Beals.wav experience</div>
       <div class="introLogoWrap">
         <img class="introLogo" src="/assets/images/logo.jpeg?v=9" alt="beals.wav">
       </div>
@@ -835,9 +846,9 @@
     <div class="wrap">
       <div class="topbar">
         <div class="navGroup navLeft" aria-label="Top navigation left">
-          <a class="navBtn" href="/studio">Studio</a>
-          <a class="navBtn" href="/music">Music</a>
-          <a class="navBtn" href="/beatstore">Beats</a>
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html">Beats</a>
         </div>
 
         <div class="brand">
@@ -847,9 +858,9 @@
         </div>
 
         <div class="navGroup navRight" aria-label="Top navigation right">
-          <a class="navBtn" href="/contact">Contact</a>
-          <a class="navBtn" href="/faq">FAQ</a>
-          <a class="navBtn navBtnLogin" href="/login" id="loginTop">Login</a>
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnLogin" href="/login.html" id="loginTop">Login</a>
         </div>
 
         <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
@@ -857,12 +868,12 @@
 
       <div class="drawer" id="drawer">
         <div class="drawerInner">
-          <a class="navBtn" href="/studio">Studio</a>
-          <a class="navBtn" href="/music">Music</a>
-          <a class="navBtn" href="/beatstore">Beats</a>
-          <a class="navBtn" href="/contact">Contact</a>
-          <a class="navBtn" href="/faq">FAQ</a>
-          <a class="navBtn navBtnLogin" href="/login" id="loginMobile">Login</a>
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html">Beats</a>
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnLogin" href="/login.html" id="loginMobile">Login</a>
         </div>
       </div>
     </div>
@@ -899,8 +910,13 @@
                 </div>
 
                 <!-- Slide 2: Music -->
-                <div class="slide" data-chip="Music" data-href="https://www.bealswav.com/music">
-                  <div class="slideMedia" data-imgbase="music-bg"></div>
+                <div class="slide" data-chip="Music">
+                  <a class="slideLink" href="/music.html" aria-label="Go to Music"></a>
+                  <div class="slideMedia">
+                    <img src="/assets/images/music-bg.jpg" alt="Music background"
+                         loading="eager"
+                         onerror="this.remove();">
+                  </div>
                   <div class="slideOverlay">
                     <div class="tag">Music</div>
                     <div class="title">Listen Here</div>
@@ -909,8 +925,13 @@
                 </div>
 
                 <!-- Slide 3: Studio -->
-                <div class="slide" data-chip="Studio" data-href="https://www.bealswav.com/studio">
-                  <div class="slideMedia" data-imgbase="studio"></div>
+                <div class="slide" data-chip="Studio">
+                  <a class="slideLink" href="/studio.html" aria-label="Go to Studio"></a>
+                  <div class="slideMedia">
+                    <img src="/assets/images/studio.jpg" alt="Studio background"
+                         loading="lazy"
+                         onerror="this.remove();">
+                  </div>
                   <div class="slideOverlay">
                     <div class="tag">Studio</div>
                     <div class="title">Book Studio Time Here</div>
@@ -919,8 +940,13 @@
                 </div>
 
                 <!-- Slide 4: Beats -->
-                <div class="slide" data-chip="Beats" data-href="https://www.bealswav.com/beatstore">
-                  <div class="slideMedia" data-imgbase="beats-bg"></div>
+                <div class="slide" data-chip="Beats">
+                  <a class="slideLink" href="/beatstore.html" aria-label="Go to Beat Store"></a>
+                  <div class="slideMedia">
+                    <img src="/assets/images/beats-bg.jpg" alt="Beats background"
+                         loading="lazy"
+                         onerror="this.remove();">
+                  </div>
                   <div class="slideOverlay">
                     <div class="tag">Beats</div>
                     <div class="title">Buy Beats Here</div>
@@ -929,8 +955,13 @@
                 </div>
 
                 <!-- Slide 5: FAQ -->
-                <div class="slide" data-chip="FAQ" data-href="https://www.bealswav.com/faq">
-                  <div class="slideMedia" data-imgbase="faq-bg"></div>
+                <div class="slide" data-chip="FAQ">
+                  <a class="slideLink" href="/faq.html" aria-label="Go to FAQ"></a>
+                  <div class="slideMedia">
+                    <img src="/assets/images/faq-bg.jpg" alt="FAQ background"
+                         loading="lazy"
+                         onerror="this.remove();">
+                  </div>
                   <div class="slideOverlay">
                     <div class="tag">FAQ</div>
                     <div class="title">Questions Answered</div>
@@ -939,8 +970,13 @@
                 </div>
 
                 <!-- Slide 6: Contact -->
-                <div class="slide" data-chip="Contact" data-href="https://www.bealswav.com/contact">
-                  <div class="slideMedia" data-imgbase="contact-bg"></div>
+                <div class="slide" data-chip="Contact">
+                  <a class="slideLink" href="/contact.html" aria-label="Go to Contact"></a>
+                  <div class="slideMedia">
+                    <img src="/assets/images/contact-bg.jpg" alt="Contact background"
+                         loading="lazy"
+                         onerror="this.remove();">
+                  </div>
                   <div class="slideOverlay">
                     <div class="tag">Contact</div>
                     <div class="title">Reach Out Here</div>
@@ -949,8 +985,13 @@
                 </div>
 
                 <!-- Slide 7: Follow -->
-                <div class="slide" data-chip="Follow" data-href="#follow">
-                  <div class="slideMedia" data-imgbase="follow-bg"></div>
+                <div class="slide" data-chip="Follow">
+                  <a class="slideLink" href="#follow" aria-label="Jump to Follow & Support"></a>
+                  <div class="slideMedia">
+                    <img src="/assets/images/follow-bg.jpg" alt="Follow background"
+                         loading="lazy"
+                         onerror="this.remove();">
+                  </div>
                   <div class="slideOverlay">
                     <div class="tag">Follow</div>
                     <div class="title">Follow & Support</div>
@@ -1016,7 +1057,7 @@
         <div class="card studioText">
           <h2>Studio</h2>
           <p>Recording, mixing, production. West Jordan, Utah.</p>
-          <a class="cta" href="https://www.bealswav.com/studio">Book Studio Time Here</a>
+          <a class="cta" href="/studio.html">Book Studio Time Here</a>
         </div>
       </div>
     </div>
@@ -1199,97 +1240,76 @@
       <div class="tickerItem" id="tickerItem">
         Beals.wav • Music Hub • Listen • Book Studio Time • Beats • Videos • Recording • Mixing • Mastering • Production • West Jordan, Utah • © 2025 Beals.wav • Featured Release: 23.5 •
       </div>
-      <div class="tickerItem" aria-hidden="true">
-        Beals.wav • Music Hub • Listen • Book Studio Time • Beats • Videos • Recording • Mixing • Mastering • Production • West Jordan, Utah • © 2025 Beals.wav • Featured Release: 23.5 •
-      </div>
     </div>
   </div>
 
   <script>
-    // Intro (2.5–3 seconds, once per session)
+    // ─────────────────────────────────────────────────────────────
+    // Intro (guaranteed duration + one per session)
+    // ─────────────────────────────────────────────────────────────
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-      const key = 'bw_intro_seen_session_v5';
+
+      const key = 'bw_intro_seen_session_v6';
       try{
         if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
       }catch(e){}
-      setTimeout(() => { if (intro) intro.remove(); }, 2900);
+
+      // Start animation next frame to avoid “instant finish” on fast loads.
+      requestAnimationFrame(() => intro.classList.add('play'));
+
+      // Remove after animation finishes (2.9s)
+      setTimeout(() => { if (intro) intro.remove(); }, 2950);
     })();
 
+    // ─────────────────────────────────────────────────────────────
     // Mobile drawer
+    // ─────────────────────────────────────────────────────────────
     (function(){
       const btn = document.getElementById('menuBtn');
       const drawer = document.getElementById('drawer');
       if (!btn || !drawer) return;
+
       btn.addEventListener('click', () => {
         drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
       });
+
       drawer.addEventListener('click', (e) => {
         if (e.target && e.target.tagName === 'A') drawer.style.display = 'none';
       });
+
       window.addEventListener('resize', () => {
         if (window.innerWidth > 760) drawer.style.display = 'none';
       });
     })();
 
+    // ─────────────────────────────────────────────────────────────
     // Login/account labels (top + mobile)
+    // ─────────────────────────────────────────────────────────────
     (function(){
       function sync(){
         const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
         const loginTop = document.getElementById('loginTop');
         const loginMobile = document.getElementById('loginMobile');
+
         if (loginTop){
           loginTop.textContent = isLoggedIn ? 'Account' : 'Login';
-          loginTop.href = isLoggedIn ? '/account' : '/login';
+          loginTop.href = isLoggedIn ? '/account.html' : '/login.html';
         }
         if (loginMobile){
           loginMobile.textContent = isLoggedIn ? 'Account' : 'Login';
-          loginMobile.href = isLoggedIn ? '/account' : '/login';
+          loginMobile.href = isLoggedIn ? '/account.html' : '/login.html';
         }
       }
       document.addEventListener('DOMContentLoaded', sync);
     })();
 
-    // ---- Image resolver using real image loads (not HEAD).
-    // Tries jpg/jpeg/png and also case variants.
-    function resolveImage(base){
-      const exts = ['jpg','jpeg','png','JPG','JPEG','PNG'];
-      const candidates = exts.map(e => `/assets/images/${base}.${e}`);
-      return new Promise((resolve) => {
-        let i = 0;
-        function tryNext(){
-          if (i >= candidates.length) return resolve(null);
-          const src = candidates[i++];
-          const img = new Image();
-          img.onload = () => resolve(src);
-          img.onerror = tryNext;
-          img.src = src + `?v=${Date.now()}`; // bypass stale caches
-        }
-        tryNext();
-      });
-    }
-
-    async function setCarouselImages(){
-      const nodes = Array.from(document.querySelectorAll('.slideMedia[data-imgbase]'));
-      for (const el of nodes){
-        const base = el.getAttribute('data-imgbase');
-        if (!base) continue;
-        const found = await resolveImage(base);
-        if (found){
-          el.style.backgroundImage = `url("${found}")`;
-        } else {
-          el.style.backgroundImage =
-            'linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55))';
-        }
-      }
-    }
-
-    // ---- Carousel (click ALWAYS works: slide data-href + JS navigation)
-    document.addEventListener('DOMContentLoaded', async function(){
-      await setCarouselImages();
-
+    // ─────────────────────────────────────────────────────────────
+    // Carousel
+    // ─────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
       const chip = document.getElementById('chip');
@@ -1341,8 +1361,7 @@
       // swipe
       let down=false, startX=0, dx=0;
       viewport.addEventListener('pointerdown', (e) => {
-        // if start on iframe (featured embed), ignore swipe
-        if (e.target.closest('iframe')) return;
+        if (e.target.closest && e.target.closest('iframe')) return;
         down=true; startX=e.clientX; dx=0;
         viewport.setPointerCapture(e.pointerId);
         stop();
@@ -1356,29 +1375,13 @@
       });
       viewport.addEventListener('pointercancel', () => { down=false; restart(); });
 
-      // click-through: slide data-href (embed slide has none)
-      track.addEventListener('click', (e) => {
-        // ignore clicks inside iframe
-        if (e.target.closest && e.target.closest('iframe')) return;
-
-        const slide = e.target.closest && e.target.closest('.slide');
-        if (!slide) return;
-
-        const href = slide.getAttribute('data-href');
-        if (!href) return;
-
-        if (href.startsWith('#')){
-          location.hash = href;
-          return;
-        }
-        window.location.href = href;
-      });
-
       setIndex(0);
       start();
     });
 
+    // ─────────────────────────────────────────────────────────────
     // Studio slideshow (smooth crossfade)
+    // ─────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -1429,7 +1432,9 @@
       setInterval(swap, 4200);
     });
 
+    // ─────────────────────────────────────────────────────────────
     // Video search/filter/sort
+    // ─────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function(){
       const grid = document.getElementById('videoGrid');
       const q = document.getElementById('q');
@@ -1483,33 +1488,54 @@
       apply();
     });
 
-    // Ticker: force correct loop distance based on actual widths.
-    // This prevents “looks frozen” when -50% doesn't match content width.
+    // ─────────────────────────────────────────────────────────────
+    // Ticker: duplicate + measure + animate exact px distance
+    // ─────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('tickerTrack');
-      if (!track) return;
+      const item = document.getElementById('tickerItem');
+      if (!track || !item) return;
 
-      function fix(){
-        const items = track.querySelectorAll('.tickerItem');
-        if (items.length < 2) return;
-        const w = items[0].getBoundingClientRect().width;
-        track.style.animation = 'none';
-        track.offsetHeight; // reflow
-        const dur = Math.max(18, Math.min(34, w / 90)); // speed clamp
+      function rebuild(){
+        // Remove any clones beyond the first
+        while (track.children.length > 1) track.removeChild(track.lastChild);
+
+        // Clone enough times to exceed viewport width * 2
+        const viewportW = window.innerWidth || 1200;
+        let totalW = item.getBoundingClientRect().width;
+
+        while (totalW < viewportW * 2) {
+          const clone = item.cloneNode(true);
+          clone.removeAttribute('id');
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+          totalW += clone.getBoundingClientRect().width;
+        }
+
+        // Animate by exact width of the first item (clean loop point)
+        const baseW = item.getBoundingClientRect().width;
+        const pxPerSec = 90; // speed
+        const dur = Math.max(16, Math.min(40, baseW / pxPerSec));
+
+        // Replace keyframes each rebuild
+        const old = document.getElementById('tickerStyle');
+        if (old) old.remove();
+
         const style = document.createElement('style');
+        style.id = 'tickerStyle';
         style.textContent = `
-          @keyframes tickerMoveFixed {
+          @keyframes tickerMovePx {
             0% { transform: translateX(0); }
-            100% { transform: translateX(-${w}px); }
+            100% { transform: translateX(-${baseW}px); }
           }
-          #tickerTrack { animation: tickerMoveFixed ${dur}s linear infinite; }
+          #tickerTrack { animation: tickerMovePx ${dur}s linear infinite; }
         `;
         document.head.appendChild(style);
       }
 
-      window.addEventListener('load', fix);
-      window.addEventListener('resize', () => { setTimeout(fix, 120); });
-      fix();
+      window.addEventListener('load', rebuild);
+      window.addEventListener('resize', () => { setTimeout(rebuild, 120); });
+      rebuild();
     });
   </script>
 </body>
