@@ -54,6 +54,7 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
+      padding-bottom: 35px; /* for fixed ticker */
     }
     a{ color:inherit; text-decoration:none; }
     img{ display:block; max-width:100%; }
@@ -65,7 +66,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO (slower + logo huge + white border)
+       INTRO (2–3s + logo huge + border)
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -78,11 +79,11 @@
         radial-gradient(900px 600px at 25% 30%, rgba(62,183,219,0.70), transparent 60%),
         radial-gradient(900px 600px at 75% 70%, rgba(23,135,171,0.80), transparent 62%),
         linear-gradient(135deg, rgba(8,24,44,1), rgba(15,88,135,1));
-      animation: introFade 1.65s ease-in-out forwards;
+      animation: introFade 2.6s ease-in-out forwards;
     }
     @keyframes introFade{
-      0%   { opacity: 1; transform: scale(1); filter: saturate(1.45) brightness(1.05); }
-      45%  { filter: saturate(1.75) brightness(1.20); }
+      0%   { opacity: 1; transform: scale(1); filter: saturate(1.55) brightness(1.05); }
+      45%  { filter: saturate(1.85) brightness(1.22); }
       85%  { opacity: 1; }
       100% { opacity: 0; transform: scale(1.01); pointer-events:none; }
     }
@@ -113,7 +114,7 @@
       letter-spacing: -0.02em;
       color: rgba(255,255,255,0.92);
       font-size: clamp(1.05rem, 0.95rem + 1.0vw, 1.35rem);
-      text-transform: lowercase;
+      text-transform: none;
     }
     .introLogoWrap{
       width: min(86%, 900px);
@@ -130,7 +131,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       HEADER (logo centered + nav buttons left/right + login highlighted)
+       HEADER (order fixed)
     ───────────────────────────────────────────────────────────── */
     header{
       position: sticky;
@@ -173,6 +174,7 @@
       transition: transform 120ms ease, filter 120ms ease;
       user-select:none;
       white-space:nowrap;
+      text-transform: none;
     }
     .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
     .navBtn:active{ transform: translateY(1px); }
@@ -252,7 +254,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (not basic: full-bleed backgrounds + real text + guaranteed links)
+       CAROUSEL (links forced, not basic)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -300,6 +302,7 @@
       font-size: 0.88rem;
       color: rgba(11,27,43,0.78);
       user-select:none;
+      text-transform: none;
     }
 
     .controls{ display:flex; gap: 8px; }
@@ -343,13 +346,13 @@
       overflow:hidden;
     }
 
-    /* the actual clickable area (top z-index, nothing blocks it) */
     .slideLink{
       position:absolute;
       inset:0;
       z-index: 10;
       display:block;
       cursor:pointer;
+      background: transparent;
     }
 
     .slideBg{
@@ -380,7 +383,7 @@
       display:flex;
       flex-direction:column;
       gap: 8px;
-      pointer-events:none; /* ensures link always gets the click */
+      pointer-events:none;
     }
 
     .tag{
@@ -393,7 +396,7 @@
       font-weight: 950;
       font-size: 0.85rem;
       color: rgba(11,27,43,0.78);
-      text-transform: lowercase;
+      text-transform: none;
     }
 
     .title{
@@ -402,7 +405,7 @@
       font-size: clamp(1.6rem, 1.1rem + 2.2vw, 2.6rem);
       line-height: 1.0;
       color: rgba(255,255,255,0.92);
-      text-transform: lowercase;
+      text-transform: none;
       text-shadow: 0 16px 60px rgba(0,0,0,0.40);
     }
 
@@ -412,6 +415,7 @@
       font-size: 1.0rem;
       text-shadow: 0 16px 60px rgba(0,0,0,0.40);
       max-width: 70ch;
+      text-transform: none;
     }
 
     .dots{
@@ -435,50 +439,40 @@
       transform: scale(1.14);
     }
 
-    /* Slide backgrounds (use local images where possible, fall back to gradients) */
+    /* Slide backgrounds (RELATIVE paths so Render doesn't break them) */
     .bg-235{
       background-image:
-        url("/assets/images/235-cover.jpg"),
+        url("assets/images/235-cover.jpg"),
         linear-gradient(135deg, rgba(62,183,219,0.65), rgba(23,135,171,0.55));
     }
     .bg-music{
       background-image:
-        url("/assets/images/music-bg.jpg"),
+        url("assets/images/music-bg.jpg"),
         linear-gradient(135deg, rgba(29,185,84,0.55), rgba(8,24,44,0.55));
     }
     .bg-studio{
       background-image:
-        url("/assets/images/S12.jpeg"),
+        url("assets/images/studio.jpg"),
         linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55));
     }
     .bg-beats{
       background-image:
-        url("/assets/images/beats-bg.jpg"),
+        url("assets/images/beats-bg.jpg"),
         linear-gradient(135deg, rgba(255,85,0,0.58), rgba(8,24,44,0.55));
     }
     .bg-faq{
       background-image:
-        url("/assets/images/faq-bg.jpg"),
+        url("assets/images/faq-bg.jpg"),
         linear-gradient(135deg, rgba(245,158,11,0.62), rgba(8,24,44,0.55));
     }
     .bg-contact{
       background-image:
-        url("/assets/images/contact-bg.jpg"),
+        url("assets/images/contact-bg.jpg"),
         linear-gradient(135deg, rgba(255,90,122,0.55), rgba(8,24,44,0.55));
-    }
-    .bg-login{
-      background-image:
-        url("/assets/images/login-bg.jpg"),
-        linear-gradient(135deg, rgba(17,24,39,0.55), rgba(23,135,171,0.55));
-    }
-    .bg-account{
-      background-image:
-        url("/assets/images/account-bg.jpg"),
-        linear-gradient(135deg, rgba(99,102,241,0.55), rgba(8,24,44,0.55));
     }
     .bg-follow{
       background-image:
-        url("/assets/images/follow-bg.jpg"),
+        url("assets/images/follow-bg.jpg"),
         linear-gradient(135deg, rgba(62,183,219,0.55), rgba(29,185,84,0.35));
     }
 
@@ -504,14 +498,14 @@
       letter-spacing: -0.02em;
       font-size: 1.05rem;
       color: rgba(11,27,43,0.90);
-      text-transform: lowercase;
+      text-transform: none;
     }
     .followHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
       font-weight: 800;
       font-size: 0.92rem;
-      text-transform: lowercase;
+      text-transform: none;
     }
     .links{
       display:grid;
@@ -530,6 +524,7 @@
       box-shadow: 0 12px 24px rgba(15,23,42,0.10);
       transition: transform 140ms ease, filter 140ms ease;
       user-select:none;
+      text-transform: none;
     }
     .linkBtn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .spotify{ background: #1DB954; color:#06110a; }
@@ -540,7 +535,7 @@
     .tiktok{ background: #0b0b0f; }
 
     /* ─────────────────────────────────────────────────────────────
-       STUDIO (slideshow: smooth crossfade + real CTA link)
+       STUDIO (smooth crossfade)
     ───────────────────────────────────────────────────────────── */
     .grid2{
       display:grid;
@@ -588,7 +583,7 @@
       letter-spacing: -0.02em;
       font-size: 1.2rem;
       color: rgba(11,27,43,0.92);
-      text-transform: lowercase;
+      text-transform: none;
     }
     .studioText p{
       margin:0;
@@ -612,7 +607,7 @@
       width: fit-content;
       user-select:none;
       transition: transform 140ms ease, filter 140ms ease;
-      text-transform: lowercase;
+      text-transform: none;
     }
     .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .cta:active{ transform: translateY(1px); }
@@ -633,14 +628,14 @@
       letter-spacing: -0.02em;
       font-size: 1.25rem;
       color: rgba(11,27,43,0.92);
-      text-transform: lowercase;
+      text-transform: none;
     }
     .sectionHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
       font-weight: 850;
       font-size: 0.95rem;
-      text-transform: lowercase;
+      text-transform: none;
     }
 
     .filters{
@@ -658,7 +653,7 @@
       font-weight: 900;
       font-size: 0.85rem;
       color: rgba(11,27,43,0.70);
-      text-transform: lowercase;
+      text-transform: none;
     }
     .input, .select{
       width:100%;
@@ -684,7 +679,6 @@
       font-weight: 950;
       letter-spacing: -0.01em;
       color: rgba(11,27,43,0.92);
-      text-transform: none;
     }
     .videoTitle span{
       display:block;
@@ -719,47 +713,12 @@
       border: 1px solid rgba(15,23,42,0.12);
       font-weight: 900;
       color: rgba(11,27,43,0.70);
-      text-transform: lowercase;
+      text-transform: none;
     }
 
     /* ─────────────────────────────────────────────────────────────
-       BOTTOM TICKER (ONLY at bottom of page)
+       RESPONSIVE
     ───────────────────────────────────────────────────────────── */
-    .ticker{
-      margin-top: 26px;
-      border-top: 1px solid rgba(15,23,42,0.10);
-      background:
-        linear-gradient(90deg, rgba(23,135,171,0.18), rgba(255,255,255,0.55), rgba(23,135,171,0.18));
-      overflow:hidden;
-    }
-    .tickerInner{
-      display:inline-block;
-      white-space: nowrap;
-      padding: 14px 0;
-      animation: scroll 26s linear infinite;
-      font-weight: 950;
-      color: rgba(11,27,43,0.86);
-      text-transform: lowercase;
-      letter-spacing: -0.01em;
-    }
-    .tickerInner span{
-      display:inline-block;
-      padding: 0 22px;
-      opacity: 0.95;
-    }
-    @keyframes scroll{
-      0%   { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    .tickerPulse{
-      animation: pulse 1.2s ease-in-out infinite;
-    }
-    @keyframes pulse{
-      0%, 100% { filter: brightness(1.00); }
-      50%      { filter: brightness(1.08); }
-    }
-
-    /* responsive */
     @media (max-width: 980px){
       .grid2{ grid-template-columns: 1fr; }
       .videoGrid{ grid-template-columns: 1fr; }
@@ -781,6 +740,32 @@
     @media (prefers-reduced-motion: reduce){
       *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
     }
+
+    /* ─────────────────────────────────────────────────────────────
+       FIXED TICKER (studio-style)
+    ───────────────────────────────────────────────────────────── */
+    .ticker{
+      position:fixed;
+      bottom:0;
+      width:100%;
+      height:25px;
+      background:#000;
+      overflow:hidden;
+      border-top:1px solid #222;
+      z-index:998;
+    }
+    .ticker-content{
+      white-space:nowrap;
+      display:inline-block;
+      padding-left:100%;
+      animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
+      font-size:.65rem;
+      font-weight:bold;
+    }
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+    @keyframes colorchange{
+      0%{color:#00ffff}25%{color:#ff5c7a}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}
+    }
   </style>
 </head>
 
@@ -790,7 +775,7 @@
     <div class="introFrame">
       <div class="introTitle">welcome to the beals.wav experience</div>
       <div class="introLogoWrap">
-        <img class="introLogo" src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
+        <img class="introLogo" src="assets/images/logo.jpeg?v=3" alt="beals.wav">
       </div>
     </div>
   </div>
@@ -798,24 +783,25 @@
   <header>
     <div class="wrap">
       <div class="topbar">
-        <!-- Left buttons -->
+        <!-- Left buttons: Studio, Music, Beats -->
         <div class="navGroup navLeft" aria-label="Top navigation left">
-          <a class="navBtn" href="/studio">studio</a>
-          <a class="navBtn" href="/beats">beats</a>
-          <a class="navBtn" href="/faq">faq</a>
+          <a class="navBtn" href="studio.html">Studio</a>
+          <a class="navBtn" href="music.html">Music</a>
+          <a class="navBtn" href="beatstore.html">Beats</a>
         </div>
 
         <!-- Center logo -->
         <div class="brand">
-          <a href="/index.html" aria-label="Home">
-            <img src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
+          <a href="index.html" aria-label="Home">
+            <img src="assets/images/logo.jpeg?v=3" alt="beals.wav">
           </a>
         </div>
 
-        <!-- Right buttons -->
+        <!-- Right buttons: Contact, FAQ, Login -->
         <div class="navGroup navRight" aria-label="Top navigation right">
-          <a class="navBtn" href="/music">music</a>
-          <a class="navBtn navBtnLogin" href="/login" id="loginTop">login</a>
+          <a class="navBtn" href="contact.html">Contact</a>
+          <a class="navBtn" href="faq.html">FAQ</a>
+          <a class="navBtn navBtnLogin" href="login.html" id="loginTop">Login</a>
         </div>
 
         <!-- Mobile hamburger -->
@@ -825,12 +811,12 @@
       <!-- Mobile drawer -->
       <div class="drawer" id="drawer">
         <div class="drawerInner">
-          <a class="navBtn" href="/studio">studio</a>
-          <a class="navBtn" href="/beats">beats</a>
-          <a class="navBtn" href="/faq">faq</a>
-          <a class="navBtn" href="/music">music</a>
-          <a class="navBtn navBtnLogin" href="/login" id="loginMobile">login</a>
-          <a class="navBtn" href="/account" id="accountMobile" style="display:none;">account</a>
+          <a class="navBtn" href="studio.html">Studio</a>
+          <a class="navBtn" href="music.html">Music</a>
+          <a class="navBtn" href="beatstore.html">Beats</a>
+          <a class="navBtn" href="contact.html">Contact</a>
+          <a class="navBtn" href="faq.html">FAQ</a>
+          <a class="navBtn navBtnLogin" href="login.html" id="loginMobile">Login</a>
         </div>
       </div>
     </div>
@@ -843,7 +829,7 @@
         <div class="squircle" aria-label="Main carousel">
           <div class="carousel">
             <div class="carouselTop">
-              <span class="chip" id="chip">latest release</span>
+              <span class="chip" id="chip">Latest Release</span>
               <div class="controls">
                 <button class="iconBtn" id="prev" aria-label="Previous">‹</button>
                 <button class="iconBtn" id="next" aria-label="Next">›</button>
@@ -853,101 +839,79 @@
             <div class="viewport" id="viewport">
               <div class="track" id="track">
                 <!-- 23.5 (opens modal playlist) -->
-                <div class="slide" data-chip="latest release">
-                  <a class="slideLink" href="#" data-action="open235" aria-label="Open latest release 23.5"></a>
+                <div class="slide" data-chip="Latest Release">
+                  <a class="slideLink" href="#" data-action="open235" aria-label="Open Latest Release 23.5"></a>
                   <div class="slideBg bg-235"></div>
                   <div class="slideContent">
-                    <div class="tag">latest release</div>
+                    <div class="tag">Latest Release</div>
                     <div class="title">23.5</div>
-                    <div class="subtitle">tap to open the album playlist</div>
+                    <div class="subtitle">Tap to open the album playlist</div>
                   </div>
                 </div>
 
-                <!-- music -->
-                <div class="slide" data-chip="music">
-                  <a class="slideLink" href="/music" aria-label="Go to music"></a>
+                <!-- Music -->
+                <div class="slide" data-chip="Music">
+                  <a class="slideLink" href="music.html" aria-label="Go to Music"></a>
                   <div class="slideBg bg-music"></div>
                   <div class="slideContent">
-                    <div class="tag">listen</div>
-                    <div class="title">music</div>
-                    <div class="subtitle">releases, playlists, and features</div>
+                    <div class="tag">Listen</div>
+                    <div class="title">Music</div>
+                    <div class="subtitle">Releases, playlists, and features</div>
                   </div>
                 </div>
 
-                <!-- studio -->
-                <div class="slide" data-chip="studio">
-                  <a class="slideLink" href="/studio" aria-label="Go to studio"></a>
+                <!-- Studio -->
+                <div class="slide" data-chip="Studio">
+                  <a class="slideLink" href="studio.html" aria-label="Go to Studio"></a>
                   <div class="slideBg bg-studio"></div>
                   <div class="slideContent">
-                    <div class="tag">book time</div>
-                    <div class="title">studio</div>
-                    <div class="subtitle">recording, mixing, production</div>
+                    <div class="tag">Book Time</div>
+                    <div class="title">Studio</div>
+                    <div class="subtitle">Recording, mixing, production</div>
                   </div>
                 </div>
 
-                <!-- beats -->
-                <div class="slide" data-chip="beats">
-                  <a class="slideLink" href="/beats" aria-label="Go to beats"></a>
+                <!-- Beats -->
+                <div class="slide" data-chip="Beats">
+                  <a class="slideLink" href="beatstore.html" aria-label="Go to Beats"></a>
                   <div class="slideBg bg-beats"></div>
                   <div class="slideContent">
-                    <div class="tag">buy</div>
-                    <div class="title">beats</div>
-                    <div class="subtitle">leases, exclusives, licensing</div>
+                    <div class="tag">Buy</div>
+                    <div class="title">Beats</div>
+                    <div class="subtitle">Leases, exclusives, licensing</div>
                   </div>
                 </div>
 
-                <!-- faq -->
-                <div class="slide" data-chip="faq">
-                  <a class="slideLink" href="/faq" aria-label="Go to faq"></a>
+                <!-- FAQ -->
+                <div class="slide" data-chip="FAQ">
+                  <a class="slideLink" href="faq.html" aria-label="Go to FAQ"></a>
                   <div class="slideBg bg-faq"></div>
                   <div class="slideContent">
-                    <div class="tag">info</div>
-                    <div class="title">faq</div>
-                    <div class="subtitle">how it works, what to expect</div>
+                    <div class="tag">Info</div>
+                    <div class="title">FAQ</div>
+                    <div class="subtitle">How it works, what to expect</div>
                   </div>
                 </div>
 
-                <!-- contact -->
-                <div class="slide" data-chip="contact">
-                  <a class="slideLink" href="/contact" aria-label="Go to contact"></a>
+                <!-- Contact -->
+                <div class="slide" data-chip="Contact">
+                  <a class="slideLink" href="contact.html" aria-label="Go to Contact"></a>
                   <div class="slideBg bg-contact"></div>
                   <div class="slideContent">
-                    <div class="tag">reach out</div>
-                    <div class="title">contact</div>
-                    <div class="subtitle">questions, collabs, bookings</div>
+                    <div class="tag">Reach Out</div>
+                    <div class="title">Contact</div>
+                    <div class="subtitle">Questions, collabs, bookings</div>
                   </div>
                 </div>
 
-                <!-- login -->
-                <div class="slide" data-chip="login">
-                  <a class="slideLink" href="/login" aria-label="Go to login"></a>
-                  <div class="slideBg bg-login"></div>
-                  <div class="slideContent">
-                    <div class="tag">access</div>
-                    <div class="title">login</div>
-                    <div class="subtitle">manage sessions + purchases</div>
-                  </div>
-                </div>
-
-                <!-- account -->
-                <div class="slide" data-chip="account">
-                  <a class="slideLink" href="/account" aria-label="Go to account"></a>
-                  <div class="slideBg bg-account"></div>
-                  <div class="slideContent">
-                    <div class="tag">dashboard</div>
-                    <div class="title">account</div>
-                    <div class="subtitle">history, downloads, bookings</div>
-                  </div>
-                </div>
-
-                <!-- follow -->
-                <div class="slide" data-chip="follow">
-                  <a class="slideLink" href="#follow" aria-label="Go to follow"></a>
+                <!-- Follow -->
+                <div class="slide" data-chip="Follow">
+                  <a class="slideLink" href="#follow" aria-label="Go to Follow"></a>
                   <div class="slideBg bg-follow"></div>
                   <div class="slideContent">
-                    <div class="tag">support</div>
-                    <div class="title">follow</div>
-                    <div class="subtitle">spotify, youtube, socials</div>
+                    <div class="tag">Support</div>
+                    <div class="title">Follow</div>
+                    <div class="subtitle">Spotify, YouTube, socials</div>
                   </div>
                 </div>
               </div>
@@ -961,8 +925,8 @@
       <!-- Follow/support under carousel -->
       <div class="followBox" id="follow">
         <div class="followHead">
-          <h2>follow & support</h2>
-          <p>pick your platform</p>
+          <h2>Follow & Support</h2>
+          <p>Pick your platform</p>
         </div>
         <div class="links">
           <a class="linkBtn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
@@ -986,9 +950,9 @@
         </div>
 
         <div class="card studioText">
-          <h2>studio</h2>
-          <p>recording, mixing, production. west jordan, utah.</p>
-          <a class="cta" href="/studio">book studio time here</a>
+          <h2>Studio</h2>
+          <p>Recording, mixing, production. West Jordan, Utah.</p>
+          <a class="cta" href="studio.html">Book studio time here</a>
         </div>
       </div>
     </div>
@@ -998,28 +962,28 @@
   <section class="section video-bg" id="videos">
     <div class="wrap">
       <div class="sectionHead">
-        <h2>videos</h2>
-        <p>latest releases</p>
+        <h2>Videos</h2>
+        <p>Latest releases</p>
       </div>
 
       <div class="filters" aria-label="Video filters">
         <div class="field">
-          <label for="q">search</label>
+          <label for="q">Search</label>
           <input class="input" id="q" type="search" placeholder="title or artist">
         </div>
         <div class="field">
-          <label for="artist">artist</label>
+          <label for="artist">Artist</label>
           <select class="select" id="artist">
-            <option value="">all</option>
+            <option value="">All</option>
           </select>
         </div>
         <div class="field">
-          <label for="sort">sort</label>
+          <label for="sort">Sort</label>
           <select class="select" id="sort">
-            <option value="default">latest first</option>
-            <option value="oldest">oldest first</option>
-            <option value="az">title a–z</option>
-            <option value="za">title z–a</option>
+            <option value="default">Latest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="az">Title A–Z</option>
+            <option value="za">Title Z–A</option>
           </select>
         </div>
       </div>
@@ -1147,19 +1111,7 @@
         </article>
       </div>
 
-      <div class="emptyState" id="empty">no matches. humans and their endless scrolling.</div>
-
-      <!-- Bottom ticker (only at bottom of page) -->
-      <div class="ticker tickerPulse" aria-label="Site ticker">
-        <div class="tickerInner">
-          <span>beals.wav is a hub to promote, showcase, and visualize music.</span>
-          <span>full-cycle studio sessions: recording, mixing, mastering, beats, and release support.</span>
-          <span>artist-friendly workflows. real sessions. real outcomes.</span>
-          <span>beals.wav is a hub to promote, showcase, and visualize music.</span>
-          <span>full-cycle studio sessions: recording, mixing, mastering, beats, and release support.</span>
-          <span>artist-friendly workflows. real sessions. real outcomes.</span>
-        </div>
-      </div>
+      <div class="emptyState" id="empty">No matches.</div>
     </div>
   </section>
 
@@ -1182,7 +1134,7 @@
         padding:12px 12px; background: rgba(247,249,251,0.92);
         border-bottom:1px solid rgba(15,23,42,0.10);
       ">
-        <strong style="font-weight:950; letter-spacing:-0.02em; color: rgba(11,27,43,0.92);">23.5 (album)</strong>
+        <strong style="font-weight:950; letter-spacing:-0.02em; color: rgba(11,27,43,0.92);">23.5 (Album)</strong>
         <button id="close235" style="
           width:42px; height:42px; border-radius:999px;
           border:1px solid rgba(15,23,42,0.12);
@@ -1201,17 +1153,24 @@
     </div>
   </div>
 
+  <!-- Studio-style fixed ticker -->
+  <div class="ticker">
+    <div class="ticker-content">
+      Beals.wav {Music Hub} — {Listen} + {Book Studio Time} + {Beats} — {Videos} + {New Releases} — Recording + Mixing + Mastering + Production — West Jordan, Utah — © 2025 Beals.wav. All rights reserved. —
+    </div>
+  </div>
+
   <script>
-    // ── Intro (slower, once per session)
+    // ── Intro (2–3s, once per session)
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-      const key = 'bw_intro_seen_session_v2';
+      const key = 'bw_intro_seen_session_v3';
       try{
         if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
       }catch(e){}
-      setTimeout(() => { if (intro) intro.remove(); }, 1750);
+      setTimeout(() => { if (intro) intro.remove(); }, 2700);
     })();
 
     // ── Mobile drawer
@@ -1228,29 +1187,6 @@
       window.addEventListener('resize', () => {
         if (window.innerWidth > 760) drawer.style.display = 'none';
       });
-    })();
-
-    // ── Login/account labels (top + mobile)
-    (function(){
-      function sync(){
-        const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-        const loginTop = document.getElementById('loginTop');
-        const loginMobile = document.getElementById('loginMobile');
-        const accountMobile = document.getElementById('accountMobile');
-
-        if (loginTop){
-          loginTop.textContent = isLoggedIn ? 'account' : 'login';
-          loginTop.href = isLoggedIn ? '/account' : '/login';
-        }
-        if (loginMobile){
-          loginMobile.textContent = isLoggedIn ? 'account' : 'login';
-          loginMobile.href = isLoggedIn ? '/account' : '/login';
-        }
-        if (accountMobile){
-          accountMobile.style.display = isLoggedIn ? 'inline-flex' : 'none';
-        }
-      }
-      document.addEventListener('DOMContentLoaded', sync);
     })();
 
     // ── 23.5 modal
@@ -1280,7 +1216,7 @@
       window.__open235 = open;
     })();
 
-    // ── Carousel (guaranteed links, smooth, swipe, auto)
+    // ── Carousel (forced navigation, smooth, swipe, auto)
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1299,7 +1235,7 @@
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
 
-        const chipText = slides[idx].getAttribute('data-chip') || 'beals.wav';
+        const chipText = slides[idx].getAttribute('data-chip') || 'Beals.wav';
         chip.textContent = chipText;
 
         const dots = dotsWrap.querySelectorAll('.dot');
@@ -1308,6 +1244,7 @@
         if (user) restart();
       }
 
+      // dots
       slides.forEach((_, i) => {
         const b = document.createElement('button');
         b.className = 'dot';
@@ -1345,13 +1282,27 @@
         else restart();
       });
 
-      // ONLY intercept the 23.5 slide
+      // CLICK HANDLING: 23.5 opens modal, everything else navigates reliably
       track.addEventListener('click', (e) => {
-        const a = e.target.closest && e.target.closest('.slideLink');
+        const a = e.target.closest && e.target.closest('a.slideLink');
         if (!a) return;
-        if (a.getAttribute('data-action') === 'open235') {
+
+        const action = a.getAttribute('data-action');
+        if (action === 'open235') {
           e.preventDefault();
           if (window.__open235) window.__open235();
+          return;
+        }
+
+        const href = a.getAttribute('href');
+        if (!href || href === '#') return;
+
+        e.preventDefault();
+
+        if (href.startsWith('#')) {
+          location.hash = href;
+        } else {
+          window.location.href = href;
         }
       });
 
@@ -1362,12 +1313,12 @@
     // ── Studio slideshow (smooth crossfade, no blank flashes)
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
-        "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
-        "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
-        "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
-        "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
-        "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
-        "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
+        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
+        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
+        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
+        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
+        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
+        "assets/images/S16.jpeg","assets/images/S17.jpeg"
       ];
 
       const imgA = document.getElementById('imgA');
@@ -1381,7 +1332,7 @@
         return new Promise((resolve) => {
           const im = new Image();
           im.onload = () => resolve(src);
-          im.onerror = () => resolve(src); // even if it fails, don't stall forever
+          im.onerror = () => resolve(src);
           im.src = src;
         });
       }
@@ -1389,7 +1340,6 @@
       async function swap(){
         const nextSrc = images[i % images.length];
         i++;
-
         await preload(nextSrc);
 
         const show = showingA ? imgB : imgA;
@@ -1404,7 +1354,6 @@
         });
       }
 
-      // init
       imgA.src = images[0];
       imgA.classList.add('show');
       i = 1;
@@ -1449,14 +1398,12 @@
           return okTerm && okArtist;
         });
 
-        // sort
         const byDate = (x) => (x.getAttribute('data-date') || '1900-01-01');
         if (mode === 'oldest') filtered.sort((a,b)=> byDate(a).localeCompare(byDate(b)));
         else if (mode === 'az') filtered.sort((a,b)=> (a.getAttribute('data-title')||'').localeCompare(b.getAttribute('data-title')||''));
         else if (mode === 'za') filtered.sort((a,b)=> (b.getAttribute('data-title')||'').localeCompare(a.getAttribute('data-title')||''));
-        else filtered.sort((a,b)=> byDate(b).localeCompare(byDate(a))); // default: latest first
+        else filtered.sort((a,b)=> byDate(b).localeCompare(byDate(a)));
 
-        // render
         grid.innerHTML = '';
         filtered.forEach(c => grid.appendChild(c));
         empty.style.display = filtered.length ? 'none' : 'block';
