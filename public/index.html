@@ -24,11 +24,9 @@
     :root{
       --ink: #0b1b2b;
 
-      /* logo blues */
       --blue: #1787ab;
       --blue2:#3eb7db;
 
-      /* section backgrounds */
       --bgTopA: #f7f9fb;
       --bgTopB: #eef3f8;
 
@@ -53,7 +51,7 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 35px; /* room for fixed ticker */
+      padding-bottom: 35px;
     }
     a{ color:inherit; text-decoration:none; }
     img{ display:block; max-width:100%; }
@@ -65,7 +63,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO (2–3s)
+       INTRO
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -113,7 +111,6 @@
       letter-spacing: -0.02em;
       color: rgba(255,255,255,0.92);
       font-size: clamp(1.05rem, 0.95rem + 1.0vw, 1.35rem);
-      text-transform: none;
     }
     .introLogoWrap{
       width: min(86%, 900px);
@@ -173,7 +170,6 @@
       transition: transform 120ms ease, filter 120ms ease;
       user-select:none;
       white-space:nowrap;
-      text-transform: none;
     }
     .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
     .navBtn:active{ transform: translateY(1px); }
@@ -252,7 +248,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (IMG + overlay text)
+       CAROUSEL (image + overlay ALWAYS visible)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -300,7 +296,6 @@
       font-size: 0.88rem;
       color: rgba(11,27,43,0.78);
       user-select:none;
-      text-transform: none;
     }
 
     .controls{ display:flex; gap: 8px; }
@@ -342,56 +337,63 @@
       height: 100%;
       position: relative;
       overflow:hidden;
-      background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
-        linear-gradient(135deg, rgba(23,135,171,0.45), rgba(8,24,44,0.55));
+      background: linear-gradient(135deg, rgba(23,135,171,0.50), rgba(8,24,44,0.65));
     }
+
+    /* fallback gradients per slide */
+    .g-music  { background: linear-gradient(135deg, rgba(29,185,84,0.55), rgba(8,24,44,0.70)); }
+    .g-studio { background: linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.70)); }
+    .g-beats  { background: linear-gradient(135deg, rgba(255,85,0,0.60), rgba(8,24,44,0.70)); }
+    .g-faq    { background: linear-gradient(135deg, rgba(245,158,11,0.60), rgba(8,24,44,0.70)); }
+    .g-contact{ background: linear-gradient(135deg, rgba(255,90,122,0.60), rgba(8,24,44,0.70)); }
+    .g-follow { background: linear-gradient(135deg, rgba(62,183,219,0.60), rgba(29,185,84,0.40)); }
 
     .slideMedia{
       position:absolute;
       inset:0;
-      width:100%;
-      height:100%;
+      z-index: 1;
     }
 
-    /* image slide */
     .slideMedia img{
       width:100%;
       height:100%;
       object-fit: cover;
       display:block;
-      filter: saturate(1.05) contrast(1.02);
+      opacity: 1;
+      filter: saturate(1.06) contrast(1.04);
     }
 
-    /* embed slide (23.5) */
-    .embedWrap{
+    /* if image fails, hide it, show gradient fallback */
+    .imgFailed .slideMedia img{ opacity: 0; }
+
+    /* shade always, so overlay reads */
+    .shade{
       position:absolute;
       inset:0;
-      background: rgba(0,0,0,0.20);
-    }
-    .embedWrap iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
-    }
-    .embedShade{
-      position:absolute;
-      inset:0;
+      z-index: 2;
       pointer-events:none;
       background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.08), transparent 62%),
-        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.22));
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
+        radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.22), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.46));
     }
 
-    /* overlay */
+    /* full-slide click target */
+    .slideLink{
+      position:absolute;
+      inset:0;
+      z-index: 3;
+      display:block;
+      cursor:pointer;
+      background: transparent;
+    }
+
     .overlay{
       position:absolute;
       left: 18px;
       right: 18px;
       bottom: 18px;
-      z-index: 3;
+      z-index: 4; /* above everything */
       display:flex;
       flex-direction:column;
       gap: 10px;
@@ -408,7 +410,6 @@
       font-weight: 950;
       font-size: 0.85rem;
       color: rgba(11,27,43,0.82);
-      text-transform: none;
     }
 
     .title{
@@ -417,7 +418,6 @@
       font-size: clamp(1.55rem, 1.05rem + 2.2vw, 2.55rem);
       line-height: 1.0;
       color: rgba(255,255,255,0.94);
-      text-transform: none;
       text-shadow: 0 16px 60px rgba(0,0,0,0.45);
     }
 
@@ -427,7 +427,6 @@
       font-size: 1.02rem;
       text-shadow: 0 16px 60px rgba(0,0,0,0.45);
       max-width: 72ch;
-      text-transform: none;
     }
 
     .overlayBtn{
@@ -442,17 +441,22 @@
       color: rgba(5,16,26,0.92);
       font-weight: 950;
       box-shadow: 0 18px 46px rgba(23,135,171,0.22);
-      pointer-events:auto; /* clickable */
+      pointer-events:auto;
     }
 
-    /* full-slide click target for non-embed slides */
-    .slideLink{
+    /* embed slide */
+    .embedWrap{
       position:absolute;
       inset:0;
-      z-index: 2;
-      display:block;
-      cursor:pointer;
-      background: transparent;
+      z-index:1;
+      background: rgba(0,0,0,0.18);
+    }
+    .embedWrap iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
     }
 
     .dots{
@@ -498,14 +502,12 @@
       letter-spacing: -0.02em;
       font-size: 1.05rem;
       color: rgba(11,27,43,0.90);
-      text-transform: none;
     }
     .followHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
       font-weight: 800;
       font-size: 0.92rem;
-      text-transform: none;
     }
     .links{
       display:grid;
@@ -524,7 +526,6 @@
       box-shadow: 0 12px 24px rgba(15,23,42,0.10);
       transition: transform 140ms ease, filter 140ms ease;
       user-select:none;
-      text-transform: none;
     }
     .linkBtn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .spotify{ background: #1DB954; color:#06110a; }
@@ -535,7 +536,7 @@
     .tiktok{ background: #0b0b0f; }
 
     /* ─────────────────────────────────────────────────────────────
-       STUDIO (smooth crossfade)
+       STUDIO
     ───────────────────────────────────────────────────────────── */
     .grid2{
       display:grid;
@@ -583,7 +584,6 @@
       letter-spacing: -0.02em;
       font-size: 1.2rem;
       color: rgba(11,27,43,0.92);
-      text-transform: none;
     }
     .studioText p{
       margin:0;
@@ -607,13 +607,12 @@
       width: fit-content;
       user-select:none;
       transition: transform 140ms ease, filter 140ms ease;
-      text-transform: none;
     }
     .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .cta:active{ transform: translateY(1px); }
 
     /* ─────────────────────────────────────────────────────────────
-       VIDEOS + featured 23.5
+       VIDEOS + FEATURED
     ───────────────────────────────────────────────────────────── */
     .sectionHead{
       display:flex;
@@ -628,14 +627,12 @@
       letter-spacing: -0.02em;
       font-size: 1.25rem;
       color: rgba(11,27,43,0.92);
-      text-transform: none;
     }
     .sectionHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
       font-weight: 850;
       font-size: 0.95rem;
-      text-transform: none;
     }
 
     .featured{
@@ -694,7 +691,6 @@
       font-weight: 900;
       font-size: 0.85rem;
       color: rgba(11,27,43,0.70);
-      text-transform: none;
     }
     .input, .select{
       width:100%;
@@ -754,11 +750,10 @@
       border: 1px solid rgba(15,23,42,0.12);
       font-weight: 900;
       color: rgba(11,27,43,0.70);
-      text-transform: none;
     }
 
     /* ─────────────────────────────────────────────────────────────
-       TICKER (studio behavior + visible even with reduced motion)
+       FIXED TICKER (ALWAYS MOVES)
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
@@ -777,7 +772,8 @@
       animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
       font-size:.65rem;
       font-weight:bold;
-      color:#00ffff; /* fallback so text doesn't disappear */
+      color:#00ffff;
+      will-change: transform;
     }
     @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
     @keyframes colorchange{
@@ -803,10 +799,11 @@
       .links{ grid-template-columns: 1fr; }
     }
 
-    /* reduced motion: keep ticker text visible and stationary */
+    /* keep reduced motion for everything except ticker */
     @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; scroll-behavior:auto !important; }
-      .ticker-content{ animation:none !important; transform:none !important; color:#00ffff !important; padding-left:0; }
+      .track{ transition: none !important; }
+      .slideImg{ transition: none !important; }
+      .intro{ animation: none !important; }
     }
   </style>
 </head>
@@ -825,40 +822,35 @@
   <header>
     <div class="wrap">
       <div class="topbar">
-        <!-- Left buttons -->
         <div class="navGroup navLeft" aria-label="Top navigation left">
-          <a class="navBtn" href="studio.html">Studio</a>
-          <a class="navBtn" href="music.html">Music</a>
-          <a class="navBtn" href="beatstore.html">Beats</a>
+          <a class="navBtn" href="https://www.bealswav.com/studio">Studio</a>
+          <a class="navBtn" href="https://www.bealswav.com/music">Music</a>
+          <a class="navBtn" href="https://www.bealswav.com/beatstore">Beats</a>
         </div>
 
-        <!-- Center logo -->
         <div class="brand">
-          <a href="index.html" aria-label="Home">
+          <a href="https://www.bealswav.com/index.html" aria-label="Home">
             <img src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
           </a>
         </div>
 
-        <!-- Right buttons -->
         <div class="navGroup navRight" aria-label="Top navigation right">
-          <a class="navBtn" href="contact.html">Contact</a>
-          <a class="navBtn" href="faq.html">FAQ</a>
-          <a class="navBtn navBtnLogin" href="login.html" id="loginTop">Login</a>
+          <a class="navBtn" href="https://www.bealswav.com/contact">Contact</a>
+          <a class="navBtn" href="https://www.bealswav.com/faq">FAQ</a>
+          <a class="navBtn navBtnLogin" href="https://www.bealswav.com/login" id="loginTop">Login</a>
         </div>
 
-        <!-- Mobile hamburger -->
         <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
       </div>
 
-      <!-- Mobile drawer -->
       <div class="drawer" id="drawer">
         <div class="drawerInner">
-          <a class="navBtn" href="studio.html">Studio</a>
-          <a class="navBtn" href="music.html">Music</a>
-          <a class="navBtn" href="beatstore.html">Beats</a>
-          <a class="navBtn" href="contact.html">Contact</a>
-          <a class="navBtn" href="faq.html">FAQ</a>
-          <a class="navBtn navBtnLogin" href="login.html" id="loginMobile">Login</a>
+          <a class="navBtn" href="https://www.bealswav.com/studio">Studio</a>
+          <a class="navBtn" href="https://www.bealswav.com/music">Music</a>
+          <a class="navBtn" href="https://www.bealswav.com/beatstore">Beats</a>
+          <a class="navBtn" href="https://www.bealswav.com/contact">Contact</a>
+          <a class="navBtn" href="https://www.bealswav.com/faq">FAQ</a>
+          <a class="navBtn navBtnLogin" href="https://www.bealswav.com/login" id="loginMobile">Login</a>
         </div>
       </div>
     </div>
@@ -881,9 +873,9 @@
             <div class="viewport" id="viewport">
               <div class="track" id="track">
 
-                <!-- 23.5: direct embed, no overlay text -->
-                <div class="slide" data-chip="Latest Release" data-kind="embed">
-                  <div class="slideMedia embedWrap" aria-label="23.5 album playlist">
+                <!-- 23.5 embed-only -->
+                <div class="slide" data-chip="Latest Release (23.5)" data-kind="embed">
+                  <div class="slideMedia embedWrap">
                     <iframe
                       loading="lazy"
                       src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
@@ -891,86 +883,98 @@
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       referrerpolicy="strict-origin-when-cross-origin"
                       allowfullscreen></iframe>
-                    <div class="embedShade"></div>
                   </div>
+                  <div class="shade"></div>
                 </div>
 
                 <!-- Music -->
-                <div class="slide" data-chip="Music" data-href="music.html">
-                  <a class="slideLink" href="music.html" aria-label="Go to Music"></a>
+                <div class="slide g-music" data-chip="Music" data-href="https://www.bealswav.com/music">
+                  <a class="slideLink" href="https://www.bealswav.com/music" aria-label="Go to Music"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/music-bg.jpg" alt="Music">
+                    <img src="/assets/images/music-bg.jpg" alt="Music"
+                      onerror="this.closest('.slide').classList.add('imgFailed');">
                   </div>
+                  <div class="shade"></div>
                   <div class="overlay">
                     <div class="tag">Music</div>
                     <div class="title">Music</div>
                     <div class="subtitle">Listen to Beals and Beals.wav associated artists.</div>
-                    <a class="overlayBtn" href="music.html">Listen Here</a>
+                    <a class="overlayBtn" href="https://www.bealswav.com/music">Listen Here</a>
                   </div>
                 </div>
 
                 <!-- Studio -->
-                <div class="slide" data-chip="Studio" data-href="studio.html">
-                  <a class="slideLink" href="studio.html" aria-label="Go to Studio"></a>
+                <div class="slide g-studio" data-chip="Studio" data-href="https://www.bealswav.com/studio">
+                  <a class="slideLink" href="https://www.bealswav.com/studio" aria-label="Go to Studio"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/studio.jpg" alt="Studio">
+                    <img src="/assets/images/studio.jpg" alt="Studio"
+                      onerror="this.closest('.slide').classList.add('imgFailed');">
                   </div>
+                  <div class="shade"></div>
                   <div class="overlay">
                     <div class="tag">Studio</div>
                     <div class="title">Studio</div>
                     <div class="subtitle">Recording, mixing, production. West Jordan, Utah.</div>
-                    <a class="overlayBtn" href="studio.html">Book Studio Time Here</a>
+                    <a class="overlayBtn" href="https://www.bealswav.com/studio">Book Studio Time Here</a>
                   </div>
                 </div>
 
                 <!-- Beats -->
-                <div class="slide" data-chip="Beats" data-href="beatstore.html">
-                  <a class="slideLink" href="beatstore.html" aria-label="Go to Beats"></a>
+                <div class="slide g-beats" data-chip="Beats" data-href="https://www.bealswav.com/beatstore">
+                  <a class="slideLink" href="https://www.bealswav.com/beatstore" aria-label="Go to Beats"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/beats-bg.jpg" alt="Beats">
+                    <img src="/assets/images/beats-bg.jpg" alt="Beats"
+                      onerror="this.closest('.slide').classList.add('imgFailed');">
                   </div>
+                  <div class="shade"></div>
                   <div class="overlay">
                     <div class="tag">Beats</div>
                     <div class="title">Beats</div>
                     <div class="subtitle">Buy leases, exclusives, and licensing.</div>
-                    <a class="overlayBtn" href="beatstore.html">Buy Beats Here</a>
+                    <a class="overlayBtn" href="https://www.bealswav.com/beatstore">Buy Beats Here</a>
                   </div>
                 </div>
 
                 <!-- FAQ -->
-                <div class="slide" data-chip="FAQ" data-href="faq.html">
-                  <a class="slideLink" href="faq.html" aria-label="Go to FAQ"></a>
+                <div class="slide g-faq" data-chip="FAQ" data-href="https://www.bealswav.com/faq">
+                  <a class="slideLink" href="https://www.bealswav.com/faq" aria-label="Go to FAQ"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/faq-bg.jpg" alt="FAQ">
+                    <img src="/assets/images/faq-bg.jpg" alt="FAQ"
+                      onerror="this.closest('.slide').classList.add('imgFailed');">
                   </div>
+                  <div class="shade"></div>
                   <div class="overlay">
                     <div class="tag">FAQ</div>
                     <div class="title">FAQ</div>
                     <div class="subtitle">How it works, what to expect, and answers that matter.</div>
-                    <a class="overlayBtn" href="faq.html">Read FAQ Here</a>
+                    <a class="overlayBtn" href="https://www.bealswav.com/faq">Read FAQ Here</a>
                   </div>
                 </div>
 
                 <!-- Contact -->
-                <div class="slide" data-chip="Contact" data-href="contact.html">
-                  <a class="slideLink" href="contact.html" aria-label="Go to Contact"></a>
+                <div class="slide g-contact" data-chip="Contact" data-href="https://www.bealswav.com/contact">
+                  <a class="slideLink" href="https://www.bealswav.com/contact" aria-label="Go to Contact"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/contact-bg.jpg" alt="Contact">
+                    <img src="/assets/images/contact-bg.jpg" alt="Contact"
+                      onerror="this.closest('.slide').classList.add('imgFailed');">
                   </div>
+                  <div class="shade"></div>
                   <div class="overlay">
                     <div class="tag">Contact</div>
                     <div class="title">Contact</div>
                     <div class="subtitle">Bookings, collabs, questions, business.</div>
-                    <a class="overlayBtn" href="contact.html">Contact Here</a>
+                    <a class="overlayBtn" href="https://www.bealswav.com/contact">Contact Here</a>
                   </div>
                 </div>
 
                 <!-- Follow -->
-                <div class="slide" data-chip="Follow" data-href="#follow">
+                <div class="slide g-follow" data-chip="Follow" data-href="#follow">
                   <a class="slideLink" href="#follow" aria-label="Go to Follow"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/follow-bg.jpg" alt="Follow & Support">
+                    <img src="/assets/images/follow-bg.jpg" alt="Follow"
+                      onerror="this.closest('.slide').classList.add('imgFailed');">
                   </div>
+                  <div class="shade"></div>
                   <div class="overlay">
                     <div class="tag">Follow</div>
                     <div class="title">Follow</div>
@@ -987,7 +991,6 @@
         </div>
       </div>
 
-      <!-- Follow/support under carousel -->
       <div class="followBox" id="follow">
         <div class="followHead">
           <h2>Follow & Support</h2>
@@ -1017,7 +1020,7 @@
         <div class="card studioText">
           <h2>Studio</h2>
           <p>Recording, mixing, production. West Jordan, Utah.</p>
-          <a class="cta" href="studio.html">Book studio time here</a>
+          <a class="cta" href="https://www.bealswav.com/studio">Book studio time here</a>
         </div>
       </div>
     </div>
@@ -1031,7 +1034,6 @@
         <p>Latest releases</p>
       </div>
 
-      <!-- Featured 23.5 ABOVE everything else -->
       <div class="featured" aria-label="Featured latest release 23.5">
         <div class="featuredHead">
           <h3>23.5 (Album)</h3>
@@ -1195,7 +1197,7 @@
     </div>
   </section>
 
-  <!-- Studio-style fixed ticker -->
+  <!-- Ticker -->
   <div class="ticker">
     <div class="ticker-content">
       Beals.wav {Music Hub} — {Listen} + {Book Studio Time} + {Beats} — {Videos} + {New Releases} — Recording + Mixing + Mastering + Production — West Jordan, Utah — © 2025 Beals.wav. All rights reserved. —
@@ -1207,7 +1209,7 @@
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-      const key = 'bw_intro_seen_session_v4';
+      const key = 'bw_intro_seen_session_v5';
       try{
         if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
@@ -1231,7 +1233,7 @@
       });
     })();
 
-    // Carousel (smooth, swipe, auto)
+    // Carousel
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1250,8 +1252,7 @@
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
 
-        const chipText = slides[idx].getAttribute('data-chip') || 'Beals.wav';
-        chip.textContent = chipText;
+        chip.textContent = slides[idx].getAttribute('data-chip') || 'Beals.wav';
 
         const dots = dotsWrap.querySelectorAll('.dot');
         dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
@@ -1296,27 +1297,11 @@
         else restart();
       });
 
-      // Make non-embed slides navigable even if something overlays oddly
-      track.addEventListener('click', (e) => {
-        const slide = e.target.closest && e.target.closest('.slide');
-        if (!slide) return;
-
-        const kind = slide.getAttribute('data-kind');
-        if (kind === 'embed') return; // 23.5 is just the embed
-
-        // If user clicked a link/button, let it behave normally
-        if (e.target.closest('a')) return;
-
-        const href = slide.getAttribute('data-href');
-        if (!href) return;
-        window.location.href = href;
-      });
-
       setIndex(0);
       start();
     });
 
-    // Studio slideshow (smooth crossfade)
+    // Studio slideshow
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -1419,18 +1404,6 @@
       sort.addEventListener('change', apply);
 
       apply();
-    });
-
-    // Hard cache-bust for carousel images if needed (optional, harmless)
-    // This forces the browser to re-request the images when you deploy.
-    document.addEventListener('DOMContentLoaded', function(){
-      const v = 'v=1';
-      document.querySelectorAll('.slideMedia img').forEach(img => {
-        const src = img.getAttribute('src') || '';
-        if (!src) return;
-        if (src.includes('?')) return;
-        img.src = src + '?' + v;
-      });
     });
   </script>
 </body>
