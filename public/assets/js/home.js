@@ -102,15 +102,20 @@ onReady(function initCarousel(){
   viewport.addEventListener('focusin', stop);
   viewport.addEventListener('focusout', start);
 
-  // Swipe handling
-  let down=false, startX=0, dx=0;
+  // Swipe handling (do NOT steal taps from links/controls)
+  let down = false, startX = 0, dx = 0;
+
+  function isInteractiveTarget(el){
+    return !!(el && el.closest && el.closest('a, button, input, select, textarea, label'));
+  }
 
   viewport.addEventListener('pointerdown', (e) => {
     if (e.target.closest && e.target.closest('iframe')) return;
+    if (isInteractiveTarget(e.target)) return;
+
     down = true;
     startX = e.clientX;
     dx = 0;
-    try { viewport.setPointerCapture(e.pointerId); } catch(_) {}
     stop();
   });
 
@@ -127,7 +132,7 @@ onReady(function initCarousel(){
     else restart();
   });
 
-  viewport.addEventListener('pointercancel', () => { down=false; restart(); });
+  viewport.addEventListener('pointercancel', () => { down = false; restart(); });
 
   setIndex(0);
   start();
@@ -184,7 +189,7 @@ onReady(function(){
   setInterval(swap, 4200);
 });
 
-// Video search/filter/sort (kept as-is but safe if grid is empty)
+// Video search/filter/sort
 onReady(function(){
   const grid = document.getElementById('videoGrid');
   const q = document.getElementById('q');
