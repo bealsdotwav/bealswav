@@ -354,10 +354,11 @@
 
     /* Link slides: real links */
     .slideLink{
-      display:block;
+      display:block; /* important */
       cursor:pointer;
       user-select:none;
       -webkit-tap-highlight-color: transparent;
+      position: relative; /* needed for ::after layering */
     }
 
     /* Real image cover (no JS background dependency) */
@@ -368,8 +369,8 @@
       height:100%;
       object-fit: cover;
       transform: scale(1.02);
-      z-index:1;
-      background: rgba(11,27,43,0.12);
+      z-index: 0;               /* FIX */
+      background: #0b1b2b;      /* DEBUG/FALLBACK */
     }
 
     /* Cinematic overlay */
@@ -377,7 +378,7 @@
       content:"";
       position:absolute;
       inset:0;
-      z-index:1;
+      z-index: 1;               /* FIX */
       background:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.16), transparent 62%),
         radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.20), transparent 60%),
@@ -390,7 +391,7 @@
       left: 18px;
       right: 18px;
       bottom: 18px;
-      z-index:2;
+      z-index: 2;               /* FIX */
       display:flex;
       flex-direction:column;
       gap: 10px;
@@ -1205,7 +1206,7 @@
     </div>
   </div>
 
-  <!-- IMPORTANT: No inline JS. Load external script so CSP/Helmet doesn't kill it. -->
+  <!-- External JS (no inline bundle) -->
   <script defer src="/assets/js/home.js?v=1"></script>
 </body>
 </html>
