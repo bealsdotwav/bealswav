@@ -15,10 +15,10 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <!-- Modern font -->
+  <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <link rel="preconnect" href="https://www.youtube.com">
   <link rel="preconnect" href="https://i.ytimg.com">
@@ -28,51 +28,41 @@
       --ink: #0b1b2b;
       --muted: rgba(11, 27, 43, 0.62);
 
-      /* Logo-derived accents (soft) */
-      --accent:  #1787ab;   /* deeper teal-blue */
-      --accent2: #3eb7db;   /* brighter cyan */
+      /* pulled from your blue vibe */
+      --accent1: #1787ab;
+      --accent2: #3eb7db;
 
-      --panel: rgba(255,255,255,0.72);
-      --panel2: rgba(255,255,255,0.52);
+      /* section backgrounds */
+      --bgTopA: #f7f9fb;    /* soft white */
+      --bgTopB: #eef3f8;
+
+      --bgStudioA: #d9f0fb; /* baby blue */
+      --bgStudioB: #cfe8f6;
+
+      --bgVideoA: #ece7e2;  /* muted warm gray */
+      --bgVideoB: #e3ddd7;
+
+      --panel: rgba(255,255,255,0.78);
+      --panel2: rgba(255,255,255,0.58);
       --border: rgba(15, 23, 42, 0.12);
-      --shadow: 0 18px 55px rgba(15, 23, 42, 0.14);
+      --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
 
-      --r-xl: 24px;
-      --r-lg: 18px;
-      --r-md: 14px;
-
+      --r: 26px; /* squircle base */
       --max: 1120px;
     }
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color: var(--ink);
       overflow-x:hidden;
-
-      /* Your background image as the entire background */
-      background:
-        linear-gradient(180deg, rgba(238,240,243,0.76), rgba(231,234,238,0.72)),
-        url("/assets/images/background.jpg") center / cover no-repeat fixed;
+      background: var(--bgTopA);
     }
 
-    /* Soft overlay for readability */
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(900px 600px at 20% 18%, rgba(62,183,219,0.16), transparent 60%),
-        radial-gradient(900px 600px at 85% 18%, rgba(23,135,171,0.14), transparent 62%),
-        radial-gradient(800px 600px at 55% 88%, rgba(255,90,122,0.08), transparent 60%);
-      pointer-events:none;
-      z-index:-1;
-    }
-
-    a{ color: inherit; }
-    img{ max-width:100%; display:block; }
+    a{ color:inherit; text-decoration:none; }
+    img{ display:block; max-width:100%; }
 
     .wrap{
       max-width: var(--max);
@@ -80,254 +70,198 @@
       padding: 0 16px;
     }
 
-    /* Header */
+    /* Intro splash (1.0s) */
+    .intro{
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:
+        radial-gradient(900px 600px at 20% 30%, rgba(62,183,219,0.65), transparent 60%),
+        radial-gradient(900px 600px at 80% 70%, rgba(23,135,171,0.75), transparent 62%),
+        linear-gradient(135deg, rgba(12,42,70,1), rgba(15,88,135,1));
+      animation: introFlash 1s ease-in-out forwards;
+    }
+    @keyframes introFlash{
+      0%   { filter: saturate(1.25) brightness(1.0); opacity: 1; transform: scale(1); }
+      35%  { filter: saturate(1.6)  brightness(1.25); }
+      70%  { filter: saturate(1.1)  brightness(1.05); }
+      100% { opacity: 0; transform: scale(1.01); pointer-events:none; }
+    }
+    .intro-card{
+      width: min(720px, 92vw);
+      border-radius: 34px;
+      padding: 18px 18px 16px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.22);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.35);
+      display:flex;
+      align-items:center;
+      gap: 14px;
+    }
+    .intro-dot{
+      width: 12px; height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 0 0 6px rgba(62,183,219,0.18), 0 0 0 14px rgba(23,135,171,0.10);
+      flex: 0 0 auto;
+    }
+    .intro-text{
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.92);
+      font-size: clamp(1.05rem, 0.95rem + 1.3vw, 1.35rem);
+      line-height: 1.1;
+    }
+    .intro-sub{
+      margin-top: 2px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.92rem;
+    }
+
+    /* Minimal header: logo only */
     header{
       position: sticky;
-      top:0;
+      top: 0;
       z-index: 50;
+      background: rgba(247,249,251,0.72);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
       backdrop-filter: blur(14px);
-      background: rgba(239,241,244,0.72);
-      border-bottom: 1px solid rgba(15,23,42,0.10);
     }
     .nav{
       display:flex;
       align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      padding: 12px 0;
+      justify-content:center;
+      padding: 14px 0;
     }
-
     .brand{
       display:flex;
       align-items:center;
-      gap: 12px;
-      text-decoration:none;
-      min-width: 0;
+      justify-content:center;
+      gap: 10px;
     }
-
     .brand img{
-      height: 34px;
+      height: 36px;
       width: auto;
       object-fit: contain;
       filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12));
     }
 
-    .nav-links{
+    /* Sections with “clouded feel” */
+    .section{
+      padding: 26px 0 42px;
+    }
+
+    .top-bg{
+      background:
+        radial-gradient(1000px 650px at 18% 8%, rgba(62,183,219,0.14), transparent 60%),
+        radial-gradient(900px 600px at 85% 22%, rgba(23,135,171,0.10), transparent 62%),
+        radial-gradient(900px 600px at 50% 105%, rgba(255,90,122,0.06), transparent 62%),
+        linear-gradient(180deg, var(--bgTopA), var(--bgTopB));
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+    }
+
+    .studio-bg{
+      background:
+        radial-gradient(1000px 700px at 20% 20%, rgba(255,255,255,0.45), transparent 60%),
+        radial-gradient(900px 650px at 85% 35%, rgba(62,183,219,0.24), transparent 62%),
+        linear-gradient(180deg, var(--bgStudioA), var(--bgStudioB));
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+    }
+
+    .video-bg{
+      background:
+        radial-gradient(1000px 700px at 18% 15%, rgba(255,255,255,0.42), transparent 60%),
+        radial-gradient(900px 650px at 80% 35%, rgba(23,135,171,0.10), transparent 62%),
+        linear-gradient(180deg, var(--bgVideoA), var(--bgVideoB));
+    }
+
+    /* Main hero: ONLY carousel */
+    .hero{
       display:flex;
-      gap: 10px;
-      align-items:center;
-    }
-
-    .nav-links a{
-      text-decoration:none;
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: rgba(11,27,43,0.72);
-      padding: 10px 12px;
-      border-radius: 999px;
-      transition: background 140ms ease, color 140ms ease, transform 140ms ease;
-    }
-    .nav-links a:hover{
-      background: rgba(255,255,255,0.55);
-      color: rgba(11,27,43,0.92);
-      transform: translateY(-1px);
-    }
-
-    .hamburger{
-      display:none;
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.10);
-      background: rgba(255,255,255,0.55);
-      cursor:pointer;
-      font-size: 18px;
-      color: rgba(11,27,43,0.82);
-    }
-
-    .drawer{
-      display:none;
-      border-top: 1px solid rgba(15,23,42,0.10);
-      background: rgba(239,241,244,0.86);
-      backdrop-filter: blur(14px);
-    }
-    .drawer .drawer-inner{
-      padding: 10px 0 14px;
-      display:flex;
-      flex-direction:column;
-      gap: 6px;
-    }
-    .drawer a{
-      text-decoration:none;
-      font-weight: 700;
-      padding: 12px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.48);
-      border: 1px solid rgba(15,23,42,0.08);
-      color: rgba(11,27,43,0.78);
-    }
-
-    /* Cards / buttons */
-    .card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--r-xl);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .btn{
-      display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap: 10px;
-      text-decoration:none;
-      font-weight: 800;
-      border-radius: 16px;
-      padding: 14px 16px;
-      border: 1px solid transparent;
-      cursor:pointer;
-      transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
-      user-select:none;
-      white-space:nowrap;
-    }
-    .btn:active{ transform: translateY(1px); }
-
-    .btn-primary{
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #07111b;
-      box-shadow: 0 18px 40px rgba(23,135,171,0.24);
-    }
-    .btn-primary:hover{ filter: brightness(1.03); }
-
-    .btn-dark{
-      background: rgba(11,27,43,0.92);
-      color: rgba(255,255,255,0.92);
-      box-shadow: 0 18px 40px rgba(11,27,43,0.18);
+      padding: 10px 0 8px;
     }
 
-    .btn-soft{
-      background: rgba(255,255,255,0.62);
-      border-color: rgba(15,23,42,0.10);
-      color: rgba(11,27,43,0.84);
-      box-shadow: 0 14px 30px rgba(15,23,42,0.08);
-    }
-
-    main{ padding: 18px 0 78px; }
-
-    /* HERO AREA: left text + big carousel card */
-    .hero{
-      margin-top: 14px;
-      display:grid;
-      grid-template-columns: 0.95fr 1.05fr;
-      gap: 14px;
-      align-items: stretch;
-    }
-    .hero-left{
-      padding: 18px;
-      position: relative;
-    }
-    .hero-left::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(600px 260px at 20% 15%, rgba(62,183,219,0.20), transparent 60%),
-        radial-gradient(600px 260px at 85% 18%, rgba(23,135,171,0.16), transparent 60%),
-        radial-gradient(600px 260px at 60% 85%, rgba(255,90,122,0.08), transparent 60%);
-      filter: blur(18px);
-      opacity: 0.85;
-      pointer-events:none;
-    }
-    .hero-left > *{ position: relative; }
-
-    .kicker{
-      font-weight: 800;
-      letter-spacing: 0.10em;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      color: rgba(23,135,171,0.92);
-    }
-    .headline{
-      margin: 10px 0 8px;
-      font-size: clamp(1.6rem, 1.15rem + 2.25vw, 2.7rem);
-      line-height: 1.06;
-      letter-spacing: -0.02em;
-      color: rgba(11,27,43,0.96);
-    }
-    .subhead{
-      margin: 0;
-      font-size: 1.02rem;
-      line-height: 1.55;
-      color: var(--muted);
-      max-width: 62ch;
-    }
-    .hero-actions{
-      margin-top: 16px;
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-    }
-
-    /* Big feature carousel card */
-    .feature-carousel{
-      position: relative;
-      padding: 14px;
-      border-radius: var(--r-xl);
-      overflow:hidden;
+    /* Squircle card */
+    .squircle{
+      width: min(980px, 96vw);
+      min-height: 420px;
+      border-radius: 34px;
       background: rgba(255,255,255,0.70);
       border: 1px solid rgba(15,23,42,0.12);
       box-shadow: var(--shadow);
-      min-height: 360px;
+      overflow:hidden;
+      position: relative;
     }
-    .feature-carousel::before{
+    /* squircle smoothing vibe */
+    .squircle::before{
       content:"";
       position:absolute;
       inset:-2px;
       background:
-        radial-gradient(900px 420px at 30% 25%, rgba(62,183,219,0.24), transparent 62%),
-        radial-gradient(900px 420px at 80% 70%, rgba(23,135,171,0.18), transparent 64%);
+        radial-gradient(980px 520px at 30% 25%, rgba(62,183,219,0.22), transparent 62%),
+        radial-gradient(980px 520px at 80% 70%, rgba(23,135,171,0.18), transparent 64%),
+        radial-gradient(800px 460px at 55% 110%, rgba(255,90,122,0.08), transparent 62%);
       filter: blur(18px);
       opacity: 0.85;
       pointer-events:none;
     }
 
-    .fc-inner{ position: relative; height: 100%; display:flex; flex-direction:column; }
-    .fc-top{
+    .carousel{
+      position: relative;
+      height: 100%;
+      display:flex;
+      flex-direction:column;
+      padding: 14px;
+      gap: 10px;
+    }
+
+    .carousel-top{
+      position: relative;
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap: 10px;
-      padding: 8px 6px 10px;
+      padding: 6px 6px 2px;
     }
-    .fc-top .label{
+
+    .carousel-title{
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      font-size: 1.05rem;
+      color: rgba(11,27,43,0.88);
       display:flex;
       align-items:center;
       gap: 10px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-      color: rgba(11,27,43,0.92);
     }
-    .pill{
+
+    .chip{
       display:inline-flex;
       align-items:center;
-      gap: 8px;
       padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid rgba(15,23,42,0.10);
-      background: rgba(255,255,255,0.58);
-      font-weight: 800;
-      font-size: 0.85rem;
+      background: rgba(255,255,255,0.60);
+      font-weight: 900;
+      font-size: 0.86rem;
       color: rgba(11,27,43,0.78);
       user-select:none;
     }
-    .fc-controls{
+
+    .controls{
       display:flex;
       align-items:center;
       gap: 8px;
     }
     .icon-btn{
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 999px;
       border: 1px solid rgba(15,23,42,0.10);
       background: rgba(255,255,255,0.62);
@@ -339,101 +273,102 @@
     .icon-btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
     .icon-btn:active{ transform: translateY(1px); }
 
-    .fc-viewport{
+    .viewport{
       position: relative;
       flex: 1;
-      border-radius: calc(var(--r-xl) - 6px);
+      border-radius: 28px;
       overflow:hidden;
       border: 1px solid rgba(15,23,42,0.10);
       background: rgba(11,27,43,0.04);
+      min-height: 360px;
     }
 
-    .fc-track{
+    .track{
       display:flex;
       height: 100%;
-      width: 100%;
       transform: translateX(0);
-      transition: transform 520ms cubic-bezier(.2,.85,.2,1);
+      transition: transform 540ms cubic-bezier(.2,.85,.2,1);
       will-change: transform;
       touch-action: pan-y;
     }
 
-    .fc-slide{
+    /* Each slide is ONE big link (foolproof) */
+    .slide{
       min-width: 100%;
       height: 100%;
-      padding: 18px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap: 14px;
       position: relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-start;
+      padding: 18px;
+      overflow:hidden;
     }
 
-    .fc-slide::after{
-      content:"";
+    .slideLink{
       position:absolute;
       inset:0;
-      opacity: 0.85;
-      pointer-events:none;
-      background:
-        radial-gradient(700px 360px at 30% 20%, rgba(255,255,255,0.55), transparent 60%),
-        radial-gradient(700px 360px at 85% 80%, rgba(255,255,255,0.36), transparent 62%);
+      z-index: 3;
     }
 
-    .slide-content{ position: relative; z-index: 1; }
-
-    .slide-title{
-      margin: 0;
-      font-size: 1.45rem;
-      letter-spacing: -0.02em;
-      color: rgba(11,27,43,0.95);
-    }
-    .slide-desc{
-      margin: 8px 0 0;
-      color: rgba(11,27,43,0.64);
-      line-height: 1.5;
-      max-width: 60ch;
-    }
-
-    .slide-actions{
-      position: relative;
-      z-index: 1;
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .slide-visual{
+    .slideBg{
       position:absolute;
-      right: -40px;
-      bottom: -60px;
-      width: 360px;
-      height: 360px;
-      border-radius: 999px;
-      filter: blur(0.2px);
-      opacity: 0.9;
-      transform: rotate(8deg);
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.80), transparent 55%),
-                  radial-gradient(circle at 65% 70%, rgba(255,255,255,0.55), transparent 58%);
-      border: 1px solid rgba(255,255,255,0.45);
-      box-shadow: 0 22px 65px rgba(15,23,42,0.14);
+      inset:0;
+      z-index: 1;
+      opacity: 0.95;
     }
 
-    /* per-slide color themes (soft) */
-    .t-release{ background: linear-gradient(135deg, rgba(62,183,219,0.24), rgba(255,255,255,0.12)); }
-    .t-music{   background: linear-gradient(135deg, rgba(29,185,84,0.18), rgba(255,255,255,0.10)); }
-    .t-studio{  background: linear-gradient(135deg, rgba(23,135,171,0.20), rgba(255,255,255,0.12)); }
-    .t-beats{   background: linear-gradient(135deg, rgba(255,85,0,0.14), rgba(255,255,255,0.10)); }
-    .t-faq{     background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(255,255,255,0.10)); }
-    .t-contact{ background: linear-gradient(135deg, rgba(255,90,122,0.12), rgba(255,255,255,0.10)); }
-    .t-login{   background: linear-gradient(135deg, rgba(17,24,39,0.16), rgba(255,255,255,0.10)); }
+    .slideBg::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(820px 460px at 25% 25%, rgba(255,255,255,0.62), transparent 62%),
+        radial-gradient(820px 460px at 85% 75%, rgba(255,255,255,0.38), transparent 64%);
+      pointer-events:none;
+      opacity: 0.85;
+    }
+
+    .slideInner{
+      position: relative;
+      z-index: 2;
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      padding: 14px 14px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(15,23,42,0.10);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 55px rgba(15,23,42,0.12);
+    }
+
+    .icon{
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display:grid;
+      place-items:center;
+      background: rgba(11,27,43,0.06);
+      border: 1px solid rgba(15,23,42,0.10);
+      flex: 0 0 auto;
+    }
+    .icon svg{ width: 24px; height: 24px; }
+
+    .label{
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      font-size: clamp(1.45rem, 1.1rem + 1.7vw, 2.2rem);
+      color: rgba(11,27,43,0.92);
+      line-height: 1.0;
+      text-transform: lowercase;
+    }
 
     .dots{
       display:flex;
       gap: 8px;
       align-items:center;
       justify-content:center;
-      padding: 12px 0 2px;
+      padding: 10px 0 2px;
     }
     .dot{
       width: 10px; height: 10px;
@@ -444,60 +379,174 @@
       transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
     }
     .dot[aria-current="true"]{
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
       border-color: rgba(15,23,42,0.10);
       transform: scale(1.12);
     }
 
-    .section{ margin-top: 18px; }
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap: 12px;
-      margin: 18px 0 10px;
+    /* Slide palettes (more color, still soft) */
+    .p-235   { background: linear-gradient(135deg, rgba(62,183,219,0.34), rgba(255,255,255,0.10)); }
+    .p-music { background: linear-gradient(135deg, rgba(29,185,84,0.22), rgba(255,255,255,0.10)); }
+    .p-stu   { background: linear-gradient(135deg, rgba(23,135,171,0.28), rgba(255,255,255,0.10)); }
+    .p-beat  { background: linear-gradient(135deg, rgba(255,85,0,0.20), rgba(255,255,255,0.10)); }
+    .p-faq   { background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(255,255,255,0.10)); }
+    .p-cont  { background: linear-gradient(135deg, rgba(255,90,122,0.18), rgba(255,255,255,0.10)); }
+    .p-log   { background: linear-gradient(135deg, rgba(17,24,39,0.20), rgba(255,255,255,0.10)); }
+    .p-acct  { background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(255,255,255,0.10)); }
+    .p-fol   { background: linear-gradient(135deg, rgba(62,183,219,0.22), rgba(29,185,84,0.14)); }
+
+    /* Follow section under carousel */
+    .followBox{
+      margin-top: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(15,23,42,0.10);
+      box-shadow: 0 18px 50px rgba(15,23,42,0.10);
+      padding: 14px;
     }
-    .section-head h2, .section-head h3{
+    .followHead{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 2px 4px 10px;
+    }
+    .followHead h2{
       margin:0;
-      letter-spacing: -0.01em;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.05rem;
+      color: rgba(11,27,43,0.90);
+    }
+    .followHead p{
+      margin:0;
+      color: rgba(11,27,43,0.58);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .links{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .link-btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 12px;
+      border-radius: 18px;
+      font-weight: 950;
+      text-decoration:none;
+      border: 1px solid rgba(15,23,42,0.10);
+      color: rgba(255,255,255,0.92);
+      box-shadow: 0 12px 24px rgba(15,23,42,0.10);
+      transition: transform 140ms ease, filter 140ms ease;
+      user-select:none;
+    }
+    .link-btn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .spotify{ background: #1DB954; color:#06110a; }
+    .apple{ background: #111827; }
+    .soundcloud{ background: #ff5500; color:#1b0d04; }
+    .youtube{ background: #ff0000; }
+    .instagram{ background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); }
+    .tiktok{ background: #0b0b0f; }
+
+    /* Studio slideshow */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .slideshow-container{
+      border-radius: 24px;
+      overflow:hidden;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(11,27,43,0.06);
+      min-height: 320px;
+      position: relative;
+    }
+    #imageSlider{ width:100%; height:100%; }
+    #imageSlider img{
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      display:block;
+    }
+    .studioText{
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 10px;
+    }
+    .studioText h2{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.2rem;
       color: rgba(11,27,43,0.92);
     }
-    .section-head p{
+    .studioText p{
       margin:0;
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-    .divider{
-      height: 1px;
-      width: 100%;
-      margin: 18px 0;
-      background: linear-gradient(90deg, transparent, rgba(15,23,42,0.14), transparent);
+      color: rgba(11,27,43,0.62);
+      line-height: 1.55;
+      font-weight: 700;
+      font-size: 0.98rem;
     }
 
-    /* Album + Follow */
-    .feature-grid{
+    /* Videos */
+    .sectionHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 12px;
+      margin: 0 0 10px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.2rem;
+      color: rgba(11,27,43,0.92);
+    }
+    .sectionHead p{
+      margin:0;
+      color: rgba(11,27,43,0.58);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .video-grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
-      align-items: start;
+      align-items:start;
     }
-    .pad{ padding: 14px; }
-
     .video-title{ padding: 14px 14px 10px; }
     .video-title h3{
       margin:0;
       font-size: 1.05rem;
-      color: rgba(11,27,43,0.92);
+      font-weight: 950;
       letter-spacing: -0.01em;
+      color: rgba(11,27,43,0.92);
     }
     .video-title span{
       display:block;
       margin-top: 4px;
-      color: var(--muted);
+      color: rgba(11,27,43,0.62);
+      font-weight: 700;
       font-size: 0.95rem;
       line-height: 1.35;
     }
-
     .iframe-wrap{
       position: relative;
       width: 100%;
@@ -514,354 +563,343 @@
       border:0;
     }
 
-    /* Follow buttons */
-    .links{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 10px;
+    /* About blurb (small, natural) */
+    .about{
+      margin-top: 14px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(15,23,42,0.10);
+      box-shadow: 0 16px 44px rgba(15,23,42,0.10);
+      padding: 14px;
     }
-    .link-btn{
-      display:flex;
+    .about p{
+      margin:0;
+      color: rgba(11,27,43,0.72);
+      font-weight: 700;
+      line-height: 1.55;
+      font-size: 0.98rem;
+    }
+
+    /* 23.5 modal */
+    .modal{
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display:none;
       align-items:center;
       justify-content:center;
-      padding: 14px 12px;
-      border-radius: 16px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid rgba(15,23,42,0.10);
-      color: rgba(255,255,255,0.92);
-      box-shadow: 0 12px 24px rgba(15,23,42,0.10);
-      transition: transform 140ms ease, filter 140ms ease;
-    }
-    .link-btn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
-
-    .spotify{ background: #1DB954; color:#06110a; }
-    .apple{ background: #111827; }
-    .soundcloud{ background: #ff5500; color:#1b0d04; }
-    .youtube{ background: #ff0000; }
-    .instagram{ background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); }
-    .tiktok{ background: #0b0b0f; }
-
-    /* Studio slideshow section */
-    .slideshow-section{
-      display:grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 14px;
-      align-items: stretch;
-    }
-    .slideshow-container{
-      border-radius: var(--r-xl);
-      overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.10);
-      background: rgba(11,27,43,0.06);
-      min-height: 320px;
-      position: relative;
-    }
-    #imageSlider{ width:100%; height:100%; }
-    #imageSlider img{
-      width: 100%;
-      height: 100%;
-      min-height: 320px;
-      object-fit: cover;
-      display:block;
-    }
-
-    .slideshow-text{
-      padding: 16px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap: 10px;
-    }
-    .slideshow-text h2{
-      margin:0;
-      color: rgba(11,27,43,0.92);
-      font-size: 1.2rem;
-      letter-spacing: -0.01em;
-    }
-    .slideshow-text p{
-      margin:0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: 1.0rem;
-    }
-
-    /* Videos grid */
-    .video-grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      align-items:start;
-    }
-
-    footer{
-      margin-top: 22px;
-      padding: 18px 0 70px;
-      border-top: 1px solid rgba(15,23,42,0.10);
-      background: rgba(239,241,244,0.66);
+      padding: 18px;
+      background: rgba(0,0,0,0.55);
       backdrop-filter: blur(10px);
     }
-    .footer-links{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 10px;
-    }
-    .footer-links a{
-      text-decoration:none;
-      font-weight: 800;
-      padding: 12px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.62);
-      border: 1px solid rgba(15,23,42,0.10);
-      color: rgba(11,27,43,0.82);
-    }
-    .fine{
-      margin: 10px 0 0;
-      color: rgba(11,27,43,0.52);
-      line-height: 1.5;
-      font-size: 0.95rem;
-      max-width: 70ch;
-    }
-
-    /* Ticker */
-    .ticker{
-      position: fixed;
-      bottom: 0;
-      left:0;
-      right:0;
-      height: 28px;
-      background: rgba(11,27,43,0.92);
-      color: rgba(255,255,255,0.92);
+    .modal[aria-hidden="false"]{ display:flex; }
+    .modalCard{
+      width: min(980px, 96vw);
+      border-radius: 26px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.35);
       overflow:hidden;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      z-index: 40;
     }
-    .ticker-content{
-      white-space: nowrap;
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 28s linear infinite;
-      font-size: 0.85rem;
-      font-weight: 700;
-      opacity: 0.92;
+    .modalTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 12px 12px;
+      background: rgba(247,249,251,0.92);
+      border-bottom: 1px solid rgba(15,23,42,0.10);
     }
-    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+    .modalTop strong{
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      color: rgba(11,27,43,0.92);
+    }
+    .closeBtn{
+      width: 42px; height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.70);
+      cursor:pointer;
+      font-weight: 950;
+      color: rgba(11,27,43,0.86);
+    }
+    .modalBody{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: rgba(11,27,43,0.06);
+    }
+    .modalBody iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
 
     /* Mobile */
     @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
-      .feature-grid{ grid-template-columns: 1fr; }
-      .slideshow-section{ grid-template-columns: 1fr; }
+      .grid2{ grid-template-columns: 1fr; }
       .video-grid{ grid-template-columns: 1fr; }
-      .feature-carousel{ min-height: 340px; }
-      .slide-visual{ right: -70px; bottom: -90px; width: 320px; height: 320px; }
+      .squircle{ min-height: 380px; }
+      .viewport{ min-height: 320px; }
+      .links{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-
-    @media (max-width: 760px){
-      .nav-links{ display:none; }
-      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+    @media (max-width: 560px){
       .links{ grid-template-columns: 1fr; }
-
-      .hero-left{ padding: 18px 16px; }
-      .headline{ font-size: 2.05rem; }
-      .btn{ width: 100%; padding: 16px; border-radius: 18px; }
-      .hero-actions{ gap: 10px; }
-
-      .feature-carousel{ padding: 12px; min-height: 360px; }
-      .fc-top{ padding: 6px 4px 8px; }
-      .slide-title{ font-size: 1.35rem; }
-      .slide-visual{ opacity: 0.75; }
-
-      .slideshow-container{ min-height: 260px; }
-      #imageSlider img{ min-height: 260px; }
-      .ticker-content{ font-size: 0.82rem; }
+      .slideInner{ padding: 12px; }
+      .icon{ width: 42px; height: 42px; border-radius: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce){
-      *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
     }
   </style>
 </head>
 
 <body>
+  <!-- intro -->
+  <div class="intro" id="intro">
+    <div class="intro-card">
+      <div class="intro-dot"></div>
+      <div>
+        <div class="intro-text">welcome to the beals.wav experience</div>
+        <div class="intro-sub">entering the studio</div>
+      </div>
+    </div>
+  </div>
+
   <header>
     <div class="wrap">
       <div class="nav">
-        <a class="brand" href="index.html" aria-label="Beals.wav Home">
-          <img src="/assets/images/logo.jpeg?v=1" alt="beals.wav" decoding="async" fetchpriority="high">
+        <a class="brand" href="/index.html" aria-label="Beals.wav Home">
+          <img src="/assets/images/logo.jpeg?v=2" alt="beals.wav" decoding="async" fetchpriority="high">
         </a>
-
-        <nav class="nav-links" aria-label="Primary navigation">
-          <a href="music.html">Music</a>
-          <a href="beatstore.html">Beats</a>
-          <a href="studio.html">Studio</a>
-          <a href="contact.html">Contact</a>
-        </nav>
-
-        <button class="hamburger" id="menuBtn" aria-label="Toggle menu">☰</button>
-      </div>
-    </div>
-
-    <div class="drawer" id="drawer">
-      <div class="wrap">
-        <div class="drawer-inner">
-          <a href="music.html">Music</a>
-          <a href="beatstore.html">Beats</a>
-          <a href="studio.html">Studio</a>
-          <a href="faq.html">FAQ</a>
-          <a href="contact.html">Contact</a>
-          <a href="login.html" id="loginBtnMobile">Login</a>
-        </div>
       </div>
     </div>
   </header>
 
-  <main>
+  <!-- TOP: Carousel only -->
+  <section class="section top-bg">
     <div class="wrap">
-      <!-- HERO -->
-      <section class="hero">
-        <div class="card hero-left">
-          <div class="kicker">Beals.wav</div>
-          <h1 class="headline">Music, beats, and studio services.</h1>
-          <p class="subhead">West Jordan, Utah. Recording, mixing, production, and releases.</p>
+      <div class="hero">
+        <div class="squircle" aria-label="Beals.wav Carousel">
+          <div class="carousel">
+            <div class="carousel-top">
+              <div class="carousel-title">
+                <span class="chip" id="chip">23.5</span>
+              </div>
+              <div class="controls">
+                <button class="icon-btn" id="prev" aria-label="Previous">‹</button>
+                <button class="icon-btn" id="next" aria-label="Next">›</button>
+              </div>
+            </div>
 
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="music.html">Listen</a>
-            <a class="btn btn-dark" href="beatstore.html">Buy Beats</a>
-            <a class="btn btn-soft" href="studio.html">Book Studio</a>
+            <div class="viewport" id="viewport">
+              <div class="track" id="track">
+
+                <!-- 23.5 (opens modal) -->
+                <div class="slide">
+                  <a class="slideLink" href="#"
+                     data-chip="23.5"
+                     data-action="open235"
+                     aria-label="Open 23.5"></a>
+                  <div class="slideBg p-235"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(62,183,219,0.14);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9 18V6l10 6-10 6Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">23.5</div>
+                  </div>
+                </div>
+
+                <!-- music -->
+                <div class="slide">
+                  <a class="slideLink" href="/music.html" data-chip="music" aria-label="Go to Music"></a>
+                  <div class="slideBg p-music"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(29,185,84,0.14);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M10 5v10.5a3.5 3.5 0 1 1-2-3.2V7l12-2v10.5a3.5 3.5 0 1 1-2-3.2V5l-8 1.3Z"
+                              stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">music</div>
+                  </div>
+                </div>
+
+                <!-- studio -->
+                <div class="slide">
+                  <a class="slideLink" href="/studio.html" data-chip="studio" aria-label="Go to Studio"></a>
+                  <div class="slideBg p-stu"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(23,135,171,0.14);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 2a6 6 0 0 1 6 6c0 4-3 9-6 14-3-5-6-10-6-14a6 6 0 0 1 6-6Z"
+                              stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M12 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                              stroke="rgba(11,27,43,0.92)" stroke-width="2"/>
+                      </svg>
+                    </div>
+                    <div class="label">studio</div>
+                  </div>
+                </div>
+
+                <!-- beats -->
+                <div class="slide">
+                  <a class="slideLink" href="/beatstore.html" data-chip="beats" aria-label="Go to Beats"></a>
+                  <div class="slideBg p-beat"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(255,85,0,0.12);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 7h16v10H4V7Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M8 11h8M8 14h5" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">beats</div>
+                  </div>
+                </div>
+
+                <!-- faq -->
+                <div class="slide">
+                  <a class="slideLink" href="/faq.html" data-chip="faq" aria-label="Go to FAQ"></a>
+                  <div class="slideBg p-faq"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(245,158,11,0.12);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 5h16v12H7l-3 3V5Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M8 10h8M8 13h5" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">faq</div>
+                  </div>
+                </div>
+
+                <!-- contact -->
+                <div class="slide">
+                  <a class="slideLink" href="/contact.html" data-chip="contact" aria-label="Go to Contact"></a>
+                  <div class="slideBg p-cont"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(255,90,122,0.10);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M4 7h16v10H4V7Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M4 8l8 6 8-6" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">contact</div>
+                  </div>
+                </div>
+
+                <!-- login -->
+                <div class="slide">
+                  <a class="slideLink" href="/login.html" data-chip="login" aria-label="Go to Login"></a>
+                  <div class="slideBg p-log"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(17,24,39,0.10);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 12a4 4 0 1 0-0.001-8A4 4 0 0 0 12 12Z" stroke="rgba(11,27,43,0.92)" stroke-width="2"/>
+                        <path d="M4 20c2-4 14-4 16 0" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">login</div>
+                  </div>
+                </div>
+
+                <!-- account -->
+                <div class="slide">
+                  <a class="slideLink" href="/account.html" data-chip="account" aria-label="Go to Account"></a>
+                  <div class="slideBg p-acct"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(99,102,241,0.10);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M6 7h12v14H6V7Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M9 3h6v4H9V3Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M9 11h6M9 14h6M9 17h4" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">account</div>
+                  </div>
+                </div>
+
+                <!-- follow (scrolls to follow section) -->
+                <div class="slide">
+                  <a class="slideLink" href="#follow" data-chip="follow" aria-label="Go to Follow"></a>
+                  <div class="slideBg p-fol"></div>
+                  <div class="slideInner">
+                    <div class="icon" style="background: rgba(62,183,219,0.12);">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 21s-7-4.6-9-9a5.5 5.5 0 0 1 9-6 5.5 5.5 0 0 1 9 6c-2 4.4-9 9-9 9Z"
+                              stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    <div class="label">follow</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="dots" id="dots" aria-label="Carousel pagination"></div>
           </div>
         </div>
+      </div>
 
-        <!-- BIG FEATURE CAROUSEL -->
-        <section class="feature-carousel" aria-label="Explore Beals.wav">
-          <div class="fc-inner">
-            <div class="fc-top">
-              <div class="label">
-                Explore
-                <span class="pill" id="fcPill">Latest</span>
-              </div>
-              <div class="fc-controls">
-                <button class="icon-btn" id="fcPrev" aria-label="Previous">‹</button>
-                <button class="icon-btn" id="fcNext" aria-label="Next">›</button>
-              </div>
-            </div>
+      <!-- follow/support under carousel -->
+      <div class="followBox" id="follow">
+        <div class="followHead">
+          <h2>Follow & Support</h2>
+          <p>pick your platform</p>
+        </div>
+        <div class="links">
+          <a class="link-btn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
+          <a class="link-btn apple" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple Music</a>
+          <a class="link-btn soundcloud" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+          <a class="link-btn youtube" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a class="link-btn instagram" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="link-btn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-            <div class="fc-viewport" id="fcViewport">
-              <div class="fc-track" id="fcTrack">
-                <!-- Slide 1: Latest Release -->
-                <div class="fc-slide t-release" data-pill="Latest">
-                  <div class="slide-content">
-                    <h2 class="slide-title">Listen to 23.5</h2>
-                    <p class="slide-desc">Latest release. Full playlist, clean embeds, no weird detours.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="#album-23-5">Play now</a>
-                    <a class="btn btn-soft" href="music.html">More music</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
+  <!-- STUDIO SECTION -->
+  <section class="section studio-bg">
+    <div class="wrap">
+      <div class="grid2">
+        <div class="slideshow-container">
+          <div id="imageSlider"></div>
+        </div>
 
-                <!-- Slide 2: Music -->
-                <div class="fc-slide t-music" data-pill="Music">
-                  <div class="slide-content">
-                    <h2 class="slide-title">Music</h2>
-                    <p class="slide-desc">Singles, albums, features. Everything in one place.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="music.html">Browse music</a>
-                    <a class="btn btn-soft" href="#videos">Jump to videos</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
+        <div class="card studioText">
+          <h2>Studio</h2>
+          <p>Recording, mixing, production. West Jordan, Utah.</p>
+          <p style="margin-top:6px; font-weight:900; color: rgba(11,27,43,0.76);">Book from the carousel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-                <!-- Slide 3: Studio -->
-                <div class="fc-slide t-studio" data-pill="Studio">
-                  <div class="slide-content">
-                    <h2 class="slide-title">Book Studio Time</h2>
-                    <p class="slide-desc">Recording, mixing, production. West Jordan, Utah.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="studio.html">Book studio</a>
-                    <a class="btn btn-soft" href="#studio">See the studio</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
+  <!-- VIDEOS SECTION -->
+  <section class="section video-bg" id="videos">
+    <div class="wrap">
+      <div class="sectionHead">
+        <h2>Videos</h2>
+        <p>projects + singles</p>
+      </div>
 
-                <!-- Slide 4: Beats -->
-                <div class="fc-slide t-beats" data-pill="Beats">
-                  <div class="slide-content">
-                    <h2 class="slide-title">Buy Beats</h2>
-                    <p class="slide-desc">Licenses, checkout, quick delivery. The usual human commerce ritual.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="beatstore.html">Open beat store</a>
-                    <a class="btn btn-soft" href="contact.html">Custom work</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
-
-                <!-- Slide 5: FAQ -->
-                <div class="fc-slide t-faq" data-pill="FAQ">
-                  <div class="slide-content">
-                    <h2 class="slide-title">FAQ</h2>
-                    <p class="slide-desc">Answers before you have to email anyone. Efficient.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="faq.html">Read FAQ</a>
-                    <a class="btn btn-soft" href="contact.html">Still need help</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
-
-                <!-- Slide 6: Contact -->
-                <div class="fc-slide t-contact" data-pill="Contact">
-                  <div class="slide-content">
-                    <h2 class="slide-title">Contact</h2>
-                    <p class="slide-desc">Bookings, questions, collabs. Send it.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="contact.html">Contact</a>
-                    <a class="btn btn-soft" href="studio.html">Studio services</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
-
-                <!-- Slide 7: Login -->
-                <div class="fc-slide t-login" data-pill="Account">
-                  <div class="slide-content">
-                    <h2 class="slide-title">Account</h2>
-                    <p class="slide-desc">Login to view purchases and sessions.</p>
-                  </div>
-                  <div class="slide-actions">
-                    <a class="btn btn-primary" href="login.html" id="fcLoginBtn">Login</a>
-                    <a class="btn btn-soft" href="account.html" id="fcAccountBtn" style="display:none;">Account</a>
-                  </div>
-                  <div class="slide-visual"></div>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="dots" id="fcDots" aria-label="Carousel pagination"></div>
-          </div>
-        </section>
-      </section>
-
-      <div class="divider"></div>
-
-      <!-- FEATURE: ALBUM + FOLLOW -->
-      <section class="section feature-grid">
-        <article class="card" id="album-23-5">
+      <div class="video-grid">
+        <article class="card" id="vip-220">
           <div class="video-title">
-            <h3>23.5 (Album)</h3>
-            <span>Playlist</span>
+            <h3>VIP (220)</h3>
+            <span>Beals</span>
           </div>
           <div class="iframe-wrap">
-            <iframe
-              loading="lazy"
-              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
-              title="23.5 (Album)"
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0&playsinline=1"
+              title="VIP (220)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen>
@@ -869,244 +907,169 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="pad">
-            <div class="section-head" style="margin:0 0 10px;">
-              <h3>Follow & Support</h3>
-              <p>Links in their actual colors.</p>
-            </div>
-
-            <div class="links">
-              <a class="link-btn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
-              <a class="link-btn apple" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple Music</a>
-              <a class="link-btn soundcloud" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-              <a class="link-btn youtube" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
-              <a class="link-btn instagram" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
-              <a class="link-btn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
-            </div>
+        <article class="card" id="no-rest">
+          <div class="video-title">
+            <h3>No Rest</h3>
+            <span>Roman Noodle feat. RPFROMTHETOP, Beals</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0&playsinline=1"
+              title="No Rest"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
           </div>
         </article>
-      </section>
 
-      <div class="divider"></div>
+        <article class="card" id="lame">
+          <div class="video-title">
+            <h3>Lame</h3>
+            <span>Roman Noodle feat. Beals</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0&playsinline=1"
+              title="Lame"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
 
-      <!-- STUDIO SLIDESHOW -->
-      <section class="section slideshow-section" id="studio">
-        <div class="slideshow-container card">
-          <div id="imageSlider"></div>
-        </div>
+        <article class="card" id="breaking-point">
+          <div class="video-title">
+            <h3>Breaking Point (Album)</h3>
+            <span>Roman Noodle</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj&rel=0&playsinline=1"
+              title="Breaking Point (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
 
-        <div class="card slideshow-text">
-          <h2>Studio</h2>
-          <p>Recording, mixing, and production services in West Jordan, Utah.</p>
-          <a class="btn btn-primary" href="studio.html">Book Studio</a>
-          <a class="btn btn-soft" href="beatstore.html">Beat Store</a>
-        </div>
-      </section>
+        <article class="card" id="what-is-going-on">
+          <div class="video-title">
+            <h3>WHAT IS GOING ON</h3>
+            <span>RPFROMTHETOP feat. Beals</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/6ogFoT19EO8?rel=0&playsinline=1"
+              title="WHAT IS GOING ON"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
 
-      <div class="divider"></div>
+        <article class="card" id="forever-album">
+          <div class="video-title">
+            <h3>Forever (Album)</h3>
+            <span>RPFROMTHETOP</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/flR4pt-oC_A?rel=0&playsinline=1"
+              title="Forever (Album) – RPFROMTHETOP"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
 
-      <!-- VIDEOS GRID -->
-      <section class="section" id="videos">
-        <div class="section-head">
-          <h2>Videos</h2>
-          <p>Singles + projects.</p>
-        </div>
+        <article class="card" id="back-to-back">
+          <div class="video-title">
+            <h3>Back to Back</h3>
+            <span>Cartier & Beals</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/z56pau7bf-Y?rel=0&playsinline=1"
+              title="Back to Back"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
 
-        <div class="video-grid">
-          <article class="card" id="vip-220">
-            <div class="video-title">
-              <h3>VIP (220)</h3>
-              <span>Beals</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0&playsinline=1"
-                title="VIP (220)"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="no-rest">
-            <div class="video-title">
-              <h3>No Rest</h3>
-              <span>Roman Noodle feat. RPFROMTHETOP, Beals</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0&playsinline=1"
-                title="No Rest"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="lame">
-            <div class="video-title">
-              <h3>Lame</h3>
-              <span>Roman Noodle feat. Beals</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0&playsinline=1"
-                title="Lame"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="breaking-point">
-            <div class="video-title">
-              <h3>Breaking Point (Album)</h3>
-              <span>Roman Noodle</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj&rel=0&playsinline=1"
-                title="Breaking Point (Album)"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="what-is-going-on">
-            <div class="video-title">
-              <h3>WHAT IS GOING ON</h3>
-              <span>RPFROMTHETOP feat. Beals</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/6ogFoT19EO8?rel=0&playsinline=1"
-                title="WHAT IS GOING ON"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="forever-album">
-            <div class="video-title">
-              <h3>Forever (Album)</h3>
-              <span>RPFROMTHETOP</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/flR4pt-oC_A?rel=0&playsinline=1"
-                title="Forever (Album) – RPFROMTHETOP"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="back-to-back">
-            <div class="video-title">
-              <h3>Back to Back</h3>
-              <span>Cartier & Beals</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/z56pau7bf-Y?rel=0&playsinline=1"
-                title="Back to Back"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-
-          <article class="card" id="meraki">
-            <div class="video-title">
-              <h3>MERAKI (Album)</h3>
-              <span>Beals</span>
-            </div>
-            <div class="iframe-wrap">
-              <iframe loading="lazy"
-                src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE&rel=0&playsinline=1"
-                title="MERAKI (Album)"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </article>
-        </div>
-      </section>
-
-    </div>
-  </main>
-
-  <footer>
-    <div class="wrap">
-      <div class="footer-links">
-        <a href="music.html">Music</a>
-        <a href="beatstore.html">Beats</a>
-        <a href="studio.html">Studio</a>
-        <a href="faq.html">FAQ</a>
-        <a href="contact.html">Contact</a>
+        <article class="card" id="meraki">
+          <div class="video-title">
+            <h3>MERAKI (Album)</h3>
+            <span>Beals</span>
+          </div>
+          <div class="iframe-wrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE&rel=0&playsinline=1"
+              title="MERAKI (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </article>
       </div>
-      <p class="fine">© 2025 Beals.wav. West Jordan, Utah.</p>
-    </div>
-  </footer>
 
-  <div class="ticker">
-    <div class="ticker-content">
-      Beals.wav — Recording • Mixing • Production • Beats • Music videos • Songwriting — West Jordan, Utah —
+      <div class="about">
+        <p>
+          Beals is an artist and mixing engineer based in West Jordan, Utah. This site is the hub to listen to releases,
+          book studio time, grab beats, and keep up with what’s next.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23.5 modal -->
+  <div class="modal" id="modal235" aria-hidden="true" role="dialog" aria-label="23.5 playlist">
+    <div class="modalCard">
+      <div class="modalTop">
+        <strong>23.5 (Album)</strong>
+        <button class="closeBtn" id="close235" aria-label="Close">×</button>
+      </div>
+      <div class="modalBody">
+        <iframe
+          id="iframe235"
+          loading="lazy"
+          src=""
+          title="23.5 (Album)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
     </div>
   </div>
 
   <script>
-    // Mobile drawer
+    // Intro: 1.0s, once per session
     (function(){
-      const btn = document.getElementById('menuBtn');
-      const drawer = document.getElementById('drawer');
-      if (!btn || !drawer) return;
-      btn.addEventListener('click', () => {
-        drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
-      });
-      drawer.addEventListener('click', (e) => {
-        if (e.target && e.target.tagName === 'A') drawer.style.display = 'none';
-      });
-      window.addEventListener('resize', () => {
-        if (window.innerWidth > 760) drawer.style.display = 'none';
-      });
+      const intro = document.getElementById('intro');
+      if (!intro) return;
+
+      const key = 'bw_intro_seen_session';
+      try{
+        if (sessionStorage.getItem(key) === '1') {
+          intro.remove();
+          return;
+        }
+        sessionStorage.setItem(key, '1');
+      }catch(e){}
+
+      // remove after animation ends
+      setTimeout(() => { if (intro) intro.remove(); }, 1100);
     })();
 
-    // Login Sync (desktop + mobile + carousel)
-    function syncLoginButtons() {
-      const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
-      const text = isLoggedIn ? 'Account' : 'Login';
-      const href = isLoggedIn ? 'account.html' : 'login.html';
-
-      const mobile = document.getElementById('loginBtnMobile');
-      if (mobile) { mobile.textContent = text; mobile.href = href; }
-
-      const fcLogin = document.getElementById('fcLoginBtn');
-      const fcAcct = document.getElementById('fcAccountBtn');
-      if (fcLogin && fcAcct) {
-        if (isLoggedIn) {
-          fcLogin.style.display = 'none';
-          fcAcct.style.display = 'inline-flex';
-        } else {
-          fcLogin.style.display = 'inline-flex';
-          fcAcct.style.display = 'none';
-        }
-      }
-    }
-    document.addEventListener('DOMContentLoaded', syncLoginButtons);
-
-    // Studio Slideshow
+    // Studio slideshow
     document.addEventListener('DOMContentLoaded', function() {
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -1116,56 +1079,81 @@
         "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
         "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
       ];
-      let currentImageIndex = -1;
-      const imageSlider = document.getElementById("imageSlider");
+      let i = -1;
+      const el = document.getElementById("imageSlider");
 
-      function showNextImage() {
-        if (!imageSlider) return;
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        const newImage = document.createElement("img");
-        newImage.src = images[currentImageIndex];
-        newImage.alt = "Studio Image " + (currentImageIndex + 1);
-        newImage.style.opacity = 0;
-        newImage.style.transition = "opacity 900ms ease-in-out";
-
-        imageSlider.innerHTML = "";
-        imageSlider.appendChild(newImage);
-        void newImage.offsetWidth;
-        newImage.style.opacity = 1;
+      function next(){
+        if (!el) return;
+        i = (i + 1) % images.length;
+        const img = document.createElement("img");
+        img.src = images[i];
+        img.alt = "Studio " + (i + 1);
+        img.style.opacity = 0;
+        img.style.transition = "opacity 900ms ease-in-out";
+        el.innerHTML = "";
+        el.appendChild(img);
+        void img.offsetWidth;
+        img.style.opacity = 1;
       }
-      showNextImage();
-      setInterval(showNextImage, 4500);
+      next();
+      setInterval(next, 4500);
     });
 
-    // Feature Carousel (smooth, swipe, dots, auto-rotate)
+    // 23.5 modal open/close
+    (function(){
+      const modal = document.getElementById('modal235');
+      const close = document.getElementById('close235');
+      const iframe = document.getElementById('iframe235');
+      if (!modal || !close || !iframe) return;
+
+      function open(){
+        modal.setAttribute('aria-hidden', 'false');
+        // set src on open (prevents autoplay-ish loading in background)
+        iframe.src = "https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1";
+        document.body.style.overflow = 'hidden';
+      }
+      function shut(){
+        modal.setAttribute('aria-hidden', 'true');
+        iframe.src = "";
+        document.body.style.overflow = '';
+      }
+
+      close.addEventListener('click', shut);
+      modal.addEventListener('click', (e) => { if (e.target === modal) shut(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') shut(); });
+
+      window.__open235 = open;
+    })();
+
+    // Carousel (smooth, swipe, dots, auto)
     document.addEventListener('DOMContentLoaded', function(){
-      const track = document.getElementById('fcTrack');
-      const dotsWrap = document.getElementById('fcDots');
-      const pill = document.getElementById('fcPill');
-      const prevBtn = document.getElementById('fcPrev');
-      const nextBtn = document.getElementById('fcNext');
-      const viewport = document.getElementById('fcViewport');
+      const track = document.getElementById('track');
+      const dotsWrap = document.getElementById('dots');
+      const chip = document.getElementById('chip');
+      const prevBtn = document.getElementById('prev');
+      const nextBtn = document.getElementById('next');
+      const viewport = document.getElementById('viewport');
 
-      if (!track || !dotsWrap || !pill || !prevBtn || !nextBtn || !viewport) return;
+      if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
-      const slides = Array.from(track.querySelectorAll('.fc-slide'));
+      const slides = Array.from(track.querySelectorAll('.slide'));
       let idx = 0;
       let timer = null;
 
-      function setIndex(i, userAction=false){
+      function setIndex(i, user=false){
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
 
-        const pillText = slides[idx].getAttribute('data-pill') || 'Explore';
-        pill.textContent = pillText;
+        const link = slides[idx].querySelector('.slideLink');
+        const chipText = (link && link.getAttribute('data-chip')) ? link.getAttribute('data-chip') : 'beals.wav';
+        chip.textContent = chipText;
 
         const dots = dotsWrap.querySelectorAll('.dot');
         dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
 
-        if (userAction) restart();
+        if (user) restart();
       }
 
-      // dots
       slides.forEach((_, i) => {
         const b = document.createElement('button');
         b.className = 'dot';
@@ -1179,18 +1167,9 @@
       prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
       nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
 
-      // auto-rotate
-      function start(){
-        timer = setInterval(() => setIndex(idx + 1), 5200);
-      }
-      function stop(){
-        if (timer) clearInterval(timer);
-        timer = null;
-      }
-      function restart(){
-        stop();
-        start();
-      }
+      function start(){ timer = setInterval(() => setIndex(idx + 1), 5200); }
+      function stop(){ if (timer) clearInterval(timer); timer = null; }
+      function restart(){ stop(); start(); }
 
       // pause on hover/focus
       viewport.addEventListener('mouseenter', stop);
@@ -1198,7 +1177,7 @@
       viewport.addEventListener('focusin', stop);
       viewport.addEventListener('focusout', start);
 
-      // swipe (pointer)
+      // swipe
       let startX = 0, dx = 0, down = false;
       viewport.addEventListener('pointerdown', (e) => {
         down = true;
@@ -1218,7 +1197,16 @@
         else restart();
       });
 
-      // init
+      // intercept 23.5 slide click -> modal
+      track.addEventListener('click', (e) => {
+        const a = e.target.closest && e.target.closest('.slideLink');
+        if (!a) return;
+        if (a.getAttribute('data-action') === 'open235') {
+          e.preventDefault();
+          if (window.__open235) window.__open235();
+        }
+      });
+
       setIndex(0);
       start();
     });
