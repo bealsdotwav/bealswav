@@ -64,7 +64,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO (guaranteed ~2.8–3.0s visible then fades)
+       INTRO (shows EVERY load, lasts ~2.9s)
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -82,11 +82,10 @@
       pointer-events: all;
     }
 
-    /* hold for 2.2s, then fade out over 0.7s (total 2.9s) */
+    /* hold for ~2.2s, fade ~0.7s (total 2.9s) */
     .intro.play{
       animation: introOut 2.9s ease-in-out forwards;
     }
-
     @keyframes introOut{
       0%   { opacity: 1; transform: scale(1); filter: saturate(1.55) brightness(1.06); }
       75%  { opacity: 1; transform: scale(1.002); }
@@ -259,7 +258,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL
+       CAROUSEL (swipe + click; no overlay links)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -349,25 +348,22 @@
       height: 100%;
       position: relative;
       overflow:hidden;
+      cursor: pointer;
       background:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.12), transparent 62%),
         linear-gradient(135deg, rgba(23,135,171,0.30), rgba(62,183,219,0.18));
     }
 
-    /* background layer via real <img> */
     .slideMedia{
       position:absolute;
       inset:0;
       z-index:1;
-      background:
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+      background-image:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.10), transparent 62%),
         linear-gradient(135deg, rgba(23,135,171,0.55), rgba(8,24,44,0.55));
-    }
-    .slideMedia img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
-      transform: scale(1.02);
     }
     .slideMedia::after{
       content:"";
@@ -385,11 +381,11 @@
       left: 18px;
       right: 18px;
       bottom: 18px;
-      z-index:3;
+      z-index:2;
       display:flex;
       flex-direction:column;
       gap: 10px;
-      pointer-events:none; /* overlay never blocks link */
+      pointer-events:none;
     }
 
     .tag{
@@ -420,16 +416,6 @@
       font-size: 1.02rem;
       text-shadow: 0 16px 60px rgba(0,0,0,0.40);
       max-width: 70ch;
-    }
-
-    /* Full-slide link to guarantee clickability */
-    .slideLink{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      display:block;
-      cursor:pointer;
-      -webkit-tap-highlight-color: transparent;
     }
 
     /* embed slide */
@@ -826,13 +812,12 @@
     @media (prefers-reduced-motion: reduce){
       .slideImg{ transition:none !important; }
       .track{ transition:none !important; }
-      /* ticker still moves because you explicitly want movement */
     }
   </style>
 </head>
 
 <body>
-  <!-- Intro -->
+  <!-- Intro (EVERY load) -->
   <div class="intro" id="intro" aria-label="Intro screen">
     <div class="introFrame">
       <div class="introTitle">Welcome to the Beals.wav experience</div>
@@ -910,13 +895,11 @@
                 </div>
 
                 <!-- Slide 2: Music -->
-                <div class="slide" data-chip="Music">
-                  <a class="slideLink" href="/music.html" aria-label="Go to Music"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/music-bg.jpg" alt="Music background"
-                         loading="eager"
-                         onerror="this.remove();">
-                  </div>
+                <div class="slide"
+                     data-chip="Music"
+                     data-href="/music.html"
+                     data-img="/assets/images/music-bg.jpg">
+                  <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">Music</div>
                     <div class="title">Listen Here</div>
@@ -925,13 +908,11 @@
                 </div>
 
                 <!-- Slide 3: Studio -->
-                <div class="slide" data-chip="Studio">
-                  <a class="slideLink" href="/studio.html" aria-label="Go to Studio"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/studio.jpg" alt="Studio background"
-                         loading="lazy"
-                         onerror="this.remove();">
-                  </div>
+                <div class="slide"
+                     data-chip="Studio"
+                     data-href="/studio.html"
+                     data-img="/assets/images/studio.jpg">
+                  <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">Studio</div>
                     <div class="title">Book Studio Time Here</div>
@@ -940,13 +921,11 @@
                 </div>
 
                 <!-- Slide 4: Beats -->
-                <div class="slide" data-chip="Beats">
-                  <a class="slideLink" href="/beatstore.html" aria-label="Go to Beat Store"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/beats-bg.jpg" alt="Beats background"
-                         loading="lazy"
-                         onerror="this.remove();">
-                  </div>
+                <div class="slide"
+                     data-chip="Beats"
+                     data-href="/beatstore.html"
+                     data-img="/assets/images/beats-bg.jpg">
+                  <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">Beats</div>
                     <div class="title">Buy Beats Here</div>
@@ -955,13 +934,11 @@
                 </div>
 
                 <!-- Slide 5: FAQ -->
-                <div class="slide" data-chip="FAQ">
-                  <a class="slideLink" href="/faq.html" aria-label="Go to FAQ"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/faq-bg.jpg" alt="FAQ background"
-                         loading="lazy"
-                         onerror="this.remove();">
-                  </div>
+                <div class="slide"
+                     data-chip="FAQ"
+                     data-href="/faq.html"
+                     data-img="/assets/images/faq-bg.jpg">
+                  <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">FAQ</div>
                     <div class="title">Questions Answered</div>
@@ -970,13 +947,11 @@
                 </div>
 
                 <!-- Slide 6: Contact -->
-                <div class="slide" data-chip="Contact">
-                  <a class="slideLink" href="/contact.html" aria-label="Go to Contact"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/contact-bg.jpg" alt="Contact background"
-                         loading="lazy"
-                         onerror="this.remove();">
-                  </div>
+                <div class="slide"
+                     data-chip="Contact"
+                     data-href="/contact.html"
+                     data-img="/assets/images/contact-bg.jpg">
+                  <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">Contact</div>
                     <div class="title">Reach Out Here</div>
@@ -985,13 +960,11 @@
                 </div>
 
                 <!-- Slide 7: Follow -->
-                <div class="slide" data-chip="Follow">
-                  <a class="slideLink" href="#follow" aria-label="Jump to Follow & Support"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/follow-bg.jpg" alt="Follow background"
-                         loading="lazy"
-                         onerror="this.remove();">
-                  </div>
+                <div class="slide"
+                     data-chip="Follow"
+                     data-href="#follow"
+                     data-img="/assets/images/follow-bg.jpg">
+                  <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">Follow</div>
                     <div class="title">Follow & Support</div>
@@ -1245,22 +1218,16 @@
 
   <script>
     // ─────────────────────────────────────────────────────────────
-    // Intro (guaranteed duration + one per session)
+    // Intro: show EVERY page load, fixed duration
     // ─────────────────────────────────────────────────────────────
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
 
-      const key = 'bw_intro_seen_session_v6';
-      try{
-        if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
-        sessionStorage.setItem(key, '1');
-      }catch(e){}
-
-      // Start animation next frame to avoid “instant finish” on fast loads.
+      // Start animation on next frame so it can't "finish instantly" on fast loads.
       requestAnimationFrame(() => intro.classList.add('play'));
 
-      // Remove after animation finishes (2.9s)
+      // Remove after animation completes (~2.9s)
       setTimeout(() => { if (intro) intro.remove(); }, 2950);
     })();
 
@@ -1307,7 +1274,9 @@
     })();
 
     // ─────────────────────────────────────────────────────────────
-    // Carousel
+    // Carousel (swipe + click routing via data-href)
+    // - No full-slide links to break swipe
+    // - Backgrounds load from exact data-img paths
     // ─────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
@@ -1323,6 +1292,26 @@
       let idx = 0;
       let timer = null;
 
+      // Load slide backgrounds (exact filenames)
+      slides.forEach(slide => {
+        const media = slide.querySelector('.slideMedia');
+        const img = slide.getAttribute('data-img');
+        if (!media) return;
+
+        if (!img){
+          // embed slide or intentional no-image slide
+          return;
+        }
+
+        const test = new Image();
+        test.onload = () => { media.style.backgroundImage = `url("${img}")`; };
+        test.onerror = () => {
+          media.style.backgroundImage =
+            'linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55))';
+        };
+        test.src = img + `?v=${Date.now()}`;
+      });
+
       function setIndex(i, user=false){
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
@@ -1334,7 +1323,7 @@
         if (user) restart();
       }
 
-      // dots
+      // Dots
       dotsWrap.innerHTML = '';
       slides.forEach((_, i) => {
         const b = document.createElement('button');
@@ -1358,22 +1347,52 @@
       viewport.addEventListener('focusin', stop);
       viewport.addEventListener('focusout', start);
 
-      // swipe
-      let down=false, startX=0, dx=0;
+      // Swipe
+      let down=false, startX=0, dx=0, moved=false;
+
       viewport.addEventListener('pointerdown', (e) => {
         if (e.target.closest && e.target.closest('iframe')) return;
-        down=true; startX=e.clientX; dx=0;
+        down=true; moved=false; startX=e.clientX; dx=0;
         viewport.setPointerCapture(e.pointerId);
         stop();
       });
-      viewport.addEventListener('pointermove', (e) => { if (down) dx = e.clientX - startX; });
+
+      viewport.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        dx = e.clientX - startX;
+        if (Math.abs(dx) > 6) moved = true;
+      });
+
       viewport.addEventListener('pointerup', () => {
         if (!down) return;
         down=false;
+
         if (Math.abs(dx) > 40) setIndex(idx + (dx < 0 ? 1 : -1), true);
         else restart();
       });
+
       viewport.addEventListener('pointercancel', () => { down=false; restart(); });
+
+      // Click routing (ignore clicks that were actually swipes)
+      track.addEventListener('click', (e) => {
+        if (e.target.closest && e.target.closest('iframe')) return;
+        const slide = e.target.closest && e.target.closest('.slide');
+        if (!slide) return;
+
+        // if user swiped, don't navigate
+        // (moved is in closure; safe because click fires after pointerup)
+        // if moved was true, navigation is an accident
+        if (moved) return;
+
+        const href = slide.getAttribute('data-href');
+        if (!href) return; // embed slide
+
+        if (href.startsWith('#')){
+          location.hash = href;
+          return;
+        }
+        window.location.href = href;
+      });
 
       setIndex(0);
       start();
@@ -1497,10 +1516,8 @@
       if (!track || !item) return;
 
       function rebuild(){
-        // Remove any clones beyond the first
         while (track.children.length > 1) track.removeChild(track.lastChild);
 
-        // Clone enough times to exceed viewport width * 2
         const viewportW = window.innerWidth || 1200;
         let totalW = item.getBoundingClientRect().width;
 
@@ -1512,12 +1529,10 @@
           totalW += clone.getBoundingClientRect().width;
         }
 
-        // Animate by exact width of the first item (clean loop point)
         const baseW = item.getBoundingClientRect().width;
-        const pxPerSec = 90; // speed
+        const pxPerSec = 90;
         const dur = Math.max(16, Math.min(40, baseW / pxPerSec));
 
-        // Replace keyframes each rebuild
         const old = document.getElementById('tickerStyle');
         if (old) old.remove();
 
