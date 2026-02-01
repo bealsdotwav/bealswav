@@ -342,32 +342,43 @@
       will-change: transform;
     }
 
+    /* Slides (works for div.slide and a.slide) */
     .slide{
       min-width: 100%;
       height: 100%;
       position: relative;
       overflow:hidden;
-      cursor: pointer;
       background:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.12), transparent 62%),
         linear-gradient(135deg, rgba(23,135,171,0.30), rgba(62,183,219,0.18));
     }
 
-    .slideMedia{
+    /* Link slides: real links, no JS routing required */
+    .slideLink{
+      display:block;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Real image cover (no JS background-image dependency) */
+    .slideImgCover{
       position:absolute;
       inset:0;
-      z-index:1;
-      background-size: cover;
-      background-position: center;
+      width:100%;
+      height:100%;
+      object-fit: cover;
       transform: scale(1.02);
-      background-image:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.10), transparent 62%),
-        linear-gradient(135deg, rgba(23,135,171,0.55), rgba(8,24,44,0.55));
+      z-index:1;
+      background: rgba(11,27,43,0.12);
     }
-    .slideMedia::after{
+
+    /* Cinematic overlay on top of the image */
+    .slideLink::after{
       content:"";
       position:absolute;
       inset:0;
+      z-index:1;
       background:
         radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.16), transparent 62%),
         radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.20), transparent 60%),
@@ -417,6 +428,7 @@
       max-width: 70ch;
     }
 
+    /* Embed slide (YouTube) */
     .embedSlide{
       cursor: default;
       background:
@@ -870,8 +882,8 @@
             <div class="carouselTop">
               <span class="chip" id="chip">Featured Release</span>
               <div class="controls">
-                <button class="iconBtn" id="prev" aria-label="Previous">‹</button>
-                <button class="iconBtn" id="next" aria-label="Next">›</button>
+                <button class="iconBtn" id="prev" aria-label="Previous" type="button">‹</button>
+                <button class="iconBtn" id="next" aria-label="Next" type="button">›</button>
               </div>
             </div>
 
@@ -891,83 +903,65 @@
                   </div>
                 </div>
 
-                <!-- Slide 2: Music -->
-                <div class="slide"
-                     data-chip="Music"
-                     data-href="/music.html"
-                     data-img="/assets/images/music-bg.jpg">
-                  <div class="slideMedia"></div>
+                <!-- Slide 2: Music (REAL LINK + REAL IMG) -->
+                <a class="slide slideLink" href="/music.html" data-chip="Music" aria-label="Go to Music">
+                  <img class="slideImgCover" src="/assets/images/music-bg.jpg" alt="">
                   <div class="slideOverlay">
                     <div class="tag">Music</div>
                     <div class="title">Listen Here</div>
                     <div class="subtitle">Listen to Beals and Beals.wav associated artists’ music here</div>
                   </div>
-                </div>
+                </a>
 
                 <!-- Slide 3: Studio -->
-                <div class="slide"
-                     data-chip="Studio"
-                     data-href="/studio.html"
-                     data-img="/assets/images/studio.jpg">
-                  <div class="slideMedia"></div>
+                <a class="slide slideLink" href="/studio.html" data-chip="Studio" aria-label="Go to Studio">
+                  <img class="slideImgCover" src="/assets/images/studio.jpg" alt="">
                   <div class="slideOverlay">
                     <div class="tag">Studio</div>
                     <div class="title">Book Studio Time Here</div>
                     <div class="subtitle">Recording, mixing, production, and services</div>
                   </div>
-                </div>
+                </a>
 
                 <!-- Slide 4: Beats -->
-                <div class="slide"
-                     data-chip="Beats"
-                     data-href="/beatstore.html"
-                     data-img="/assets/images/beats-bg.jpg">
-                  <div class="slideMedia"></div>
+                <a class="slide slideLink" href="/beatstore.html" data-chip="Beats" aria-label="Go to Beats">
+                  <img class="slideImgCover" src="/assets/images/beats-bg.jpg" alt="">
                   <div class="slideOverlay">
                     <div class="tag">Beats</div>
                     <div class="title">Buy Beats Here</div>
                     <div class="subtitle">Leases, exclusives, licensing</div>
                   </div>
-                </div>
+                </a>
 
                 <!-- Slide 5: FAQ -->
-                <div class="slide"
-                     data-chip="FAQ"
-                     data-href="/faq.html"
-                     data-img="/assets/images/faq-bg.jpg">
-                  <div class="slideMedia"></div>
+                <a class="slide slideLink" href="/faq.html" data-chip="FAQ" aria-label="Go to FAQ">
+                  <img class="slideImgCover" src="/assets/images/faq-bg.jpg" alt="">
                   <div class="slideOverlay">
                     <div class="tag">FAQ</div>
                     <div class="title">Questions Answered</div>
                     <div class="subtitle">How it works, what to expect, pricing basics</div>
                   </div>
-                </div>
+                </a>
 
                 <!-- Slide 6: Contact -->
-                <div class="slide"
-                     data-chip="Contact"
-                     data-href="/contact.html"
-                     data-img="/assets/images/contact-bg.jpg">
-                  <div class="slideMedia"></div>
+                <a class="slide slideLink" href="/contact.html" data-chip="Contact" aria-label="Go to Contact">
+                  <img class="slideImgCover" src="/assets/images/contact-bg.jpg" alt="">
                   <div class="slideOverlay">
                     <div class="tag">Contact</div>
                     <div class="title">Reach Out Here</div>
                     <div class="subtitle">Questions, bookings, collaborations</div>
                   </div>
-                </div>
+                </a>
 
                 <!-- Slide 7: Follow -->
-                <div class="slide"
-                     data-chip="Follow"
-                     data-href="#follow"
-                     data-img="/assets/images/follow-bg.jpg">
-                  <div class="slideMedia"></div>
+                <a class="slide slideLink" href="#follow" data-chip="Follow" aria-label="Go to Follow and Support">
+                  <img class="slideImgCover" src="/assets/images/follow-bg.jpg" alt="">
                   <div class="slideOverlay">
                     <div class="tag">Follow</div>
                     <div class="title">Follow & Support</div>
                     <div class="subtitle">Spotify, YouTube, socials</div>
                   </div>
-                </div>
+                </a>
 
               </div>
             </div>
@@ -1220,13 +1214,6 @@
       else fn();
     }
 
-    // Helper: cache buster that won't break existing querystrings
-    function withBust(url){
-      if (!url) return url;
-      const sep = url.includes('?') ? '&' : '?';
-      return url + sep + 'v=' + Date.now();
-    }
-
     // Intro: EVERY load, fixed duration
     (function(){
       const intro = document.getElementById('intro');
@@ -1273,7 +1260,7 @@
       onReady(sync);
     })();
 
-    // Carousel (fixed)
+    // Carousel (JS ONLY for sliding/dots/autoplay/swipe)
     onReady(function initCarousel(){
       const track    = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1286,18 +1273,6 @@
 
       const slides = Array.from(track.querySelectorAll('.slide'));
       if (!slides.length) return;
-
-      // Apply backgrounds immediately (no preload dependency)
-      slides.forEach((slide) => {
-        const media = slide.querySelector('.slideMedia');
-        const img = slide.getAttribute('data-img');
-        if (!media || !img) return;
-
-        media.style.backgroundImage =
-          `linear-gradient(135deg, rgba(23,135,171,0.25), rgba(8,24,44,0.35)), url("${withBust(img)}")`;
-        media.style.backgroundSize = 'cover';
-        media.style.backgroundPosition = 'center';
-      });
 
       let idx = 0;
       let timer = null;
@@ -1338,12 +1313,11 @@
       viewport.addEventListener('focusout', start);
 
       // Swipe handling
-      let down=false, startX=0, dx=0, moved=false;
+      let down=false, startX=0, dx=0;
 
       viewport.addEventListener('pointerdown', (e) => {
         if (e.target.closest && e.target.closest('iframe')) return;
         down = true;
-        moved = false;
         startX = e.clientX;
         dx = 0;
         viewport.setPointerCapture(e.pointerId);
@@ -1353,7 +1327,6 @@
       viewport.addEventListener('pointermove', (e) => {
         if (!down) return;
         dx = e.clientX - startX;
-        if (Math.abs(dx) > 6) moved = true;
       });
 
       viewport.addEventListener('pointerup', () => {
@@ -1365,23 +1338,6 @@
       });
 
       viewport.addEventListener('pointercancel', () => { down=false; restart(); });
-
-      // Click routing per slide (more reliable than delegating off track)
-      slides.forEach((slide) => {
-        slide.addEventListener('click', (e) => {
-          if (e.target.closest && e.target.closest('iframe')) return;
-          if (moved) return;
-
-          const href = slide.getAttribute('data-href');
-          if (!href) return;
-
-          if (href.startsWith('#')) {
-            location.hash = href;
-            return;
-          }
-          window.location.href = href;
-        });
-      });
 
       setIndex(0);
       start();
