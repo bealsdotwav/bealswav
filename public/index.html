@@ -23,10 +23,13 @@
   <style>
     :root{
       --ink: #0b1b2b;
+      --muted: rgba(11, 27, 43, 0.62);
 
+      /* logo blues */
       --blue: #1787ab;
       --blue2:#3eb7db;
 
+      /* section backgrounds */
       --bgTopA: #f7f9fb;
       --bgTopB: #eef3f8;
 
@@ -51,7 +54,7 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 35px;
+      padding-bottom: 42px; /* ticker clearance */
     }
     a{ color:inherit; text-decoration:none; }
     img{ display:block; max-width:100%; }
@@ -63,7 +66,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO
+       INTRO (2–3 seconds, logo huge)
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -76,15 +79,14 @@
         radial-gradient(900px 600px at 25% 30%, rgba(62,183,219,0.70), transparent 60%),
         radial-gradient(900px 600px at 75% 70%, rgba(23,135,171,0.80), transparent 62%),
         linear-gradient(135deg, rgba(8,24,44,1), rgba(15,88,135,1));
-      animation: introFade 2.6s ease-in-out forwards;
+      animation: introFade 2.65s ease-in-out forwards;
     }
     @keyframes introFade{
-      0%   { opacity: 1; transform: scale(1); filter: saturate(1.55) brightness(1.05); }
-      45%  { filter: saturate(1.85) brightness(1.22); }
+      0%   { opacity: 1; transform: scale(1); filter: saturate(1.45) brightness(1.05); }
+      45%  { filter: saturate(1.75) brightness(1.20); }
       85%  { opacity: 1; }
       100% { opacity: 0; transform: scale(1.01); pointer-events:none; }
     }
-
     .introFrame{
       width: min(980px, 92vw);
       height: min(78vh, 720px);
@@ -111,9 +113,10 @@
       letter-spacing: -0.02em;
       color: rgba(255,255,255,0.92);
       font-size: clamp(1.05rem, 0.95rem + 1.0vw, 1.35rem);
+      text-transform: lowercase;
     }
     .introLogoWrap{
-      width: min(86%, 900px);
+      width: min(90%, 980px);
       height: 86%;
       display:flex;
       align-items:center;
@@ -127,7 +130,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       HEADER
+       HEADER (left buttons + logo + right buttons)
     ───────────────────────────────────────────────────────────── */
     header{
       position: sticky;
@@ -170,6 +173,7 @@
       transition: transform 120ms ease, filter 120ms ease;
       user-select:none;
       white-space:nowrap;
+      text-transform: capitalize;
     }
     .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
     .navBtn:active{ transform: translateY(1px); }
@@ -205,6 +209,7 @@
       font-weight: 950;
       color: rgba(11,27,43,0.82);
     }
+
     .drawer{
       display:none;
       border-top: 1px solid rgba(15,23,42,0.08);
@@ -219,7 +224,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       SECTIONS
+       SECTIONS (clouded feel)
     ───────────────────────────────────────────────────────────── */
     .section{ padding: 26px 0 42px; }
 
@@ -248,7 +253,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (image + overlay ALWAYS visible)
+       HERO / CAROUSEL (clicks actually work now)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -293,9 +298,10 @@
       border: 1px solid rgba(15,23,42,0.12);
       background: rgba(255,255,255,0.62);
       font-weight: 950;
-      font-size: 0.88rem;
+      font-size: 0.90rem;
       color: rgba(11,27,43,0.78);
       user-select:none;
+      text-transform: capitalize;
     }
 
     .controls{ display:flex; gap: 8px; }
@@ -337,63 +343,50 @@
       height: 100%;
       position: relative;
       overflow:hidden;
-      background: linear-gradient(135deg, rgba(23,135,171,0.50), rgba(8,24,44,0.65));
+      background:
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.22), transparent 62%),
+        linear-gradient(135deg, rgba(23,135,171,0.35), rgba(62,183,219,0.20));
     }
 
-    /* fallback gradients per slide */
-    .g-music  { background: linear-gradient(135deg, rgba(29,185,84,0.55), rgba(8,24,44,0.70)); }
-    .g-studio { background: linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.70)); }
-    .g-beats  { background: linear-gradient(135deg, rgba(255,85,0,0.60), rgba(8,24,44,0.70)); }
-    .g-faq    { background: linear-gradient(135deg, rgba(245,158,11,0.60), rgba(8,24,44,0.70)); }
-    .g-contact{ background: linear-gradient(135deg, rgba(255,90,122,0.60), rgba(8,24,44,0.70)); }
-    .g-follow { background: linear-gradient(135deg, rgba(62,183,219,0.60), rgba(29,185,84,0.40)); }
-
+    /* media layer */
     .slideMedia{
       position:absolute;
       inset:0;
-      z-index: 1;
+      z-index:1;
     }
-
     .slideMedia img{
       width:100%;
       height:100%;
       object-fit: cover;
-      display:block;
-      opacity: 1;
-      filter: saturate(1.06) contrast(1.04);
+      transform: scale(1.02);
     }
-
-    /* if image fails, hide it, show gradient fallback */
-    .imgFailed .slideMedia img{ opacity: 0; }
-
-    /* shade always, so overlay reads */
-    .shade{
+    .slideMedia::after{
+      content:"";
       position:absolute;
       inset:0;
-      z-index: 2;
-      pointer-events:none;
       background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
-        radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.22), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.46));
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.20), transparent 62%),
+        radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.40));
+      pointer-events:none;
     }
 
-    /* full-slide click target */
+    /* clickable layer for non-iframe slides */
     .slideLink{
       position:absolute;
       inset:0;
-      z-index: 3;
+      z-index:5;
       display:block;
       cursor:pointer;
-      background: transparent;
     }
 
-    .overlay{
+    /* overlay text (not blocking clicks because slideLink is above the media but below text; text itself pointer-events:none) */
+    .slideOverlay{
       position:absolute;
       left: 18px;
       right: 18px;
       bottom: 18px;
-      z-index: 4; /* above everything */
+      z-index:6;
       display:flex;
       flex-direction:column;
       gap: 10px;
@@ -408,55 +401,27 @@
       border: 1px solid rgba(15,23,42,0.14);
       backdrop-filter: blur(10px);
       font-weight: 950;
-      font-size: 0.85rem;
-      color: rgba(11,27,43,0.82);
+      font-size: 0.90rem;
+      color: rgba(11,27,43,0.80);
+      text-transform: capitalize;
     }
 
     .title{
       font-weight: 950;
       letter-spacing: -0.03em;
-      font-size: clamp(1.55rem, 1.05rem + 2.2vw, 2.55rem);
+      font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.7rem);
       line-height: 1.0;
       color: rgba(255,255,255,0.94);
       text-shadow: 0 16px 60px rgba(0,0,0,0.45);
+      text-transform: capitalize;
     }
 
     .subtitle{
       font-weight: 850;
       color: rgba(255,255,255,0.86);
       font-size: 1.02rem;
-      text-shadow: 0 16px 60px rgba(0,0,0,0.45);
-      max-width: 72ch;
-    }
-
-    .overlayBtn{
-      width: fit-content;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
-      border: 1px solid rgba(255,255,255,0.26);
-      color: rgba(5,16,26,0.92);
-      font-weight: 950;
-      box-shadow: 0 18px 46px rgba(23,135,171,0.22);
-      pointer-events:auto;
-    }
-
-    /* embed slide */
-    .embedWrap{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      background: rgba(0,0,0,0.18);
-    }
-    .embedWrap iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
+      text-shadow: 0 16px 60px rgba(0,0,0,0.40);
+      max-width: 70ch;
     }
 
     .dots{
@@ -480,7 +445,28 @@
       transform: scale(1.14);
     }
 
-    /* Follow section */
+    /* 23.5 carousel embed slide */
+    .embedSlide{
+      background: rgba(11,27,43,0.06);
+    }
+    .embedWrap{
+      position:absolute;
+      inset:0;
+      z-index:2;
+      padding: 0;
+      background:
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
+        linear-gradient(135deg, rgba(23,135,171,0.35), rgba(62,183,219,0.20));
+    }
+    .embedWrap iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    /* Follow section under carousel */
     .followBox{
       margin-top: 16px;
       border-radius: 24px;
@@ -502,12 +488,14 @@
       letter-spacing: -0.02em;
       font-size: 1.05rem;
       color: rgba(11,27,43,0.90);
+      text-transform: capitalize;
     }
     .followHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
       font-weight: 800;
       font-size: 0.92rem;
+      text-transform: none;
     }
     .links{
       display:grid;
@@ -526,6 +514,7 @@
       box-shadow: 0 12px 24px rgba(15,23,42,0.10);
       transition: transform 140ms ease, filter 140ms ease;
       user-select:none;
+      text-transform: capitalize;
     }
     .linkBtn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .spotify{ background: #1DB954; color:#06110a; }
@@ -536,11 +525,12 @@
     .tiktok{ background: #0b0b0f; }
 
     /* ─────────────────────────────────────────────────────────────
-       STUDIO
+       FEATURED RELEASE SECTION (below carousel)
     ───────────────────────────────────────────────────────────── */
-    .grid2{
+    .featuredGrid{
+      margin-top: 18px;
       display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: 1.2fr 0.8fr;
       gap: 14px;
       align-items: stretch;
     }
@@ -550,6 +540,55 @@
       border-radius: 24px;
       box-shadow: var(--shadow);
       overflow:hidden;
+    }
+    .featuredText{
+      padding: 16px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 10px;
+    }
+    .featuredText h2{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.25rem;
+      color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
+    }
+    .featuredText p{
+      margin:0;
+      color: rgba(11,27,43,0.66);
+      line-height: 1.55;
+      font-weight: 800;
+      font-size: 0.98rem;
+    }
+    .featuredEmbed{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: rgba(11,27,43,0.06);
+      border-radius: 24px;
+      overflow:hidden;
+      border: 1px solid rgba(15,23,42,0.12);
+      box-shadow: var(--shadow);
+    }
+    .featuredEmbed iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       STUDIO (slideshow: smooth crossfade)
+    ───────────────────────────────────────────────────────────── */
+    .grid2{
+      display:grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 14px;
+      align-items: stretch;
     }
     .slideshow{
       border-radius: 24px;
@@ -584,6 +623,7 @@
       letter-spacing: -0.02em;
       font-size: 1.2rem;
       color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
     }
     .studioText p{
       margin:0;
@@ -607,12 +647,13 @@
       width: fit-content;
       user-select:none;
       transition: transform 140ms ease, filter 140ms ease;
+      text-transform: capitalize;
     }
     .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .cta:active{ transform: translateY(1px); }
 
     /* ─────────────────────────────────────────────────────────────
-       VIDEOS + FEATURED
+       VIDEOS + search/filter
     ───────────────────────────────────────────────────────────── */
     .sectionHead{
       display:flex;
@@ -627,53 +668,14 @@
       letter-spacing: -0.02em;
       font-size: 1.25rem;
       color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
     }
     .sectionHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
       font-weight: 850;
       font-size: 0.95rem;
-    }
-
-    .featured{
-      margin: 12px 0 14px;
-      border-radius: 24px;
-      overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: rgba(255,255,255,0.78);
-      box-shadow: var(--shadow);
-    }
-    .featuredHead{
-      display:flex;
-      align-items:baseline;
-      justify-content:space-between;
-      padding: 14px 14px 10px;
-    }
-    .featuredHead h3{
-      margin:0;
-      font-size: 1.05rem;
-      font-weight: 950;
-      letter-spacing: -0.01em;
-      color: rgba(11,27,43,0.92);
-    }
-    .featuredHead span{
-      color: rgba(11,27,43,0.62);
-      font-weight: 850;
-      font-size: 0.95rem;
-    }
-    .featuredFrame{
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: rgba(11,27,43,0.06);
-      border-top: 1px solid rgba(15,23,42,0.10);
-    }
-    .featuredFrame iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
+      text-transform: none;
     }
 
     .filters{
@@ -691,6 +693,7 @@
       font-weight: 900;
       font-size: 0.85rem;
       color: rgba(11,27,43,0.70);
+      text-transform: capitalize;
     }
     .input, .select{
       width:100%;
@@ -750,29 +753,33 @@
       border: 1px solid rgba(15,23,42,0.12);
       font-weight: 900;
       color: rgba(11,27,43,0.70);
+      text-transform: none;
     }
 
     /* ─────────────────────────────────────────────────────────────
-       FIXED TICKER (ALWAYS MOVES)
+       FIXED TICKER (BIGGER + SPACING + WOLF GREY)
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
       bottom:0;
       width:100%;
-      height:25px;
-      background:#000;
+      height:34px;
+      background:#5f666d; /* wolf grey */
       overflow:hidden;
-      border-top:1px solid #222;
+      border-top:1px solid rgba(0,0,0,0.25);
       z-index:998;
     }
     .ticker-content{
       white-space:nowrap;
       display:inline-block;
       padding-left:100%;
-      animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size:.65rem;
-      font-weight:bold;
-      color:#00ffff;
+      padding-right: 64px;
+      animation:scroll 34s linear infinite, colorchange 10s infinite alternate;
+      font-size:0.85rem;
+      letter-spacing:0.06em;
+      word-spacing:0.30em;
+      font-weight:900;
+      line-height:34px;
       will-change: transform;
     }
     @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
@@ -783,6 +790,7 @@
     /* responsive */
     @media (max-width: 980px){
       .grid2{ grid-template-columns: 1fr; }
+      .featuredGrid{ grid-template-columns: 1fr; }
       .videoGrid{ grid-template-columns: 1fr; }
       .filters{ grid-template-columns: 1fr; }
       .links{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -799,11 +807,8 @@
       .links{ grid-template-columns: 1fr; }
     }
 
-    /* keep reduced motion for everything except ticker */
     @media (prefers-reduced-motion: reduce){
-      .track{ transition: none !important; }
-      .slideImg{ transition: none !important; }
-      .intro{ animation: none !important; }
+      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
     }
   </style>
 </head>
@@ -814,7 +819,7 @@
     <div class="introFrame">
       <div class="introTitle">welcome to the beals.wav experience</div>
       <div class="introLogoWrap">
-        <img class="introLogo" src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
+        <img class="introLogo" src="/assets/images/logo.jpeg?v=6" alt="beals.wav">
       </div>
     </div>
   </div>
@@ -822,35 +827,40 @@
   <header>
     <div class="wrap">
       <div class="topbar">
+        <!-- Left buttons -->
         <div class="navGroup navLeft" aria-label="Top navigation left">
-          <a class="navBtn" href="https://www.bealswav.com/studio">Studio</a>
-          <a class="navBtn" href="https://www.bealswav.com/music">Music</a>
-          <a class="navBtn" href="https://www.bealswav.com/beatstore">Beats</a>
+          <a class="navBtn" href="/studio">Studio</a>
+          <a class="navBtn" href="/music">Music</a>
+          <a class="navBtn" href="/beatstore">Beats</a>
         </div>
 
+        <!-- Center logo -->
         <div class="brand">
-          <a href="https://www.bealswav.com/index.html" aria-label="Home">
-            <img src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
+          <a href="/index.html" aria-label="Home">
+            <img src="/assets/images/logo.jpeg?v=6" alt="beals.wav">
           </a>
         </div>
 
+        <!-- Right buttons -->
         <div class="navGroup navRight" aria-label="Top navigation right">
-          <a class="navBtn" href="https://www.bealswav.com/contact">Contact</a>
-          <a class="navBtn" href="https://www.bealswav.com/faq">FAQ</a>
-          <a class="navBtn navBtnLogin" href="https://www.bealswav.com/login" id="loginTop">Login</a>
+          <a class="navBtn" href="/contact">Contact</a>
+          <a class="navBtn" href="/faq">FAQ</a>
+          <a class="navBtn navBtnLogin" href="/login" id="loginTop">Login</a>
         </div>
 
+        <!-- Mobile hamburger -->
         <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
       </div>
 
+      <!-- Mobile drawer -->
       <div class="drawer" id="drawer">
         <div class="drawerInner">
-          <a class="navBtn" href="https://www.bealswav.com/studio">Studio</a>
-          <a class="navBtn" href="https://www.bealswav.com/music">Music</a>
-          <a class="navBtn" href="https://www.bealswav.com/beatstore">Beats</a>
-          <a class="navBtn" href="https://www.bealswav.com/contact">Contact</a>
-          <a class="navBtn" href="https://www.bealswav.com/faq">FAQ</a>
-          <a class="navBtn navBtnLogin" href="https://www.bealswav.com/login" id="loginMobile">Login</a>
+          <a class="navBtn" href="/studio">Studio</a>
+          <a class="navBtn" href="/music">Music</a>
+          <a class="navBtn" href="/beatstore">Beats</a>
+          <a class="navBtn" href="/contact">Contact</a>
+          <a class="navBtn" href="/faq">FAQ</a>
+          <a class="navBtn navBtnLogin" href="/login" id="loginMobile">Login</a>
         </div>
       </div>
     </div>
@@ -863,7 +873,7 @@
         <div class="squircle" aria-label="Main carousel">
           <div class="carousel">
             <div class="carouselTop">
-              <span class="chip" id="chip">Latest Release</span>
+              <span class="chip" id="chip">Featured Release</span>
               <div class="controls">
                 <button class="iconBtn" id="prev" aria-label="Previous">‹</button>
                 <button class="iconBtn" id="next" aria-label="Next">›</button>
@@ -873,9 +883,9 @@
             <div class="viewport" id="viewport">
               <div class="track" id="track">
 
-                <!-- 23.5 embed-only -->
-                <div class="slide" data-chip="Latest Release (23.5)" data-kind="embed">
-                  <div class="slideMedia embedWrap">
+                <!-- Slide 1: 23.5 (DIRECT EMBED, NO TEXT OVERLAY) -->
+                <div class="slide embedSlide" data-chip="Featured Release">
+                  <div class="embedWrap">
                     <iframe
                       loading="lazy"
                       src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
@@ -884,102 +894,83 @@
                       referrerpolicy="strict-origin-when-cross-origin"
                       allowfullscreen></iframe>
                   </div>
-                  <div class="shade"></div>
                 </div>
 
-                <!-- Music -->
-                <div class="slide g-music" data-chip="Music" data-href="https://www.bealswav.com/music">
-                  <a class="slideLink" href="https://www.bealswav.com/music" aria-label="Go to Music"></a>
+                <!-- Slide 2: Music -->
+                <div class="slide" data-chip="Music">
+                  <a class="slideLink" href="https://www.bealswav.com/music" aria-label="Listen to Music"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/music-bg.jpg" alt="Music"
-                      onerror="this.closest('.slide').classList.add('imgFailed');">
+                    <img src="/assets/images/music-bg.jpg?v=1" alt="Music">
                   </div>
-                  <div class="shade"></div>
-                  <div class="overlay">
+                  <div class="slideOverlay">
                     <div class="tag">Music</div>
-                    <div class="title">Music</div>
-                    <div class="subtitle">Listen to Beals and Beals.wav associated artists.</div>
-                    <a class="overlayBtn" href="https://www.bealswav.com/music">Listen Here</a>
+                    <div class="title">Listen Here</div>
+                    <div class="subtitle">Listen to Beals’ and Beals.wav associated artists’ music here</div>
                   </div>
                 </div>
 
-                <!-- Studio -->
-                <div class="slide g-studio" data-chip="Studio" data-href="https://www.bealswav.com/studio">
-                  <a class="slideLink" href="https://www.bealswav.com/studio" aria-label="Go to Studio"></a>
+                <!-- Slide 3: Studio -->
+                <div class="slide" data-chip="Studio">
+                  <a class="slideLink" href="https://www.bealswav.com/studio" aria-label="Book Studio Time"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/studio.jpg" alt="Studio"
-                      onerror="this.closest('.slide').classList.add('imgFailed');">
+                    <img src="/assets/images/studio.jpg?v=1" alt="Studio">
                   </div>
-                  <div class="shade"></div>
-                  <div class="overlay">
+                  <div class="slideOverlay">
                     <div class="tag">Studio</div>
-                    <div class="title">Studio</div>
-                    <div class="subtitle">Recording, mixing, production. West Jordan, Utah.</div>
-                    <a class="overlayBtn" href="https://www.bealswav.com/studio">Book Studio Time Here</a>
+                    <div class="title">Book Studio Time Here</div>
+                    <div class="subtitle">Recording, mixing, production, and services</div>
                   </div>
                 </div>
 
-                <!-- Beats -->
-                <div class="slide g-beats" data-chip="Beats" data-href="https://www.bealswav.com/beatstore">
-                  <a class="slideLink" href="https://www.bealswav.com/beatstore" aria-label="Go to Beats"></a>
+                <!-- Slide 4: Beats -->
+                <div class="slide" data-chip="Beats">
+                  <a class="slideLink" href="https://www.bealswav.com/beatstore" aria-label="Buy Beats"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/beats-bg.jpg" alt="Beats"
-                      onerror="this.closest('.slide').classList.add('imgFailed');">
+                    <img src="/assets/images/beats-bg.jpg?v=1" alt="Beats">
                   </div>
-                  <div class="shade"></div>
-                  <div class="overlay">
+                  <div class="slideOverlay">
                     <div class="tag">Beats</div>
-                    <div class="title">Beats</div>
-                    <div class="subtitle">Buy leases, exclusives, and licensing.</div>
-                    <a class="overlayBtn" href="https://www.bealswav.com/beatstore">Buy Beats Here</a>
+                    <div class="title">Buy Beats Here</div>
+                    <div class="subtitle">Leases, exclusives, licensing</div>
                   </div>
                 </div>
 
-                <!-- FAQ -->
-                <div class="slide g-faq" data-chip="FAQ" data-href="https://www.bealswav.com/faq">
-                  <a class="slideLink" href="https://www.bealswav.com/faq" aria-label="Go to FAQ"></a>
+                <!-- Slide 5: FAQ -->
+                <div class="slide" data-chip="FAQ">
+                  <a class="slideLink" href="https://www.bealswav.com/faq" aria-label="FAQ"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/faq-bg.jpg" alt="FAQ"
-                      onerror="this.closest('.slide').classList.add('imgFailed');">
+                    <img src="/assets/images/faq-bg.jpg?v=1" alt="FAQ">
                   </div>
-                  <div class="shade"></div>
-                  <div class="overlay">
+                  <div class="slideOverlay">
                     <div class="tag">FAQ</div>
-                    <div class="title">FAQ</div>
-                    <div class="subtitle">How it works, what to expect, and answers that matter.</div>
-                    <a class="overlayBtn" href="https://www.bealswav.com/faq">Read FAQ Here</a>
+                    <div class="title">Questions Answered</div>
+                    <div class="subtitle">How it works, what to expect, pricing basics</div>
                   </div>
                 </div>
 
-                <!-- Contact -->
-                <div class="slide g-contact" data-chip="Contact" data-href="https://www.bealswav.com/contact">
-                  <a class="slideLink" href="https://www.bealswav.com/contact" aria-label="Go to Contact"></a>
+                <!-- Slide 6: Contact -->
+                <div class="slide" data-chip="Contact">
+                  <a class="slideLink" href="https://www.bealswav.com/contact" aria-label="Contact"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/contact-bg.jpg" alt="Contact"
-                      onerror="this.closest('.slide').classList.add('imgFailed');">
+                    <img src="/assets/images/contact-bg.jpg?v=1" alt="Contact">
                   </div>
-                  <div class="shade"></div>
-                  <div class="overlay">
+                  <div class="slideOverlay">
                     <div class="tag">Contact</div>
-                    <div class="title">Contact</div>
-                    <div class="subtitle">Bookings, collabs, questions, business.</div>
-                    <a class="overlayBtn" href="https://www.bealswav.com/contact">Contact Here</a>
+                    <div class="title">Reach Out Here</div>
+                    <div class="subtitle">Questions, bookings, collaborations</div>
                   </div>
                 </div>
 
-                <!-- Follow -->
-                <div class="slide g-follow" data-chip="Follow" data-href="#follow">
-                  <a class="slideLink" href="#follow" aria-label="Go to Follow"></a>
+                <!-- Slide 7: Follow -->
+                <div class="slide" data-chip="Follow">
+                  <a class="slideLink" href="#follow" aria-label="Follow & Support"></a>
                   <div class="slideMedia">
-                    <img src="/assets/images/follow-bg.jpg" alt="Follow"
-                      onerror="this.closest('.slide').classList.add('imgFailed');">
+                    <img src="/assets/images/follow-bg.jpg?v=1" alt="Follow">
                   </div>
-                  <div class="shade"></div>
-                  <div class="overlay">
+                  <div class="slideOverlay">
                     <div class="tag">Follow</div>
-                    <div class="title">Follow</div>
-                    <div class="subtitle">Spotify, YouTube, socials. Support the work.</div>
-                    <a class="overlayBtn" href="#follow">Go To Follow</a>
+                    <div class="title">Follow & Support</div>
+                    <div class="subtitle">Spotify, YouTube, socials</div>
                   </div>
                 </div>
 
@@ -991,6 +982,7 @@
         </div>
       </div>
 
+      <!-- Follow/support under carousel -->
       <div class="followBox" id="follow">
         <div class="followHead">
           <h2>Follow & Support</h2>
@@ -1005,6 +997,23 @@
           <a class="linkBtn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
         </div>
       </div>
+
+      <!-- Featured Release section (below carousel) -->
+      <div class="featuredGrid" aria-label="Featured release section">
+        <div class="card featuredText">
+          <h2>Featured Release: 23.5</h2>
+          <p>Latest album playlist. Clean embeds, no detours, no nonsense.</p>
+        </div>
+        <div class="featuredEmbed" aria-label="23.5 playlist embed">
+          <iframe loading="lazy"
+            src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
+            title="23.5 (Album) Playlist"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1020,7 +1029,7 @@
         <div class="card studioText">
           <h2>Studio</h2>
           <p>Recording, mixing, production. West Jordan, Utah.</p>
-          <a class="cta" href="https://www.bealswav.com/studio">Book studio time here</a>
+          <a class="cta" href="https://www.bealswav.com/studio">Book Studio Time Here</a>
         </div>
       </div>
     </div>
@@ -1034,25 +1043,10 @@
         <p>Latest releases</p>
       </div>
 
-      <div class="featured" aria-label="Featured latest release 23.5">
-        <div class="featuredHead">
-          <h3>23.5 (Album)</h3>
-          <span>Latest Release</span>
-        </div>
-        <div class="featuredFrame">
-          <iframe loading="lazy"
-            src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
-            title="23.5 (Album) Playlist"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen></iframe>
-        </div>
-      </div>
-
       <div class="filters" aria-label="Video filters">
         <div class="field">
           <label for="q">Search</label>
-          <input class="input" id="q" type="search" placeholder="title or artist">
+          <input class="input" id="q" type="search" placeholder="Title or artist">
         </div>
         <div class="field">
           <label for="artist">Artist</label>
@@ -1072,6 +1066,23 @@
       </div>
 
       <div class="videoGrid" id="videoGrid">
+
+        <!-- 23.5 first -->
+        <article class="card vcard" data-title="23.5 (Album)" data-artist="Beals" data-date="2026-01-01">
+          <div class="videoTitle">
+            <h3>23.5 (Album)</h3>
+            <span>Beals</span>
+          </div>
+          <div class="iframeWrap">
+            <iframe loading="lazy"
+              src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
+              title="23.5 (Album)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </div>
+        </article>
+
         <article class="card vcard" data-title="VIP (220)" data-artist="Beals" data-date="2025-01-01">
           <div class="videoTitle">
             <h3>VIP (220)</h3>
@@ -1191,30 +1202,31 @@
               allowfullscreen></iframe>
           </div>
         </article>
+
       </div>
 
       <div class="emptyState" id="empty">No matches.</div>
     </div>
   </section>
 
-  <!-- Ticker -->
-  <div class="ticker">
+  <!-- FIXED TICKER -->
+  <div class="ticker" aria-label="Site ticker">
     <div class="ticker-content">
-      Beals.wav {Music Hub} — {Listen} + {Book Studio Time} + {Beats} — {Videos} + {New Releases} — Recording + Mixing + Mastering + Production — West Jordan, Utah — © 2025 Beals.wav. All rights reserved. —
+      Beals.wav (Music Hub) • Listen • Book Studio Time • Beats • Videos • Recording • Mixing • Mastering • Production • West Jordan, Utah • © 2025 Beals.wav • New release out now •
     </div>
   </div>
 
   <script>
-    // Intro (2–3s, once per session)
+    // Intro (2–3 seconds, once per session)
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-      const key = 'bw_intro_seen_session_v5';
+      const key = 'bw_intro_seen_session_v3';
       try{
         if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
       }catch(e){}
-      setTimeout(() => { if (intro) intro.remove(); }, 2700);
+      setTimeout(() => { if (intro) intro.remove(); }, 2800);
     })();
 
     // Mobile drawer
@@ -1233,7 +1245,25 @@
       });
     })();
 
-    // Carousel
+    // Login/account labels (top + mobile)
+    (function(){
+      function sync(){
+        const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+        const loginTop = document.getElementById('loginTop');
+        const loginMobile = document.getElementById('loginMobile');
+        if (loginTop){
+          loginTop.textContent = isLoggedIn ? 'Account' : 'Login';
+          loginTop.href = isLoggedIn ? '/account' : '/login';
+        }
+        if (loginMobile){
+          loginMobile.textContent = isLoggedIn ? 'Account' : 'Login';
+          loginMobile.href = isLoggedIn ? '/account' : '/login';
+        }
+      }
+      document.addEventListener('DOMContentLoaded', sync);
+    })();
+
+    // Carousel (click-through works, swipe doesn't steal clicks)
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1252,7 +1282,7 @@
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
 
-        chip.textContent = slides[idx].getAttribute('data-chip') || 'Beals.wav';
+        chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured Release';
 
         const dots = dotsWrap.querySelectorAll('.dot');
         dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
@@ -1260,6 +1290,8 @@
         if (user) restart();
       }
 
+      // dots
+      dotsWrap.innerHTML = '';
       slides.forEach((_, i) => {
         const b = document.createElement('button');
         b.className = 'dot';
@@ -1282,26 +1314,45 @@
       viewport.addEventListener('focusin', stop);
       viewport.addEventListener('focusout', start);
 
-      // swipe
+      // swipe (DO NOT steal clicks on links/buttons/iframes)
       let startX = 0, dx = 0, down = false;
+
+      function isInteractiveTarget(t){
+        return !!(t.closest('a') || t.closest('button') || t.closest('iframe') || t.closest('input') || t.closest('select') || t.closest('textarea'));
+      }
+
       viewport.addEventListener('pointerdown', (e) => {
-        down = true; startX = e.clientX; dx = 0;
+        if (isInteractiveTarget(e.target)) return;
+        down = true;
+        startX = e.clientX;
+        dx = 0;
         viewport.setPointerCapture(e.pointerId);
         stop();
       });
-      viewport.addEventListener('pointermove', (e) => { if (down) dx = e.clientX - startX; });
+
+      viewport.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        dx = e.clientX - startX;
+      });
+
       viewport.addEventListener('pointerup', () => {
         if (!down) return;
         down = false;
+
         if (Math.abs(dx) > 40) setIndex(idx + (dx < 0 ? 1 : -1), true);
         else restart();
+      });
+
+      viewport.addEventListener('pointercancel', () => {
+        down = false;
+        restart();
       });
 
       setIndex(0);
       start();
     });
 
-    // Studio slideshow
+    // Studio slideshow (smooth crossfade, no blank flashes)
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -1363,6 +1414,7 @@
 
       const cards = Array.from(grid.querySelectorAll('.vcard'));
 
+      // populate artist dropdown from data-artist
       const names = new Set();
       cards.forEach(c => {
         const a = (c.getAttribute('data-artist') || '').split(',').map(s => s.trim()).filter(Boolean);
