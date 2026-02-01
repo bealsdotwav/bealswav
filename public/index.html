@@ -1214,6 +1214,19 @@
   </div>
 
   <script>
+    // Helper: run now if DOM already ready
+    function onReady(fn){
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
+      else fn();
+    }
+
+    // Helper: cache buster that won't break existing querystrings
+    function withBust(url){
+      if (!url) return url;
+      const sep = url.includes('?') ? '&' : '?';
+      return url + sep + 'v=' + Date.now();
+    }
+
     // Intro: EVERY load, fixed duration
     (function(){
       const intro = document.getElementById('intro');
@@ -1257,44 +1270,48 @@
           loginMobile.href = isLoggedIn ? '/account.html' : '/login.html';
         }
       }
-      document.addEventListener('DOMContentLoaded', sync);
+      onReady(sync);
     })();
 
-    // Helper: append cache buster safely (doesn't break existing ?query)
-    function withBust(url){
-      if (!url) return url;
-      const sep = url.includes('?') ? '&' : '?';
-      return url + sep + 'v=' + Date.now();
-    }
-
-    // Carousel
-    document.addEventListener('DOMContentLoaded', function(){
-      const track = document.getElementById('track');
+    // Carousel (fixed)
+    onReady(function initCarousel(){
+      const track    = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
-      const chip = document.getElementById('chip');
-      const prevBtn = document.getElementById('prev');
-      const nextBtn = document.getElementById('next');
+      const chip     = document.getElementById('chip');
+      const prevBtn  = document.getElementById('prev');
+      const nextBtn  = document.getElementById('next');
       const viewport = document.getElementById('viewport');
 
       if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
       const slides = Array.from(track.querySelectorAll('.slide'));
-      let idx = 0;
-      let timer = null;
+      if (!slides.length) return;
 
-      // Load slide backgrounds
-      slides.forEach(slide => {
+      // Apply backgrounds immediately (no preload dependency)
+      slides.forEach((slide) => {
         const media = slide.querySelector('.slideMedia');
         const img = slide.getAttribute('data-img');
         if (!media || !img) return;
 
-        const test = new Image();
-        test.onload = () => { media.style.backgroundImage = `url("${img}")`; };
-        test.onerror = () => {
-          media.style.backgroundImage =
-            'linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55))';
-        };
-        test.src = withBust(img);
+        media.style.backgroundImage =
+          `linear-gradient(135deg, rgba(23,135,171,0.25), rgba(8,24,44,0.35)), url("${withBust(img)}")`;
+        media.style.backgroundSize = 'cover';
+        media.style.backgroundPosition = 'center';
+      });
+
+      let idx = 0;
+      let timer = null;
+
+      // Build dots
+      dotsWrap.innerHTML = '';
+      slides.forEach((_, i) => {
+        const b = document.createElement('button');
+        b.className = 'dot';
+        b.type = 'button';
+        b.setAttribute('aria-label', `Go to slide ${i + 1}`);
+        b.setAttribute('aria-current', i === 0 ? 'true' : 'false');
+        b.addEventListener('click', () => setIndex(i, true));
+        dotsWrap.appendChild(b);
       });
 
       function setIndex(i, user=false){
@@ -1308,18 +1325,6 @@
         if (user) restart();
       }
 
-      // Dots
-      dotsWrap.innerHTML = '';
-      slides.forEach((_, i) => {
-        const b = document.createElement('button');
-        b.className = 'dot';
-        b.type = 'button';
-        b.setAttribute('aria-label', `Go to slide ${i+1}`);
-        b.setAttribute('aria-current', i === 0 ? 'true' : 'false');
-        b.addEventListener('click', () => setIndex(i, true));
-        dotsWrap.appendChild(b);
-      });
-
       prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
       nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
 
@@ -1332,12 +1337,15 @@
       viewport.addEventListener('focusin', stop);
       viewport.addEventListener('focusout', start);
 
-      // Swipe
+      // Swipe handling
       let down=false, startX=0, dx=0, moved=false;
 
       viewport.addEventListener('pointerdown', (e) => {
         if (e.target.closest && e.target.closest('iframe')) return;
-        down=true; moved=false; startX=e.clientX; dx=0;
+        down = true;
+        moved = false;
+        startX = e.clientX;
+        dx = 0;
         viewport.setPointerCapture(e.pointerId);
         stop();
       });
@@ -1350,7 +1358,7 @@
 
       viewport.addEventListener('pointerup', () => {
         if (!down) return;
-        down=false;
+        down = false;
 
         if (Math.abs(dx) > 40) setIndex(idx + (dx < 0 ? 1 : -1), true);
         else restart();
@@ -1358,21 +1366,21 @@
 
       viewport.addEventListener('pointercancel', () => { down=false; restart(); });
 
-      // Click routing (ignore clicks that were swipes)
-      track.addEventListener('click', (e) => {
-        if (e.target.closest && e.target.closest('iframe')) return;
-        const slide = e.target.closest && e.target.closest('.slide');
-        if (!slide) return;
-        if (moved) return;
+      // Click routing per slide (more reliable than delegating off track)
+      slides.forEach((slide) => {
+        slide.addEventListener('click', (e) => {
+          if (e.target.closest && e.target.closest('iframe')) return;
+          if (moved) return;
 
-        const href = slide.getAttribute('data-href');
-        if (!href) return;
+          const href = slide.getAttribute('data-href');
+          if (!href) return;
 
-        if (href.startsWith('#')){
-          location.hash = href;
-          return;
-        }
-        window.location.href = href;
+          if (href.startsWith('#')) {
+            location.hash = href;
+            return;
+          }
+          window.location.href = href;
+        });
       });
 
       setIndex(0);
@@ -1380,7 +1388,7 @@
     });
 
     // Studio slideshow
-    document.addEventListener('DOMContentLoaded', function(){
+    onReady(function(){
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
         "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
@@ -1431,7 +1439,7 @@
     });
 
     // Video search/filter/sort
-    document.addEventListener('DOMContentLoaded', function(){
+    onReady(function(){
       const grid = document.getElementById('videoGrid');
       const q = document.getElementById('q');
       const artist = document.getElementById('artist');
@@ -1485,7 +1493,7 @@
     });
 
     // Ticker: duplicate + measure + animate exact px distance
-    document.addEventListener('DOMContentLoaded', function(){
+    onReady(function(){
       const track = document.getElementById('tickerTrack');
       const item = document.getElementById('tickerItem');
       if (!track || !item) return;
