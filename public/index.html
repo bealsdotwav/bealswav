@@ -20,17 +20,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link rel="preconnect" href="https://www.youtube.com">
-  <link rel="preconnect" href="https://i.ytimg.com">
-
   <style>
     :root{
       --ink: #0b1b2b;
       --muted: rgba(11, 27, 43, 0.62);
 
-      /* pulled from your blue vibe */
-      --accent1: #1787ab;
-      --accent2: #3eb7db;
+      /* logo blues */
+      --blue: #1787ab;
+      --blue2:#3eb7db;
 
       /* section backgrounds */
       --bgTopA: #f7f9fb;    /* soft white */
@@ -43,11 +40,9 @@
       --bgVideoB: #e3ddd7;
 
       --panel: rgba(255,255,255,0.78);
-      --panel2: rgba(255,255,255,0.58);
       --border: rgba(15, 23, 42, 0.12);
       --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
 
-      --r: 26px; /* squircle base */
       --max: 1120px;
     }
 
@@ -60,7 +55,6 @@
       overflow-x:hidden;
       background: var(--bgTopA);
     }
-
     a{ color:inherit; text-decoration:none; }
     img{ display:block; max-width:100%; }
 
@@ -70,7 +64,9 @@
       padding: 0 16px;
     }
 
-    /* Intro splash (1.0s) */
+    /* ─────────────────────────────────────────────────────────────
+       INTRO (slower + logo huge + white border)
+    ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
       inset: 0;
@@ -79,82 +75,157 @@
       align-items:center;
       justify-content:center;
       background:
-        radial-gradient(900px 600px at 20% 30%, rgba(62,183,219,0.65), transparent 60%),
-        radial-gradient(900px 600px at 80% 70%, rgba(23,135,171,0.75), transparent 62%),
-        linear-gradient(135deg, rgba(12,42,70,1), rgba(15,88,135,1));
-      animation: introFlash 1s ease-in-out forwards;
+        radial-gradient(900px 600px at 25% 30%, rgba(62,183,219,0.70), transparent 60%),
+        radial-gradient(900px 600px at 75% 70%, rgba(23,135,171,0.80), transparent 62%),
+        linear-gradient(135deg, rgba(8,24,44,1), rgba(15,88,135,1));
+      animation: introFade 1.65s ease-in-out forwards;
     }
-    @keyframes introFlash{
-      0%   { filter: saturate(1.25) brightness(1.0); opacity: 1; transform: scale(1); }
-      35%  { filter: saturate(1.6)  brightness(1.25); }
-      70%  { filter: saturate(1.1)  brightness(1.05); }
+    @keyframes introFade{
+      0%   { opacity: 1; transform: scale(1); filter: saturate(1.45) brightness(1.05); }
+      45%  { filter: saturate(1.75) brightness(1.20); }
+      85%  { opacity: 1; }
       100% { opacity: 0; transform: scale(1.01); pointer-events:none; }
     }
-    .intro-card{
-      width: min(720px, 92vw);
+
+    .introFrame{
+      width: min(980px, 92vw);
+      height: min(78vh, 720px);
       border-radius: 34px;
-      padding: 18px 18px 16px;
-      background: rgba(255,255,255,0.10);
-      border: 1px solid rgba(255,255,255,0.22);
+      border: 2px solid rgba(255,255,255,0.82);
+      background: rgba(255,255,255,0.06);
       backdrop-filter: blur(16px);
-      box-shadow: 0 28px 90px rgba(0,0,0,0.35);
+      box-shadow: 0 30px 120px rgba(0,0,0,0.45);
       display:flex;
+      flex-direction:column;
       align-items:center;
-      gap: 14px;
+      justify-content:center;
+      padding: 14px;
+      position: relative;
+      overflow:hidden;
     }
-    .intro-dot{
-      width: 12px; height: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 0 0 6px rgba(62,183,219,0.18), 0 0 0 14px rgba(23,135,171,0.10);
-      flex: 0 0 auto;
-    }
-    .intro-text{
-      font-weight: 900;
+    .introTitle{
+      position:absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      text-align:center;
+      font-weight: 950;
       letter-spacing: -0.02em;
       color: rgba(255,255,255,0.92);
-      font-size: clamp(1.05rem, 0.95rem + 1.3vw, 1.35rem);
-      line-height: 1.1;
+      font-size: clamp(1.05rem, 0.95rem + 1.0vw, 1.35rem);
+      text-transform: lowercase;
     }
-    .intro-sub{
-      margin-top: 2px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.72);
-      font-size: 0.92rem;
+    .introLogoWrap{
+      width: min(86%, 900px);
+      height: 86%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .introLogo{
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 50px rgba(0,0,0,0.35));
     }
 
-    /* Minimal header: logo only */
+    /* ─────────────────────────────────────────────────────────────
+       HEADER (logo centered + nav buttons left/right + login highlighted)
+    ───────────────────────────────────────────────────────────── */
     header{
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(247,249,251,0.72);
+      background: rgba(247,249,251,0.76);
       border-bottom: 1px solid rgba(15,23,42,0.08);
       backdrop-filter: blur(14px);
     }
-    .nav{
+
+    .topbar{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 0;
+    }
+
+    .navGroup{
       display:flex;
       align-items:center;
-      justify-content:center;
-      padding: 14px 0;
+      gap: 10px;
+      flex-wrap:wrap;
     }
+    .navLeft{ justify-content:flex-start; }
+    .navRight{ justify-content:flex-end; }
+
+    .navBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      font-size: 0.92rem;
+      color: rgba(11,27,43,0.78);
+      transition: transform 120ms ease, filter 120ms ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .navBtn:active{ transform: translateY(1px); }
+
+    .navBtnLogin{
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 16px 40px rgba(23,135,171,0.22);
+    }
+
     .brand{
       display:flex;
       align-items:center;
       justify-content:center;
-      gap: 10px;
+      padding: 2px 0;
     }
     .brand img{
-      height: 36px;
+      height: 38px;
       width: auto;
       object-fit: contain;
       filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12));
     }
 
-    /* Sections with “clouded feel” */
-    .section{
-      padding: 26px 0 42px;
+    /* mobile nav */
+    .hamburger{
+      display:none;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      cursor:pointer;
+      font-weight: 950;
+      color: rgba(11,27,43,0.82);
     }
+    .drawer{
+      display:none;
+      border-top: 1px solid rgba(15,23,42,0.08);
+      background: rgba(247,249,251,0.88);
+      backdrop-filter: blur(14px);
+      padding: 10px 0 14px;
+    }
+    .drawerInner{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECTIONS (clouded feel)
+    ───────────────────────────────────────────────────────────── */
+    .section{ padding: 26px 0 42px; }
 
     .top-bg{
       background:
@@ -180,37 +251,25 @@
         linear-gradient(180deg, var(--bgVideoA), var(--bgVideoB));
     }
 
-    /* Main hero: ONLY carousel */
+    /* ─────────────────────────────────────────────────────────────
+       CAROUSEL (not basic: full-bleed backgrounds + real text + guaranteed links)
+    ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 10px 0 8px;
+      padding: 6px 0 8px;
     }
 
-    /* Squircle card */
     .squircle{
-      width: min(980px, 96vw);
-      min-height: 420px;
+      width: min(1020px, 96vw);
+      min-height: 460px;
       border-radius: 34px;
       background: rgba(255,255,255,0.70);
       border: 1px solid rgba(15,23,42,0.12);
       box-shadow: var(--shadow);
       overflow:hidden;
       position: relative;
-    }
-    /* squircle smoothing vibe */
-    .squircle::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(980px 520px at 30% 25%, rgba(62,183,219,0.22), transparent 62%),
-        radial-gradient(980px 520px at 80% 70%, rgba(23,135,171,0.18), transparent 64%),
-        radial-gradient(800px 460px at 55% 110%, rgba(255,90,122,0.08), transparent 62%);
-      filter: blur(18px);
-      opacity: 0.85;
-      pointer-events:none;
     }
 
     .carousel{
@@ -222,8 +281,7 @@
       gap: 10px;
     }
 
-    .carousel-top{
-      position: relative;
+    .carouselTop{
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -231,136 +289,129 @@
       padding: 6px 6px 2px;
     }
 
-    .carousel-title{
-      font-weight: 900;
-      letter-spacing: -0.02em;
-      font-size: 1.05rem;
-      color: rgba(11,27,43,0.88);
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-
     .chip{
       display:inline-flex;
       align-items:center;
-      padding: 8px 10px;
+      padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.10);
-      background: rgba(255,255,255,0.60);
-      font-weight: 900;
-      font-size: 0.86rem;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 950;
+      font-size: 0.88rem;
       color: rgba(11,27,43,0.78);
       user-select:none;
     }
 
-    .controls{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-    }
-    .icon-btn{
+    .controls{ display:flex; gap: 8px; }
+    .iconBtn{
       width: 44px;
       height: 44px;
       border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.10);
+      border: 1px solid rgba(15,23,42,0.12);
       background: rgba(255,255,255,0.62);
       cursor:pointer;
-      font-weight: 900;
+      font-weight: 950;
       color: rgba(11,27,43,0.80);
       transition: transform 120ms ease, filter 120ms ease;
     }
-    .icon-btn:hover{ filter: brightness(1.03); transform: translateY(-1px); }
-    .icon-btn:active{ transform: translateY(1px); }
+    .iconBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .iconBtn:active{ transform: translateY(1px); }
 
     .viewport{
       position: relative;
       flex: 1;
       border-radius: 28px;
       overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.10);
-      background: rgba(11,27,43,0.04);
-      min-height: 360px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(11,27,43,0.06);
+      min-height: 390px;
     }
 
     .track{
       display:flex;
       height: 100%;
       transform: translateX(0);
-      transition: transform 540ms cubic-bezier(.2,.85,.2,1);
+      transition: transform 560ms cubic-bezier(.2,.85,.2,1);
       will-change: transform;
       touch-action: pan-y;
     }
 
-    /* Each slide is ONE big link (foolproof) */
     .slide{
       min-width: 100%;
       height: 100%;
       position: relative;
-      display:flex;
-      align-items:flex-end;
-      justify-content:flex-start;
-      padding: 18px;
       overflow:hidden;
     }
 
+    /* the actual clickable area (top z-index, nothing blocks it) */
     .slideLink{
       position:absolute;
       inset:0;
-      z-index: 3;
+      z-index: 10;
+      display:block;
+      cursor:pointer;
     }
 
     .slideBg{
       position:absolute;
       inset:0;
       z-index: 1;
-      opacity: 0.95;
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
     }
-
-    .slideBg::before{
+    .slideBg::after{
       content:"";
       position:absolute;
-      inset:-2px;
+      inset:0;
       background:
-        radial-gradient(820px 460px at 25% 25%, rgba(255,255,255,0.62), transparent 62%),
-        radial-gradient(820px 460px at 85% 75%, rgba(255,255,255,0.38), transparent 64%);
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.28), transparent 62%),
+        radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.34));
       pointer-events:none;
-      opacity: 0.85;
     }
 
-    .slideInner{
-      position: relative;
+    .slideContent{
+      position:absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
       z-index: 2;
       display:flex;
-      align-items:center;
-      gap: 14px;
-      padding: 14px 14px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.62);
-      border: 1px solid rgba(15,23,42,0.10);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 18px 55px rgba(15,23,42,0.12);
+      flex-direction:column;
+      gap: 8px;
+      pointer-events:none; /* ensures link always gets the click */
     }
 
-    .icon{
-      width: 44px;
-      height: 44px;
-      border-radius: 16px;
-      display:grid;
-      place-items:center;
-      background: rgba(11,27,43,0.06);
-      border: 1px solid rgba(15,23,42,0.10);
-      flex: 0 0 auto;
+    .tag{
+      width: fit-content;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.14);
+      backdrop-filter: blur(10px);
+      font-weight: 950;
+      font-size: 0.85rem;
+      color: rgba(11,27,43,0.78);
+      text-transform: lowercase;
     }
-    .icon svg{ width: 24px; height: 24px; }
 
-    .label{
+    .title{
       font-weight: 950;
       letter-spacing: -0.03em;
-      font-size: clamp(1.45rem, 1.1rem + 1.7vw, 2.2rem);
-      color: rgba(11,27,43,0.92);
+      font-size: clamp(1.6rem, 1.1rem + 2.2vw, 2.6rem);
       line-height: 1.0;
+      color: rgba(255,255,255,0.92);
       text-transform: lowercase;
+      text-shadow: 0 16px 60px rgba(0,0,0,0.40);
+    }
+
+    .subtitle{
+      font-weight: 850;
+      color: rgba(255,255,255,0.82);
+      font-size: 1.0rem;
+      text-shadow: 0 16px 60px rgba(0,0,0,0.40);
+      max-width: 70ch;
     }
 
     .dots{
@@ -373,34 +424,70 @@
     .dot{
       width: 10px; height: 10px;
       border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.20);
-      background: rgba(255,255,255,0.60);
+      border: 1px solid rgba(15,23,42,0.24);
+      background: rgba(255,255,255,0.62);
       cursor:pointer;
       transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
     }
     .dot[aria-current="true"]{
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
       border-color: rgba(15,23,42,0.10);
-      transform: scale(1.12);
+      transform: scale(1.14);
     }
 
-    /* Slide palettes (more color, still soft) */
-    .p-235   { background: linear-gradient(135deg, rgba(62,183,219,0.34), rgba(255,255,255,0.10)); }
-    .p-music { background: linear-gradient(135deg, rgba(29,185,84,0.22), rgba(255,255,255,0.10)); }
-    .p-stu   { background: linear-gradient(135deg, rgba(23,135,171,0.28), rgba(255,255,255,0.10)); }
-    .p-beat  { background: linear-gradient(135deg, rgba(255,85,0,0.20), rgba(255,255,255,0.10)); }
-    .p-faq   { background: linear-gradient(135deg, rgba(245,158,11,0.22), rgba(255,255,255,0.10)); }
-    .p-cont  { background: linear-gradient(135deg, rgba(255,90,122,0.18), rgba(255,255,255,0.10)); }
-    .p-log   { background: linear-gradient(135deg, rgba(17,24,39,0.20), rgba(255,255,255,0.10)); }
-    .p-acct  { background: linear-gradient(135deg, rgba(99,102,241,0.18), rgba(255,255,255,0.10)); }
-    .p-fol   { background: linear-gradient(135deg, rgba(62,183,219,0.22), rgba(29,185,84,0.14)); }
+    /* Slide backgrounds (use local images where possible, fall back to gradients) */
+    .bg-235{
+      background-image:
+        url("/assets/images/235-cover.jpg"),
+        linear-gradient(135deg, rgba(62,183,219,0.65), rgba(23,135,171,0.55));
+    }
+    .bg-music{
+      background-image:
+        url("/assets/images/music-bg.jpg"),
+        linear-gradient(135deg, rgba(29,185,84,0.55), rgba(8,24,44,0.55));
+    }
+    .bg-studio{
+      background-image:
+        url("/assets/images/S12.jpeg"),
+        linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55));
+    }
+    .bg-beats{
+      background-image:
+        url("/assets/images/beats-bg.jpg"),
+        linear-gradient(135deg, rgba(255,85,0,0.58), rgba(8,24,44,0.55));
+    }
+    .bg-faq{
+      background-image:
+        url("/assets/images/faq-bg.jpg"),
+        linear-gradient(135deg, rgba(245,158,11,0.62), rgba(8,24,44,0.55));
+    }
+    .bg-contact{
+      background-image:
+        url("/assets/images/contact-bg.jpg"),
+        linear-gradient(135deg, rgba(255,90,122,0.55), rgba(8,24,44,0.55));
+    }
+    .bg-login{
+      background-image:
+        url("/assets/images/login-bg.jpg"),
+        linear-gradient(135deg, rgba(17,24,39,0.55), rgba(23,135,171,0.55));
+    }
+    .bg-account{
+      background-image:
+        url("/assets/images/account-bg.jpg"),
+        linear-gradient(135deg, rgba(99,102,241,0.55), rgba(8,24,44,0.55));
+    }
+    .bg-follow{
+      background-image:
+        url("/assets/images/follow-bg.jpg"),
+        linear-gradient(135deg, rgba(62,183,219,0.55), rgba(29,185,84,0.35));
+    }
 
     /* Follow section under carousel */
     .followBox{
       margin-top: 16px;
       border-radius: 24px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.74);
+      border: 1px solid rgba(15,23,42,0.12);
       box-shadow: 0 18px 50px rgba(15,23,42,0.10);
       padding: 14px;
     }
@@ -417,33 +504,34 @@
       letter-spacing: -0.02em;
       font-size: 1.05rem;
       color: rgba(11,27,43,0.90);
+      text-transform: lowercase;
     }
     .followHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.92rem;
+      text-transform: lowercase;
     }
     .links{
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
-    .link-btn{
+    .linkBtn{
       display:flex;
       align-items:center;
       justify-content:center;
       padding: 14px 12px;
       border-radius: 18px;
       font-weight: 950;
-      text-decoration:none;
       border: 1px solid rgba(15,23,42,0.10);
       color: rgba(255,255,255,0.92);
       box-shadow: 0 12px 24px rgba(15,23,42,0.10);
       transition: transform 140ms ease, filter 140ms ease;
       user-select:none;
     }
-    .link-btn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .linkBtn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .spotify{ background: #1DB954; color:#06110a; }
     .apple{ background: #111827; }
     .soundcloud{ background: #ff5500; color:#1b0d04; }
@@ -451,7 +539,9 @@
     .instagram{ background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); }
     .tiktok{ background: #0b0b0f; }
 
-    /* Studio slideshow */
+    /* ─────────────────────────────────────────────────────────────
+       STUDIO (slideshow: smooth crossfade + real CTA link)
+    ───────────────────────────────────────────────────────────── */
     .grid2{
       display:grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -465,28 +555,32 @@
       box-shadow: var(--shadow);
       overflow:hidden;
     }
-    .slideshow-container{
+    .slideshow{
       border-radius: 24px;
       overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.10);
+      border: 1px solid rgba(15,23,42,0.12);
       background: rgba(11,27,43,0.06);
-      min-height: 320px;
+      min-height: 340px;
       position: relative;
     }
-    #imageSlider{ width:100%; height:100%; }
-    #imageSlider img{
-      width: 100%;
-      height: 100%;
-      min-height: 320px;
+    .slideImg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
       object-fit: cover;
-      display:block;
+      opacity: 0;
+      transition: opacity 900ms ease-in-out;
+      will-change: opacity;
     }
+    .slideImg.show{ opacity: 1; }
+
     .studioText{
       padding: 16px;
       display:flex;
       flex-direction:column;
       justify-content:center;
-      gap: 10px;
+      gap: 12px;
     }
     .studioText h2{
       margin:0;
@@ -494,16 +588,38 @@
       letter-spacing: -0.02em;
       font-size: 1.2rem;
       color: rgba(11,27,43,0.92);
+      text-transform: lowercase;
     }
     .studioText p{
       margin:0;
-      color: rgba(11,27,43,0.62);
+      color: rgba(11,27,43,0.66);
       line-height: 1.55;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.98rem;
     }
+    .cta{
+      margin-top: 6px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      font-weight: 950;
+      box-shadow: 0 18px 46px rgba(23,135,171,0.20);
+      width: fit-content;
+      user-select:none;
+      transition: transform 140ms ease, filter 140ms ease;
+      text-transform: lowercase;
+    }
+    .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .cta:active{ transform: translateY(1px); }
 
-    /* Videos */
+    /* ─────────────────────────────────────────────────────────────
+       VIDEOS + search/filter
+    ───────────────────────────────────────────────────────────── */
     .sectionHead{
       display:flex;
       justify-content:space-between;
@@ -515,47 +631,78 @@
       margin:0;
       font-weight: 950;
       letter-spacing: -0.02em;
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: rgba(11,27,43,0.92);
+      text-transform: lowercase;
     }
     .sectionHead p{
       margin:0;
       color: rgba(11,27,43,0.58);
-      font-weight: 700;
-      font-size: 0.92rem;
+      font-weight: 850;
+      font-size: 0.95rem;
+      text-transform: lowercase;
     }
 
-    .video-grid{
+    .filters{
+      display:grid;
+      grid-template-columns: 1.4fr 0.8fr 0.8fr;
+      gap: 10px;
+      margin: 10px 0 14px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+    }
+    .field label{
+      font-weight: 900;
+      font-size: 0.85rem;
+      color: rgba(11,27,43,0.70);
+      text-transform: lowercase;
+    }
+    .input, .select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(15,23,42,0.14);
+      background: rgba(255,255,255,0.70);
+      font-weight: 850;
+      color: rgba(11,27,43,0.82);
+      outline: none;
+    }
+
+    .videoGrid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       align-items:start;
     }
-    .video-title{ padding: 14px 14px 10px; }
-    .video-title h3{
+    .videoTitle{ padding: 14px 14px 10px; }
+    .videoTitle h3{
       margin:0;
       font-size: 1.05rem;
       font-weight: 950;
       letter-spacing: -0.01em;
       color: rgba(11,27,43,0.92);
+      text-transform: none;
     }
-    .video-title span{
+    .videoTitle span{
       display:block;
       margin-top: 4px;
       color: rgba(11,27,43,0.62);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 0.95rem;
       line-height: 1.35;
     }
-    .iframe-wrap{
+    .iframeWrap{
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
       background: rgba(11,27,43,0.06);
-      border-top: 1px solid rgba(15,23,42,0.08);
+      border-top: 1px solid rgba(15,23,42,0.10);
       overflow:hidden;
     }
-    .iframe-wrap iframe{
+    .iframeWrap iframe{
       position:absolute;
       inset:0;
       width:100%;
@@ -563,93 +710,72 @@
       border:0;
     }
 
-    /* About blurb (small, natural) */
-    .about{
-      margin-top: 14px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(15,23,42,0.10);
-      box-shadow: 0 16px 44px rgba(15,23,42,0.10);
+    .emptyState{
+      display:none;
+      margin-top: 10px;
+      border-radius: 18px;
       padding: 14px;
-    }
-    .about p{
-      margin:0;
-      color: rgba(11,27,43,0.72);
-      font-weight: 700;
-      line-height: 1.55;
-      font-size: 0.98rem;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.12);
+      font-weight: 900;
+      color: rgba(11,27,43,0.70);
+      text-transform: lowercase;
     }
 
-    /* 23.5 modal */
-    .modal{
-      position: fixed;
-      inset: 0;
-      z-index: 5000;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 18px;
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(10px);
-    }
-    .modal[aria-hidden="false"]{ display:flex; }
-    .modalCard{
-      width: min(980px, 96vw);
-      border-radius: 26px;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(255,255,255,0.22);
-      box-shadow: 0 28px 90px rgba(0,0,0,0.35);
+    /* ─────────────────────────────────────────────────────────────
+       BOTTOM TICKER (ONLY at bottom of page)
+    ───────────────────────────────────────────────────────────── */
+    .ticker{
+      margin-top: 26px;
+      border-top: 1px solid rgba(15,23,42,0.10);
+      background:
+        linear-gradient(90deg, rgba(23,135,171,0.18), rgba(255,255,255,0.55), rgba(23,135,171,0.18));
       overflow:hidden;
     }
-    .modalTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 12px 12px;
-      background: rgba(247,249,251,0.92);
-      border-bottom: 1px solid rgba(15,23,42,0.10);
-    }
-    .modalTop strong{
-      font-weight: 950;
-      letter-spacing: -0.02em;
-      color: rgba(11,27,43,0.92);
-    }
-    .closeBtn{
-      width: 42px; height: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: rgba(255,255,255,0.70);
-      cursor:pointer;
+    .tickerInner{
+      display:inline-block;
+      white-space: nowrap;
+      padding: 14px 0;
+      animation: scroll 26s linear infinite;
       font-weight: 950;
       color: rgba(11,27,43,0.86);
+      text-transform: lowercase;
+      letter-spacing: -0.01em;
     }
-    .modalBody{
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: rgba(11,27,43,0.06);
+    .tickerInner span{
+      display:inline-block;
+      padding: 0 22px;
+      opacity: 0.95;
     }
-    .modalBody iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
+    @keyframes scroll{
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .tickerPulse{
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%, 100% { filter: brightness(1.00); }
+      50%      { filter: brightness(1.08); }
     }
 
-    /* Mobile */
+    /* responsive */
     @media (max-width: 980px){
       .grid2{ grid-template-columns: 1fr; }
-      .video-grid{ grid-template-columns: 1fr; }
-      .squircle{ min-height: 380px; }
-      .viewport{ min-height: 320px; }
+      .videoGrid{ grid-template-columns: 1fr; }
+      .filters{ grid-template-columns: 1fr; }
       .links{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .squircle{ min-height: 430px; }
+      .viewport{ min-height: 360px; }
     }
-    @media (max-width: 560px){
+    @media (max-width: 760px){
+      .navGroup{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+      .topbar{ grid-template-columns: auto 1fr auto; }
+      .brand{ justify-content:center; }
+      .drawer{ display:none; }
+      .drawerInner{ grid-template-columns: 1fr; }
       .links{ grid-template-columns: 1fr; }
-      .slideInner{ padding: 12px; }
-      .icon{ width: 42px; height: 42px; border-radius: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -659,186 +785,171 @@
 </head>
 
 <body>
-  <!-- intro -->
+  <!-- Intro -->
   <div class="intro" id="intro">
-    <div class="intro-card">
-      <div class="intro-dot"></div>
-      <div>
-        <div class="intro-text">welcome to the beals.wav experience</div>
-        <div class="intro-sub">entering the studio</div>
+    <div class="introFrame">
+      <div class="introTitle">welcome to the beals.wav experience</div>
+      <div class="introLogoWrap">
+        <img class="introLogo" src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
       </div>
     </div>
   </div>
 
   <header>
     <div class="wrap">
-      <div class="nav">
-        <a class="brand" href="/index.html" aria-label="Beals.wav Home">
-          <img src="/assets/images/logo.jpeg?v=2" alt="beals.wav" decoding="async" fetchpriority="high">
-        </a>
+      <div class="topbar">
+        <!-- Left buttons -->
+        <div class="navGroup navLeft" aria-label="Top navigation left">
+          <a class="navBtn" href="/studio">studio</a>
+          <a class="navBtn" href="/beats">beats</a>
+          <a class="navBtn" href="/faq">faq</a>
+        </div>
+
+        <!-- Center logo -->
+        <div class="brand">
+          <a href="/index.html" aria-label="Home">
+            <img src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
+          </a>
+        </div>
+
+        <!-- Right buttons -->
+        <div class="navGroup navRight" aria-label="Top navigation right">
+          <a class="navBtn" href="/music">music</a>
+          <a class="navBtn navBtnLogin" href="/login" id="loginTop">login</a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
+      </div>
+
+      <!-- Mobile drawer -->
+      <div class="drawer" id="drawer">
+        <div class="drawerInner">
+          <a class="navBtn" href="/studio">studio</a>
+          <a class="navBtn" href="/beats">beats</a>
+          <a class="navBtn" href="/faq">faq</a>
+          <a class="navBtn" href="/music">music</a>
+          <a class="navBtn navBtnLogin" href="/login" id="loginMobile">login</a>
+          <a class="navBtn" href="/account" id="accountMobile" style="display:none;">account</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- TOP: Carousel only -->
+  <!-- TOP: Carousel -->
   <section class="section top-bg">
     <div class="wrap">
       <div class="hero">
-        <div class="squircle" aria-label="Beals.wav Carousel">
+        <div class="squircle" aria-label="Main carousel">
           <div class="carousel">
-            <div class="carousel-top">
-              <div class="carousel-title">
-                <span class="chip" id="chip">23.5</span>
-              </div>
+            <div class="carouselTop">
+              <span class="chip" id="chip">latest release</span>
               <div class="controls">
-                <button class="icon-btn" id="prev" aria-label="Previous">‹</button>
-                <button class="icon-btn" id="next" aria-label="Next">›</button>
+                <button class="iconBtn" id="prev" aria-label="Previous">‹</button>
+                <button class="iconBtn" id="next" aria-label="Next">›</button>
               </div>
             </div>
 
             <div class="viewport" id="viewport">
               <div class="track" id="track">
-
-                <!-- 23.5 (opens modal) -->
-                <div class="slide">
-                  <a class="slideLink" href="#"
-                     data-chip="23.5"
-                     data-action="open235"
-                     aria-label="Open 23.5"></a>
-                  <div class="slideBg p-235"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(62,183,219,0.14);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M9 18V6l10 6-10 6Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">23.5</div>
+                <!-- 23.5 (opens modal playlist) -->
+                <div class="slide" data-chip="latest release">
+                  <a class="slideLink" href="#" data-action="open235" aria-label="Open latest release 23.5"></a>
+                  <div class="slideBg bg-235"></div>
+                  <div class="slideContent">
+                    <div class="tag">latest release</div>
+                    <div class="title">23.5</div>
+                    <div class="subtitle">tap to open the album playlist</div>
                   </div>
                 </div>
 
                 <!-- music -->
-                <div class="slide">
-                  <a class="slideLink" href="/music.html" data-chip="music" aria-label="Go to Music"></a>
-                  <div class="slideBg p-music"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(29,185,84,0.14);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M10 5v10.5a3.5 3.5 0 1 1-2-3.2V7l12-2v10.5a3.5 3.5 0 1 1-2-3.2V5l-8 1.3Z"
-                              stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">music</div>
+                <div class="slide" data-chip="music">
+                  <a class="slideLink" href="/music" aria-label="Go to music"></a>
+                  <div class="slideBg bg-music"></div>
+                  <div class="slideContent">
+                    <div class="tag">listen</div>
+                    <div class="title">music</div>
+                    <div class="subtitle">releases, playlists, and features</div>
                   </div>
                 </div>
 
                 <!-- studio -->
-                <div class="slide">
-                  <a class="slideLink" href="/studio.html" data-chip="studio" aria-label="Go to Studio"></a>
-                  <div class="slideBg p-stu"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(23,135,171,0.14);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2a6 6 0 0 1 6 6c0 4-3 9-6 14-3-5-6-10-6-14a6 6 0 0 1 6-6Z"
-                              stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M12 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
-                              stroke="rgba(11,27,43,0.92)" stroke-width="2"/>
-                      </svg>
-                    </div>
-                    <div class="label">studio</div>
+                <div class="slide" data-chip="studio">
+                  <a class="slideLink" href="/studio" aria-label="Go to studio"></a>
+                  <div class="slideBg bg-studio"></div>
+                  <div class="slideContent">
+                    <div class="tag">book time</div>
+                    <div class="title">studio</div>
+                    <div class="subtitle">recording, mixing, production</div>
                   </div>
                 </div>
 
                 <!-- beats -->
-                <div class="slide">
-                  <a class="slideLink" href="/beatstore.html" data-chip="beats" aria-label="Go to Beats"></a>
-                  <div class="slideBg p-beat"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(255,85,0,0.12);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M4 7h16v10H4V7Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M8 11h8M8 14h5" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">beats</div>
+                <div class="slide" data-chip="beats">
+                  <a class="slideLink" href="/beats" aria-label="Go to beats"></a>
+                  <div class="slideBg bg-beats"></div>
+                  <div class="slideContent">
+                    <div class="tag">buy</div>
+                    <div class="title">beats</div>
+                    <div class="subtitle">leases, exclusives, licensing</div>
                   </div>
                 </div>
 
                 <!-- faq -->
-                <div class="slide">
-                  <a class="slideLink" href="/faq.html" data-chip="faq" aria-label="Go to FAQ"></a>
-                  <div class="slideBg p-faq"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(245,158,11,0.12);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M4 5h16v12H7l-3 3V5Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M8 10h8M8 13h5" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">faq</div>
+                <div class="slide" data-chip="faq">
+                  <a class="slideLink" href="/faq" aria-label="Go to faq"></a>
+                  <div class="slideBg bg-faq"></div>
+                  <div class="slideContent">
+                    <div class="tag">info</div>
+                    <div class="title">faq</div>
+                    <div class="subtitle">how it works, what to expect</div>
                   </div>
                 </div>
 
                 <!-- contact -->
-                <div class="slide">
-                  <a class="slideLink" href="/contact.html" data-chip="contact" aria-label="Go to Contact"></a>
-                  <div class="slideBg p-cont"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(255,90,122,0.10);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M4 7h16v10H4V7Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M4 8l8 6 8-6" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">contact</div>
+                <div class="slide" data-chip="contact">
+                  <a class="slideLink" href="/contact" aria-label="Go to contact"></a>
+                  <div class="slideBg bg-contact"></div>
+                  <div class="slideContent">
+                    <div class="tag">reach out</div>
+                    <div class="title">contact</div>
+                    <div class="subtitle">questions, collabs, bookings</div>
                   </div>
                 </div>
 
                 <!-- login -->
-                <div class="slide">
-                  <a class="slideLink" href="/login.html" data-chip="login" aria-label="Go to Login"></a>
-                  <div class="slideBg p-log"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(17,24,39,0.10);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 12a4 4 0 1 0-0.001-8A4 4 0 0 0 12 12Z" stroke="rgba(11,27,43,0.92)" stroke-width="2"/>
-                        <path d="M4 20c2-4 14-4 16 0" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">login</div>
+                <div class="slide" data-chip="login">
+                  <a class="slideLink" href="/login" aria-label="Go to login"></a>
+                  <div class="slideBg bg-login"></div>
+                  <div class="slideContent">
+                    <div class="tag">access</div>
+                    <div class="title">login</div>
+                    <div class="subtitle">manage sessions + purchases</div>
                   </div>
                 </div>
 
                 <!-- account -->
-                <div class="slide">
-                  <a class="slideLink" href="/account.html" data-chip="account" aria-label="Go to Account"></a>
-                  <div class="slideBg p-acct"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(99,102,241,0.10);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M6 7h12v14H6V7Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M9 3h6v4H9V3Z" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                        <path d="M9 11h6M9 14h6M9 17h4" stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">account</div>
+                <div class="slide" data-chip="account">
+                  <a class="slideLink" href="/account" aria-label="Go to account"></a>
+                  <div class="slideBg bg-account"></div>
+                  <div class="slideContent">
+                    <div class="tag">dashboard</div>
+                    <div class="title">account</div>
+                    <div class="subtitle">history, downloads, bookings</div>
                   </div>
                 </div>
 
-                <!-- follow (scrolls to follow section) -->
-                <div class="slide">
-                  <a class="slideLink" href="#follow" data-chip="follow" aria-label="Go to Follow"></a>
-                  <div class="slideBg p-fol"></div>
-                  <div class="slideInner">
-                    <div class="icon" style="background: rgba(62,183,219,0.12);">
-                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 21s-7-4.6-9-9a5.5 5.5 0 0 1 9-6 5.5 5.5 0 0 1 9 6c-2 4.4-9 9-9 9Z"
-                              stroke="rgba(11,27,43,0.92)" stroke-width="2" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="label">follow</div>
+                <!-- follow -->
+                <div class="slide" data-chip="follow">
+                  <a class="slideLink" href="#follow" aria-label="Go to follow"></a>
+                  <div class="slideBg bg-follow"></div>
+                  <div class="slideContent">
+                    <div class="tag">support</div>
+                    <div class="title">follow</div>
+                    <div class="subtitle">spotify, youtube, socials</div>
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -847,19 +958,19 @@
         </div>
       </div>
 
-      <!-- follow/support under carousel -->
+      <!-- Follow/support under carousel -->
       <div class="followBox" id="follow">
         <div class="followHead">
-          <h2>Follow & Support</h2>
+          <h2>follow & support</h2>
           <p>pick your platform</p>
         </div>
         <div class="links">
-          <a class="link-btn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
-          <a class="link-btn apple" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple Music</a>
-          <a class="link-btn soundcloud" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
-          <a class="link-btn youtube" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
-          <a class="link-btn instagram" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a class="link-btn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
+          <a class="linkBtn spotify" href="https://open.spotify.com/artist/3HgLaXGcqPpe5BmVIr1nZG?si=2aEQ2L15S1aTnEggCTrT9g" target="_blank" rel="noopener">Spotify</a>
+          <a class="linkBtn apple" href="https://music.apple.com/us/artist/beals/1780458418" target="_blank" rel="noopener noreferrer">Apple Music</a>
+          <a class="linkBtn soundcloud" href="https://soundcloud.com/bealsprod?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener noreferrer">SoundCloud</a>
+          <a class="linkBtn youtube" href="https://www.youtube.com/@bealsprod" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a class="linkBtn instagram" href="https://www.instagram.com/bealsprod" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="linkBtn tiktok" href="https://www.tiktok.com/@bealsprod" target="_blank" rel="noopener noreferrer">TikTok</a>
         </div>
       </div>
     </div>
@@ -869,14 +980,15 @@
   <section class="section studio-bg">
     <div class="wrap">
       <div class="grid2">
-        <div class="slideshow-container">
-          <div id="imageSlider"></div>
+        <div class="slideshow" aria-label="Studio slideshow">
+          <img class="slideImg show" id="imgA" alt="Studio image A">
+          <img class="slideImg" id="imgB" alt="Studio image B">
         </div>
 
         <div class="card studioText">
-          <h2>Studio</h2>
-          <p>Recording, mixing, production. West Jordan, Utah.</p>
-          <p style="margin-top:6px; font-weight:900; color: rgba(11,27,43,0.76);">Book from the carousel.</p>
+          <h2>studio</h2>
+          <p>recording, mixing, production. west jordan, utah.</p>
+          <a class="cta" href="/studio">book studio time here</a>
         </div>
       </div>
     </div>
@@ -886,220 +998,262 @@
   <section class="section video-bg" id="videos">
     <div class="wrap">
       <div class="sectionHead">
-        <h2>Videos</h2>
-        <p>projects + singles</p>
+        <h2>videos</h2>
+        <p>latest releases</p>
       </div>
 
-      <div class="video-grid">
-        <article class="card" id="vip-220">
-          <div class="video-title">
+      <div class="filters" aria-label="Video filters">
+        <div class="field">
+          <label for="q">search</label>
+          <input class="input" id="q" type="search" placeholder="title or artist">
+        </div>
+        <div class="field">
+          <label for="artist">artist</label>
+          <select class="select" id="artist">
+            <option value="">all</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="sort">sort</label>
+          <select class="select" id="sort">
+            <option value="default">latest first</option>
+            <option value="oldest">oldest first</option>
+            <option value="az">title a–z</option>
+            <option value="za">title z–a</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="videoGrid" id="videoGrid">
+        <!-- Add data-date as YYYY-MM-DD so sorting works properly -->
+        <article class="card vcard" data-title="VIP (220)" data-artist="Beals" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>VIP (220)</h3>
             <span>Beals</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/sfkuVfcYgYU?rel=0&playsinline=1"
               title="VIP (220)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="no-rest">
-          <div class="video-title">
+        <article class="card vcard" data-title="No Rest" data-artist="Roman Noodle, RPFROMTHETOP, Beals" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>No Rest</h3>
             <span>Roman Noodle feat. RPFROMTHETOP, Beals</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/SEW4l0PECAQ?rel=0&playsinline=1"
               title="No Rest"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="lame">
-          <div class="video-title">
+        <article class="card vcard" data-title="Lame" data-artist="Roman Noodle, Beals" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>Lame</h3>
             <span>Roman Noodle feat. Beals</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/TASnO2XVLYY?rel=0&playsinline=1"
               title="Lame"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="breaking-point">
-          <div class="video-title">
+        <article class="card vcard" data-title="Breaking Point (Album)" data-artist="Roman Noodle" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>Breaking Point (Album)</h3>
             <span>Roman Noodle</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/videoseries?list=PLxvFT_vXfs-8tRvoBvPRk15BYzROAGNQj&rel=0&playsinline=1"
               title="Breaking Point (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="what-is-going-on">
-          <div class="video-title">
+        <article class="card vcard" data-title="WHAT IS GOING ON" data-artist="RPFROMTHETOP, Beals" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>WHAT IS GOING ON</h3>
             <span>RPFROMTHETOP feat. Beals</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/6ogFoT19EO8?rel=0&playsinline=1"
               title="WHAT IS GOING ON"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="forever-album">
-          <div class="video-title">
+        <article class="card vcard" data-title="Forever (Album)" data-artist="RPFROMTHETOP" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>Forever (Album)</h3>
             <span>RPFROMTHETOP</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/flR4pt-oC_A?rel=0&playsinline=1"
               title="Forever (Album) – RPFROMTHETOP"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="back-to-back">
-          <div class="video-title">
+        <article class="card vcard" data-title="Back to Back" data-artist="Cartier, Beals" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>Back to Back</h3>
             <span>Cartier & Beals</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/z56pau7bf-Y?rel=0&playsinline=1"
               title="Back to Back"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
 
-        <article class="card" id="meraki">
-          <div class="video-title">
+        <article class="card vcard" data-title="MERAKI (Album)" data-artist="Beals" data-date="2025-01-01">
+          <div class="videoTitle">
             <h3>MERAKI (Album)</h3>
             <span>Beals</span>
           </div>
-          <div class="iframe-wrap">
+          <div class="iframeWrap">
             <iframe loading="lazy"
               src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTIcOJkYclqHBPxjW9ZD2PBE&rel=0&playsinline=1"
               title="MERAKI (Album)"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen>
-            </iframe>
+              allowfullscreen></iframe>
           </div>
         </article>
       </div>
 
-      <div class="about">
-        <p>
-          Beals is an artist and mixing engineer based in West Jordan, Utah. This site is the hub to listen to releases,
-          book studio time, grab beats, and keep up with what’s next.
-        </p>
+      <div class="emptyState" id="empty">no matches. humans and their endless scrolling.</div>
+
+      <!-- Bottom ticker (only at bottom of page) -->
+      <div class="ticker tickerPulse" aria-label="Site ticker">
+        <div class="tickerInner">
+          <span>beals.wav is a hub to promote, showcase, and visualize music.</span>
+          <span>full-cycle studio sessions: recording, mixing, mastering, beats, and release support.</span>
+          <span>artist-friendly workflows. real sessions. real outcomes.</span>
+          <span>beals.wav is a hub to promote, showcase, and visualize music.</span>
+          <span>full-cycle studio sessions: recording, mixing, mastering, beats, and release support.</span>
+          <span>artist-friendly workflows. real sessions. real outcomes.</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- 23.5 modal -->
-  <div class="modal" id="modal235" aria-hidden="true" role="dialog" aria-label="23.5 playlist">
-    <div class="modalCard">
-      <div class="modalTop">
-        <strong>23.5 (Album)</strong>
-        <button class="closeBtn" id="close235" aria-label="Close">×</button>
+  <div id="modal235" style="
+    position:fixed; inset:0; z-index:5000; display:none;
+    align-items:center; justify-content:center; padding:18px;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(10px);
+  " aria-hidden="true" role="dialog" aria-label="23.5 playlist">
+    <div style="
+      width:min(980px,96vw);
+      border-radius:26px;
+      background: rgba(255,255,255,0.92);
+      border:1px solid rgba(255,255,255,0.22);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.35);
+      overflow:hidden;
+    ">
+      <div style="
+        display:flex; align-items:center; justify-content:space-between; gap:10px;
+        padding:12px 12px; background: rgba(247,249,251,0.92);
+        border-bottom:1px solid rgba(15,23,42,0.10);
+      ">
+        <strong style="font-weight:950; letter-spacing:-0.02em; color: rgba(11,27,43,0.92);">23.5 (album)</strong>
+        <button id="close235" style="
+          width:42px; height:42px; border-radius:999px;
+          border:1px solid rgba(15,23,42,0.12);
+          background: rgba(255,255,255,0.70);
+          cursor:pointer; font-weight:950; color: rgba(11,27,43,0.86);
+        " aria-label="Close">×</button>
       </div>
-      <div class="modalBody">
-        <iframe
-          id="iframe235"
-          loading="lazy"
-          src=""
+      <div style="position:relative; width:100%; aspect-ratio:16/9; background: rgba(11,27,43,0.06);">
+        <iframe id="iframe235" loading="lazy" src=""
           title="23.5 (Album)"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen>
-        </iframe>
+          allowfullscreen
+          style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
       </div>
     </div>
   </div>
 
   <script>
-    // Intro: 1.0s, once per session
+    // ── Intro (slower, once per session)
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-
-      const key = 'bw_intro_seen_session';
+      const key = 'bw_intro_seen_session_v2';
       try{
-        if (sessionStorage.getItem(key) === '1') {
-          intro.remove();
-          return;
-        }
+        if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
       }catch(e){}
-
-      // remove after animation ends
-      setTimeout(() => { if (intro) intro.remove(); }, 1100);
+      setTimeout(() => { if (intro) intro.remove(); }, 1750);
     })();
 
-    // Studio slideshow
-    document.addEventListener('DOMContentLoaded', function() {
-      const images = [
-        "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
-        "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
-        "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
-        "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
-        "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
-        "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
-      ];
-      let i = -1;
-      const el = document.getElementById("imageSlider");
+    // ── Mobile drawer
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const drawer = document.getElementById('drawer');
+      if (!btn || !drawer) return;
+      btn.addEventListener('click', () => {
+        drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+      });
+      drawer.addEventListener('click', (e) => {
+        if (e.target && e.target.tagName === 'A') drawer.style.display = 'none';
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) drawer.style.display = 'none';
+      });
+    })();
 
-      function next(){
-        if (!el) return;
-        i = (i + 1) % images.length;
-        const img = document.createElement("img");
-        img.src = images[i];
-        img.alt = "Studio " + (i + 1);
-        img.style.opacity = 0;
-        img.style.transition = "opacity 900ms ease-in-out";
-        el.innerHTML = "";
-        el.appendChild(img);
-        void img.offsetWidth;
-        img.style.opacity = 1;
+    // ── Login/account labels (top + mobile)
+    (function(){
+      function sync(){
+        const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+        const loginTop = document.getElementById('loginTop');
+        const loginMobile = document.getElementById('loginMobile');
+        const accountMobile = document.getElementById('accountMobile');
+
+        if (loginTop){
+          loginTop.textContent = isLoggedIn ? 'account' : 'login';
+          loginTop.href = isLoggedIn ? '/account' : '/login';
+        }
+        if (loginMobile){
+          loginMobile.textContent = isLoggedIn ? 'account' : 'login';
+          loginMobile.href = isLoggedIn ? '/account' : '/login';
+        }
+        if (accountMobile){
+          accountMobile.style.display = isLoggedIn ? 'inline-flex' : 'none';
+        }
       }
-      next();
-      setInterval(next, 4500);
-    });
+      document.addEventListener('DOMContentLoaded', sync);
+    })();
 
-    // 23.5 modal open/close
+    // ── 23.5 modal
     (function(){
       const modal = document.getElementById('modal235');
       const close = document.getElementById('close235');
@@ -1107,12 +1261,13 @@
       if (!modal || !close || !iframe) return;
 
       function open(){
+        modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
-        // set src on open (prevents autoplay-ish loading in background)
         iframe.src = "https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1";
         document.body.style.overflow = 'hidden';
       }
       function shut(){
+        modal.style.display = 'none';
         modal.setAttribute('aria-hidden', 'true');
         iframe.src = "";
         document.body.style.overflow = '';
@@ -1125,7 +1280,7 @@
       window.__open235 = open;
     })();
 
-    // Carousel (smooth, swipe, dots, auto)
+    // ── Carousel (guaranteed links, smooth, swipe, auto)
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1144,8 +1299,7 @@
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
 
-        const link = slides[idx].querySelector('.slideLink');
-        const chipText = (link && link.getAttribute('data-chip')) ? link.getAttribute('data-chip') : 'beals.wav';
+        const chipText = slides[idx].getAttribute('data-chip') || 'beals.wav';
         chip.textContent = chipText;
 
         const dots = dotsWrap.querySelectorAll('.dot');
@@ -1167,11 +1321,10 @@
       prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
       nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
 
-      function start(){ timer = setInterval(() => setIndex(idx + 1), 5200); }
+      function start(){ timer = setInterval(() => setIndex(idx + 1), 5600); }
       function stop(){ if (timer) clearInterval(timer); timer = null; }
       function restart(){ stop(); start(); }
 
-      // pause on hover/focus
       viewport.addEventListener('mouseenter', stop);
       viewport.addEventListener('mouseleave', start);
       viewport.addEventListener('focusin', stop);
@@ -1180,16 +1333,11 @@
       // swipe
       let startX = 0, dx = 0, down = false;
       viewport.addEventListener('pointerdown', (e) => {
-        down = true;
-        startX = e.clientX;
-        dx = 0;
+        down = true; startX = e.clientX; dx = 0;
         viewport.setPointerCapture(e.pointerId);
         stop();
       });
-      viewport.addEventListener('pointermove', (e) => {
-        if (!down) return;
-        dx = e.clientX - startX;
-      });
+      viewport.addEventListener('pointermove', (e) => { if (down) dx = e.clientX - startX; });
       viewport.addEventListener('pointerup', () => {
         if (!down) return;
         down = false;
@@ -1197,7 +1345,7 @@
         else restart();
       });
 
-      // intercept 23.5 slide click -> modal
+      // ONLY intercept the 23.5 slide
       track.addEventListener('click', (e) => {
         const a = e.target.closest && e.target.closest('.slideLink');
         if (!a) return;
@@ -1209,6 +1357,116 @@
 
       setIndex(0);
       start();
+    });
+
+    // ── Studio slideshow (smooth crossfade, no blank flashes)
+    document.addEventListener('DOMContentLoaded', function(){
+      const images = [
+        "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
+        "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
+        "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
+        "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
+        "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
+        "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
+      ];
+
+      const imgA = document.getElementById('imgA');
+      const imgB = document.getElementById('imgB');
+      if (!imgA || !imgB) return;
+
+      let i = 0;
+      let showingA = true;
+
+      function preload(src){
+        return new Promise((resolve) => {
+          const im = new Image();
+          im.onload = () => resolve(src);
+          im.onerror = () => resolve(src); // even if it fails, don't stall forever
+          im.src = src;
+        });
+      }
+
+      async function swap(){
+        const nextSrc = images[i % images.length];
+        i++;
+
+        await preload(nextSrc);
+
+        const show = showingA ? imgB : imgA;
+        const hide = showingA ? imgA : imgB;
+
+        show.src = nextSrc;
+
+        requestAnimationFrame(() => {
+          show.classList.add('show');
+          hide.classList.remove('show');
+          showingA = !showingA;
+        });
+      }
+
+      // init
+      imgA.src = images[0];
+      imgA.classList.add('show');
+      i = 1;
+
+      setInterval(swap, 4200);
+    });
+
+    // ── Video search/filter/sort
+    document.addEventListener('DOMContentLoaded', function(){
+      const grid = document.getElementById('videoGrid');
+      const q = document.getElementById('q');
+      const artist = document.getElementById('artist');
+      const sort = document.getElementById('sort');
+      const empty = document.getElementById('empty');
+      if (!grid || !q || !artist || !sort || !empty) return;
+
+      const cards = Array.from(grid.querySelectorAll('.vcard'));
+
+      // populate artist dropdown from data-artist
+      const names = new Set();
+      cards.forEach(c => {
+        const a = (c.getAttribute('data-artist') || '').split(',').map(s => s.trim()).filter(Boolean);
+        a.forEach(x => names.add(x));
+      });
+      Array.from(names).sort((a,b)=>a.localeCompare(b)).forEach(n=>{
+        const opt = document.createElement('option');
+        opt.value = n;
+        opt.textContent = n;
+        artist.appendChild(opt);
+      });
+
+      function apply(){
+        const term = (q.value || '').trim().toLowerCase();
+        const who = (artist.value || '').trim();
+        const mode = sort.value;
+
+        let filtered = cards.filter(c => {
+          const t = (c.getAttribute('data-title') || '').toLowerCase();
+          const a = (c.getAttribute('data-artist') || '').toLowerCase();
+          const okTerm = !term || t.includes(term) || a.includes(term);
+          const okArtist = !who || (c.getAttribute('data-artist') || '').split(',').map(s=>s.trim()).includes(who);
+          return okTerm && okArtist;
+        });
+
+        // sort
+        const byDate = (x) => (x.getAttribute('data-date') || '1900-01-01');
+        if (mode === 'oldest') filtered.sort((a,b)=> byDate(a).localeCompare(byDate(b)));
+        else if (mode === 'az') filtered.sort((a,b)=> (a.getAttribute('data-title')||'').localeCompare(b.getAttribute('data-title')||''));
+        else if (mode === 'za') filtered.sort((a,b)=> (b.getAttribute('data-title')||'').localeCompare(a.getAttribute('data-title')||''));
+        else filtered.sort((a,b)=> byDate(b).localeCompare(byDate(a))); // default: latest first
+
+        // render
+        grid.innerHTML = '';
+        filtered.forEach(c => grid.appendChild(c));
+        empty.style.display = filtered.length ? 'none' : 'block';
+      }
+
+      q.addEventListener('input', apply);
+      artist.addEventListener('change', apply);
+      sort.addEventListener('change', apply);
+
+      apply();
     });
   </script>
 </body>
