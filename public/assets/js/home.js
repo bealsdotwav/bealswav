@@ -50,7 +50,7 @@ function onReady(fn){
   onReady(sync);
 })();
 
-// Carousel (JS ONLY for sliding/dots/autoplay/swipe)
+// Carousel (sliding/dots/autoplay/swipe)
 onReady(function initCarousel(){
   const track    = document.getElementById('track');
   const dotsWrap = document.getElementById('dots');
@@ -110,7 +110,7 @@ onReady(function initCarousel(){
     down = true;
     startX = e.clientX;
     dx = 0;
-    viewport.setPointerCapture(e.pointerId);
+    try { viewport.setPointerCapture(e.pointerId); } catch(_) {}
     stop();
   });
 
@@ -184,7 +184,7 @@ onReady(function(){
   setInterval(swap, 4200);
 });
 
-// Video search/filter/sort
+// Video search/filter/sort (kept as-is but safe if grid is empty)
 onReady(function(){
   const grid = document.getElementById('videoGrid');
   const q = document.getElementById('q');
@@ -194,12 +194,14 @@ onReady(function(){
   if (!grid || !q || !artist || !sort || !empty) return;
 
   const cards = Array.from(grid.querySelectorAll('.vcard'));
+  if (!cards.length) return;
 
   const names = new Set();
   cards.forEach(c => {
     const a = (c.getAttribute('data-artist') || '').split(',').map(s => s.trim()).filter(Boolean);
     a.forEach(x => names.add(x));
   });
+
   Array.from(names).sort((a,b)=>a.localeCompare(b)).forEach(n=>{
     const opt = document.createElement('option');
     opt.value = n;
