@@ -64,7 +64,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO (shows EVERY load, lasts ~2.9s)
+       INTRO (EVERY load, lasts ~2.9s)
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -82,7 +82,6 @@
       pointer-events: all;
     }
 
-    /* hold for ~2.2s, fade ~0.7s (total 2.9s) */
     .intro.play{
       animation: introOut 2.9s ease-in-out forwards;
     }
@@ -258,7 +257,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (swipe + click; no overlay links)
+       CAROUSEL
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -418,7 +417,6 @@
       max-width: 70ch;
     }
 
-    /* embed slide */
     .embedSlide{
       cursor: default;
       background:
@@ -519,7 +517,7 @@
     .tiktok{ background: #0b0b0f; }
 
     /* ─────────────────────────────────────────────────────────────
-       FEATURED RELEASE (big block)
+       FEATURED RELEASE
     ───────────────────────────────────────────────────────────── */
     .featuredBlock{
       margin-top: 18px;
@@ -749,7 +747,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       TICKER (pixel-perfect loop)
+       TICKER
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
@@ -789,7 +787,6 @@
       100%{color:#00ffff}
     }
 
-    /* responsive */
     @media (max-width: 980px){
       .grid2{ grid-template-columns: 1fr; }
       .videoGrid{ grid-template-columns: 1fr; }
@@ -817,7 +814,7 @@
 </head>
 
 <body>
-  <!-- Intro (EVERY load) -->
+  <!-- Intro -->
   <div class="intro" id="intro" aria-label="Intro screen">
     <div class="introFrame">
       <div class="introTitle">Welcome to the Beals.wav experience</div>
@@ -898,7 +895,7 @@
                 <div class="slide"
                      data-chip="Music"
                      data-href="/music.html"
-                     data-img="/public/assets/images/music-bg.jpg">
+                     data-img="/assets/images/music-bg.jpg">
                   <div class="slideMedia"></div>
                   <div class="slideOverlay">
                     <div class="tag">Music</div>
@@ -1217,23 +1214,15 @@
   </div>
 
   <script>
-    // ─────────────────────────────────────────────────────────────
-    // Intro: show EVERY page load, fixed duration
-    // ─────────────────────────────────────────────────────────────
+    // Intro: EVERY load, fixed duration
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-
-      // Start animation on next frame so it can't "finish instantly" on fast loads.
       requestAnimationFrame(() => intro.classList.add('play'));
-
-      // Remove after animation completes (~2.9s)
       setTimeout(() => { if (intro) intro.remove(); }, 2950);
     })();
 
-    // ─────────────────────────────────────────────────────────────
     // Mobile drawer
-    // ─────────────────────────────────────────────────────────────
     (function(){
       const btn = document.getElementById('menuBtn');
       const drawer = document.getElementById('drawer');
@@ -1252,9 +1241,7 @@
       });
     })();
 
-    // ─────────────────────────────────────────────────────────────
     // Login/account labels (top + mobile)
-    // ─────────────────────────────────────────────────────────────
     (function(){
       function sync(){
         const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
@@ -1273,11 +1260,14 @@
       document.addEventListener('DOMContentLoaded', sync);
     })();
 
-    // ─────────────────────────────────────────────────────────────
-    // Carousel (swipe + click routing via data-href)
-    // - No full-slide links to break swipe
-    // - Backgrounds load from exact data-img paths
-    // ─────────────────────────────────────────────────────────────
+    // Helper: append cache buster safely (doesn't break existing ?query)
+    function withBust(url){
+      if (!url) return url;
+      const sep = url.includes('?') ? '&' : '?';
+      return url + sep + 'v=' + Date.now();
+    }
+
+    // Carousel
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1292,16 +1282,11 @@
       let idx = 0;
       let timer = null;
 
-      // Load slide backgrounds (exact filenames)
+      // Load slide backgrounds
       slides.forEach(slide => {
         const media = slide.querySelector('.slideMedia');
         const img = slide.getAttribute('data-img');
-        if (!media) return;
-
-        if (!img){
-          // embed slide or intentional no-image slide
-          return;
-        }
+        if (!media || !img) return;
 
         const test = new Image();
         test.onload = () => { media.style.backgroundImage = `url("${img}")`; };
@@ -1309,7 +1294,7 @@
           media.style.backgroundImage =
             'linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55))';
         };
-        test.src = img + `?v=${Date.now()}`;
+        test.src = withBust(img);
       });
 
       function setIndex(i, user=false){
@@ -1373,19 +1358,15 @@
 
       viewport.addEventListener('pointercancel', () => { down=false; restart(); });
 
-      // Click routing (ignore clicks that were actually swipes)
+      // Click routing (ignore clicks that were swipes)
       track.addEventListener('click', (e) => {
         if (e.target.closest && e.target.closest('iframe')) return;
         const slide = e.target.closest && e.target.closest('.slide');
         if (!slide) return;
-
-        // if user swiped, don't navigate
-        // (moved is in closure; safe because click fires after pointerup)
-        // if moved was true, navigation is an accident
         if (moved) return;
 
         const href = slide.getAttribute('data-href');
-        if (!href) return; // embed slide
+        if (!href) return;
 
         if (href.startsWith('#')){
           location.hash = href;
@@ -1398,9 +1379,7 @@
       start();
     });
 
-    // ─────────────────────────────────────────────────────────────
-    // Studio slideshow (smooth crossfade)
-    // ─────────────────────────────────────────────────────────────
+    // Studio slideshow
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -1451,9 +1430,7 @@
       setInterval(swap, 4200);
     });
 
-    // ─────────────────────────────────────────────────────────────
     // Video search/filter/sort
-    // ─────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function(){
       const grid = document.getElementById('videoGrid');
       const q = document.getElementById('q');
@@ -1507,9 +1484,7 @@
       apply();
     });
 
-    // ─────────────────────────────────────────────────────────────
     // Ticker: duplicate + measure + animate exact px distance
-    // ─────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('tickerTrack');
       const item = document.getElementById('tickerItem');
