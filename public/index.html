@@ -23,20 +23,19 @@
   <style>
     :root{
       --ink: #0b1b2b;
-      --muted: rgba(11, 27, 43, 0.62);
 
       /* logo blues */
       --blue: #1787ab;
       --blue2:#3eb7db;
 
       /* section backgrounds */
-      --bgTopA: #f7f9fb;    /* soft white */
+      --bgTopA: #f7f9fb;
       --bgTopB: #eef3f8;
 
-      --bgStudioA: #d9f0fb; /* baby blue */
+      --bgStudioA: #d9f0fb;
       --bgStudioB: #cfe8f6;
 
-      --bgVideoA: #ece7e2;  /* muted warm gray */
+      --bgVideoA: #ece7e2;
       --bgVideoB: #e3ddd7;
 
       --panel: rgba(255,255,255,0.78);
@@ -54,7 +53,7 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 35px; /* for fixed ticker */
+      padding-bottom: 35px; /* room for fixed ticker */
     }
     a{ color:inherit; text-decoration:none; }
     img{ display:block; max-width:100%; }
@@ -66,7 +65,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       INTRO (2–3s + logo huge + border)
+       INTRO (2–3s)
     ───────────────────────────────────────────────────────────── */
     .intro{
       position: fixed;
@@ -131,7 +130,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       HEADER (order fixed)
+       HEADER
     ───────────────────────────────────────────────────────────── */
     header{
       position: sticky;
@@ -199,7 +198,6 @@
       filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12));
     }
 
-    /* mobile nav */
     .hamburger{
       display:none;
       width: 44px;
@@ -225,7 +223,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       SECTIONS (clouded feel)
+       SECTIONS
     ───────────────────────────────────────────────────────────── */
     .section{ padding: 26px 0 42px; }
 
@@ -254,7 +252,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (links forced, not basic)
+       CAROUSEL (IMG + overlay text)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -344,45 +342,59 @@
       height: 100%;
       position: relative;
       overflow:hidden;
-    }
-
-    .slideLink{
-      position:absolute;
-      inset:0;
-      z-index: 10;
-      display:block;
-      cursor:pointer;
-      background: transparent;
-    }
-
-    .slideBg{
-      position:absolute;
-      inset:0;
-      z-index: 1;
-      background-size: cover;
-      background-position: center;
-      transform: scale(1.02);
-    }
-    .slideBg::after{
-      content:"";
-      position:absolute;
-      inset:0;
       background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.28), transparent 62%),
-        radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.18), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.34));
-      pointer-events:none;
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
+        linear-gradient(135deg, rgba(23,135,171,0.45), rgba(8,24,44,0.55));
     }
 
-    .slideContent{
+    .slideMedia{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+    }
+
+    /* image slide */
+    .slideMedia img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.02);
+    }
+
+    /* embed slide (23.5) */
+    .embedWrap{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,0.20);
+    }
+    .embedWrap iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+    .embedShade{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.08), transparent 62%),
+        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.22));
+    }
+
+    /* overlay */
+    .overlay{
       position:absolute;
       left: 18px;
       right: 18px;
       bottom: 18px;
-      z-index: 2;
+      z-index: 3;
       display:flex;
       flex-direction:column;
-      gap: 8px;
+      gap: 10px;
       pointer-events:none;
     }
 
@@ -390,32 +402,57 @@
       width: fit-content;
       padding: 8px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.70);
+      background: rgba(255,255,255,0.74);
       border: 1px solid rgba(15,23,42,0.14);
       backdrop-filter: blur(10px);
       font-weight: 950;
       font-size: 0.85rem;
-      color: rgba(11,27,43,0.78);
+      color: rgba(11,27,43,0.82);
       text-transform: none;
     }
 
     .title{
       font-weight: 950;
       letter-spacing: -0.03em;
-      font-size: clamp(1.6rem, 1.1rem + 2.2vw, 2.6rem);
+      font-size: clamp(1.55rem, 1.05rem + 2.2vw, 2.55rem);
       line-height: 1.0;
-      color: rgba(255,255,255,0.92);
+      color: rgba(255,255,255,0.94);
       text-transform: none;
-      text-shadow: 0 16px 60px rgba(0,0,0,0.40);
+      text-shadow: 0 16px 60px rgba(0,0,0,0.45);
     }
 
     .subtitle{
       font-weight: 850;
-      color: rgba(255,255,255,0.82);
-      font-size: 1.0rem;
-      text-shadow: 0 16px 60px rgba(0,0,0,0.40);
-      max-width: 70ch;
+      color: rgba(255,255,255,0.86);
+      font-size: 1.02rem;
+      text-shadow: 0 16px 60px rgba(0,0,0,0.45);
+      max-width: 72ch;
       text-transform: none;
+    }
+
+    .overlayBtn{
+      width: fit-content;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      border: 1px solid rgba(255,255,255,0.26);
+      color: rgba(5,16,26,0.92);
+      font-weight: 950;
+      box-shadow: 0 18px 46px rgba(23,135,171,0.22);
+      pointer-events:auto; /* clickable */
+    }
+
+    /* full-slide click target for non-embed slides */
+    .slideLink{
+      position:absolute;
+      inset:0;
+      z-index: 2;
+      display:block;
+      cursor:pointer;
+      background: transparent;
     }
 
     .dots{
@@ -439,44 +476,7 @@
       transform: scale(1.14);
     }
 
-    /* Slide backgrounds (RELATIVE paths so Render doesn't break them) */
-    .bg-235{
-      background-image:
-        url("assets/images/235-cover.jpg"),
-        linear-gradient(135deg, rgba(62,183,219,0.65), rgba(23,135,171,0.55));
-    }
-    .bg-music{
-      background-image:
-        url("assets/images/music-bg.jpg"),
-        linear-gradient(135deg, rgba(29,185,84,0.55), rgba(8,24,44,0.55));
-    }
-    .bg-studio{
-      background-image:
-        url("assets/images/studio.jpg"),
-        linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55));
-    }
-    .bg-beats{
-      background-image:
-        url("assets/images/beats-bg.jpg"),
-        linear-gradient(135deg, rgba(255,85,0,0.58), rgba(8,24,44,0.55));
-    }
-    .bg-faq{
-      background-image:
-        url("assets/images/faq-bg.jpg"),
-        linear-gradient(135deg, rgba(245,158,11,0.62), rgba(8,24,44,0.55));
-    }
-    .bg-contact{
-      background-image:
-        url("assets/images/contact-bg.jpg"),
-        linear-gradient(135deg, rgba(255,90,122,0.55), rgba(8,24,44,0.55));
-    }
-    .bg-follow{
-      background-image:
-        url("assets/images/follow-bg.jpg"),
-        linear-gradient(135deg, rgba(62,183,219,0.55), rgba(29,185,84,0.35));
-    }
-
-    /* Follow section under carousel */
+    /* Follow section */
     .followBox{
       margin-top: 16px;
       border-radius: 24px;
@@ -613,7 +613,7 @@
     .cta:active{ transform: translateY(1px); }
 
     /* ─────────────────────────────────────────────────────────────
-       VIDEOS + search/filter
+       VIDEOS + featured 23.5
     ───────────────────────────────────────────────────────────── */
     .sectionHead{
       display:flex;
@@ -636,6 +636,47 @@
       font-weight: 850;
       font-size: 0.95rem;
       text-transform: none;
+    }
+
+    .featured{
+      margin: 12px 0 14px;
+      border-radius: 24px;
+      overflow:hidden;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.78);
+      box-shadow: var(--shadow);
+    }
+    .featuredHead{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      padding: 14px 14px 10px;
+    }
+    .featuredHead h3{
+      margin:0;
+      font-size: 1.05rem;
+      font-weight: 950;
+      letter-spacing: -0.01em;
+      color: rgba(11,27,43,0.92);
+    }
+    .featuredHead span{
+      color: rgba(11,27,43,0.62);
+      font-weight: 850;
+      font-size: 0.95rem;
+    }
+    .featuredFrame{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: rgba(11,27,43,0.06);
+      border-top: 1px solid rgba(15,23,42,0.10);
+    }
+    .featuredFrame iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
     }
 
     .filters{
@@ -717,32 +758,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────────────────────────── */
-    @media (max-width: 980px){
-      .grid2{ grid-template-columns: 1fr; }
-      .videoGrid{ grid-template-columns: 1fr; }
-      .filters{ grid-template-columns: 1fr; }
-      .links{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .squircle{ min-height: 430px; }
-      .viewport{ min-height: 360px; }
-    }
-    @media (max-width: 760px){
-      .navGroup{ display:none; }
-      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
-      .topbar{ grid-template-columns: auto 1fr auto; }
-      .brand{ justify-content:center; }
-      .drawer{ display:none; }
-      .drawerInner{ grid-template-columns: 1fr; }
-      .links{ grid-template-columns: 1fr; }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
-    }
-
-    /* ─────────────────────────────────────────────────────────────
-       FIXED TICKER (studio-style)
+       TICKER (studio behavior + visible even with reduced motion)
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
@@ -761,10 +777,36 @@
       animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
       font-size:.65rem;
       font-weight:bold;
+      color:#00ffff; /* fallback so text doesn't disappear */
     }
     @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
     @keyframes colorchange{
       0%{color:#00ffff}25%{color:#ff5c7a}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}
+    }
+
+    /* responsive */
+    @media (max-width: 980px){
+      .grid2{ grid-template-columns: 1fr; }
+      .videoGrid{ grid-template-columns: 1fr; }
+      .filters{ grid-template-columns: 1fr; }
+      .links{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .squircle{ min-height: 430px; }
+      .viewport{ min-height: 360px; }
+    }
+    @media (max-width: 760px){
+      .navGroup{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+      .topbar{ grid-template-columns: auto 1fr auto; }
+      .brand{ justify-content:center; }
+      .drawer{ display:none; }
+      .drawerInner{ grid-template-columns: 1fr; }
+      .links{ grid-template-columns: 1fr; }
+    }
+
+    /* reduced motion: keep ticker text visible and stationary */
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; scroll-behavior:auto !important; }
+      .ticker-content{ animation:none !important; transform:none !important; color:#00ffff !important; padding-left:0; }
     }
   </style>
 </head>
@@ -775,7 +817,7 @@
     <div class="introFrame">
       <div class="introTitle">welcome to the beals.wav experience</div>
       <div class="introLogoWrap">
-        <img class="introLogo" src="assets/images/logo.jpeg?v=3" alt="beals.wav">
+        <img class="introLogo" src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
       </div>
     </div>
   </div>
@@ -783,7 +825,7 @@
   <header>
     <div class="wrap">
       <div class="topbar">
-        <!-- Left buttons: Studio, Music, Beats -->
+        <!-- Left buttons -->
         <div class="navGroup navLeft" aria-label="Top navigation left">
           <a class="navBtn" href="studio.html">Studio</a>
           <a class="navBtn" href="music.html">Music</a>
@@ -793,11 +835,11 @@
         <!-- Center logo -->
         <div class="brand">
           <a href="index.html" aria-label="Home">
-            <img src="assets/images/logo.jpeg?v=3" alt="beals.wav">
+            <img src="/assets/images/logo.jpeg?v=3" alt="beals.wav">
           </a>
         </div>
 
-        <!-- Right buttons: Contact, FAQ, Login -->
+        <!-- Right buttons -->
         <div class="navGroup navRight" aria-label="Top navigation right">
           <a class="navBtn" href="contact.html">Contact</a>
           <a class="navBtn" href="faq.html">FAQ</a>
@@ -838,82 +880,105 @@
 
             <div class="viewport" id="viewport">
               <div class="track" id="track">
-                <!-- 23.5 (opens modal playlist) -->
-                <div class="slide" data-chip="Latest Release">
-                  <a class="slideLink" href="#" data-action="open235" aria-label="Open Latest Release 23.5"></a>
-                  <div class="slideBg bg-235"></div>
-                  <div class="slideContent">
-                    <div class="tag">Latest Release</div>
-                    <div class="title">23.5</div>
-                    <div class="subtitle">Tap to open the album playlist</div>
+
+                <!-- 23.5: direct embed, no overlay text -->
+                <div class="slide" data-chip="Latest Release" data-kind="embed">
+                  <div class="slideMedia embedWrap" aria-label="23.5 album playlist">
+                    <iframe
+                      loading="lazy"
+                      src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
+                      title="23.5 (Album) Playlist"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen></iframe>
+                    <div class="embedShade"></div>
                   </div>
                 </div>
 
                 <!-- Music -->
-                <div class="slide" data-chip="Music">
+                <div class="slide" data-chip="Music" data-href="music.html">
                   <a class="slideLink" href="music.html" aria-label="Go to Music"></a>
-                  <div class="slideBg bg-music"></div>
-                  <div class="slideContent">
-                    <div class="tag">Listen</div>
+                  <div class="slideMedia">
+                    <img src="/assets/images/music-bg.jpg" alt="Music">
+                  </div>
+                  <div class="overlay">
+                    <div class="tag">Music</div>
                     <div class="title">Music</div>
-                    <div class="subtitle">Releases, playlists, and features</div>
+                    <div class="subtitle">Listen to Beals and Beals.wav associated artists.</div>
+                    <a class="overlayBtn" href="music.html">Listen Here</a>
                   </div>
                 </div>
 
                 <!-- Studio -->
-                <div class="slide" data-chip="Studio">
+                <div class="slide" data-chip="Studio" data-href="studio.html">
                   <a class="slideLink" href="studio.html" aria-label="Go to Studio"></a>
-                  <div class="slideBg bg-studio"></div>
-                  <div class="slideContent">
-                    <div class="tag">Book Time</div>
+                  <div class="slideMedia">
+                    <img src="/assets/images/studio.jpg" alt="Studio">
+                  </div>
+                  <div class="overlay">
+                    <div class="tag">Studio</div>
                     <div class="title">Studio</div>
-                    <div class="subtitle">Recording, mixing, production</div>
+                    <div class="subtitle">Recording, mixing, production. West Jordan, Utah.</div>
+                    <a class="overlayBtn" href="studio.html">Book Studio Time Here</a>
                   </div>
                 </div>
 
                 <!-- Beats -->
-                <div class="slide" data-chip="Beats">
+                <div class="slide" data-chip="Beats" data-href="beatstore.html">
                   <a class="slideLink" href="beatstore.html" aria-label="Go to Beats"></a>
-                  <div class="slideBg bg-beats"></div>
-                  <div class="slideContent">
-                    <div class="tag">Buy</div>
+                  <div class="slideMedia">
+                    <img src="/assets/images/beats-bg.jpg" alt="Beats">
+                  </div>
+                  <div class="overlay">
+                    <div class="tag">Beats</div>
                     <div class="title">Beats</div>
-                    <div class="subtitle">Leases, exclusives, licensing</div>
+                    <div class="subtitle">Buy leases, exclusives, and licensing.</div>
+                    <a class="overlayBtn" href="beatstore.html">Buy Beats Here</a>
                   </div>
                 </div>
 
                 <!-- FAQ -->
-                <div class="slide" data-chip="FAQ">
+                <div class="slide" data-chip="FAQ" data-href="faq.html">
                   <a class="slideLink" href="faq.html" aria-label="Go to FAQ"></a>
-                  <div class="slideBg bg-faq"></div>
-                  <div class="slideContent">
-                    <div class="tag">Info</div>
+                  <div class="slideMedia">
+                    <img src="/assets/images/faq-bg.jpg" alt="FAQ">
+                  </div>
+                  <div class="overlay">
+                    <div class="tag">FAQ</div>
                     <div class="title">FAQ</div>
-                    <div class="subtitle">How it works, what to expect</div>
+                    <div class="subtitle">How it works, what to expect, and answers that matter.</div>
+                    <a class="overlayBtn" href="faq.html">Read FAQ Here</a>
                   </div>
                 </div>
 
                 <!-- Contact -->
-                <div class="slide" data-chip="Contact">
+                <div class="slide" data-chip="Contact" data-href="contact.html">
                   <a class="slideLink" href="contact.html" aria-label="Go to Contact"></a>
-                  <div class="slideBg bg-contact"></div>
-                  <div class="slideContent">
-                    <div class="tag">Reach Out</div>
+                  <div class="slideMedia">
+                    <img src="/assets/images/contact-bg.jpg" alt="Contact">
+                  </div>
+                  <div class="overlay">
+                    <div class="tag">Contact</div>
                     <div class="title">Contact</div>
-                    <div class="subtitle">Questions, collabs, bookings</div>
+                    <div class="subtitle">Bookings, collabs, questions, business.</div>
+                    <a class="overlayBtn" href="contact.html">Contact Here</a>
                   </div>
                 </div>
 
                 <!-- Follow -->
-                <div class="slide" data-chip="Follow">
+                <div class="slide" data-chip="Follow" data-href="#follow">
                   <a class="slideLink" href="#follow" aria-label="Go to Follow"></a>
-                  <div class="slideBg bg-follow"></div>
-                  <div class="slideContent">
-                    <div class="tag">Support</div>
+                  <div class="slideMedia">
+                    <img src="/assets/images/follow-bg.jpg" alt="Follow & Support">
+                  </div>
+                  <div class="overlay">
+                    <div class="tag">Follow</div>
                     <div class="title">Follow</div>
-                    <div class="subtitle">Spotify, YouTube, socials</div>
+                    <div class="subtitle">Spotify, YouTube, socials. Support the work.</div>
+                    <a class="overlayBtn" href="#follow">Go To Follow</a>
                   </div>
                 </div>
+
               </div>
             </div>
 
@@ -966,6 +1031,22 @@
         <p>Latest releases</p>
       </div>
 
+      <!-- Featured 23.5 ABOVE everything else -->
+      <div class="featured" aria-label="Featured latest release 23.5">
+        <div class="featuredHead">
+          <h3>23.5 (Album)</h3>
+          <span>Latest Release</span>
+        </div>
+        <div class="featuredFrame">
+          <iframe loading="lazy"
+            src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
+            title="23.5 (Album) Playlist"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+
       <div class="filters" aria-label="Video filters">
         <div class="field">
           <label for="q">Search</label>
@@ -989,7 +1070,6 @@
       </div>
 
       <div class="videoGrid" id="videoGrid">
-        <!-- Add data-date as YYYY-MM-DD so sorting works properly -->
         <article class="card vcard" data-title="VIP (220)" data-artist="Beals" data-date="2025-01-01">
           <div class="videoTitle">
             <h3>VIP (220)</h3>
@@ -1115,44 +1195,6 @@
     </div>
   </section>
 
-  <!-- 23.5 modal -->
-  <div id="modal235" style="
-    position:fixed; inset:0; z-index:5000; display:none;
-    align-items:center; justify-content:center; padding:18px;
-    background: rgba(0,0,0,0.55); backdrop-filter: blur(10px);
-  " aria-hidden="true" role="dialog" aria-label="23.5 playlist">
-    <div style="
-      width:min(980px,96vw);
-      border-radius:26px;
-      background: rgba(255,255,255,0.92);
-      border:1px solid rgba(255,255,255,0.22);
-      box-shadow: 0 28px 90px rgba(0,0,0,0.35);
-      overflow:hidden;
-    ">
-      <div style="
-        display:flex; align-items:center; justify-content:space-between; gap:10px;
-        padding:12px 12px; background: rgba(247,249,251,0.92);
-        border-bottom:1px solid rgba(15,23,42,0.10);
-      ">
-        <strong style="font-weight:950; letter-spacing:-0.02em; color: rgba(11,27,43,0.92);">23.5 (Album)</strong>
-        <button id="close235" style="
-          width:42px; height:42px; border-radius:999px;
-          border:1px solid rgba(15,23,42,0.12);
-          background: rgba(255,255,255,0.70);
-          cursor:pointer; font-weight:950; color: rgba(11,27,43,0.86);
-        " aria-label="Close">×</button>
-      </div>
-      <div style="position:relative; width:100%; aspect-ratio:16/9; background: rgba(11,27,43,0.06);">
-        <iframe id="iframe235" loading="lazy" src=""
-          title="23.5 (Album)"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-          style="position:absolute; inset:0; width:100%; height:100%; border:0;"></iframe>
-      </div>
-    </div>
-  </div>
-
   <!-- Studio-style fixed ticker -->
   <div class="ticker">
     <div class="ticker-content">
@@ -1161,11 +1203,11 @@
   </div>
 
   <script>
-    // ── Intro (2–3s, once per session)
+    // Intro (2–3s, once per session)
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-      const key = 'bw_intro_seen_session_v3';
+      const key = 'bw_intro_seen_session_v4';
       try{
         if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
@@ -1173,7 +1215,7 @@
       setTimeout(() => { if (intro) intro.remove(); }, 2700);
     })();
 
-    // ── Mobile drawer
+    // Mobile drawer
     (function(){
       const btn = document.getElementById('menuBtn');
       const drawer = document.getElementById('drawer');
@@ -1189,34 +1231,7 @@
       });
     })();
 
-    // ── 23.5 modal
-    (function(){
-      const modal = document.getElementById('modal235');
-      const close = document.getElementById('close235');
-      const iframe = document.getElementById('iframe235');
-      if (!modal || !close || !iframe) return;
-
-      function open(){
-        modal.style.display = 'flex';
-        modal.setAttribute('aria-hidden', 'false');
-        iframe.src = "https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1";
-        document.body.style.overflow = 'hidden';
-      }
-      function shut(){
-        modal.style.display = 'none';
-        modal.setAttribute('aria-hidden', 'true');
-        iframe.src = "";
-        document.body.style.overflow = '';
-      }
-
-      close.addEventListener('click', shut);
-      modal.addEventListener('click', (e) => { if (e.target === modal) shut(); });
-      window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') shut(); });
-
-      window.__open235 = open;
-    })();
-
-    // ── Carousel (forced navigation, smooth, swipe, auto)
+    // Carousel (smooth, swipe, auto)
     document.addEventListener('DOMContentLoaded', function(){
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
@@ -1244,7 +1259,6 @@
         if (user) restart();
       }
 
-      // dots
       slides.forEach((_, i) => {
         const b = document.createElement('button');
         b.className = 'dot';
@@ -1282,43 +1296,35 @@
         else restart();
       });
 
-      // CLICK HANDLING: 23.5 opens modal, everything else navigates reliably
+      // Make non-embed slides navigable even if something overlays oddly
       track.addEventListener('click', (e) => {
-        const a = e.target.closest && e.target.closest('a.slideLink');
-        if (!a) return;
+        const slide = e.target.closest && e.target.closest('.slide');
+        if (!slide) return;
 
-        const action = a.getAttribute('data-action');
-        if (action === 'open235') {
-          e.preventDefault();
-          if (window.__open235) window.__open235();
-          return;
-        }
+        const kind = slide.getAttribute('data-kind');
+        if (kind === 'embed') return; // 23.5 is just the embed
 
-        const href = a.getAttribute('href');
-        if (!href || href === '#') return;
+        // If user clicked a link/button, let it behave normally
+        if (e.target.closest('a')) return;
 
-        e.preventDefault();
-
-        if (href.startsWith('#')) {
-          location.hash = href;
-        } else {
-          window.location.href = href;
-        }
+        const href = slide.getAttribute('data-href');
+        if (!href) return;
+        window.location.href = href;
       });
 
       setIndex(0);
       start();
     });
 
-    // ── Studio slideshow (smooth crossfade, no blank flashes)
+    // Studio slideshow (smooth crossfade)
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
-        "assets/images/S1.jpeg","assets/images/S2.jpeg","assets/images/S3.jpeg",
-        "assets/images/S4.jpeg","assets/images/S5.jpeg","assets/images/S6.jpeg",
-        "assets/images/S7.jpeg","assets/images/S8.jpeg","assets/images/S9.jpeg",
-        "assets/images/S10.jpeg","assets/images/S11.jpeg","assets/images/S12.jpeg",
-        "assets/images/S13.jpeg","assets/images/S14.jpeg","assets/images/S15.jpeg",
-        "assets/images/S16.jpeg","assets/images/S17.jpeg"
+        "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
+        "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
+        "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
+        "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
+        "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
+        "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
       ];
 
       const imgA = document.getElementById('imgA');
@@ -1361,7 +1367,7 @@
       setInterval(swap, 4200);
     });
 
-    // ── Video search/filter/sort
+    // Video search/filter/sort
     document.addEventListener('DOMContentLoaded', function(){
       const grid = document.getElementById('videoGrid');
       const q = document.getElementById('q');
@@ -1372,7 +1378,6 @@
 
       const cards = Array.from(grid.querySelectorAll('.vcard'));
 
-      // populate artist dropdown from data-artist
       const names = new Set();
       cards.forEach(c => {
         const a = (c.getAttribute('data-artist') || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -1414,6 +1419,18 @@
       sort.addEventListener('change', apply);
 
       apply();
+    });
+
+    // Hard cache-bust for carousel images if needed (optional, harmless)
+    // This forces the browser to re-request the images when you deploy.
+    document.addEventListener('DOMContentLoaded', function(){
+      const v = 'v=1';
+      document.querySelectorAll('.slideMedia img').forEach(img => {
+        const src = img.getAttribute('src') || '';
+        if (!src) return;
+        if (src.includes('?')) return;
+        img.src = src + '?' + v;
+      });
     });
   </script>
 </body>
