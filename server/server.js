@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
@@ -18,7 +19,7 @@ const Stripe = require('stripe');
 const app = express();
 const PORT = process.env.PORT || 4242;
 
-// ─── FEATURE FLAGS (OPTION 2: DON'T DIE IF MISSING) ───────────────────────────
+// ─── FEATURE FLAGS (DON'T DIE IF MISSING) ─────────────────────────────────────
 const HAS_DB = !!process.env.MONGODB_URI;
 const HAS_EMAIL = !!process.env.SENDER_EMAIL;
 const HAS_STRIPE = !!process.env.STRIPE_SECRET_KEY;
@@ -27,28 +28,52 @@ if (!HAS_DB) console.warn('⚠️  MONGODB_URI not set: auth/session routes will
 if (!HAS_EMAIL) console.warn('⚠️  SENDER_EMAIL not set: email routes will return 503.');
 if (!HAS_STRIPE) console.warn('⚠️  STRIPE_SECRET_KEY not set: checkout route will return 503.');
 
-// ─── SECURITY, CORS & RATE-LIMIT ──────────────────────────────────────────────
+// ─── PATHS ────────────────────────────────────────────────────────────────────
+// server.js lives in /server. public lives next to it: /public
+const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+
+// ─── TRUST PROXY (Render/Heroku/etc) ──────────────────────────────────────────
+app.enable('trust proxy');
+
+// ─── SECURITY HEADERS (Helmet + CSP) ─────────────────────────────────────────
+// NOTE: You are using an inline GTM config snippet in index.html, so CSP must allow it.
+// If you ever move GTM config into home.js, you can remove 'unsafe-inline' later.
 app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: [
-          "'self'",
-          "'unsafe-inline'",
-          "https://cdn.jsdelivr.net",
-          "https://www.googletagmanager.com",
-        ],
-        "script-src-attr": ["'unsafe-inline'"],
+        baseUri: ["'self'"],
+        objectSrc: ["'none'"],
+
+        // Scripts:
+        // - 'self' allows /assets/js/home.js
+        // - 'unsafe-inline' required for your inline GTM config snippet (currently in index.html)
+        // - googletagmanager for gtag.js
+        scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com"],
+
+        // If you ever get CSP errors for inline attributes, keep this:
+        scriptSrcAttr: ["'unsafe-inline'"],
+
+        // Styles/fonts:
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "data:"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+
+        // Images:
+        // - include https: because you load external icons/logos sometimes and backgrounds
+        // - include data: for inline images if any
+        imgSrc: ["'self'", "data:", "https:"],
+
+        // XHR/WebSocket:
         connectSrc: [
           "'self'",
-          "https://api.emailjs.com",
           "https://www.google-analytics.com",
+          "https://region1.google-analytics.com",
           "https://www.googletagmanager.com",
         ],
+
+        // iFrames:
         frameSrc: [
           "'self'",
           "https://www.youtube.com",
@@ -63,18 +88,15 @@ app.use(
   })
 );
 
-// trust proxy if behind Render/Heroku/etc.
-app.enable('trust proxy');
-
-// only allow your front-end origins
+// ─── CORS ─────────────────────────────────────────────────────────────────────
 const allowedOrigins =
   process.env.NODE_ENV === 'production'
     ? ['https://bealswav.com', 'https://www.bealswav.com']
-    : ['http://localhost:4242'];
+    : ['http://localhost:4242', 'http://localhost:3000'];
 
 app.use(cors({ origin: allowedOrigins }));
 
-// redirect HTTP → HTTPS in prod (Render-safe)
+// ─── HTTPS REDIRECT (PROD) ────────────────────────────────────────────────────
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     const proto = req.get('x-forwarded-proto');
@@ -85,7 +107,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// rate-limit on register & contact to prevent spam
+// ─── RATE LIMIT ───────────────────────────────────────────────────────────────
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -94,12 +116,27 @@ const apiLimiter = rateLimit({
 app.use('/register', apiLimiter);
 app.use('/contact', apiLimiter);
 
-// ─── BODY PARSING & STATIC ────────────────────────────────────────────────────
+// ─── BODY PARSING ────────────────────────────────────────────────────────────
 app.use(bodyParser.json());
 
-// Serve files from ../public at the site root
-const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+// ─── STATIC FILES (THIS MUST COME BEFORE ROUTES) ──────────────────────────────
+// This serves:
+//   /index.html
+//   /assets/images/...
+//   /assets/js/home.js
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
+
+// ─── DEBUG ROUTES (SO YOU CAN STOP GUESSING) ─────────────────────────────────-
+app.get('/health', (_req, res) => res.json({ ok: true }));
+
+app.get('/__debug/static-check', (_req, res) => {
+  const homeJsPath = path.join(PUBLIC_DIR, 'assets', 'js', 'home.js');
+  res.json({
+    PUBLIC_DIR,
+    homeJsPath,
+    homeJsExists: fs.existsSync(homeJsPath),
+  });
+});
 
 // ─── DATABASE (ONLY CONNECT IF CONFIGURED) ────────────────────────────────────
 if (HAS_DB) {
@@ -111,7 +148,7 @@ if (HAS_DB) {
     .then(() => console.log('✅  MongoDB connected'))
     .catch((err) => {
       console.error('❌  MongoDB connection error:', err);
-      process.exit(1); // configured but broken = fair to exit
+      process.exit(1);
     });
 } else {
   console.warn('⚠️  Skipping MongoDB connection.');
@@ -172,7 +209,6 @@ if (HAS_EMAIL) {
       });
     }
 
-    // Dev fallback: Ethereal
     const testAcct = await nodemailer.createTestAccount();
     console.log('ℹ️  Ethereal SMTP account:', testAcct.user);
     return nodemailer.createTransport({
@@ -209,7 +245,7 @@ async function sendEmail(options) {
   return info;
 }
 
-// ─── GUARDS (RETURN 503 INSTEAD OF CRASHING) ──────────────────────────────────
+// ─── GUARDS ──────────────────────────────────────────────────────────────────
 function requireDb(_req, res, next) {
   if (!HAS_DB || !User) return res.status(503).json({ message: 'Service unavailable (DB not configured).' });
   next();
@@ -227,12 +263,7 @@ function requireStripe(_req, res, next) {
 
 // ─── ROUTES ───────────────────────────────────────────────────────────────────
 
-// Home page
-app.get('/', (_req, res) => {
-  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
-});
-
-// — REGISTER —
+// REGISTER
 app.post(
   '/register',
   requireDb,
@@ -273,7 +304,7 @@ app.post(
   }
 );
 
-// — VERIFY EMAIL —
+// VERIFY EMAIL
 app.get('/verify-email', requireDb, async (req, res, next) => {
   try {
     const { token } = req.query;
@@ -295,7 +326,7 @@ app.get('/verify-email', requireDb, async (req, res, next) => {
   }
 });
 
-// — LOGIN —
+// LOGIN
 app.post(
   '/login',
   requireDb,
@@ -337,7 +368,7 @@ app.post(
   }
 );
 
-// — PASSWORD RESET REQUEST —
+// PASSWORD RESET REQUEST
 app.post(
   '/request-reset',
   requireDb,
@@ -369,7 +400,7 @@ app.post(
   }
 );
 
-// — PASSWORD RESET SUBMISSION —
+// PASSWORD RESET SUBMISSION
 app.post(
   '/reset-password',
   requireDb,
@@ -400,8 +431,7 @@ app.post(
   }
 );
 
-
-// — SAVE SESSION —
+// SAVE SESSION
 app.post(
   '/save-session',
   requireDb,
@@ -426,7 +456,7 @@ app.post(
   }
 );
 
-// — SESSION HISTORY —
+// SESSION HISTORY
 app.post('/session-history', requireDb, [body('email').isEmail().normalizeEmail()], async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -440,7 +470,7 @@ app.post('/session-history', requireDb, [body('email').isEmail().normalizeEmail(
   }
 });
 
-// ─── CONTACT FORM —
+// CONTACT
 app.post(
   '/contact',
   requireEmail,
@@ -471,6 +501,12 @@ app.post(
   }
 );
 
+// ─── SPA FALLBACK (SERVE INDEX FOR UNKNOWN ROUTES) ────────────────────────────
+// IMPORTANT: This must be LAST, after express.static and all API routes.
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
+});
+
 // ─── GLOBAL ERROR HANDLER ─────────────────────────────────────────────────────
 app.use((err, _req, res, _next) => {
   const status = err.status || 500;
@@ -481,4 +517,5 @@ app.use((err, _req, res, _next) => {
 // ─── START SERVER ─────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🎵 Server listening on port ${PORT}`);
+  console.log(`📁 Serving static from: ${PUBLIC_DIR}`);
 });
