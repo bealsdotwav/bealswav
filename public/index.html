@@ -23,9 +23,8 @@
   <style>
     :root{
       --ink: #0b1b2b;
-      --muted: rgba(11, 27, 43, 0.62);
 
-      /* logo blues */
+      /* blues */
       --blue: #1787ab;
       --blue2:#3eb7db;
 
@@ -54,8 +53,9 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 42px; /* ticker clearance */
+      padding-bottom: 40px; /* ticker clearance */
     }
+
     a{ color:inherit; text-decoration:none; }
     img{ display:block; max-width:100%; }
 
@@ -79,7 +79,7 @@
         radial-gradient(900px 600px at 25% 30%, rgba(62,183,219,0.70), transparent 60%),
         radial-gradient(900px 600px at 75% 70%, rgba(23,135,171,0.80), transparent 62%),
         linear-gradient(135deg, rgba(8,24,44,1), rgba(15,88,135,1));
-      animation: introFade 2.65s ease-in-out forwards;
+      animation: introFade 2.85s ease-in-out forwards;
     }
     @keyframes introFade{
       0%   { opacity: 1; transform: scale(1); filter: saturate(1.45) brightness(1.05); }
@@ -87,6 +87,7 @@
       85%  { opacity: 1; }
       100% { opacity: 0; transform: scale(1.01); pointer-events:none; }
     }
+
     .introFrame{
       width: min(980px, 92vw);
       height: min(78vh, 720px);
@@ -130,7 +131,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       HEADER (left buttons + logo + right buttons)
+       HEADER
     ───────────────────────────────────────────────────────────── */
     header{
       position: sticky;
@@ -224,7 +225,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       SECTIONS (clouded feel)
+       SECTIONS
     ───────────────────────────────────────────────────────────── */
     .section{ padding: 26px 0 42px; }
 
@@ -253,7 +254,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       HERO / CAROUSEL (clicks actually work now)
+       CAROUSEL (rebuilt)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -327,6 +328,7 @@
       border: 1px solid rgba(15,23,42,0.12);
       background: rgba(11,27,43,0.06);
       min-height: 390px;
+      touch-action: pan-y;
     }
 
     .track{
@@ -335,29 +337,26 @@
       transform: translateX(0);
       transition: transform 560ms cubic-bezier(.2,.85,.2,1);
       will-change: transform;
-      touch-action: pan-y;
     }
 
+    /* every slide is fully self-contained */
     .slide{
       min-width: 100%;
       height: 100%;
       position: relative;
       overflow:hidden;
       background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.22), transparent 62%),
-        linear-gradient(135deg, rgba(23,135,171,0.35), rgba(62,183,219,0.20));
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.20), transparent 62%),
+        linear-gradient(135deg, rgba(23,135,171,0.32), rgba(62,183,219,0.18));
     }
 
-    /* media layer */
+    /* image layer (set by JS after probing) */
     .slideMedia{
       position:absolute;
       inset:0;
       z-index:1;
-    }
-    .slideMedia img{
-      width:100%;
-      height:100%;
-      object-fit: cover;
+      background-size: cover;
+      background-position: center;
       transform: scale(1.02);
     }
     .slideMedia::after{
@@ -365,13 +364,13 @@
       position:absolute;
       inset:0;
       background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.20), transparent 62%),
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
         radial-gradient(900px 520px at 85% 80%, rgba(0,0,0,0.18), transparent 60%),
-        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.40));
+        linear-gradient(180deg, rgba(0,0,0,0.10), rgba(0,0,0,0.44));
       pointer-events:none;
     }
 
-    /* clickable layer for non-iframe slides */
+    /* clickable overlay */
     .slideLink{
       position:absolute;
       inset:0;
@@ -380,7 +379,7 @@
       cursor:pointer;
     }
 
-    /* overlay text (not blocking clicks because slideLink is above the media but below text; text itself pointer-events:none) */
+    /* text overlay */
     .slideOverlay{
       position:absolute;
       left: 18px;
@@ -401,8 +400,8 @@
       border: 1px solid rgba(15,23,42,0.14);
       backdrop-filter: blur(10px);
       font-weight: 950;
-      font-size: 0.90rem;
-      color: rgba(11,27,43,0.80);
+      font-size: 0.92rem;
+      color: rgba(11,27,43,0.82);
       text-transform: capitalize;
     }
 
@@ -411,17 +410,36 @@
       letter-spacing: -0.03em;
       font-size: clamp(1.7rem, 1.2rem + 2.2vw, 2.7rem);
       line-height: 1.0;
-      color: rgba(255,255,255,0.94);
+      color: rgba(255,255,255,0.96);
       text-shadow: 0 16px 60px rgba(0,0,0,0.45);
-      text-transform: capitalize;
+      text-transform: none;
     }
 
     .subtitle{
       font-weight: 850;
-      color: rgba(255,255,255,0.86);
+      color: rgba(255,255,255,0.88);
       font-size: 1.02rem;
       text-shadow: 0 16px 60px rgba(0,0,0,0.40);
       max-width: 70ch;
+    }
+
+    /* slide 1: embed */
+    .embedSlide{
+      background:
+        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.14), transparent 62%),
+        linear-gradient(135deg, rgba(23,135,171,0.28), rgba(62,183,219,0.14));
+    }
+    .embedWrap{
+      position:absolute;
+      inset:0;
+      z-index:2;
+    }
+    .embedWrap iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
     }
 
     .dots{
@@ -445,28 +463,9 @@
       transform: scale(1.14);
     }
 
-    /* 23.5 carousel embed slide */
-    .embedSlide{
-      background: rgba(11,27,43,0.06);
-    }
-    .embedWrap{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      padding: 0;
-      background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.18), transparent 62%),
-        linear-gradient(135deg, rgba(23,135,171,0.35), rgba(62,183,219,0.20));
-    }
-    .embedWrap iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
-    }
-
-    /* Follow section under carousel */
+    /* ─────────────────────────────────────────────────────────────
+       FOLLOW BOX
+    ───────────────────────────────────────────────────────────── */
     .followBox{
       margin-top: 16px;
       border-radius: 24px;
@@ -495,7 +494,6 @@
       color: rgba(11,27,43,0.58);
       font-weight: 800;
       font-size: 0.92rem;
-      text-transform: none;
     }
     .links{
       display:grid;
@@ -525,12 +523,61 @@
     .tiktok{ background: #0b0b0f; }
 
     /* ─────────────────────────────────────────────────────────────
-       FEATURED RELEASE SECTION (below carousel)
+       FEATURED RELEASE (bigger block, like earlier)
     ───────────────────────────────────────────────────────────── */
-    .featuredGrid{
+    .featuredBlock{
       margin-top: 18px;
+      border-radius: 28px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.78);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .featuredTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      background:
+        radial-gradient(900px 420px at 20% 0%, rgba(62,183,219,0.22), transparent 60%),
+        radial-gradient(900px 420px at 80% 100%, rgba(23,135,171,0.18), transparent 62%),
+        rgba(247,249,251,0.88);
+      border-bottom: 1px solid rgba(15,23,42,0.10);
+    }
+    .featuredTop h2{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.15rem;
+      color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
+    }
+    .featuredTop p{
+      margin:0;
+      font-weight: 850;
+      color: rgba(11,27,43,0.62);
+    }
+    .featuredEmbedBig{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 8.3; /* slightly taller than 16/9 block feel */
+      background: rgba(11,27,43,0.06);
+    }
+    .featuredEmbedBig iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       STUDIO
+    ───────────────────────────────────────────────────────────── */
+    .grid2{
       display:grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.15fr 0.85fr;
       gap: 14px;
       align-items: stretch;
     }
@@ -540,55 +587,6 @@
       border-radius: 24px;
       box-shadow: var(--shadow);
       overflow:hidden;
-    }
-    .featuredText{
-      padding: 16px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap: 10px;
-    }
-    .featuredText h2{
-      margin:0;
-      font-weight: 950;
-      letter-spacing: -0.02em;
-      font-size: 1.25rem;
-      color: rgba(11,27,43,0.92);
-      text-transform: capitalize;
-    }
-    .featuredText p{
-      margin:0;
-      color: rgba(11,27,43,0.66);
-      line-height: 1.55;
-      font-weight: 800;
-      font-size: 0.98rem;
-    }
-    .featuredEmbed{
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: rgba(11,27,43,0.06);
-      border-radius: 24px;
-      overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.12);
-      box-shadow: var(--shadow);
-    }
-    .featuredEmbed iframe{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0;
-    }
-
-    /* ─────────────────────────────────────────────────────────────
-       STUDIO (slideshow: smooth crossfade)
-    ───────────────────────────────────────────────────────────── */
-    .grid2{
-      display:grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 14px;
-      align-items: stretch;
     }
     .slideshow{
       border-radius: 24px;
@@ -653,7 +651,7 @@
     .cta:active{ transform: translateY(1px); }
 
     /* ─────────────────────────────────────────────────────────────
-       VIDEOS + search/filter
+       VIDEOS + filters
     ───────────────────────────────────────────────────────────── */
     .sectionHead{
       display:flex;
@@ -675,7 +673,6 @@
       color: rgba(11,27,43,0.58);
       font-weight: 850;
       font-size: 0.95rem;
-      text-transform: none;
     }
 
     .filters{
@@ -753,49 +750,62 @@
       border: 1px solid rgba(15,23,42,0.12);
       font-weight: 900;
       color: rgba(11,27,43,0.70);
-      text-transform: none;
     }
 
     /* ─────────────────────────────────────────────────────────────
-       FIXED TICKER (BIGGER + SPACING + WOLF GREY)
+       FIXED TICKER (black, bigger, spaced, always visible)
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
       bottom:0;
       width:100%;
       height:34px;
-      background:#5f666d; /* wolf grey */
+      background:#000;
       overflow:hidden;
-      border-top:1px solid rgba(0,0,0,0.25);
+      border-top:1px solid rgba(255,255,255,0.10);
       z-index:998;
     }
-    .ticker-content{
-      white-space:nowrap;
-      display:inline-block;
-      padding-left:100%;
-      padding-right: 64px;
-      animation:scroll 34s linear infinite, colorchange 10s infinite alternate;
-      font-size:0.85rem;
-      letter-spacing:0.06em;
-      word-spacing:0.30em;
-      font-weight:900;
-      line-height:34px;
+    .tickerTrack{
+      display:flex;
+      width: max-content;
       will-change: transform;
+      animation: tickerMove 26s linear infinite;
     }
-    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-    @keyframes colorchange{
-      0%{color:#00ffff}25%{color:#ff5c7a}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}
+    .tickerItem{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      padding: 0 22px;
+      height:34px;
+      font-size:0.92rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color:#00ffff;
+      white-space: nowrap;
+      text-shadow: 0 0 10px rgba(0,255,255,0.18);
+      animation: tickerColor 9s ease-in-out infinite alternate;
+    }
+    @keyframes tickerMove{
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @keyframes tickerColor{
+      0%{color:#00ffff}
+      25%{color:#ff5c7a}
+      50%{color:#a0ff00}
+      75%{color:#ff00ff}
+      100%{color:#00ffff}
     }
 
     /* responsive */
     @media (max-width: 980px){
       .grid2{ grid-template-columns: 1fr; }
-      .featuredGrid{ grid-template-columns: 1fr; }
       .videoGrid{ grid-template-columns: 1fr; }
       .filters{ grid-template-columns: 1fr; }
       .links{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .squircle{ min-height: 430px; }
       .viewport{ min-height: 360px; }
+      .featuredEmbedBig{ aspect-ratio: 16/9; }
     }
     @media (max-width: 760px){
       .navGroup{ display:none; }
@@ -819,7 +829,7 @@
     <div class="introFrame">
       <div class="introTitle">welcome to the beals.wav experience</div>
       <div class="introLogoWrap">
-        <img class="introLogo" src="/assets/images/logo.jpeg?v=6" alt="beals.wav">
+        <img class="introLogo" src="/assets/images/logo.jpeg?v=7" alt="beals.wav">
       </div>
     </div>
   </div>
@@ -837,7 +847,7 @@
         <!-- Center logo -->
         <div class="brand">
           <a href="/index.html" aria-label="Home">
-            <img src="/assets/images/logo.jpeg?v=6" alt="beals.wav">
+            <img src="/assets/images/logo.jpeg?v=7" alt="beals.wav">
           </a>
         </div>
 
@@ -883,7 +893,7 @@
             <div class="viewport" id="viewport">
               <div class="track" id="track">
 
-                <!-- Slide 1: 23.5 (DIRECT EMBED, NO TEXT OVERLAY) -->
+                <!-- Slide 1: 23.5 (DIRECT EMBED) -->
                 <div class="slide embedSlide" data-chip="Featured Release">
                   <div class="embedWrap">
                     <iframe
@@ -899,9 +909,7 @@
                 <!-- Slide 2: Music -->
                 <div class="slide" data-chip="Music">
                   <a class="slideLink" href="https://www.bealswav.com/music" aria-label="Listen to Music"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/music-bg.jpg?v=1" alt="Music">
-                  </div>
+                  <div class="slideMedia" data-imgbase="music-bg"></div>
                   <div class="slideOverlay">
                     <div class="tag">Music</div>
                     <div class="title">Listen Here</div>
@@ -912,9 +920,7 @@
                 <!-- Slide 3: Studio -->
                 <div class="slide" data-chip="Studio">
                   <a class="slideLink" href="https://www.bealswav.com/studio" aria-label="Book Studio Time"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/studio.jpg?v=1" alt="Studio">
-                  </div>
+                  <div class="slideMedia" data-imgbase="studio"></div>
                   <div class="slideOverlay">
                     <div class="tag">Studio</div>
                     <div class="title">Book Studio Time Here</div>
@@ -925,9 +931,7 @@
                 <!-- Slide 4: Beats -->
                 <div class="slide" data-chip="Beats">
                   <a class="slideLink" href="https://www.bealswav.com/beatstore" aria-label="Buy Beats"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/beats-bg.jpg?v=1" alt="Beats">
-                  </div>
+                  <div class="slideMedia" data-imgbase="beats-bg"></div>
                   <div class="slideOverlay">
                     <div class="tag">Beats</div>
                     <div class="title">Buy Beats Here</div>
@@ -938,9 +942,7 @@
                 <!-- Slide 5: FAQ -->
                 <div class="slide" data-chip="FAQ">
                   <a class="slideLink" href="https://www.bealswav.com/faq" aria-label="FAQ"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/faq-bg.jpg?v=1" alt="FAQ">
-                  </div>
+                  <div class="slideMedia" data-imgbase="faq-bg"></div>
                   <div class="slideOverlay">
                     <div class="tag">FAQ</div>
                     <div class="title">Questions Answered</div>
@@ -951,9 +953,7 @@
                 <!-- Slide 6: Contact -->
                 <div class="slide" data-chip="Contact">
                   <a class="slideLink" href="https://www.bealswav.com/contact" aria-label="Contact"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/contact-bg.jpg?v=1" alt="Contact">
-                  </div>
+                  <div class="slideMedia" data-imgbase="contact-bg"></div>
                   <div class="slideOverlay">
                     <div class="tag">Contact</div>
                     <div class="title">Reach Out Here</div>
@@ -964,9 +964,7 @@
                 <!-- Slide 7: Follow -->
                 <div class="slide" data-chip="Follow">
                   <a class="slideLink" href="#follow" aria-label="Follow & Support"></a>
-                  <div class="slideMedia">
-                    <img src="/assets/images/follow-bg.jpg?v=1" alt="Follow">
-                  </div>
+                  <div class="slideMedia" data-imgbase="follow-bg"></div>
                   <div class="slideOverlay">
                     <div class="tag">Follow</div>
                     <div class="title">Follow & Support</div>
@@ -998,13 +996,16 @@
         </div>
       </div>
 
-      <!-- Featured Release section (below carousel) -->
-      <div class="featuredGrid" aria-label="Featured release section">
-        <div class="card featuredText">
-          <h2>Featured Release: 23.5</h2>
-          <p>Latest album playlist. Clean embeds, no detours, no nonsense.</p>
+      <!-- Featured Release (bigger block) -->
+      <div class="featuredBlock" aria-label="Featured release">
+        <div class="featuredTop">
+          <div>
+            <h2>Featured Release: 23.5</h2>
+            <p>Latest album playlist</p>
+          </div>
+          <div style="font-weight:900;color:rgba(11,27,43,0.62);">Beals.wav</div>
         </div>
-        <div class="featuredEmbed" aria-label="23.5 playlist embed">
+        <div class="featuredEmbedBig">
           <iframe loading="lazy"
             src="https://www.youtube.com/embed/videoseries?list=PL6IVoihgJhTKuk6YPDnwWpnYEL9cAzNFp&rel=0&playsinline=1"
             title="23.5 (Album) Playlist"
@@ -1211,8 +1212,14 @@
 
   <!-- FIXED TICKER -->
   <div class="ticker" aria-label="Site ticker">
-    <div class="ticker-content">
-      Beals.wav (Music Hub) • Listen • Book Studio Time • Beats • Videos • Recording • Mixing • Mastering • Production • West Jordan, Utah • © 2025 Beals.wav • New release out now •
+    <div class="tickerTrack" id="tickerTrack">
+      <!-- duplicated by JS for seamless loop -->
+      <div class="tickerItem" id="tickerItem">
+        Beals.wav • Music Hub • Listen • Book Studio Time • Beats • Videos • Recording • Mixing • Mastering • Production • West Jordan, Utah • © 2025 Beals.wav • Featured Release: 23.5 •
+      </div>
+      <div class="tickerItem" aria-hidden="true">
+        Beals.wav • Music Hub • Listen • Book Studio Time • Beats • Videos • Recording • Mixing • Mastering • Production • West Jordan, Utah • © 2025 Beals.wav • Featured Release: 23.5 •
+      </div>
     </div>
   </div>
 
@@ -1221,12 +1228,12 @@
     (function(){
       const intro = document.getElementById('intro');
       if (!intro) return;
-      const key = 'bw_intro_seen_session_v3';
+      const key = 'bw_intro_seen_session_v4';
       try{
         if (sessionStorage.getItem(key) === '1') { intro.remove(); return; }
         sessionStorage.setItem(key, '1');
       }catch(e){}
-      setTimeout(() => { if (intro) intro.remove(); }, 2800);
+      setTimeout(() => { if (intro) intro.remove(); }, 3000);
     })();
 
     // Mobile drawer
@@ -1263,8 +1270,46 @@
       document.addEventListener('DOMContentLoaded', sync);
     })();
 
-    // Carousel (click-through works, swipe doesn't steal clicks)
-    document.addEventListener('DOMContentLoaded', function(){
+    // ---- Carousel image resolver (tries jpg/jpeg/png, case-insensitive-ish)
+    async function firstExisting(urls){
+      for (const url of urls){
+        try{
+          const res = await fetch(url, { method:'HEAD', cache:'no-store' });
+          if (res && res.ok) return url;
+        }catch(e){}
+      }
+      return null;
+    }
+
+    async function setCarouselImages(){
+      const nodes = document.querySelectorAll('.slideMedia[data-imgbase]');
+      const ext = ['jpg','jpeg','png','JPG','JPEG','PNG'];
+      for (const el of nodes){
+        const base = el.getAttribute('data-imgbase');
+        if (!base) continue;
+
+        // Try both /assets/images and /public/assets/images style mistakes
+        const candidates = [];
+        for (const e of ext){
+          candidates.push(`/assets/images/${base}.${e}`);
+          candidates.push(`/assets/images/${base}.${e}?v=1`);
+        }
+
+        const found = await firstExisting(candidates);
+        if (found){
+          el.style.backgroundImage = `url("${found}")`;
+        } else {
+          // still looks good if the file is missing
+          el.style.backgroundImage =
+            'linear-gradient(135deg, rgba(23,135,171,0.70), rgba(8,24,44,0.55))';
+        }
+      }
+    }
+
+    // ---- Carousel (rebuilt, click-through guaranteed)
+    document.addEventListener('DOMContentLoaded', async function(){
+      await setCarouselImages();
+
       const track = document.getElementById('track');
       const dotsWrap = document.getElementById('dots');
       const chip = document.getElementById('chip');
@@ -1281,7 +1326,6 @@
       function setIndex(i, user=false){
         idx = (i + slides.length) % slides.length;
         track.style.transform = `translateX(-${idx * 100}%)`;
-
         chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured Release';
 
         const dots = dotsWrap.querySelectorAll('.dot');
@@ -1314,16 +1358,17 @@
       viewport.addEventListener('focusin', stop);
       viewport.addEventListener('focusout', start);
 
-      // swipe (DO NOT steal clicks on links/buttons/iframes)
-      let startX = 0, dx = 0, down = false;
-
-      function isInteractiveTarget(t){
-        return !!(t.closest('a') || t.closest('button') || t.closest('iframe') || t.closest('input') || t.closest('select') || t.closest('textarea'));
-      }
+      // swipe that doesn't break clicking links
+      let down = false;
+      let startX = 0;
+      let dx = 0;
+      let dragged = false;
 
       viewport.addEventListener('pointerdown', (e) => {
-        if (isInteractiveTarget(e.target)) return;
+        // if you start on iframe or a link, don't hijack it
+        if (e.target.closest('iframe') || e.target.closest('a') || e.target.closest('button')) return;
         down = true;
+        dragged = false;
         startX = e.clientX;
         dx = 0;
         viewport.setPointerCapture(e.pointerId);
@@ -1333,6 +1378,7 @@
       viewport.addEventListener('pointermove', (e) => {
         if (!down) return;
         dx = e.clientX - startX;
+        if (Math.abs(dx) > 10) dragged = true;
       });
 
       viewport.addEventListener('pointerup', () => {
@@ -1348,11 +1394,19 @@
         restart();
       });
 
+      // prevent "click after drag" opening links
+      viewport.addEventListener('click', (e) => {
+        if (!dragged) return;
+        const a = e.target.closest && e.target.closest('a');
+        if (a) e.preventDefault();
+        dragged = false;
+      }, true);
+
       setIndex(0);
       start();
     });
 
-    // Studio slideshow (smooth crossfade, no blank flashes)
+    // Studio slideshow (smooth crossfade)
     document.addEventListener('DOMContentLoaded', function(){
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -1414,7 +1468,6 @@
 
       const cards = Array.from(grid.querySelectorAll('.vcard'));
 
-      // populate artist dropdown from data-artist
       const names = new Set();
       cards.forEach(c => {
         const a = (c.getAttribute('data-artist') || '').split(',').map(s => s.trim()).filter(Boolean);
