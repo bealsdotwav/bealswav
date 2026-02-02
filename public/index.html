@@ -324,32 +324,33 @@
     .iconBtn:active{ transform: translateY(1px); }
 
     .viewport{
-      position: relative;
-      flex: 1;
-      border-radius: 28px;
-      overflow:hidden;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: rgba(11,27,43,0.06);
-      min-height: 390px;
-      touch-action: pan-y;
+    position: relative;
+    flex: 1;
+    border-radius: 28px;
+    overflow:hidden;
+    border: 1px solid rgba(15,23,42,0.12);
+    background: rgba(11,27,43,0.06);
+    /* definite height so children at 100% can exist */
+    height: clamp(360px, 52vw, 460px);
+    touch-action: pan-y;
     }
 
     .track{
-      display:flex;
-      height: 100%;
-      transform: translateX(0);
-      transition: transform 560ms cubic-bezier(.2,.85,.2,1);
-      will-change: transform;
+    display:flex;
+    height: 100%;
+    transform: translateX(0);
+    transition: transform 560ms cubic-bezier(.2,.85,.2,1);
+    will-change: transform;
     }
 
     .slide{
-      min-width: 100%;
-      height: 100%;
-      position: relative;
-      overflow:hidden;
-      background:
-        radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.12), transparent 62%),
-        linear-gradient(135deg, rgba(23,135,171,0.30), rgba(62,183,219,0.18));
+    flex: 0 0 100%;
+    height: 100%;
+    position: relative;
+    overflow:hidden;
+    background:
+      radial-gradient(900px 520px at 25% 25%, rgba(255,255,255,0.12), transparent 62%),
+      linear-gradient(135deg, rgba(23,135,171,0.30), rgba(62,183,219,0.18));
     }
 
     /* Link slides: real links */
@@ -372,6 +373,10 @@
       z-index: 0;
       background: #0b1b2b;
     }
+
+    .slideImgCover{ z-index: 0; }
+    .slideLink::after{ z-index: 1; }
+    .slideOverlay{ z-index: 2; }
 
     /* Cinematic overlay */
     .slideLink::after{
@@ -890,7 +895,7 @@
               <div class="track" id="track">
 
                 <!-- Slide 1: 23.5 (DIRECT EMBED) -->
-                <div class="slide embedSlide" data-chip="Featured Release">
+                <div class="slide embedSlide" data-chip="Featured Release" data-noslide="1">
                   <div class="embedWrap">
                     <iframe
                       loading="lazy"

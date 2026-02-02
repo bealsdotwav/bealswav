@@ -1,19 +1,26 @@
+// home.js
+
 // Helper: run now if DOM already ready
 function onReady(fn){
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
   else fn();
 }
 
-// Intro: EVERY load, fixed duration
-(function(){
+/* ─────────────────────────────────────────────────────────────
+   INTRO (every load, fixed duration)
+───────────────────────────────────────────────────────────── */
+onReady(function(){
   const intro = document.getElementById('intro');
   if (!intro) return;
+
   requestAnimationFrame(() => intro.classList.add('play'));
   setTimeout(() => { if (intro) intro.remove(); }, 2950);
-})();
+});
 
-// Mobile drawer
-(function(){
+/* ─────────────────────────────────────────────────────────────
+   MOBILE DRAWER
+───────────────────────────────────────────────────────────── */
+onReady(function(){
   const btn = document.getElementById('menuBtn');
   const drawer = document.getElementById('drawer');
   if (!btn || !drawer) return;
@@ -29,10 +36,12 @@ function onReady(fn){
   window.addEventListener('resize', () => {
     if (window.innerWidth > 760) drawer.style.display = 'none';
   });
-})();
+});
 
-// Login/account labels (top + mobile)
-(function(){
+/* ─────────────────────────────────────────────────────────────
+   LOGIN/ACCOUNT LABELS
+───────────────────────────────────────────────────────────── */
+onReady(function(){
   function sync(){
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
     const loginTop = document.getElementById('loginTop');
@@ -47,10 +56,16 @@ function onReady(fn){
       loginMobile.href = isLoggedIn ? '/account.html' : '/login.html';
     }
   }
-  onReady(sync);
-})();
 
-// Carousel (sliding/dots/autoplay/swipe)
+  sync();
+});
+
+/* ─────────────────────────────────────────────────────────────
+   CAROUSEL (dots/autoplay/swipe)
+   IMPORTANT: index.html has an embed slide FIRST with data-noslide.
+   We exclude it from dots, but it's still physically slide 0 in the track.
+   So we translate by (idx + 1) to account for that offset.
+───────────────────────────────────────────────────────────── */
 onReady(function initCarousel(){
   const track    = document.getElementById('track');
   const dotsWrap = document.getElementById('dots');
@@ -61,28 +76,31 @@ onReady(function initCarousel(){
 
   if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
-  const slides = Array.from(track.querySelectorAll('.slide'));
+  // Exclude the embed slide (it has data-noslide in your HTML)
+  const slides = Array.from(track.querySelectorAll('.slide:not([data-noslide])'));
   if (!slides.length) return;
 
-  let idx = 0;
+  let idx = 0;          // slides[0] is the first LINK slide (Music)
   let timer = null;
 
   // Build dots
   dotsWrap.innerHTML = '';
   slides.forEach((_, i) => {
-    const b = document.createElement('button');
-    b.className = 'dot';
-    b.type = 'button';
-    b.setAttribute('aria-label', `Go to slide ${i + 1}`);
-    b.setAttribute('aria-current', i === 0 ? 'true' : 'false');
-    b.addEventListener('click', () => setIndex(i, true));
-    dotsWrap.appendChild(b);
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.type = 'button';
+    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+    dot.addEventListener('click', () => setIndex(i, true));
+    dotsWrap.appendChild(dot);
   });
 
   function setIndex(i, user=false){
     idx = (i + slides.length) % slides.length;
-    track.style.transform = `translateX(-${idx * 100}%)`;
-    chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured Release';
+
+    // +1 offset because embed slide is still the first child in #track
+    track.style.transform = `translateX(-${(idx + 1) * 100}%)`;
+
+    chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
 
     const dots = dotsWrap.querySelectorAll('.dot');
     dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
@@ -90,19 +108,19 @@ onReady(function initCarousel(){
     if (user) restart();
   }
 
-  prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
-  nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
-
   function start(){ timer = setInterval(() => setIndex(idx + 1), 5600); }
   function stop(){ if (timer) clearInterval(timer); timer = null; }
   function restart(){ stop(); start(); }
+
+  prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
+  nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
 
   viewport.addEventListener('mouseenter', stop);
   viewport.addEventListener('mouseleave', start);
   viewport.addEventListener('focusin', stop);
   viewport.addEventListener('focusout', start);
 
-  // Swipe handling (do NOT steal taps from links/controls)
+  // Swipe (do not steal taps from links/controls; ignore iframe)
   let down = false, startX = 0, dx = 0;
 
   function isInteractiveTarget(el){
@@ -134,11 +152,14 @@ onReady(function initCarousel(){
 
   viewport.addEventListener('pointercancel', () => { down = false; restart(); });
 
+  // Start on Music (first link slide), not the embed
   setIndex(0);
   start();
 });
 
-// Studio slideshow
+/* ─────────────────────────────────────────────────────────────
+   STUDIO SLIDESHOW
+───────────────────────────────────────────────────────────── */
 onReady(function(){
   const images = [
     "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
@@ -189,7 +210,9 @@ onReady(function(){
   setInterval(swap, 4200);
 });
 
-// Video search/filter/sort
+/* ─────────────────────────────────────────────────────────────
+   VIDEO SEARCH / FILTER / SORT
+───────────────────────────────────────────────────────────── */
 onReady(function(){
   const grid = document.getElementById('videoGrid');
   const q = document.getElementById('q');
@@ -203,7 +226,10 @@ onReady(function(){
 
   const names = new Set();
   cards.forEach(c => {
-    const a = (c.getAttribute('data-artist') || '').split(',').map(s => s.trim()).filter(Boolean);
+    const a = (c.getAttribute('data-artist') || '')
+      .split(',')
+      .map(s => s.trim())
+      .filter(Boolean);
     a.forEach(x => names.add(x));
   });
 
@@ -223,11 +249,15 @@ onReady(function(){
       const t = (c.getAttribute('data-title') || '').toLowerCase();
       const a = (c.getAttribute('data-artist') || '').toLowerCase();
       const okTerm = !term || t.includes(term) || a.includes(term);
-      const okArtist = !who || (c.getAttribute('data-artist') || '').split(',').map(s=>s.trim()).includes(who);
+      const okArtist = !who || (c.getAttribute('data-artist') || '')
+        .split(',')
+        .map(s=>s.trim())
+        .includes(who);
       return okTerm && okArtist;
     });
 
     const byDate = (x) => (x.getAttribute('data-date') || '1900-01-01');
+
     if (mode === 'oldest') filtered.sort((a,b)=> byDate(a).localeCompare(byDate(b)));
     else if (mode === 'az') filtered.sort((a,b)=> (a.getAttribute('data-title')||'').localeCompare(b.getAttribute('data-title')||''));
     else if (mode === 'za') filtered.sort((a,b)=> (b.getAttribute('data-title')||'').localeCompare(a.getAttribute('data-title')||''));
@@ -245,7 +275,9 @@ onReady(function(){
   apply();
 });
 
-// Ticker: duplicate + measure + animate exact px distance
+/* ─────────────────────────────────────────────────────────────
+   TICKER (duplicate + measure + animate exact px distance)
+───────────────────────────────────────────────────────────── */
 onReady(function(){
   const track = document.getElementById('tickerTrack');
   const item = document.getElementById('tickerItem');
