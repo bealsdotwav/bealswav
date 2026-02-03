@@ -63,10 +63,8 @@ onReady(function () {
 });
 
 /* ─────────────────────────────────────────────────────────────
-   CAROUSEL (dots/autoplay/swipe) - DESKTOP FIX + BOOT TIMING FIX
-   index.html has an embed slide FIRST with data-noslide.
-   We exclude it from dots, but it is still physically slide 0 in #track.
-   So we translate by (idx + 1) slides.
+   CAROUSEL (dots/autoplay/swipe)
+   FIX: translate by *physical child index* instead of (idx + 1)
 ───────────────────────────────────────────────────────────── */
 onReady(function initCarousel() {
   const track = document.getElementById('track');
@@ -78,12 +76,27 @@ onReady(function initCarousel() {
 
   if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
-  // Exclude the embed slide (it has data-noslide in your HTML)
-  const slides = Array.from(track.querySelectorAll('.slide:not([data-noslide])'));
+  // All slides as they exist physically in the track (div + a, etc.)
+  const allSlides = Array.from(track.children).filter((el) => el.classList && el.classList.contains('slide'));
+  if (!allSlides.length) return;
+
+  // Slides we want to rotate through (exclude data-noslide)
+  const slides = allSlides.filter((el) => !el.hasAttribute('data-noslide'));
   if (!slides.length) return;
 
-  let idx = 0; // slides[0] is the first LINK slide (Music)
+  let idx = 0;        // index inside "slides" (link slides)
   let timer = null;
+
+  function viewportWidth() {
+    // clientWidth can be 0 in some layout phases; bounding rect is often reliable
+    return Math.round(viewport.getBoundingClientRect().width || viewport.clientWidth || 0);
+  }
+
+  function physicalIndexForIdx(i) {
+    const el = slides[i];
+    const pi = allSlides.indexOf(el);
+    return Math.max(0, pi);
+  }
 
   function setChipAndDots() {
     chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
@@ -91,13 +104,15 @@ onReady(function initCarousel() {
     dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
   }
 
-  // Desktop-safe positioning (px, not %)
   function positionTrack(noAnim = false) {
-    const slideW = viewport.clientWidth || 0;
-    const x = (idx + 1) * slideW; // +1 offset because embed slide is still first child in #track
+    const w = viewportWidth();
+    if (w < 10) return false;
+
+    const pi = physicalIndexForIdx(idx);
+    const x = pi * w;
 
     if (noAnim) track.style.transition = 'none';
-    track.style.transform = `translateX(-${x}px)`;
+    track.style.transform = `translate3d(-${x}px, 0, 0)`;
 
     if (noAnim) {
       requestAnimationFrame(() => {
@@ -105,9 +120,7 @@ onReady(function initCarousel() {
       });
     }
 
-    // TEMP DEBUG (remove later):
-    // Confirms desktop has a real width and transform is updating.
-    // console.log('carousel position', { idx, slideW, x });
+    return true;
   }
 
   function setIndex(i, user = false) {
@@ -187,28 +200,35 @@ onReady(function initCarousel() {
     restart();
   });
 
-  // Resize: keep the same slide visible without animating or restarting autoplay
+  // Resize: keep slide without anim
   window.addEventListener('resize', () => {
     positionTrack(true);
   });
 
-  // BOOT: wait until layout has real width (desktop timing fix)
-  function boot() {
-    const w = viewport.clientWidth || 0;
+  // Boot: wait for real width, then snap to first *link* slide
+  function boot(tries = 0) {
+    const ok = positionTrack(true);
 
-    // If layout isn't ready yet, wait a frame (desktop can report 0 briefly)
-    if (w < 10) {
-      requestAnimationFrame(boot);
+    if (!ok) {
+      if (tries < 120) requestAnimationFrame(() => boot(tries + 1));
       return;
     }
 
-    idx = 0;            // first LINK slide (Music)
+    idx = 0;
     setChipAndDots();
-    positionTrack(true); // snap precisely
+    positionTrack(true);
     start();
   }
 
+  // Initialize to first link slide, then boot
+  idx = 0;
+  setChipAndDots();
   boot();
+
+  // Extra snaps after load to defeat late layout/font/image shifts
+  window.addEventListener('load', () => positionTrack(true));
+  setTimeout(() => positionTrack(true), 250);
+  setTimeout(() => positionTrack(true), 800);
 });
 
 /* ─────────────────────────────────────────────────────────────
