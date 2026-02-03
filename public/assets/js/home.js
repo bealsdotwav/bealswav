@@ -63,10 +63,8 @@ onReady(function () {
 });
 
 /* ─────────────────────────────────────────────────────────────
-   CAROUSEL (DOTS/AUTOPLAY/SWIPE) - DESKTOP FIX THAT ACTUALLY WORKS
-   Switches from translateX to native horizontal scrolling.
-   Why: desktop browsers + mixed <div>/<a> flex children can be "fine" on mobile
-   and mysteriously refuse to move on desktop because humans love chaos.
+   CAROUSEL (dots/autoplay/swipe)
+   FIX: translate by *physical child index* (div + a mixed children)
 ───────────────────────────────────────────────────────────── */
 onReady(function initCarousel() {
   const track = document.getElementById("track");
@@ -78,40 +76,28 @@ onReady(function initCarousel() {
 
   if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
-  // The first physical slide is an embed <div class="slide" data-noslide="1">.
-  // We want dots/autoplay to control only the link slides after it.
-  const slides = Array.from(track.querySelectorAll(".slide:not([data-noslide])"));
+  // All physical slides in order (div + a etc.)
+  const allSlides = Array.from(track.children).filter(
+    (el) => el.classList && el.classList.contains("slide")
+  );
+  if (!allSlides.length) return;
+
+  // Slides we want to rotate through (exclude data-noslide)
+  const slides = allSlides.filter((el) => !el.hasAttribute("data-noslide"));
   if (!slides.length) return;
 
-  // Make viewport scroll-based even if CSS says overflow:hidden.
-  // This is the "stop relying on fragile transforms" fix.
-  viewport.style.overflowX = "auto";
-  viewport.style.overflowY = "hidden";
-  viewport.style.scrollBehavior = "smooth";
-  viewport.style.webkitOverflowScrolling = "touch";
-  viewport.style.scrollSnapType = "x mandatory";
-  viewport.style.scrollbarWidth = "none"; // firefox hide
-  viewport.style.msOverflowStyle = "none"; // old edge
-  viewport.classList.add("js-carousel-scroll");
-  // Hide scrollbar webkit
-  if (!document.getElementById("carouselScrollStyle")) {
-    const s = document.createElement("style");
-    s.id = "carouselScrollStyle";
-    s.textContent = `
-      #viewport.js-carousel-scroll::-webkit-scrollbar { display:none; }
-      #track { transform:none !important; }
-      #track > .slide, #track > a.slide { scroll-snap-align:start; }
-    `;
-    document.head.appendChild(s);
+  let idx = 0; // index within "slides" (link slides)
+  let timer = null;
+
+  function viewportWidth() {
+    // Desktop-safe width measurement
+    return Math.round(viewport.getBoundingClientRect().width || viewport.clientWidth || 0);
   }
 
-  let idx = 0; // idx is within "slides" (link slides only)
-  let timer = null;
-  let isBooted = false;
-  let isProgrammaticScroll = false;
-
-  function slideWidth() {
-    return viewport.getBoundingClientRect().width || 0;
+  function physicalIndexForIdx(i) {
+    const el = slides[i];
+    const pi = allSlides.indexOf(el);
+    return pi >= 0 ? pi : 0;
   }
 
   function setChipAndDots() {
@@ -120,55 +106,59 @@ onReady(function initCarousel() {
     dots.forEach((d, di) => d.setAttribute("aria-current", di === idx ? "true" : "false"));
   }
 
-  function goToIndex(i, user = false) {
+  function positionTrack(noAnim = false) {
+    const w = viewportWidth();
+    if (w < 10) return false;
+
+    const pi = physicalIndexForIdx(idx);
+    const x = pi * w;
+
+    if (noAnim) track.style.transition = "none";
+    track.style.transform = `translate3d(-${x}px, 0, 0)`;
+
+    if (noAnim) {
+      requestAnimationFrame(() => {
+        track.style.transition = "transform 560ms cubic-bezier(.2,.85,.2,1)";
+      });
+    }
+
+    return true;
+  }
+
+  function setIndex(i, user = false) {
     idx = (i + slides.length) % slides.length;
     setChipAndDots();
-
-    const w = slideWidth();
-    if (w < 10) return;
-
-    // +1 because the embed slide is physically first in the track.
-    const left = (idx + 1) * w;
-
-    isProgrammaticScroll = true;
-    viewport.scrollTo({ left, behavior: user ? "smooth" : "auto" });
-    // Release programmatic flag after scroll settles a bit
-    setTimeout(() => {
-      isProgrammaticScroll = false;
-    }, 180);
-
+    positionTrack(false);
     if (user) restart();
   }
 
   function start() {
     stop();
-    timer = setInterval(() => goToIndex(idx + 1, false), 5600);
+    timer = setInterval(() => setIndex(idx + 1), 5600);
   }
-
   function stop() {
     if (timer) clearInterval(timer);
     timer = null;
   }
-
   function restart() {
     stop();
     start();
   }
 
-  // Dots
+  // Build dots
   dotsWrap.innerHTML = "";
   slides.forEach((_, i) => {
     const dot = document.createElement("button");
     dot.className = "dot";
     dot.type = "button";
     dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
-    dot.addEventListener("click", () => goToIndex(i, true));
+    dot.addEventListener("click", () => setIndex(i, true));
     dotsWrap.appendChild(dot);
   });
 
-  // Buttons
-  prevBtn.addEventListener("click", () => goToIndex(idx - 1, true));
-  nextBtn.addEventListener("click", () => goToIndex(idx + 1, true));
+  // Controls
+  prevBtn.addEventListener("click", () => setIndex(idx - 1, true));
+  nextBtn.addEventListener("click", () => setIndex(idx + 1, true));
 
   // Pause on hover/focus (desktop)
   viewport.addEventListener("mouseenter", stop);
@@ -176,10 +166,10 @@ onReady(function initCarousel() {
   viewport.addEventListener("focusin", stop);
   viewport.addEventListener("focusout", start);
 
-  // Swipe/drag: use pointer events, but do not steal clicks from links/controls, ignore iframe
+  // Swipe (don’t steal taps from links/controls; ignore iframe)
   let down = false;
   let startX = 0;
-  let startLeft = 0;
+  let dx = 0;
 
   function isInteractiveTarget(el) {
     return !!(el && el.closest && el.closest("a, button, input, select, textarea, label"));
@@ -191,32 +181,21 @@ onReady(function initCarousel() {
 
     down = true;
     startX = e.clientX;
-    startLeft = viewport.scrollLeft;
+    dx = 0;
     stop();
-    viewport.setPointerCapture?.(e.pointerId);
   });
 
   viewport.addEventListener("pointermove", (e) => {
     if (!down) return;
-    const dx = e.clientX - startX;
-    viewport.scrollLeft = startLeft - dx;
+    dx = e.clientX - startX;
   });
 
   viewport.addEventListener("pointerup", () => {
     if (!down) return;
     down = false;
 
-    const w = slideWidth();
-    if (w < 10) {
-      restart();
-      return;
-    }
-
-    // Snap to nearest physical slide, then map to idx (exclude embed)
-    const physical = Math.round(viewport.scrollLeft / w); // 0 = embed
-    const linkPhysical = Math.max(1, physical); // clamp at first link slide
-    const newIdx = (linkPhysical - 1 + slides.length) % slides.length;
-    goToIndex(newIdx, true);
+    if (Math.abs(dx) > 40) setIndex(idx + (dx < 0 ? 1 : -1), true);
+    else restart();
   });
 
   viewport.addEventListener("pointercancel", () => {
@@ -224,64 +203,32 @@ onReady(function initCarousel() {
     restart();
   });
 
-  // Trackpad/scroll wheel on desktop: update dots/chip when user scrolls
-  let scrollT = null;
-  viewport.addEventListener("scroll", () => {
-    if (!isBooted) return;
-    if (isProgrammaticScroll) return;
-
-    clearTimeout(scrollT);
-    scrollT = setTimeout(() => {
-      const w = slideWidth();
-      if (w < 10) return;
-
-      const physical = Math.round(viewport.scrollLeft / w); // 0 embed
-      const linkPhysical = Math.max(1, physical);
-      const newIdx = (linkPhysical - 1 + slides.length) % slides.length;
-
-      if (newIdx !== idx) {
-        idx = newIdx;
-        setChipAndDots();
-        restart();
-      }
-    }, 80);
-  });
-
-  // Keep current slide on resize without animation
-  function onResizeSnap() {
-    const w = slideWidth();
-    if (w < 10) return;
-    const left = (idx + 1) * w;
-    viewport.scrollTo({ left, behavior: "auto" });
-  }
+  // Resize: keep slide without anim
   window.addEventListener("resize", () => {
-    // give layout a beat
-    setTimeout(onResizeSnap, 60);
+    positionTrack(true);
   });
 
-  // BOOT: wait until viewport has a real width
-  function boot() {
-    const w = slideWidth();
-    if (w < 10) {
-      requestAnimationFrame(boot);
+  // Boot: wait for real width, then snap + autoplay
+  function boot(tries = 0) {
+    const ok = positionTrack(true);
+    if (!ok) {
+      if (tries < 180) requestAnimationFrame(() => boot(tries + 1));
       return;
     }
-
-    isBooted = true;
     idx = 0;
     setChipAndDots();
-
-    // Jump to first link slide (physical 1)
-    viewport.scrollTo({ left: 1 * w, behavior: "auto" });
+    positionTrack(true);
     start();
   }
 
-  // Fonts can shift widths on desktop; wait for them if available
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => boot());
-  } else {
-    boot();
-  }
+  idx = 0;
+  setChipAndDots();
+  boot();
+
+  // Extra snaps after load to defeat late layout/font/image shifts (desktop)
+  window.addEventListener("load", () => positionTrack(true));
+  setTimeout(() => positionTrack(true), 250);
+  setTimeout(() => positionTrack(true), 800);
 });
 
 /* ─────────────────────────────────────────────────────────────
@@ -454,8 +401,6 @@ onReady(function () {
   }
 
   window.addEventListener("load", rebuild);
-  window.addEventListener("resize", () => {
-    setTimeout(rebuild, 120);
-  });
+  window.addEventListener("resize", () => setTimeout(rebuild, 120));
   rebuild();
 });
