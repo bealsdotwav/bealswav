@@ -1,7 +1,7 @@
 // home.js
 
 // Helper: run now if DOM already ready
-function onReady(fn){
+function onReady(fn) {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
   else fn();
 }
@@ -9,24 +9,26 @@ function onReady(fn){
 /* ─────────────────────────────────────────────────────────────
    INTRO (every load, fixed duration)
 ───────────────────────────────────────────────────────────── */
-onReady(function(){
+onReady(function () {
   const intro = document.getElementById('intro');
   if (!intro) return;
 
   requestAnimationFrame(() => intro.classList.add('play'));
-  setTimeout(() => { if (intro) intro.remove(); }, 2950);
+  setTimeout(() => {
+    if (intro) intro.remove();
+  }, 2950);
 });
 
 /* ─────────────────────────────────────────────────────────────
    MOBILE DRAWER
 ───────────────────────────────────────────────────────────── */
-onReady(function(){
+onReady(function () {
   const btn = document.getElementById('menuBtn');
   const drawer = document.getElementById('drawer');
   if (!btn || !drawer) return;
 
   btn.addEventListener('click', () => {
-    drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+    drawer.style.display = drawer.style.display === 'block' ? 'none' : 'block';
   });
 
   drawer.addEventListener('click', (e) => {
@@ -41,17 +43,17 @@ onReady(function(){
 /* ─────────────────────────────────────────────────────────────
    LOGIN/ACCOUNT LABELS
 ───────────────────────────────────────────────────────────── */
-onReady(function(){
-  function sync(){
+onReady(function () {
+  function sync() {
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
     const loginTop = document.getElementById('loginTop');
     const loginMobile = document.getElementById('loginMobile');
 
-    if (loginTop){
+    if (loginTop) {
       loginTop.textContent = isLoggedIn ? 'Account' : 'Login';
       loginTop.href = isLoggedIn ? '/account.html' : '/login.html';
     }
-    if (loginMobile){
+    if (loginMobile) {
       loginMobile.textContent = isLoggedIn ? 'Account' : 'Login';
       loginMobile.href = isLoggedIn ? '/account.html' : '/login.html';
     }
@@ -61,17 +63,17 @@ onReady(function(){
 });
 
 /* ─────────────────────────────────────────────────────────────
-   CAROUSEL (dots/autoplay/swipe)
-   IMPORTANT: index.html has an embed slide FIRST with data-noslide.
-   We exclude it from dots, but it's still physically slide 0 in the track.
-   So we translate by (idx + 1) to account for that offset.
+   CAROUSEL (dots/autoplay/swipe) - DESKTOP FIX
+   index.html has an embed slide FIRST with data-noslide.
+   We exclude it from dots, but it is still physically slide 0 in #track.
+   So we translate by (idx + 1) slides.
 ───────────────────────────────────────────────────────────── */
-onReady(function initCarousel(){
-  const track    = document.getElementById('track');
+onReady(function initCarousel() {
+  const track = document.getElementById('track');
   const dotsWrap = document.getElementById('dots');
-  const chip     = document.getElementById('chip');
-  const prevBtn  = document.getElementById('prev');
-  const nextBtn  = document.getElementById('next');
+  const chip = document.getElementById('chip');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
   const viewport = document.getElementById('viewport');
 
   if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
@@ -80,8 +82,49 @@ onReady(function initCarousel(){
   const slides = Array.from(track.querySelectorAll('.slide:not([data-noslide])'));
   if (!slides.length) return;
 
-  let idx = 0;          // slides[0] is the first LINK slide (Music)
+  let idx = 0; // slides[0] is the first LINK slide (Music)
   let timer = null;
+
+  function setChipAndDots() {
+    chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
+
+    const dots = dotsWrap.querySelectorAll('.dot');
+    dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
+  }
+
+  // The actual desktop-safe positioning
+  function positionTrack(noAnim = false) {
+    const slideW = viewport.clientWidth || 0;
+    const x = (idx + 1) * slideW; // +1 offset because embed slide is still first child in #track
+
+    if (noAnim) track.style.transition = 'none';
+    track.style.transform = `translateX(-${x}px)`;
+
+    if (noAnim) {
+      requestAnimationFrame(() => {
+        track.style.transition = 'transform 560ms cubic-bezier(.2,.85,.2,1)';
+      });
+    }
+  }
+
+  function setIndex(i, user = false) {
+    idx = (i + slides.length) % slides.length;
+    positionTrack(false);
+    setChipAndDots();
+    if (user) restart();
+  }
+
+  function start() {
+    timer = setInterval(() => setIndex(idx + 1), 5600);
+  }
+  function stop() {
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+  function restart() {
+    stop();
+    start();
+  }
 
   // Build dots
   dotsWrap.innerHTML = '';
@@ -94,36 +137,22 @@ onReady(function initCarousel(){
     dotsWrap.appendChild(dot);
   });
 
-  function setIndex(i, user=false){
-    idx = (i + slides.length) % slides.length;
-
-    // +1 offset because embed slide is still the first child in #track
-    track.style.transform = `translateX(-${(idx + 1) * 100}%)`;
-
-    chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
-
-    const dots = dotsWrap.querySelectorAll('.dot');
-    dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
-
-    if (user) restart();
-  }
-
-  function start(){ timer = setInterval(() => setIndex(idx + 1), 5600); }
-  function stop(){ if (timer) clearInterval(timer); timer = null; }
-  function restart(){ stop(); start(); }
-
+  // Controls
   prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
   nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
 
+  // Pause on hover/focus (desktop)
   viewport.addEventListener('mouseenter', stop);
   viewport.addEventListener('mouseleave', start);
   viewport.addEventListener('focusin', stop);
   viewport.addEventListener('focusout', start);
 
   // Swipe (do not steal taps from links/controls; ignore iframe)
-  let down = false, startX = 0, dx = 0;
+  let down = false,
+    startX = 0,
+    dx = 0;
 
-  function isInteractiveTarget(el){
+  function isInteractiveTarget(el) {
     return !!(el && el.closest && el.closest('a, button, input, select, textarea, label'));
   }
 
@@ -150,24 +179,44 @@ onReady(function initCarousel(){
     else restart();
   });
 
-  viewport.addEventListener('pointercancel', () => { down = false; restart(); });
+  viewport.addEventListener('pointercancel', () => {
+    down = false;
+    restart();
+  });
+
+  // Resize: keep the same slide visible without animating or restarting autoplay
+  window.addEventListener('resize', () => {
+    positionTrack(true);
+  });
 
   // Start on Music (first link slide), not the embed
-  setIndex(0);
+  setIndex(0, false);
+  positionTrack(true); // snap precisely on load
   start();
 });
 
 /* ─────────────────────────────────────────────────────────────
    STUDIO SLIDESHOW
 ───────────────────────────────────────────────────────────── */
-onReady(function(){
+onReady(function () {
   const images = [
-    "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
-    "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
-    "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
-    "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
-    "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
-    "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
+    '/assets/images/S1.jpeg',
+    '/assets/images/S2.jpeg',
+    '/assets/images/S3.jpeg',
+    '/assets/images/S4.jpeg',
+    '/assets/images/S5.jpeg',
+    '/assets/images/S6.jpeg',
+    '/assets/images/S7.jpeg',
+    '/assets/images/S8.jpeg',
+    '/assets/images/S9.jpeg',
+    '/assets/images/S10.jpeg',
+    '/assets/images/S11.jpeg',
+    '/assets/images/S12.jpeg',
+    '/assets/images/S13.jpeg',
+    '/assets/images/S14.jpeg',
+    '/assets/images/S15.jpeg',
+    '/assets/images/S16.jpeg',
+    '/assets/images/S17.jpeg',
   ];
 
   const imgA = document.getElementById('imgA');
@@ -177,7 +226,7 @@ onReady(function(){
   let i = 0;
   let showingA = true;
 
-  function preload(src){
+  function preload(src) {
     return new Promise((resolve) => {
       const im = new Image();
       im.onload = () => resolve(src);
@@ -186,7 +235,7 @@ onReady(function(){
     });
   }
 
-  async function swap(){
+  async function swap() {
     const nextSrc = images[i % images.length];
     i++;
     await preload(nextSrc);
@@ -213,7 +262,7 @@ onReady(function(){
 /* ─────────────────────────────────────────────────────────────
    VIDEO SEARCH / FILTER / SORT
 ───────────────────────────────────────────────────────────── */
-onReady(function(){
+onReady(function () {
   const grid = document.getElementById('videoGrid');
   const q = document.getElementById('q');
   const artist = document.getElementById('artist');
@@ -225,46 +274,56 @@ onReady(function(){
   if (!cards.length) return;
 
   const names = new Set();
-  cards.forEach(c => {
+  cards.forEach((c) => {
     const a = (c.getAttribute('data-artist') || '')
       .split(',')
-      .map(s => s.trim())
+      .map((s) => s.trim())
       .filter(Boolean);
-    a.forEach(x => names.add(x));
+    a.forEach((x) => names.add(x));
   });
 
-  Array.from(names).sort((a,b)=>a.localeCompare(b)).forEach(n=>{
-    const opt = document.createElement('option');
-    opt.value = n;
-    opt.textContent = n;
-    artist.appendChild(opt);
-  });
+  Array.from(names)
+    .sort((a, b) => a.localeCompare(b))
+    .forEach((n) => {
+      const opt = document.createElement('option');
+      opt.value = n;
+      opt.textContent = n;
+      artist.appendChild(opt);
+    });
 
-  function apply(){
+  function apply() {
     const term = (q.value || '').trim().toLowerCase();
     const who = (artist.value || '').trim();
     const mode = sort.value;
 
-    let filtered = cards.filter(c => {
+    let filtered = cards.filter((c) => {
       const t = (c.getAttribute('data-title') || '').toLowerCase();
       const a = (c.getAttribute('data-artist') || '').toLowerCase();
       const okTerm = !term || t.includes(term) || a.includes(term);
-      const okArtist = !who || (c.getAttribute('data-artist') || '')
-        .split(',')
-        .map(s=>s.trim())
-        .includes(who);
+      const okArtist =
+        !who ||
+        (c.getAttribute('data-artist') || '')
+          .split(',')
+          .map((s) => s.trim())
+          .includes(who);
       return okTerm && okArtist;
     });
 
-    const byDate = (x) => (x.getAttribute('data-date') || '1900-01-01');
+    const byDate = (x) => x.getAttribute('data-date') || '1900-01-01';
 
-    if (mode === 'oldest') filtered.sort((a,b)=> byDate(a).localeCompare(byDate(b)));
-    else if (mode === 'az') filtered.sort((a,b)=> (a.getAttribute('data-title')||'').localeCompare(b.getAttribute('data-title')||''));
-    else if (mode === 'za') filtered.sort((a,b)=> (b.getAttribute('data-title')||'').localeCompare(a.getAttribute('data-title')||''));
-    else filtered.sort((a,b)=> byDate(b).localeCompare(byDate(a)));
+    if (mode === 'oldest') filtered.sort((a, b) => byDate(a).localeCompare(byDate(b)));
+    else if (mode === 'az')
+      filtered.sort((a, b) =>
+        (a.getAttribute('data-title') || '').localeCompare(b.getAttribute('data-title') || '')
+      );
+    else if (mode === 'za')
+      filtered.sort((a, b) =>
+        (b.getAttribute('data-title') || '').localeCompare(a.getAttribute('data-title') || '')
+      );
+    else filtered.sort((a, b) => byDate(b).localeCompare(byDate(a)));
 
     grid.innerHTML = '';
-    filtered.forEach(c => grid.appendChild(c));
+    filtered.forEach((c) => grid.appendChild(c));
     empty.style.display = filtered.length ? 'none' : 'block';
   }
 
@@ -278,12 +337,12 @@ onReady(function(){
 /* ─────────────────────────────────────────────────────────────
    TICKER (duplicate + measure + animate exact px distance)
 ───────────────────────────────────────────────────────────── */
-onReady(function(){
+onReady(function () {
   const track = document.getElementById('tickerTrack');
   const item = document.getElementById('tickerItem');
   if (!track || !item) return;
 
-  function rebuild(){
+  function rebuild() {
     while (track.children.length > 1) track.removeChild(track.lastChild);
 
     const viewportW = window.innerWidth || 1200;
@@ -317,6 +376,8 @@ onReady(function(){
   }
 
   window.addEventListener('load', rebuild);
-  window.addEventListener('resize', () => { setTimeout(rebuild, 120); });
+  window.addEventListener('resize', () => {
+    setTimeout(rebuild, 120);
+  });
   rebuild();
 });
