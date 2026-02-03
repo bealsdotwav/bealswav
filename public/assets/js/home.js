@@ -2,7 +2,7 @@
 
 // Helper: run now if DOM already ready
 function onReady(fn) {
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn);
   else fn();
 }
 
@@ -10,10 +10,10 @@ function onReady(fn) {
    INTRO (every load, fixed duration)
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
-  const intro = document.getElementById("intro");
+  const intro = document.getElementById('intro');
   if (!intro) return;
 
-  requestAnimationFrame(() => intro.classList.add("play"));
+  requestAnimationFrame(() => intro.classList.add('play'));
   setTimeout(() => {
     if (intro) intro.remove();
   }, 2950);
@@ -23,20 +23,20 @@ onReady(function () {
    MOBILE DRAWER
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
-  const btn = document.getElementById("menuBtn");
-  const drawer = document.getElementById("drawer");
+  const btn = document.getElementById('menuBtn');
+  const drawer = document.getElementById('drawer');
   if (!btn || !drawer) return;
 
-  btn.addEventListener("click", () => {
-    drawer.style.display = drawer.style.display === "block" ? "none" : "block";
+  btn.addEventListener('click', () => {
+    drawer.style.display = drawer.style.display === 'block' ? 'none' : 'block';
   });
 
-  drawer.addEventListener("click", (e) => {
-    if (e.target && e.target.tagName === "A") drawer.style.display = "none";
+  drawer.addEventListener('click', (e) => {
+    if (e.target && e.target.tagName === 'A') drawer.style.display = 'none';
   });
 
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 760) drawer.style.display = "none";
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760) drawer.style.display = 'none';
   });
 });
 
@@ -45,17 +45,17 @@ onReady(function () {
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
   function sync() {
-    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-    const loginTop = document.getElementById("loginTop");
-    const loginMobile = document.getElementById("loginMobile");
+    const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+    const loginTop = document.getElementById('loginTop');
+    const loginMobile = document.getElementById('loginMobile');
 
     if (loginTop) {
-      loginTop.textContent = isLoggedIn ? "Account" : "Login";
-      loginTop.href = isLoggedIn ? "/account.html" : "/login.html";
+      loginTop.textContent = isLoggedIn ? 'Account' : 'Login';
+      loginTop.href = isLoggedIn ? '/account.html' : '/login.html';
     }
     if (loginMobile) {
-      loginMobile.textContent = isLoggedIn ? "Account" : "Login";
-      loginMobile.href = isLoggedIn ? "/account.html" : "/login.html";
+      loginMobile.textContent = isLoggedIn ? 'Account' : 'Login';
+      loginMobile.href = isLoggedIn ? '/account.html' : '/login.html';
     }
   }
 
@@ -64,46 +64,44 @@ onReady(function () {
 
 /* ─────────────────────────────────────────────────────────────
    CAROUSEL (dots/autoplay/swipe)
-   FIX: translate by *physical child index* (div + a mixed children)
+   FIX: translate by *physical child index* instead of (idx + 1)
 ───────────────────────────────────────────────────────────── */
 onReady(function initCarousel() {
-  const track = document.getElementById("track");
-  const dotsWrap = document.getElementById("dots");
-  const chip = document.getElementById("chip");
-  const prevBtn = document.getElementById("prev");
-  const nextBtn = document.getElementById("next");
-  const viewport = document.getElementById("viewport");
+  const track = document.getElementById('track');
+  const dotsWrap = document.getElementById('dots');
+  const chip = document.getElementById('chip');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const viewport = document.getElementById('viewport');
 
   if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
-  // All physical slides in order (div + a etc.)
-  const allSlides = Array.from(track.children).filter(
-    (el) => el.classList && el.classList.contains("slide")
-  );
+  // All slides as they exist physically in the track (div + a, etc.)
+  const allSlides = Array.from(track.children).filter((el) => el.classList && el.classList.contains('slide'));
   if (!allSlides.length) return;
 
   // Slides we want to rotate through (exclude data-noslide)
-  const slides = allSlides.filter((el) => !el.hasAttribute("data-noslide"));
+  const slides = allSlides.filter((el) => !el.hasAttribute('data-noslide'));
   if (!slides.length) return;
 
-  let idx = 0; // index within "slides" (link slides)
+  let idx = 0;        // index inside "slides" (link slides)
   let timer = null;
 
   function viewportWidth() {
-    // Desktop-safe width measurement
+    // clientWidth can be 0 in some layout phases; bounding rect is often reliable
     return Math.round(viewport.getBoundingClientRect().width || viewport.clientWidth || 0);
   }
 
   function physicalIndexForIdx(i) {
     const el = slides[i];
     const pi = allSlides.indexOf(el);
-    return pi >= 0 ? pi : 0;
+    return Math.max(0, pi);
   }
 
   function setChipAndDots() {
-    chip.textContent = slides[idx].getAttribute("data-chip") || "Featured";
-    const dots = dotsWrap.querySelectorAll(".dot");
-    dots.forEach((d, di) => d.setAttribute("aria-current", di === idx ? "true" : "false"));
+    chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
+    const dots = dotsWrap.querySelectorAll('.dot');
+    dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
   }
 
   function positionTrack(noAnim = false) {
@@ -113,12 +111,12 @@ onReady(function initCarousel() {
     const pi = physicalIndexForIdx(idx);
     const x = pi * w;
 
-    if (noAnim) track.style.transition = "none";
+    if (noAnim) track.style.transition = 'none';
     track.style.transform = `translate3d(-${x}px, 0, 0)`;
 
     if (noAnim) {
       requestAnimationFrame(() => {
-        track.style.transition = "transform 560ms cubic-bezier(.2,.85,.2,1)";
+        track.style.transition = 'transform 560ms cubic-bezier(.2,.85,.2,1)';
       });
     }
 
@@ -133,7 +131,6 @@ onReady(function initCarousel() {
   }
 
   function start() {
-    stop();
     timer = setInterval(() => setIndex(idx + 1), 5600);
   }
   function stop() {
@@ -146,37 +143,37 @@ onReady(function initCarousel() {
   }
 
   // Build dots
-  dotsWrap.innerHTML = "";
+  dotsWrap.innerHTML = '';
   slides.forEach((_, i) => {
-    const dot = document.createElement("button");
-    dot.className = "dot";
-    dot.type = "button";
-    dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
-    dot.addEventListener("click", () => setIndex(i, true));
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.type = 'button';
+    dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+    dot.addEventListener('click', () => setIndex(i, true));
     dotsWrap.appendChild(dot);
   });
 
   // Controls
-  prevBtn.addEventListener("click", () => setIndex(idx - 1, true));
-  nextBtn.addEventListener("click", () => setIndex(idx + 1, true));
+  prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
+  nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
 
   // Pause on hover/focus (desktop)
-  viewport.addEventListener("mouseenter", stop);
-  viewport.addEventListener("mouseleave", start);
-  viewport.addEventListener("focusin", stop);
-  viewport.addEventListener("focusout", start);
+  viewport.addEventListener('mouseenter', stop);
+  viewport.addEventListener('mouseleave', start);
+  viewport.addEventListener('focusin', stop);
+  viewport.addEventListener('focusout', start);
 
-  // Swipe (don’t steal taps from links/controls; ignore iframe)
+  // Swipe (do not steal taps from links/controls; ignore iframe)
   let down = false;
   let startX = 0;
   let dx = 0;
 
   function isInteractiveTarget(el) {
-    return !!(el && el.closest && el.closest("a, button, input, select, textarea, label"));
+    return !!(el && el.closest && el.closest('a, button, input, select, textarea, label'));
   }
 
-  viewport.addEventListener("pointerdown", (e) => {
-    if (e.target.closest && e.target.closest("iframe")) return;
+  viewport.addEventListener('pointerdown', (e) => {
+    if (e.target.closest && e.target.closest('iframe')) return;
     if (isInteractiveTarget(e.target)) return;
 
     down = true;
@@ -185,12 +182,12 @@ onReady(function initCarousel() {
     stop();
   });
 
-  viewport.addEventListener("pointermove", (e) => {
+  viewport.addEventListener('pointermove', (e) => {
     if (!down) return;
     dx = e.clientX - startX;
   });
 
-  viewport.addEventListener("pointerup", () => {
+  viewport.addEventListener('pointerup', () => {
     if (!down) return;
     down = false;
 
@@ -198,35 +195,38 @@ onReady(function initCarousel() {
     else restart();
   });
 
-  viewport.addEventListener("pointercancel", () => {
+  viewport.addEventListener('pointercancel', () => {
     down = false;
     restart();
   });
 
   // Resize: keep slide without anim
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     positionTrack(true);
   });
 
-  // Boot: wait for real width, then snap + autoplay
+  // Boot: wait for real width, then snap to first *link* slide
   function boot(tries = 0) {
     const ok = positionTrack(true);
+
     if (!ok) {
-      if (tries < 180) requestAnimationFrame(() => boot(tries + 1));
+      if (tries < 120) requestAnimationFrame(() => boot(tries + 1));
       return;
     }
+
     idx = 0;
     setChipAndDots();
     positionTrack(true);
     start();
   }
 
+  // Initialize to first link slide, then boot
   idx = 0;
   setChipAndDots();
   boot();
 
-  // Extra snaps after load to defeat late layout/font/image shifts (desktop)
-  window.addEventListener("load", () => positionTrack(true));
+  // Extra snaps after load to defeat late layout/font/image shifts
+  window.addEventListener('load', () => positionTrack(true));
   setTimeout(() => positionTrack(true), 250);
   setTimeout(() => positionTrack(true), 800);
 });
@@ -236,16 +236,16 @@ onReady(function initCarousel() {
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
   const images = [
-    "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
-    "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
-    "/assets/images/S7.jpeg","/assets/images/S8.jpeg","/assets/images/S9.jpeg",
-    "/assets/images/S10.jpeg","/assets/images/S11.jpeg","/assets/images/S12.jpeg",
-    "/assets/images/S13.jpeg","/assets/images/S14.jpeg","/assets/images/S15.jpeg",
-    "/assets/images/S16.jpeg","/assets/images/S17.jpeg"
+    '/assets/images/S1.jpeg', '/assets/images/S2.jpeg', '/assets/images/S3.jpeg',
+    '/assets/images/S4.jpeg', '/assets/images/S5.jpeg', '/assets/images/S6.jpeg',
+    '/assets/images/S7.jpeg', '/assets/images/S8.jpeg', '/assets/images/S9.jpeg',
+    '/assets/images/S10.jpeg', '/assets/images/S11.jpeg', '/assets/images/S12.jpeg',
+    '/assets/images/S13.jpeg', '/assets/images/S14.jpeg', '/assets/images/S15.jpeg',
+    '/assets/images/S16.jpeg', '/assets/images/S17.jpeg',
   ];
 
-  const imgA = document.getElementById("imgA");
-  const imgB = document.getElementById("imgB");
+  const imgA = document.getElementById('imgA');
+  const imgB = document.getElementById('imgB');
   if (!imgA || !imgB) return;
 
   let i = 0;
@@ -271,14 +271,14 @@ onReady(function () {
     show.src = nextSrc;
 
     requestAnimationFrame(() => {
-      show.classList.add("show");
-      hide.classList.remove("show");
+      show.classList.add('show');
+      hide.classList.remove('show');
       showingA = !showingA;
     });
   }
 
   imgA.src = images[0];
-  imgA.classList.add("show");
+  imgA.classList.add('show');
   i = 1;
 
   setInterval(swap, 4200);
@@ -288,20 +288,20 @@ onReady(function () {
    VIDEO SEARCH / FILTER / SORT
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
-  const grid = document.getElementById("videoGrid");
-  const q = document.getElementById("q");
-  const artist = document.getElementById("artist");
-  const sort = document.getElementById("sort");
-  const empty = document.getElementById("empty");
+  const grid = document.getElementById('videoGrid');
+  const q = document.getElementById('q');
+  const artist = document.getElementById('artist');
+  const sort = document.getElementById('sort');
+  const empty = document.getElementById('empty');
   if (!grid || !q || !artist || !sort || !empty) return;
 
-  const cards = Array.from(grid.querySelectorAll(".vcard"));
+  const cards = Array.from(grid.querySelectorAll('.vcard'));
   if (!cards.length) return;
 
   const names = new Set();
   cards.forEach((c) => {
-    const a = (c.getAttribute("data-artist") || "")
-      .split(",")
+    const a = (c.getAttribute('data-artist') || '')
+      .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
     a.forEach((x) => names.add(x));
@@ -310,51 +310,51 @@ onReady(function () {
   Array.from(names)
     .sort((a, b) => a.localeCompare(b))
     .forEach((n) => {
-      const opt = document.createElement("option");
+      const opt = document.createElement('option');
       opt.value = n;
       opt.textContent = n;
       artist.appendChild(opt);
     });
 
   function apply() {
-    const term = (q.value || "").trim().toLowerCase();
-    const who = (artist.value || "").trim();
+    const term = (q.value || '').trim().toLowerCase();
+    const who = (artist.value || '').trim();
     const mode = sort.value;
 
     let filtered = cards.filter((c) => {
-      const t = (c.getAttribute("data-title") || "").toLowerCase();
-      const a = (c.getAttribute("data-artist") || "").toLowerCase();
+      const t = (c.getAttribute('data-title') || '').toLowerCase();
+      const a = (c.getAttribute('data-artist') || '').toLowerCase();
       const okTerm = !term || t.includes(term) || a.includes(term);
       const okArtist =
         !who ||
-        (c.getAttribute("data-artist") || "")
-          .split(",")
+        (c.getAttribute('data-artist') || '')
+          .split(',')
           .map((s) => s.trim())
           .includes(who);
       return okTerm && okArtist;
     });
 
-    const byDate = (x) => x.getAttribute("data-date") || "1900-01-01";
+    const byDate = (x) => x.getAttribute('data-date') || '1900-01-01';
 
-    if (mode === "oldest") filtered.sort((a, b) => byDate(a).localeCompare(byDate(b)));
-    else if (mode === "az")
+    if (mode === 'oldest') filtered.sort((a, b) => byDate(a).localeCompare(byDate(b)));
+    else if (mode === 'az')
       filtered.sort((a, b) =>
-        (a.getAttribute("data-title") || "").localeCompare(b.getAttribute("data-title") || "")
+        (a.getAttribute('data-title') || '').localeCompare(b.getAttribute('data-title') || '')
       );
-    else if (mode === "za")
+    else if (mode === 'za')
       filtered.sort((a, b) =>
-        (b.getAttribute("data-title") || "").localeCompare(a.getAttribute("data-title") || "")
+        (b.getAttribute('data-title') || '').localeCompare(a.getAttribute('data-title') || '')
       );
     else filtered.sort((a, b) => byDate(b).localeCompare(byDate(a)));
 
-    grid.innerHTML = "";
+    grid.innerHTML = '';
     filtered.forEach((c) => grid.appendChild(c));
-    empty.style.display = filtered.length ? "none" : "block";
+    empty.style.display = filtered.length ? 'none' : 'block';
   }
 
-  q.addEventListener("input", apply);
-  artist.addEventListener("change", apply);
-  sort.addEventListener("change", apply);
+  q.addEventListener('input', apply);
+  artist.addEventListener('change', apply);
+  sort.addEventListener('change', apply);
 
   apply();
 });
@@ -363,8 +363,8 @@ onReady(function () {
    TICKER (duplicate + measure + animate exact px distance)
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
-  const track = document.getElementById("tickerTrack");
-  const item = document.getElementById("tickerItem");
+  const track = document.getElementById('tickerTrack');
+  const item = document.getElementById('tickerItem');
   if (!track || !item) return;
 
   function rebuild() {
@@ -375,8 +375,8 @@ onReady(function () {
 
     while (totalW < viewportW * 2) {
       const clone = item.cloneNode(true);
-      clone.removeAttribute("id");
-      clone.setAttribute("aria-hidden", "true");
+      clone.removeAttribute('id');
+      clone.setAttribute('aria-hidden', 'true');
       track.appendChild(clone);
       totalW += clone.getBoundingClientRect().width;
     }
@@ -385,11 +385,11 @@ onReady(function () {
     const pxPerSec = 90;
     const dur = Math.max(16, Math.min(40, baseW / pxPerSec));
 
-    const old = document.getElementById("tickerStyle");
+    const old = document.getElementById('tickerStyle');
     if (old) old.remove();
 
-    const style = document.createElement("style");
-    style.id = "tickerStyle";
+    const style = document.createElement('style');
+    style.id = 'tickerStyle';
     style.textContent = `
       @keyframes tickerMovePx {
         0% { transform: translateX(0); }
@@ -400,7 +400,9 @@ onReady(function () {
     document.head.appendChild(style);
   }
 
-  window.addEventListener("load", rebuild);
-  window.addEventListener("resize", () => setTimeout(rebuild, 120));
+  window.addEventListener('load', rebuild);
+  window.addEventListener('resize', () => {
+    setTimeout(rebuild, 120);
+  });
   rebuild();
 });
