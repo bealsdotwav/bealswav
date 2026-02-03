@@ -63,7 +63,7 @@ onReady(function () {
 });
 
 /* ─────────────────────────────────────────────────────────────
-   CAROUSEL (dots/autoplay/swipe) - DESKTOP FIX
+   CAROUSEL (dots/autoplay/swipe) - DESKTOP FIX + BOOT TIMING FIX
    index.html has an embed slide FIRST with data-noslide.
    We exclude it from dots, but it is still physically slide 0 in #track.
    So we translate by (idx + 1) slides.
@@ -87,12 +87,11 @@ onReady(function initCarousel() {
 
   function setChipAndDots() {
     chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
-
     const dots = dotsWrap.querySelectorAll('.dot');
     dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
   }
 
-  // The actual desktop-safe positioning
+  // Desktop-safe positioning (px, not %)
   function positionTrack(noAnim = false) {
     const slideW = viewport.clientWidth || 0;
     const x = (idx + 1) * slideW; // +1 offset because embed slide is still first child in #track
@@ -105,12 +104,16 @@ onReady(function initCarousel() {
         track.style.transition = 'transform 560ms cubic-bezier(.2,.85,.2,1)';
       });
     }
+
+    // TEMP DEBUG (remove later):
+    // Confirms desktop has a real width and transform is updating.
+    // console.log('carousel position', { idx, slideW, x });
   }
 
   function setIndex(i, user = false) {
     idx = (i + slides.length) % slides.length;
-    positionTrack(false);
     setChipAndDots();
+    positionTrack(false);
     if (user) restart();
   }
 
@@ -148,9 +151,9 @@ onReady(function initCarousel() {
   viewport.addEventListener('focusout', start);
 
   // Swipe (do not steal taps from links/controls; ignore iframe)
-  let down = false,
-    startX = 0,
-    dx = 0;
+  let down = false;
+  let startX = 0;
+  let dx = 0;
 
   function isInteractiveTarget(el) {
     return !!(el && el.closest && el.closest('a, button, input, select, textarea, label'));
@@ -189,10 +192,23 @@ onReady(function initCarousel() {
     positionTrack(true);
   });
 
-  // Start on Music (first link slide), not the embed
-  setIndex(0, false);
-  positionTrack(true); // snap precisely on load
-  start();
+  // BOOT: wait until layout has real width (desktop timing fix)
+  function boot() {
+    const w = viewport.clientWidth || 0;
+
+    // If layout isn't ready yet, wait a frame (desktop can report 0 briefly)
+    if (w < 10) {
+      requestAnimationFrame(boot);
+      return;
+    }
+
+    idx = 0;            // first LINK slide (Music)
+    setChipAndDots();
+    positionTrack(true); // snap precisely
+    start();
+  }
+
+  boot();
 });
 
 /* ─────────────────────────────────────────────────────────────
@@ -200,23 +216,12 @@ onReady(function initCarousel() {
 ───────────────────────────────────────────────────────────── */
 onReady(function () {
   const images = [
-    '/assets/images/S1.jpeg',
-    '/assets/images/S2.jpeg',
-    '/assets/images/S3.jpeg',
-    '/assets/images/S4.jpeg',
-    '/assets/images/S5.jpeg',
-    '/assets/images/S6.jpeg',
-    '/assets/images/S7.jpeg',
-    '/assets/images/S8.jpeg',
-    '/assets/images/S9.jpeg',
-    '/assets/images/S10.jpeg',
-    '/assets/images/S11.jpeg',
-    '/assets/images/S12.jpeg',
-    '/assets/images/S13.jpeg',
-    '/assets/images/S14.jpeg',
-    '/assets/images/S15.jpeg',
-    '/assets/images/S16.jpeg',
-    '/assets/images/S17.jpeg',
+    '/assets/images/S1.jpeg', '/assets/images/S2.jpeg', '/assets/images/S3.jpeg',
+    '/assets/images/S4.jpeg', '/assets/images/S5.jpeg', '/assets/images/S6.jpeg',
+    '/assets/images/S7.jpeg', '/assets/images/S8.jpeg', '/assets/images/S9.jpeg',
+    '/assets/images/S10.jpeg', '/assets/images/S11.jpeg', '/assets/images/S12.jpeg',
+    '/assets/images/S13.jpeg', '/assets/images/S14.jpeg', '/assets/images/S15.jpeg',
+    '/assets/images/S16.jpeg', '/assets/images/S17.jpeg',
   ];
 
   const imgA = document.getElementById('imgA');
