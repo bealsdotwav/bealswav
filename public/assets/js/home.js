@@ -63,8 +63,8 @@ onReady(function () {
 });
 
 /* ─────────────────────────────────────────────────────────────
-   CAROUSEL (dots/autoplay/swipe)
-   FIX: translate by *physical child index* instead of (idx + 1)
+   CAROUSEL (scroll-snap + buttons + dots + autoplay)
+   Robust: no transform math, swipe is native.
 ───────────────────────────────────────────────────────────── */
 onReady(function initCarousel() {
   const track = document.getElementById('track');
@@ -77,26 +77,18 @@ onReady(function initCarousel() {
   if (!track || !dotsWrap || !chip || !prevBtn || !nextBtn || !viewport) return;
 
   // All slides as they exist physically in the track (div + a, etc.)
-  const allSlides = Array.from(track.children).filter((el) => el.classList && el.classList.contains('slide'));
+  const allSlides = Array.from(track.children).filter(
+    (el) => el.classList && el.classList.contains('slide')
+  );
   if (!allSlides.length) return;
 
   // Slides we want to rotate through (exclude data-noslide)
   const slides = allSlides.filter((el) => !el.hasAttribute('data-noslide'));
   if (!slides.length) return;
 
-  let idx = 0;        // index inside "slides" (link slides)
+  let idx = 0;
   let timer = null;
-
-  function viewportWidth() {
-    // clientWidth can be 0 in some layout phases; bounding rect is often reliable
-    return Math.round(viewport.getBoundingClientRect().width || viewport.clientWidth || 0);
-  }
-
-  function physicalIndexForIdx(i) {
-    const el = slides[i];
-    const pi = allSlides.indexOf(el);
-    return Math.max(0, pi);
-  }
+  let raf = null;
 
   function setChipAndDots() {
     chip.textContent = slides[idx].getAttribute('data-chip') || 'Featured';
@@ -104,34 +96,20 @@ onReady(function initCarousel() {
     dots.forEach((d, di) => d.setAttribute('aria-current', di === idx ? 'true' : 'false'));
   }
 
-  function positionTrack(noAnim = false) {
-    const w = viewportWidth();
-    if (w < 10) return false;
-
-    const pi = physicalIndexForIdx(idx);
-    const x = pi * w;
-
-    if (noAnim) track.style.transition = 'none';
-    track.style.transform = `translate3d(-${x}px, 0, 0)`;
-
-    if (noAnim) {
-      requestAnimationFrame(() => {
-        track.style.transition = 'transform 560ms cubic-bezier(.2,.85,.2,1)';
-      });
-    }
-
-    return true;
-  }
-
-  function setIndex(i, user = false) {
+  function scrollToIdx(i, user = false, behavior = 'smooth') {
     idx = (i + slides.length) % slides.length;
+
+    const el = slides[idx];
+    const left = el.offsetLeft;
+
+    viewport.scrollTo({ left, behavior });
     setChipAndDots();
-    positionTrack(false);
+
     if (user) restart();
   }
 
   function start() {
-    timer = setInterval(() => setIndex(idx + 1), 5600);
+    timer = setInterval(() => scrollToIdx(idx + 1, false, 'smooth'), 5600);
   }
   function stop() {
     if (timer) clearInterval(timer);
@@ -149,86 +127,69 @@ onReady(function initCarousel() {
     dot.className = 'dot';
     dot.type = 'button';
     dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
-    dot.addEventListener('click', () => setIndex(i, true));
+    dot.addEventListener('click', () => scrollToIdx(i, true, 'smooth'));
     dotsWrap.appendChild(dot);
   });
 
-  // Controls
-  prevBtn.addEventListener('click', () => setIndex(idx - 1, true));
-  nextBtn.addEventListener('click', () => setIndex(idx + 1, true));
+  // Buttons
+  prevBtn.addEventListener('click', () => scrollToIdx(idx - 1, true, 'smooth'));
+  nextBtn.addEventListener('click', () => scrollToIdx(idx + 1, true, 'smooth'));
 
-  // Pause on hover/focus (desktop)
+  // Pause on hover/focus
   viewport.addEventListener('mouseenter', stop);
   viewport.addEventListener('mouseleave', start);
   viewport.addEventListener('focusin', stop);
   viewport.addEventListener('focusout', start);
 
-  // Swipe (do not steal taps from links/controls; ignore iframe)
-  let down = false;
-  let startX = 0;
-  let dx = 0;
+  // Keep idx synced when user swipes/scrolls
+  viewport.addEventListener(
+    'scroll',
+    () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const center = viewport.scrollLeft + viewport.clientWidth / 2;
 
-  function isInteractiveTarget(el) {
-    return !!(el && el.closest && el.closest('a, button, input, select, textarea, label'));
-  }
+        let best = 0;
+        let bestDist = Infinity;
 
-  viewport.addEventListener('pointerdown', (e) => {
-    if (e.target.closest && e.target.closest('iframe')) return;
-    if (isInteractiveTarget(e.target)) return;
+        for (let i = 0; i < slides.length; i++) {
+          const s = slides[i];
+          const sCenter = s.offsetLeft + s.clientWidth / 2;
+          const dist = Math.abs(sCenter - center);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = i;
+          }
+        }
 
-    down = true;
-    startX = e.clientX;
-    dx = 0;
-    stop();
-  });
+        if (best !== idx) {
+          idx = best;
+          setChipAndDots();
+          restart();
+        }
+      });
+    },
+    { passive: true }
+  );
 
-  viewport.addEventListener('pointermove', (e) => {
-    if (!down) return;
-    dx = e.clientX - startX;
-  });
-
-  viewport.addEventListener('pointerup', () => {
-    if (!down) return;
-    down = false;
-
-    if (Math.abs(dx) > 40) setIndex(idx + (dx < 0 ? 1 : -1), true);
-    else restart();
-  });
-
-  viewport.addEventListener('pointercancel', () => {
-    down = false;
-    restart();
-  });
-
-  // Resize: keep slide without anim
-  window.addEventListener('resize', () => {
-    positionTrack(true);
-  });
-
-  // Boot: wait for real width, then snap to first *link* slide
-  function boot(tries = 0) {
-    const ok = positionTrack(true);
-
-    if (!ok) {
-      if (tries < 120) requestAnimationFrame(() => boot(tries + 1));
-      return;
-    }
-
-    idx = 0;
-    setChipAndDots();
-    positionTrack(true);
-    start();
-  }
-
-  // Initialize to first link slide, then boot
+  // Boot: snap instantly to first clickable slide (not the embed)
   idx = 0;
   setChipAndDots();
-  boot();
+  requestAnimationFrame(() => {
+    viewport.scrollTo({ left: slides[0].offsetLeft, behavior: 'auto' });
+  });
+  start();
 
-  // Extra snaps after load to defeat late layout/font/image shifts
-  window.addEventListener('load', () => positionTrack(true));
-  setTimeout(() => positionTrack(true), 250);
-  setTimeout(() => positionTrack(true), 800);
+  // After resize/load, re-snap to current slide
+  window.addEventListener('resize', () => {
+    requestAnimationFrame(() => {
+      viewport.scrollTo({ left: slides[idx].offsetLeft, behavior: 'auto' });
+    });
+  });
+
+  window.addEventListener('load', () => {
+    viewport.scrollTo({ left: slides[idx].offsetLeft, behavior: 'auto' });
+  });
 });
 
 /* ─────────────────────────────────────────────────────────────
