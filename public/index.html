@@ -51,7 +51,7 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 40px; /* ticker clearance */
+      padding-bottom: 40px;
     }
 
     a{ color:inherit; text-decoration:none; }
@@ -257,7 +257,7 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       CAROUSEL (bigger + fixed desktop sizing)
+       CAROUSEL (FIXED TRACK SIZING)
     ───────────────────────────────────────────────────────────── */
     .hero{
       display:flex;
@@ -266,11 +266,10 @@
       padding: 10px 0 10px;
     }
 
-    /* Make carousel block match featured section width more closely */
     .squircle{
       width: 100%;
       max-width: var(--max);
-      min-height: 560px; /* bigger */
+      min-height: 560px;
       border-radius: 34px;
       background: rgba(255,255,255,0.70);
       border: 1px solid rgba(15,23,42,0.12);
@@ -284,7 +283,7 @@
       height: 100%;
       display:flex;
       flex-direction:column;
-      padding: 16px; /* slightly bigger padding */
+      padding: 16px;
       gap: 10px;
     }
 
@@ -327,25 +326,26 @@
 
     .viewport{
       position: relative;
+      width: 100%;
       flex: 1;
       border-radius: 28px;
       overflow:hidden;
       border: 1px solid rgba(15,23,42,0.12);
       background: rgba(11,27,43,0.06);
-      height: clamp(420px, 55vw, 560px); /* bigger */
+      height: clamp(420px, 55vw, 560px);
       touch-action: pan-y;
     }
 
+    /* KEY FIX: allow track to grow wider than viewport */
     .track{
       display:flex;
       height: 100%;
-      width: 100%;
-      transform: translateX(0);
+      width: max-content;              /* FIX */
+      transform: translate3d(0,0,0);
       transition: transform 560ms cubic-bezier(.2,.85,.2,1);
       will-change: transform;
     }
 
-    /* IMPORTANT: normalize ALL slides (div + a) so desktop math can't drift */
     .track > .slide{
       display:block;
       flex: 0 0 100%;
@@ -358,7 +358,6 @@
         linear-gradient(135deg, rgba(23,135,171,0.30), rgba(62,183,219,0.18));
     }
 
-    /* Link slides: real links */
     .slideLink{
       display:block;
       cursor:pointer;
@@ -367,7 +366,6 @@
       position: relative;
     }
 
-    /* Real image cover */
     .slideImgCover{
       position:absolute;
       inset:0;
@@ -383,7 +381,6 @@
     .slideLink::after{ z-index: 1; }
     .slideOverlay{ z-index: 2; }
 
-    /* Cinematic overlay */
     .slideLink::after{
       content:"";
       position:absolute;
@@ -424,7 +421,7 @@
     .title{
       font-weight: 950;
       letter-spacing: -0.03em;
-      font-size: clamp(1.9rem, 1.2rem + 2.3vw, 3.0rem); /* slightly bigger */
+      font-size: clamp(1.9rem, 1.2rem + 2.3vw, 3.0rem);
       line-height: 1.0;
       color: rgba(255,255,255,0.96);
       text-shadow: 0 16px 60px rgba(0,0,0,0.45);
@@ -588,11 +585,11 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
-       STUDIO (bigger “Book Studio Time” block)
+       STUDIO
     ───────────────────────────────────────────────────────────── */
     .grid2{
       display:grid;
-      grid-template-columns: 1.1fr 0.9fr; /* give text more room */
+      grid-template-columns: 1.1fr 0.9fr;
       gap: 16px;
       align-items: stretch;
     }
@@ -608,7 +605,7 @@
       overflow:hidden;
       border: 1px solid rgba(15,23,42,0.12);
       background: rgba(11,27,43,0.06);
-      min-height: 380px; /* bigger */
+      min-height: 380px;
       position: relative;
     }
     .slideImg{
@@ -624,18 +621,18 @@
     .slideImg.show{ opacity: 1; }
 
     .studioText{
-      padding: 22px; /* bigger */
+      padding: 22px;
       display:flex;
       flex-direction:column;
       justify-content:center;
       gap: 12px;
-      min-height: 380px; /* match slideshow height */
+      min-height: 380px;
     }
     .studioText h2{
       margin:0;
       font-weight: 950;
       letter-spacing: -0.02em;
-      font-size: 1.45rem; /* bigger */
+      font-size: 1.45rem;
       color: rgba(11,27,43,0.92);
       text-transform: capitalize;
     }
@@ -644,14 +641,14 @@
       color: rgba(11,27,43,0.66);
       line-height: 1.55;
       font-weight: 800;
-      font-size: 1.02rem; /* slightly bigger */
+      font-size: 1.02rem;
     }
     .cta{
       margin-top: 8px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding: 16px 16px; /* bigger */
+      padding: 16px 16px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.18);
       background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
@@ -662,7 +659,7 @@
       user-select:none;
       transition: transform 140ms ease, filter 140ms ease;
       text-transform: capitalize;
-      font-size: 1.02rem; /* bigger */
+      font-size: 1.02rem;
     }
     .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .cta:active{ transform: translateY(1px); }
