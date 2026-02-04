@@ -172,12 +172,17 @@ onReady(function initCarousel() {
     { passive: true }
   );
 
-  // Boot: snap instantly to first clickable slide (not the embed)
+  // Boot: snap instantly to first clickable slide
   idx = 0;
   setChipAndDots();
-  requestAnimationFrame(() => {
-    viewport.scrollTo({ left: slides[0].offsetLeft, behavior: 'auto' });
-  });
+  
+  // Use a slight timeout to ensure desktop layout is locked in
+  setTimeout(() => {
+    if (track.children.length > 0) {
+      viewport.scrollTo({ left: 0, behavior: 'instant' });
+    }
+  }, 100); 
+
   start();
 
   // After resize/load, re-snap to current slide
