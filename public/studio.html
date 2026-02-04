@@ -60,9 +60,7 @@
       padding: 0 16px;
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       HEADER (match Home)
-    ───────────────────────────────────────────────────────────── */
+    /* HEADER */
     header{
       position: sticky;
       top: 0;
@@ -154,9 +152,7 @@
       gap: 10px;
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       PAGE BG + SECTION LAYOUT
-    ───────────────────────────────────────────────────────────── */
+    /* PAGE BG + SECTION LAYOUT */
     .page-bg{
       background:
         radial-gradient(1000px 650px at 18% 8%, rgba(62,183,219,0.14), transparent 60%),
@@ -189,7 +185,6 @@
       letter-spacing: -0.03em;
       font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem);
       color: rgba(11,27,43,0.95);
-      text-transform: none;
     }
     .heroTop p{
       margin: 8px 0 0;
@@ -247,9 +242,7 @@
     .slideImg.show{ opacity: 1; }
 
     /* Content blocks */
-    .block{
-      padding: 18px;
-    }
+    .block{ padding: 18px; }
 
     .blockHead{
       display:flex;
@@ -295,6 +288,7 @@
       transition: transform 120ms ease, filter 120ms ease;
       text-transform: capitalize;
       font-size: 0.95rem;
+      white-space: nowrap;
     }
     .btn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .btn:active{ transform: translateY(1px); }
@@ -307,7 +301,7 @@
     }
     .btnGhost{ background: rgba(255,255,255,0.62); }
 
-    /* Accordion */
+    /* Accordion (in-person details) */
     .accordion{
       margin-top: 12px;
       border-radius: 18px;
@@ -390,55 +384,6 @@
     }
     .agreeRow input{ width: 18px; height: 18px; }
 
-    /* Services */
-    .servicesGrid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-      grid-auto-rows: 1fr;
-    }
-    @media (max-width: 980px){
-      .servicesGrid{ grid-template-columns: 1fr; }
-    }
-
-    .serviceCard{
-      padding: 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: rgba(255,255,255,0.70);
-      box-shadow: 0 14px 34px rgba(15,23,42,0.10);
-      display: grid;
-      grid-template-rows: auto 1fr auto auto;
-      gap: 10px;
-      min-height: 220px;
-    }
-    .serviceCard h3{
-      margin:0;
-      font-weight: 950;
-      letter-spacing: -0.01em;
-      color: rgba(11,27,43,0.92);
-      font-size: 1.02rem;
-    }
-    .serviceCard p{
-      margin:0;
-      color: rgba(11,27,43,0.66);
-      font-weight: 800;
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    .serviceCard .price{
-      font-weight: 950;
-      color: rgba(11,27,43,0.72);
-    }
-    .serviceCard .btn{
-      margin-top: 4px;
-      width: 100%;
-    }
-
     /* Rules notice */
     #rulesNotice{
       margin: 12px 0 10px;
@@ -451,21 +396,94 @@
       display:none;
     }
 
-    /* ─────────────────────────────────────────────────────────────
-       STEP 4: LOCK DESKTOP HEIGHT + SCROLL INSIDE RIGHT CARD
-    ───────────────────────────────────────────────────────────── */
+    /* Services */
+    .servicesGrid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr)); /* fits right panel */
+      gap: 12px;
+      margin-top: 12px;
+      align-items: stretch;
+    }
+    @media (max-width: 980px){
+      .servicesGrid{ grid-template-columns: 1fr; }
+    }
+
+    .serviceCard{
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.70);
+      box-shadow: 0 14px 34px rgba(15,23,42,0.10);
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 10px;
+      min-width: 0;
+    }
+    .serviceTop{
+      display:flex;
+      flex-direction:column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .serviceCard h3{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.01em;
+      color: rgba(11,27,43,0.92);
+      font-size: 1.00rem;
+      line-height: 1.15;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .serviceCard .price{
+      font-weight: 950;
+      color: rgba(11,27,43,0.72);
+      white-space: nowrap;
+    }
+
+    .serviceActions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .serviceActions .btn{
+      flex: 1 1 120px;
+      width: auto;
+    }
+    .btnSmall{
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-size: 0.90rem;
+    }
+
+    .serviceDetails{
+      display:none;
+      margin-top: 6px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.62);
+      color: rgba(11,27,43,0.70);
+      font-weight: 850;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+    .serviceCard[data-open="true"] .serviceDetails{ display:block; }
+
+    /* STEP 4: LOCK DESKTOP HEIGHT + SCROLL INSIDE RIGHT CARD */
     @media (min-width: 981px){
       .grid2{ align-items: start; }
 
       .card{
-        height: 560px;              /* match slideshow desktop height */
+        height: 560px; /* match slideshow desktop height */
         display: flex;
         flex-direction: column;
       }
-
       .card .block{
         flex: 1;
-        overflow: auto;             /* expansions scroll inside */
+        overflow: auto; /* expansions scroll inside */
         -webkit-overflow-scrolling: touch;
       }
     }
@@ -586,7 +604,7 @@
       gap: 10px;
     }
 
-    /* Ticker (match Home) */
+    /* Ticker */
     .ticker{
       position:fixed;
       bottom:0;
@@ -628,7 +646,6 @@
     /* Responsive */
     @media (max-width: 980px){
       .grid2{ grid-template-columns: 1fr; }
-      .servicesGrid{ grid-template-columns: 1fr; }
     }
     @media (max-width: 760px){
       .navGroup{ display:none; }
@@ -717,6 +734,7 @@
                   <strong>Session pricing & rules</strong>
                   <div class="chev">⌄</div>
                 </div>
+
                 <div class="accBody" id="accBody">
                   <ul class="rules">
                     <li><strong>$30/hour</strong> (2-hour, $60 minimum)</li>
@@ -733,7 +751,7 @@
                     Questions? <a href="/contact.html">Contact us</a>.
                   </p>
 
-                  <div class="agreeRow">
+                  <div class="agreeRow" id="agreeRow">
                     <label>
                       <input type="checkbox" id="agreeCheckbox">
                       Agree to continue booking
@@ -757,47 +775,89 @@
               </div>
 
               <div id="servicesWrap" style="display:none; margin-top: 12px;">
-                <div class="servicesGrid">
-                  <div class="serviceCard">
-                    <h3>Mixing a Song</h3>
-                    <p>Bring your track to life with professional mixing.</p>
-                    <div class="price">Price: $49.99+</div>
-                    <button class="btn btnPrimary" type="button" data-service="Mixing a Song">Request service</button>
+                <div class="servicesGrid" id="servicesGrid">
+                  <div class="serviceCard" data-open="false">
+                    <div class="serviceTop">
+                      <h3>Mixing a Song</h3>
+                      <div class="price">Price: $49.99+</div>
+                    </div>
+                    <div class="serviceActions">
+                      <button class="btn btnPrimary btnSmall" type="button" data-service="Mixing a Song">Request</button>
+                      <button class="btn btnGhost btnSmall" type="button" data-more="Mixing a Song" aria-expanded="false">More info</button>
+                    </div>
+                    <div class="serviceDetails" data-details="Mixing a Song">
+                      Bring your track to life with professional mixing. Send stems or a bounced track and references if you have them.
+                    </div>
                   </div>
 
-                  <div class="serviceCard">
-                    <h3>Mixing + Mastering</h3>
-                    <p>Full polish and competitive loudness.</p>
-                    <div class="price">Price: $69.99+</div>
-                    <button class="btn btnPrimary" type="button" data-service="Mixing + Mastering">Request service</button>
+                  <div class="serviceCard" data-open="false">
+                    <div class="serviceTop">
+                      <h3>Mixing + Mastering</h3>
+                      <div class="price">Price: $69.99+</div>
+                    </div>
+                    <div class="serviceActions">
+                      <button class="btn btnPrimary btnSmall" type="button" data-service="Mixing + Mastering">Request</button>
+                      <button class="btn btnGhost btnSmall" type="button" data-more="Mixing + Mastering" aria-expanded="false">More info</button>
+                    </div>
+                    <div class="serviceDetails" data-details="Mixing + Mastering">
+                      Full polish plus mastering for competitive loudness. Include your target platforms and any reference tracks.
+                    </div>
                   </div>
 
-                  <div class="serviceCard">
-                    <h3>Video Editing/Recording</h3>
-                    <p>Clean edits for releases and promos.</p>
-                    <div class="price">Price: $89.99+</div>
-                    <button class="btn btnPrimary" type="button" data-service="Video Editing/Recording">Request service</button>
+                  <div class="serviceCard" data-open="false">
+                    <div class="serviceTop">
+                      <h3>Video Editing/Recording</h3>
+                      <div class="price">Price: $89.99+</div>
+                    </div>
+                    <div class="serviceActions">
+                      <button class="btn btnPrimary btnSmall" type="button" data-service="Video Editing/Recording">Request</button>
+                      <button class="btn btnGhost btnSmall" type="button" data-more="Video Editing/Recording" aria-expanded="false">More info</button>
+                    </div>
+                    <div class="serviceDetails" data-details="Video Editing/Recording">
+                      Clean edits for releases and promos. Send footage, preferred aspect ratio (9:16, 16:9), and any style references.
+                    </div>
                   </div>
 
-                  <div class="serviceCard">
-                    <h3>Custom Beat Creation</h3>
-                    <p>Unique beats tailored to your style.</p>
-                    <div class="price">Price: $99.99+</div>
-                    <button class="btn btnPrimary" type="button" data-service="Custom Beat Creation">Request service</button>
+                  <div class="serviceCard" data-open="false">
+                    <div class="serviceTop">
+                      <h3>Custom Beat Creation</h3>
+                      <div class="price">Price: $99.99+</div>
+                    </div>
+                    <div class="serviceActions">
+                      <button class="btn btnPrimary btnSmall" type="button" data-service="Custom Beat Creation">Request</button>
+                      <button class="btn btnGhost btnSmall" type="button" data-more="Custom Beat Creation" aria-expanded="false">More info</button>
+                    </div>
+                    <div class="serviceDetails" data-details="Custom Beat Creation">
+                      Unique beats tailored to your style. Provide BPM range, vibe, and 2–3 reference tracks so we don’t play guessing games.
+                    </div>
                   </div>
 
-                  <div class="serviceCard">
-                    <h3>Artist Coaching & Development</h3>
-                    <p>Career guidance, writing, strategy, development.</p>
-                    <div class="price">Price: Negotiable</div>
-                    <button class="btn btnPrimary" type="button" data-service="Artist Coaching & Development">Request service</button>
+                  <div class="serviceCard" data-open="false">
+                    <div class="serviceTop">
+                      <h3>Artist Coaching & Development</h3>
+                      <div class="price">Price: Negotiable</div>
+                    </div>
+                    <div class="serviceActions">
+                      <button class="btn btnPrimary btnSmall" type="button" data-service="Artist Coaching & Development">Request</button>
+                      <button class="btn btnGhost btnSmall" type="button" data-more="Artist Coaching & Development" aria-expanded="false">More info</button>
+                    </div>
+                    <div class="serviceDetails" data-details="Artist Coaching & Development">
+                      Career guidance, writing, strategy, and development. Share your goals, current releases, and what’s blocking progress.
+                    </div>
                   </div>
 
-                  <div class="serviceCard">
-                    <h3>Other</h3>
-                    <p>Not listed? Send what you need and your budget.</p>
-                    <div class="price">Price: Varies</div>
-                    <button class="btn btnPrimary" type="button" data-service="Other">Request service</button>
+                  <div class="serviceCard" data-open="false">
+                    <div class="serviceTop">
+                      <h3>Other</h3>
+                      <div class="price">Price: Varies</div>
+                    </div>
+                    <div class="serviceActions">
+                      <button class="btn btnPrimary btnSmall" type="button" data-service="Other">Request</button>
+                      <button class="btn btnGhost btnSmall" type="button" data-more="Other" aria-expanded="false">More info</button>
+                    </div>
+                    <div class="serviceDetails" data-details="Other">
+                      Not listed? Send what you need, your budget, deadlines, and any references. We’ll confirm scope before anything starts.
+                    </div>
                   </div>
                 </div>
               </div>
@@ -941,8 +1001,10 @@
       });
       btnOpenRules?.addEventListener('click', () => setAcc(true));
 
-      // In-person: force rules first
+      // In-person: force rules first + scroll to agree section
       const btnInPerson = document.getElementById('btnInPerson');
+      const agreeRow = document.getElementById('agreeRow');
+
       function flashRulesNotice(){
         const n = document.getElementById('rulesNotice');
         if (!n) return;
@@ -951,10 +1013,14 @@
         setTimeout(() => { n.style.opacity = '0.01'; }, 2200);
         setTimeout(() => { n.style.display = 'none'; n.style.opacity = '1'; }, 2600);
       }
+
       btnInPerson?.addEventListener('click', () => {
         setAcc(true);
         flashRulesNotice();
-        accToggle?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // give the accordion a moment to open before scrolling
+        setTimeout(() => {
+          agreeRow?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 180);
       });
 
       // Agree gating
@@ -974,6 +1040,22 @@
       btnToggleServices?.addEventListener('click', () => {
         if (!servicesWrap) return;
         servicesWrap.style.display = (servicesWrap.style.display === 'block') ? 'none' : 'block';
+      });
+
+      // Service "More info" toggles (event delegation)
+      const servicesGrid = document.getElementById('servicesGrid');
+      servicesGrid?.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-more]');
+        if (!btn) return;
+
+        const name = btn.getAttribute('data-more');
+        const card = btn.closest('.serviceCard');
+        if (!card) return;
+
+        const isOpen = card.getAttribute('data-open') === 'true';
+        card.setAttribute('data-open', isOpen ? 'false' : 'true');
+        btn.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        btn.textContent = isOpen ? 'More info' : 'Less info';
       });
 
       // Modal
@@ -1054,6 +1136,7 @@
 
       cancelBtn?.addEventListener('click', closeServiceModal);
 
+      // Wire Request buttons
       document.querySelectorAll('[data-service]').forEach(btn => {
         btn.addEventListener('click', () => openServiceModal(btn.getAttribute('data-service')));
       });
@@ -1082,9 +1165,7 @@
         }
       });
 
-      // ───────────────────────────────────────────────────────────
-      // Slideshow: DECODE BEFORE FADE (no jump)
-      // ───────────────────────────────────────────────────────────
+      // Slideshow: decode before fade (no jump)
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
         "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
