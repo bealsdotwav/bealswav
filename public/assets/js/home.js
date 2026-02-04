@@ -172,15 +172,20 @@ onReady(function initCarousel() {
     { passive: true }
   );
 
-  // Boot: Wait for the browser to finish layout
-  window.addEventListener('load', () => {
+  // Boot: Force a layout refresh
+  function bootCarousel() {
     idx = 0;
     setChipAndDots();
-    setTimeout(() => {
-      viewport.scrollTo({ left: 0, behavior: 'instant' });
-    }, 200); // Small 200ms delay to let desktop rendering catch up
-  });
+    // Use scrollTo(0) to ensure we start at the beginning
+    viewport.scrollTo({ left: 0, behavior: 'instant' });
+  }
 
+  // Run on load and on resize to prevent the 'white area'
+  window.addEventListener('load', bootCarousel);
+  window.addEventListener('resize', bootCarousel);
+  
+  // Initial call
+  bootCarousel();
   start();
   
   // Use a slight timeout to ensure desktop layout is locked in

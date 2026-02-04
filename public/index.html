@@ -327,57 +327,40 @@
     .viewport {
       position: relative;
       width: 100%;
-      flex: 1;
+      height: clamp(420px, 55vw, 560px);
       border-radius: 28px;
       overflow-x: auto; 
       overflow-y: hidden;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: rgba(11,27,43,0.06);
-      height: clamp(420px, 55vw, 560px);
-      /* This ensures the desktop browser doesn't try to be "helpful" and hide things */
-      display: block; 
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      display: block;
     }
 
     .track {
       display: flex;
       height: 100%;
-      /* FIX: This forces the track to be wide enough to hold all slides side-by-side */
-      width: fit-content; 
-      min-width: 100%;
-      scroll-snap-type: x mandatory;
+      width: 100%; /* Reset this */
     }
 
     .track > .slide {
-      /* FIX: This ensures every slide is exactly the width of the viewport container */
+      /* This is the key change */
       flex: 0 0 100%;
-      width: 100vw; 
+      min-width: 100%; 
       max-width: 100%;
       height: 100%;
       position: relative;
       scroll-snap-align: start;
-    }
-
-    
-    .slideLink {
-      display: block;
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      position: relative;
-      z-index: 5; /* Brings the link to the very front */
+      overflow: hidden;
     }
 
     .slideImgCover {
       position: absolute;
-      inset: 0;
+      top: 50%;
+      left: 50%;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transform: scale(1.02);
-      z-index: 0;
-      background: #0b1b2b;
-      display: block; /* Ensures it takes up space on desktop */
-      opacity: 1;     /* Ensures it isn't transparent */
+      object-fit: cover; /* This fixes the zoom */
+      transform: translate(-50%, -50%) scale(1.02);
     }
 
     .slideImgCover{ z-index: 0; }
