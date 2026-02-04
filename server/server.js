@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const fs = require('fs');
 require('dotenv').config();
-const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
@@ -33,7 +32,7 @@ if (!HAS_STRIPE) console.warn('⚠️  STRIPE_SECRET_KEY not set: checkout route
 const PUBLIC_DIR = path.join(__dirname, '..', 'public');
 
 // ─── TRUST PROXY (Render/Heroku/etc) ──────────────────────────────────────────
-app.enable('trust proxy');
+app.set('trust proxy', 1);
 
 // ─── SECURITY HEADERS (Helmet + CSP) ─────────────────────────────────────────
 // NOTE: You are using an inline GTM config snippet in index.html, so CSP must allow it.
@@ -47,25 +46,14 @@ app.use(
         baseUri: ["'self'"],
         objectSrc: ["'none'"],
 
-        // Scripts:
-        // - 'self' allows /assets/js/home.js
-        // - 'unsafe-inline' required for your inline GTM config snippet (currently in index.html)
-        // - googletagmanager for gtag.js
         scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com"],
-
-        // If you ever get CSP errors for inline attributes, keep this:
         scriptSrcAttr: ["'unsafe-inline'"],
 
-        // Styles/fonts:
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
 
-        // Images:
-        // - include https: because you load external icons/logos sometimes and backgrounds
-        // - include data: for inline images if any
         imgSrc: ["'self'", "data:", "https:"],
 
-        // XHR/WebSocket:
         connectSrc: [
           "'self'",
           "https://www.google-analytics.com",
@@ -73,7 +61,6 @@ app.use(
           "https://www.googletagmanager.com",
         ],
 
-        // iFrames:
         frameSrc: [
           "'self'",
           "https://www.youtube.com",
@@ -107,33 +94,66 @@ app.use((req, res, next) => {
   next();
 });
 
-// ─── RATE LIMIT ───────────────────────────────────────────────────────────────
+// ─── RATE LIMITING (BASE + ROUTE-SPECIFIC) ────────────────────────────────────
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: 'Too many requests from this IP, please try again later.',
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Try again later.' },
 });
-app.use('/register', apiLimiter);
+
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many login attempts. Try again later.' },
+});
+
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many signup attempts. Try again later.' },
+});
+
+const resetRequestLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many reset requests. Try again later.' },
+});
+
+const resetSubmitLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many reset attempts. Try again later.' },
+});
+
+// Light baseline for “contact” and anything else you expose
 app.use('/contact', apiLimiter);
 
 // ─── BODY PARSING ────────────────────────────────────────────────────────────
-app.use(bodyParser.json());
+app.use(express.json({ limit: '1mb' }));
 
 // ─── STATIC FILES (THIS MUST COME BEFORE ROUTES) ──────────────────────────────
-// This serves:
-//   /index.html
-//   /assets/images/...
-//   /assets/js/home.js
-app.use(express.static(PUBLIC_DIR, { 
-  extensions: ['html'],
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));
+app.use(
+  express.static(PUBLIC_DIR, {
+    extensions: ['html'],
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    },
+  })
+);
 
-// ─── DEBUG ROUTES (SO YOU CAN STOP GUESSING) ─────────────────────────────────-
+// ─── DEBUG ROUTES ─────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
 app.get('/__debug/static-check', (_req, res) => {
@@ -148,10 +168,7 @@ app.get('/__debug/static-check', (_req, res) => {
 // ─── DATABASE (ONLY CONNECT IF CONFIGURED) ────────────────────────────────────
 if (HAS_DB) {
   mongoose
-    .connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log('✅  MongoDB connected'))
     .catch((err) => {
       console.error('❌  MongoDB connection error:', err);
@@ -218,6 +235,7 @@ if (HAS_EMAIL) {
 
     const testAcct = await nodemailer.createTestAccount();
     console.log('ℹ️  Ethereal SMTP account:', testAcct.user);
+
     return nodemailer.createTransport({
       host: testAcct.smtp.host,
       port: testAcct.smtp.port,
@@ -273,6 +291,7 @@ function requireStripe(_req, res, next) {
 // REGISTER
 app.post(
   '/register',
+  registerLimiter,
   requireDb,
   requireEmail,
   [body('email').isEmail().normalizeEmail(), body('password').isLength({ min: 8 })],
@@ -336,6 +355,7 @@ app.get('/verify-email', requireDb, async (req, res, next) => {
 // LOGIN
 app.post(
   '/login',
+  loginLimiter,
   requireDb,
   [body('email').isEmail().normalizeEmail(), body('password').notEmpty()],
   async (req, res, next) => {
@@ -378,11 +398,15 @@ app.post(
 // PASSWORD RESET REQUEST
 app.post(
   '/request-reset',
+  resetRequestLimiter,
   requireDb,
   requireEmail,
   [body('email').isEmail().normalizeEmail()],
   async (req, res, next) => {
     try {
+      const errs = validationResult(req);
+      if (!errs.isEmpty()) return res.status(400).json({ errors: errs.array() });
+
       const { email } = req.body;
       const u = await User.findOne({ email });
 
@@ -410,6 +434,7 @@ app.post(
 // PASSWORD RESET SUBMISSION
 app.post(
   '/reset-password',
+  resetSubmitLimiter,
   requireDb,
   [body('token').notEmpty(), body('newPassword').isLength({ min: 8 })],
   async (req, res, next) => {
@@ -466,6 +491,9 @@ app.post(
 // SESSION HISTORY
 app.post('/session-history', requireDb, [body('email').isEmail().normalizeEmail()], async (req, res, next) => {
   try {
+    const errs = validationResult(req);
+    if (!errs.isEmpty()) return res.status(400).json({ errors: errs.array() });
+
     const { email } = req.body;
 
     const u = await User.findOne({ email });
@@ -480,6 +508,7 @@ app.post('/session-history', requireDb, [body('email').isEmail().normalizeEmail(
 // CONTACT
 app.post(
   '/contact',
+  apiLimiter,
   requireEmail,
   [body('name').notEmpty().trim(), body('email').isEmail().normalizeEmail(), body('message').notEmpty().trim()],
   async (req, res, next) => {
@@ -493,7 +522,7 @@ app.post(
         to: process.env.SENDER_EMAIL,
         cc: 'beals.wav@gmail.com',
         replyTo: email,
-        subject: `📬 New contact from ${name}`,
+        subject: `New contact from ${name}`,
         text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
         html: `<p><strong>Name:</strong> ${name}</p>
                <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
@@ -501,15 +530,14 @@ app.post(
       });
 
       console.log(`✉️  Contact from ${name} <${email}>`);
-      res.json({ message: 'Message sent! We’ll be in touch shortly.' });
+      res.json({ message: 'Message sent.' });
     } catch (err) {
       next(err);
     }
   }
 );
 
-// ─── SPA FALLBACK (SERVE INDEX FOR UNKNOWN ROUTES) ────────────────────────────
-// IMPORTANT: This must be LAST, after express.static and all API routes.
+// ─── SPA FALLBACK ────────────────────────────────────────────────────────────
 app.get('*', (_req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, 'index.html'));
 });

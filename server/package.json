@@ -1,27 +1,24 @@
 {
-  "name": "beals-backend-stripe",
+  "name": "bealswav-site",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-rate-limit": "^7.5.0",
-    "express-session": "^1.17.3",
     "express-validator": "^7.2.1",
     "helmet": "^8.1.0",
-    "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "nodemailer": "^6.10.1",
     "stripe": "^12.18.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }
