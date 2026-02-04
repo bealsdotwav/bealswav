@@ -184,29 +184,28 @@ onReady(function initCarousel() {
   window.addEventListener('load', bootCarousel);
   window.addEventListener('resize', bootCarousel);
   
-  // Initial call
+  // 1. Initial Boot
   bootCarousel();
-  start();
-  
-  // Use a slight timeout to ensure desktop layout is locked in
+
+  // 2. The "Safety Net": Ensure layout is settled before starting
+  // We use a small timeout to make sure the browser has calculated widths
   setTimeout(() => {
-    if (track.children.length > 0) {
-      viewport.scrollTo({ left: 0, behavior: 'instant' });
-    }
-  }, 100); 
+    viewport.scrollTo({ left: 0, behavior: 'instant' });
+    start(); // Only start the timer ONCE, after the layout is ready
+  }, 150); 
 
-  start();
-
-  // After resize/load, re-snap to current slide
+  // 3. Handle Window Events
+  // Re-snap to the current slide if the user rotates their phone or resizes the browser
   window.addEventListener('resize', () => {
     requestAnimationFrame(() => {
-      viewport.scrollTo({ left: slides[idx].offsetLeft, behavior: 'auto' });
+      if (slides[idx]) {
+        viewport.scrollTo({ left: slides[idx].offsetLeft, behavior: 'auto' });
+      }
     });
   });
 
-  window.addEventListener('load', () => {
-    viewport.scrollTo({ left: slides[idx].offsetLeft, behavior: 'auto' });
-  });
+  // Since we already have a 'load' listener inside bootCarousel, 
+  // we don't need an extra one here.
 });
 
 /* ─────────────────────────────────────────────────────────────
