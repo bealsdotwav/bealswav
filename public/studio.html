@@ -33,9 +33,6 @@
       --bgTopA: #f7f9fb;
       --bgTopB: #eef3f8;
 
-      --bgStudioA: #d9f0fb;
-      --bgStudioB: #cfe8f6;
-
       --panel: rgba(255,255,255,0.78);
       --border: rgba(15, 23, 42, 0.12);
       --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
@@ -218,24 +215,34 @@
       overflow:hidden;
     }
 
-    /* Slideshow (modernized) */
+    /* Slideshow: fixed height, no layout shift */
     .slideshow{
       border-radius: 24px;
       overflow:hidden;
       border: 1px solid rgba(15,23,42,0.12);
       background: rgba(11,27,43,0.06);
-      min-height: 420px;
+      height: 560px;
       position: relative;
     }
+    @media (max-width: 980px){
+      .slideshow{ height: 420px; }
+    }
+    @media (max-width: 760px){
+      .slideshow{ height: 340px; }
+    }
+
     .slideImg{
       position:absolute;
       inset:0;
       width:100%;
       height:100%;
       object-fit: cover;
+      object-position: center;
       opacity: 0;
-      transition: opacity 900ms ease-in-out;
+      transition: opacity 650ms ease-in-out;
       will-change: opacity;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
     .slideImg.show{ opacity: 1; }
 
@@ -243,6 +250,7 @@
     .block{
       padding: 18px;
     }
+
     .blockHead{
       display:flex;
       align-items:baseline;
@@ -297,11 +305,9 @@
       color: rgba(5,16,26,0.92);
       box-shadow: 0 18px 46px rgba(23,135,171,0.20);
     }
-    .btnGhost{
-      background: rgba(255,255,255,0.62);
-    }
+    .btnGhost{ background: rgba(255,255,255,0.62); }
 
-    /* Accordion (in-person details) */
+    /* Accordion */
     .accordion{
       margin-top: 12px;
       border-radius: 18px;
@@ -343,10 +349,7 @@
     }
     .accordion[aria-expanded="true"] .chev{ transform: rotate(180deg); }
 
-    .accBody{
-      display:none;
-      padding: 14px;
-    }
+    .accBody{ display:none; padding: 14px; }
     .accordion[aria-expanded="true"] .accBody{ display:block; }
 
     .rules{
@@ -393,17 +396,22 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 12px;
+      grid-auto-rows: 1fr;
     }
+    @media (max-width: 980px){
+      .servicesGrid{ grid-template-columns: 1fr; }
+    }
+
     .serviceCard{
       padding: 14px;
       border-radius: 20px;
       border: 1px solid rgba(15,23,42,0.12);
       background: rgba(255,255,255,0.70);
       box-shadow: 0 14px 34px rgba(15,23,42,0.10);
-      display:flex;
-      flex-direction:column;
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
       gap: 10px;
-      min-height: 190px;
+      min-height: 220px;
     }
     .serviceCard h3{
       margin:0;
@@ -417,10 +425,49 @@
       color: rgba(11,27,43,0.66);
       font-weight: 800;
       line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
-    .price{
+    .serviceCard .price{
       font-weight: 950;
-      color: rgba(11,27,43,0.82);
+      color: rgba(11,27,43,0.72);
+    }
+    .serviceCard .btn{
+      margin-top: 4px;
+      width: 100%;
+    }
+
+    /* Rules notice */
+    #rulesNotice{
+      margin: 12px 0 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.78);
+      font-weight: 900;
+      color: rgba(11,27,43,0.78);
+      display:none;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       STEP 4: LOCK DESKTOP HEIGHT + SCROLL INSIDE RIGHT CARD
+    ───────────────────────────────────────────────────────────── */
+    @media (min-width: 981px){
+      .grid2{ align-items: start; }
+
+      .card{
+        height: 560px;              /* match slideshow desktop height */
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card .block{
+        flex: 1;
+        overflow: auto;             /* expansions scroll inside */
+        -webkit-overflow-scrolling: touch;
+      }
     }
 
     /* Modal */
@@ -531,9 +578,7 @@
     }
 
     /* Footer nav */
-    .footerNav{
-      padding: 0 0 72px;
-    }
+    .footerNav{ padding: 0 0 72px; }
     .footerButtons{
       display:flex;
       flex-wrap:wrap;
@@ -590,7 +635,6 @@
       .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
       .topbar{ grid-template-columns: auto 1fr auto; }
       .drawerInner{ grid-template-columns: 1fr; }
-      .slideshow{ min-height: 320px; }
       .footerButtons{ flex-direction:column; align-items:center; }
       .footerButtons .navBtn{ width: min(520px, 92vw); }
     }
@@ -653,7 +697,7 @@
             <img class="slideImg" id="imgB" alt="Studio image B">
           </div>
 
-          <!-- In-person + virtual summary -->
+          <!-- Right panel -->
           <div class="card">
             <div class="block">
               <div class="blockHead">
@@ -665,6 +709,8 @@
                 <button class="btn btnPrimary" id="btnInPerson" type="button">Book now</button>
                 <button class="btn btnGhost" id="btnOpenRules" type="button">Pricing & rules</button>
               </div>
+
+              <div id="rulesNotice">Read studio rules first, then agree to book.</div>
 
               <div class="accordion" id="inPersonAcc" aria-expanded="false">
                 <div class="accTop" id="accToggle" role="button" tabindex="0" aria-label="Toggle pricing and rules">
@@ -858,7 +904,7 @@
         });
       }
 
-      // Login status (match your existing pattern)
+      // Login status
       function syncLoginButtons(){
         const inL = localStorage.getItem('loggedIn') === 'true';
         const top = document.getElementById('loginTop');
@@ -871,15 +917,7 @@
       }
       document.addEventListener('DOMContentLoaded', syncLoginButtons);
 
-      // In-person: open Calendly
-      const btnInPerson = document.getElementById('btnInPerson');
-      if (btnInPerson) {
-        btnInPerson.addEventListener('click', () => {
-          window.open('https://calendly.com/beals-wav/30min','_blank');
-        });
-      }
-
-      // Accordion toggle
+      // Accordion elements
       const acc = document.getElementById('inPersonAcc');
       const accToggle = document.getElementById('accToggle');
       const btnOpenRules = document.getElementById('btnOpenRules');
@@ -888,7 +926,6 @@
         if (!acc) return;
         acc.setAttribute('aria-expanded', open ? 'true' : 'false');
       }
-
       function toggleAcc(){
         if (!acc) return;
         const open = acc.getAttribute('aria-expanded') === 'true';
@@ -903,6 +940,22 @@
         }
       });
       btnOpenRules?.addEventListener('click', () => setAcc(true));
+
+      // In-person: force rules first
+      const btnInPerson = document.getElementById('btnInPerson');
+      function flashRulesNotice(){
+        const n = document.getElementById('rulesNotice');
+        if (!n) return;
+        n.style.display = 'block';
+        n.style.opacity = '1';
+        setTimeout(() => { n.style.opacity = '0.01'; }, 2200);
+        setTimeout(() => { n.style.display = 'none'; n.style.opacity = '1'; }, 2600);
+      }
+      btnInPerson?.addEventListener('click', () => {
+        setAcc(true);
+        flashRulesNotice();
+        accToggle?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
 
       // Agree gating
       const agree = document.getElementById('agreeCheckbox');
@@ -939,7 +992,6 @@
 
       function updateFileList(files){
         const arr = Array.from(files || []).slice(0, MAX_FILES);
-
         for (const f of arr) {
           if (f.size > MAX_EACH_MB * 1024 * 1024) {
             alert(`"${f.name}" is over ${MAX_EACH_MB}MB. Choose a smaller file.`);
@@ -992,19 +1044,16 @@
         document.body.style.overflow = '';
       }
 
-      // Click outside to close
       modal?.addEventListener('click', (e) => {
         if (e.target === modal) closeServiceModal();
       });
 
-      // ESC to close
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal?.style.display === 'flex') closeServiceModal();
       });
 
       cancelBtn?.addEventListener('click', closeServiceModal);
 
-      // Wire service buttons
       document.querySelectorAll('[data-service]').forEach(btn => {
         btn.addEventListener('click', () => openServiceModal(btn.getAttribute('data-service')));
       });
@@ -1033,7 +1082,9 @@
         }
       });
 
-      // Slideshow (crossfade)
+      // ───────────────────────────────────────────────────────────
+      // Slideshow: DECODE BEFORE FADE (no jump)
+      // ───────────────────────────────────────────────────────────
       const images = [
         "/assets/images/S1.jpeg","/assets/images/S2.jpeg","/assets/images/S3.jpeg",
         "/assets/images/S4.jpeg","/assets/images/S5.jpeg","/assets/images/S6.jpeg",
@@ -1048,35 +1099,43 @@
       let idx = 0;
       let showA = true;
 
-      function setImg(el, src){
-        if (!el) return;
-        el.src = src;
+      async function decodeImage(src){
+        const img = new Image();
+        img.src = src;
+        try {
+          if (img.decode) await img.decode();
+          else await new Promise(res => (img.onload = res));
+        } catch {
+          await new Promise(res => (img.onload = res));
+        }
+        return src;
       }
 
-      function nextSlide(){
+      async function nextSlide(){
         if (!imgA || !imgB || images.length === 0) return;
 
         const nextSrc = images[idx % images.length];
         idx++;
 
+        const decoded = await decodeImage(nextSrc);
+
         if (showA){
-          setImg(imgB, nextSrc);
+          imgB.src = decoded;
           imgB.classList.add('show');
           imgA.classList.remove('show');
         } else {
-          setImg(imgA, nextSrc);
+          imgA.src = decoded;
           imgA.classList.add('show');
           imgB.classList.remove('show');
         }
         showA = !showA;
       }
 
-      // Preload first
-      if (images.length){
-        setImg(imgA, images[0]);
+      if (images.length && imgA){
+        imgA.src = images[0];
         imgA.classList.add('show');
-        setTimeout(nextSlide, 1200);
-        setInterval(nextSlide, 5000);
+        setTimeout(() => { nextSlide(); }, 1200);
+        setInterval(() => { nextSlide(); }, 5000);
       }
     })();
   </script>
