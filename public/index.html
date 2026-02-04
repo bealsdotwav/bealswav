@@ -324,9 +324,10 @@
     .iconBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
     .iconBtn:active{ transform: translateY(1px); }
 
-    .viewport{
+    .viewport {
       position: relative;
       width: 100%;
+      min-height: 420px; /* Add this fallback */
       flex: 1;
       border-radius: 28px;
       overflow-x: auto;          /* CHANGED */
@@ -345,7 +346,8 @@
     .track {
       display: flex;
       height: 100%;
-      width: max-content; /* Change from 100% to max-content */
+      min-width: 100%; /* Changed from max-content */
+      width: auto;     /* Let it expand based on slides */
       scroll-snap-stop: always;
     }
 
@@ -1227,6 +1229,6 @@
   </div>
 
   <!-- External JS -->
-  <script defer src="/assets/js/home.js?v=20260202f"></script>
+  <script defer src="/assets/js/home.js?v=20260202z"></script>
 </body>
 </html>

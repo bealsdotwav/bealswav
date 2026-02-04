@@ -172,9 +172,16 @@ onReady(function initCarousel() {
     { passive: true }
   );
 
-  // Boot: snap instantly to first clickable slide
+  // Boot: 
   idx = 0;
   setChipAndDots();
+  
+  // Instead of scrollTo, let's just make sure it's at the start
+  requestAnimationFrame(() => {
+    viewport.scrollLeft = 0; 
+  });
+
+  start();
   
   // Use a slight timeout to ensure desktop layout is locked in
   setTimeout(() => {
