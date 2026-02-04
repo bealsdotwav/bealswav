@@ -124,7 +124,14 @@ app.use(bodyParser.json());
 //   /index.html
 //   /assets/images/...
 //   /assets/js/home.js
-app.use(express.static(PUBLIC_DIR, { extensions: ['html'] }));
+app.use(express.static(PUBLIC_DIR, { 
+  extensions: ['html'],
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+  }
+}));
 
 // ─── DEBUG ROUTES (SO YOU CAN STOP GUESSING) ─────────────────────────────────-
 app.get('/health', (_req, res) => res.json({ ok: true }));

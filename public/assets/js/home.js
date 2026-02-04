@@ -172,13 +172,13 @@ onReady(function initCarousel() {
     { passive: true }
   );
 
-  // Boot: 
-  idx = 0;
-  setChipAndDots();
-  
-  // Instead of scrollTo, let's just make sure it's at the start
-  requestAnimationFrame(() => {
-    viewport.scrollLeft = 0; 
+  // Boot: Wait for the browser to finish layout
+  window.addEventListener('load', () => {
+    idx = 0;
+    setChipAndDots();
+    setTimeout(() => {
+      viewport.scrollTo({ left: 0, behavior: 'instant' });
+    }, 200); // Small 200ms delay to let desktop rendering catch up
   });
 
   start();
