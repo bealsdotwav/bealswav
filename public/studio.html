@@ -20,9 +20,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- EmailJS SDK (deferred) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
   <style>
     :root{
       --ink: #0b1b2b;
@@ -399,7 +396,7 @@
     /* Services */
     .servicesGrid{
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr)); /* fits right panel */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       margin-top: 12px;
       align-items: stretch;
@@ -472,18 +469,18 @@
     }
     .serviceCard[data-open="true"] .serviceDetails{ display:block; }
 
-    /* STEP 4: LOCK DESKTOP HEIGHT + SCROLL INSIDE RIGHT CARD */
+    /* LOCK DESKTOP HEIGHT + SCROLL INSIDE RIGHT CARD */
     @media (min-width: 981px){
       .grid2{ align-items: start; }
 
       .card{
-        height: 560px; /* match slideshow desktop height */
+        height: 560px;
         display: flex;
         flex-direction: column;
       }
       .card .block{
         flex: 1;
-        overflow: auto; /* expansions scroll inside */
+        overflow: auto;
         -webkit-overflow-scrolling: touch;
       }
     }
@@ -1017,7 +1014,6 @@
       btnInPerson?.addEventListener('click', () => {
         setAcc(true);
         flashRulesNotice();
-        // give the accordion a moment to open before scrolling
         setTimeout(() => {
           agreeRow?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }, 180);
@@ -1048,7 +1044,6 @@
         const btn = e.target.closest('[data-more]');
         if (!btn) return;
 
-        const name = btn.getAttribute('data-more');
         const card = btn.closest('.serviceCard');
         if (!card) return;
 
@@ -1141,25 +1136,64 @@
         btn.addEventListener('click', () => openServiceModal(btn.getAttribute('data-service')));
       });
 
+      // EmailJS loader (on-demand)
+      function loadEmailJSSDK(){
+        return new Promise((resolve, reject) => {
+          if (window.emailjs && typeof window.emailjs.sendForm === 'function') {
+            resolve(true);
+            return;
+          }
+
+          const existing = document.querySelector('script[data-emailjs="1"]');
+          if (existing) {
+            const start = Date.now();
+            const t = setInterval(() => {
+              if (window.emailjs && typeof window.emailjs.sendForm === 'function') {
+                clearInterval(t);
+                resolve(true);
+              } else if (Date.now() - start > 4000) {
+                clearInterval(t);
+                reject(new Error('EmailJS SDK present but not available'));
+              }
+            }, 100);
+            return;
+          }
+
+          const s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+          s.defer = true;
+          s.setAttribute('data-emailjs', '1');
+          s.onload = () => {
+            if (window.emailjs && typeof window.emailjs.sendForm === 'function') resolve(true);
+            else reject(new Error('EmailJS loaded but missing sendForm'));
+          };
+          s.onerror = () => reject(new Error('Failed to load EmailJS (blocked or network error)'));
+          document.head.appendChild(s);
+        });
+      }
+
       // EmailJS submit
       form?.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        if (!(window.emailjs && typeof emailjs.sendForm === 'function')) {
-          alert('Email service unavailable. Use the Contact page.');
-          return;
-        }
 
         const submitBtn = e.submitter || form.querySelector('[type="submit"]');
         submitBtn?.setAttribute('disabled', 'disabled');
 
         try {
-          await emailjs.sendForm('service_wrssjc7','template_kr5nl9p', form, { publicKey: 'OLr0UvCY_0eYzwwFV' });
+          await loadEmailJSSDK();
+
+          await emailjs.sendForm(
+            'service_wrssjc7',
+            'template_kr5nl9p',
+            form,
+            { publicKey: 'OLr0UvCY_0eYzwwFV' }
+          );
+
           alert('Sent. We’ll reply by email.');
           closeServiceModal();
         } catch (err) {
-          console.error('EmailJS sendForm error:', err);
-          alert('Error sending. Try again or use the Contact page.');
+          console.error('EmailJS error:', err);
+          alert('Email send failed. If you have an adblock/privacy extension, it may be blocking the email script. Use the Contact page if needed.');
         } finally {
           submitBtn?.removeAttribute('disabled');
         }
