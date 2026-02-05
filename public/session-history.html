@@ -1,8 +1,10 @@
+<!-- session-history.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e7eaee" />
   <title>Sessions | Beals.wav</title>
 
   <!-- Google tag (gtag.js) -->
@@ -14,162 +16,409 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <!-- Retro Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
-  <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS v4 (if needed elsewhere) -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Font (match modern pages) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --glow: #00ffff;
-      --accent: #ff4d6d;
-      --bg-dark: #0a0a0a;
-      --text: #ffffff;
+    :root{
+      --ink: #0b1b2b;
+      --blue: #1787ab;
+      --blue2:#3eb7db;
+      --bgTopA: #f7f9fb;
+      --bgTopB: #eef3f8;
+      --panel: rgba(255,255,255,0.78);
+      --border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
+      --max: 1120px;
+      --tickerH: 34px;
     }
-    /* Global Reset */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
+      overflow-x:hidden;
+      background:
+        radial-gradient(1000px 650px at 18% 8%, rgba(62,183,219,0.14), transparent 60%),
+        radial-gradient(900px 600px at 85% 22%, rgba(23,135,171,0.10), transparent 62%),
+        linear-gradient(180deg, var(--bgTopA), var(--bgTopB));
+      padding-bottom: calc(var(--tickerH) + 24px);
     }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow-x: hidden;
+    a{ color:inherit; text-decoration:none; }
+
+    .wrap{ max-width: var(--max); margin:0 auto; padding: 0 16px; }
+
+    header{
+      position: sticky; top:0; z-index:50;
+      background: rgba(247,249,251,0.76);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      backdrop-filter: blur(14px);
     }
-    body {
-      font-family: 'Press Start 2P', cursive;
-      background: var(--bg-dark);
-      color: var(--text);
+    .topbar{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 0;
     }
-    a {
-      color: var(--glow);
-      text-decoration: none;
+    .navGroup{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .navLeft{ justify-content:flex-start; }
+    .navRight{ justify-content:flex-end; }
+
+    .navBtn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      font-size: 0.92rem;
+      color: rgba(11,27,43,0.78);
+      transition: transform 120ms ease, filter 120ms ease;
+      user-select:none; white-space:nowrap;
+      text-transform: capitalize;
+      cursor:pointer;
     }
-    header {
-      background-color: black;
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 1px solid #222;
+    .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .navBtn:active{ transform: translateY(1px); }
+
+    .navBtnPrimary{
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 16px 40px rgba(23,135,171,0.22);
     }
-    .logo {
-      font-size: 1.2rem;
-      color: var(--glow);
-      text-shadow: 0 0 6px var(--glow);
-      cursor: pointer;
+
+    .brand{ display:flex; align-items:center; justify-content:center; padding: 2px 0; }
+    .brand img{ height:38px; width:auto; object-fit:contain; filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12)); }
+
+    .hamburger{
+      display:none;
+      width:44px; height:44px;
+      border-radius:999px;
+      border:1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      cursor:pointer;
+      font-weight:950;
+      color: rgba(11,27,43,0.82);
     }
-    .container {
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 1rem;
+    .drawer{
+      display:none;
+      border-top: 1px solid rgba(15,23,42,0.08);
+      background: rgba(247,249,251,0.88);
+      backdrop-filter: blur(14px);
+      padding: 10px 0 14px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      color: var(--glow);
-      font-size: 1.5rem;
+    .drawerInner{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .section{ padding: 26px 0 42px; }
+
+    .pageHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 12px;
+      margin: 0 0 14px;
     }
-    .session-card {
-      background: #111;
-      border: 1px solid #333;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
+    .pageHead h1{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: clamp(1.35rem, 1.1rem + 1.1vw, 1.85rem);
+      color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
     }
-    .session-card h3 {
-      margin-bottom: 0.5rem;
-      color: var(--accent);
-      font-size: 1.1rem;
+    .pageHead p{
+      margin:0;
+      color: rgba(11,27,43,0.58);
+      font-weight: 850;
+      font-size: 0.95rem;
     }
-    .session-card p {
-      font-size: 0.85rem;
-      margin-bottom: 0.75rem;
-      font-family: Arial, sans-serif;
-      color: var(--text);
+
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .empty {
-      text-align: center;
-      font-size: 0.75rem;
-      color: #aaa;
+
+    .list{
+      padding: 12px;
+      display:grid;
+      gap: 10px;
     }
-    .actions {
-      text-align: center;
-      margin-top: 1rem;
+
+    .session{
+      border-radius: 22px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      padding: 14px 14px;
+      display:grid;
+      gap: 6px;
     }
-    .actions button {
-      background: var(--accent);
-      color: white;
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      cursor: pointer;
+
+    .sessionTop{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
     }
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem;
-      }
-      .actions button {
-        font-size: 0.65rem;
-      }
+
+    .session h3{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.01em;
+      font-size: 1.02rem;
+      color: rgba(11,27,43,0.90);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 950;
+      color: rgba(11,27,43,0.72);
+      text-transform: capitalize;
+      font-size: 0.9rem;
+      white-space:nowrap;
+    }
+
+    .meta{
+      font-weight: 850;
+      color: rgba(11,27,43,0.70);
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    .empty{
+      margin: 10px;
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(15,23,42,0.12);
+      font-weight: 900;
+      color: rgba(11,27,43,0.70);
+    }
+
+    .ticker{
+      position:fixed; bottom:0; width:100%;
+      height: var(--tickerH);
+      background:#000; overflow:hidden;
+      border-top:1px solid rgba(255,255,255,0.10);
+      z-index:998;
+    }
+    .tickerTrack{ display:flex; width:max-content; will-change: transform; transform: translateX(0); }
+    .tickerItem{
+      display:flex; align-items:center;
+      padding: 0 22px;
+      height: var(--tickerH);
+      font-size:0.92rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color:#00ffff;
+      white-space:nowrap;
+      text-shadow: 0 0 10px rgba(0,255,255,0.18);
+      animation: tickerColor 9s ease-in-out infinite alternate;
+    }
+    @keyframes tickerColor{
+      0%{color:#00ffff}
+      25%{color:#ff5c7a}
+      50%{color:#a0ff00}
+      75%{color:#ff00ff}
+      100%{color:#00ffff}
+    }
+
+    @media (max-width: 760px){
+      .navGroup{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+      .topbar{ grid-template-columns: auto 1fr auto; }
+      .drawerInner{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <a href="beatstore.html" style="text-decoration: none;">
-      <div class="logo">BEALS.WAV</div>
-    </a>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="navGroup navLeft" aria-label="Top navigation left">
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html">Beats</a>
+        </div>
+
+        <div class="brand">
+          <a href="/index.html" aria-label="Home">
+            <img src="/assets/images/logo.jpeg?v=9" alt="beals.wav">
+          </a>
+        </div>
+
+        <div class="navGroup navRight" aria-label="Top navigation right">
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnPrimary" href="/account.html">Account</a>
+        </div>
+
+        <button class="hamburger" id="menuBtn" aria-label="Menu" type="button">☰</button>
+      </div>
+
+      <div class="drawer" id="drawer">
+        <div class="drawerInner">
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html">Beats</a>
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnPrimary" href="/account.html">Account</a>
+        </div>
+      </div>
+    </div>
   </header>
-  <div class="container">
-    <h1>Your Booked Sessions</h1>
-    <div id="sessionList" class="empty">Loading sessions...</div>
-    <div class="actions">
-      <button onclick="window.location.href='account.html'">Back to Account</button>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="pageHead">
+        <h1>Your booked sessions</h1>
+        <p>Upcoming + past</p>
+      </div>
+
+      <div class="card">
+        <div class="list" id="sessionList">
+          <div class="empty">Loading sessions…</div>
+        </div>
+      </div>
+
+      <div style="height:12px;"></div>
+      <a class="navBtn navBtnPrimary" href="/account.html" style="width: min(360px, 100%); justify-self:center; display:inline-flex;">
+        Back to account
+      </a>
+    </div>
+  </section>
+
+  <div class="ticker" aria-label="Site ticker">
+    <div class="tickerTrack" id="tickerTrack">
+      <div class="tickerItem" id="tickerItem">
+        Beals.wav • Sessions • Account • Studio • West Jordan, Utah • © 2025 Beals.wav •
+      </div>
     </div>
   </div>
+
   <script>
-    const userEmail = sessionStorage.getItem("userEmail");
-    if (!userEmail) {
-      window.location.href = "login.html";
+    // Drawer toggle
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const drawer = document.getElementById('drawer');
+      if (!btn || !drawer) return;
+
+      btn.addEventListener('click', () => {
+        const open = drawer.style.display === 'block';
+        drawer.style.display = open ? 'none' : 'block';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!drawer.contains(e.target) && e.target !== btn) drawer.style.display = 'none';
+      });
+    })();
+
+    // Auth guard
+    const userEmail = sessionStorage.getItem('userEmail');
+    if (!userEmail) location.href = '/login.html';
+
+    function safeText(v){ return (v == null ? '' : String(v)); }
+
+    function fmtDate(d){
+      try{
+        const dt = new Date(d);
+        if (isNaN(dt.getTime())) return 'Unknown date';
+        return dt.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+      }catch{
+        return 'Unknown date';
+      }
     }
 
-    async function fetchSessions() {
-      try {
-        const response = await fetch("/session-history", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+    async function fetchSessions(){
+      const list = document.getElementById('sessionList');
+      list.innerHTML = `<div class="empty">Loading sessions…</div>`;
+
+      try{
+        const response = await fetch('/session-history', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: userEmail })
         });
-        const data = await response.json();
-        const container = document.getElementById("sessionList");
 
-        if (!data.sessions || data.sessions.length === 0) {
-          container.innerHTML = "<p class='empty'>You have not booked any sessions yet.</p>";
+        const data = await response.json().catch(() => ({}));
+        const sessions = Array.isArray(data.sessions) ? data.sessions : [];
+
+        if (!response.ok){
+          list.innerHTML = `<div class="empty">Error loading sessions.</div>`;
           return;
         }
-        container.innerHTML = "";
-        data.sessions.forEach(session => {
-          const div = document.createElement("div");
-          div.classList.add("session-card");
+
+        if (sessions.length === 0){
+          list.innerHTML = `<div class="empty">No sessions yet.</div>`;
+          return;
+        }
+
+        list.innerHTML = '';
+        sessions.forEach(s => {
+          const service = safeText(s.serviceType || 'Session');
+          const status  = safeText(s.status || 'unknown');
+          const dateStr = fmtDate(s.dateBooked || s.date || s.createdAt);
+
+          const details = safeText(s.details || 'None');
+
+          const div = document.createElement('div');
+          div.className = 'session';
           div.innerHTML = `
-            <h3>${session.serviceType} – ${new Date(session.dateBooked).toLocaleDateString()}</h3>
-            <p>Status: ${session.status}</p>
-            <p>Details: ${session.details || "None"}</p>
+            <div class="sessionTop">
+              <h3>${service} • ${dateStr}</h3>
+              <span class="pill">${status}</span>
+            </div>
+            <div class="meta"><strong>Details:</strong> ${details}</div>
           `;
-          container.appendChild(div);
+          list.appendChild(div);
         });
-      } catch (err) {
-        console.error("Error fetching sessions:", err);
-        document.getElementById("sessionList").innerHTML = "<p class='empty'>Error loading session history. Please try again later.</p>";
+      }catch (err){
+        console.error(err);
+        document.getElementById('sessionList').innerHTML = `<div class="empty">Error loading session history. Try again later.</div>`;
       }
     }
 
     fetchSessions();
+
+    // Ticker loop
+    (function () {
+      const track = document.getElementById('tickerTrack');
+      const item  = document.getElementById('tickerItem');
+      if (!track || !item) return;
+
+      const clone = item.cloneNode(true);
+      track.appendChild(clone);
+
+      let x = 0;
+      const speed = 0.7;
+
+      function step(){
+        x -= speed;
+        const w = item.offsetWidth;
+        if (-x >= w) x = 0;
+        track.style.transform = `translateX(${x}px)`;
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })();
   </script>
 </body>
 </html>
