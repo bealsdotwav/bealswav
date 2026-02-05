@@ -41,6 +41,10 @@
       --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
 
       --max: 1120px;
+
+      /* bottom spacing */
+      --tickerH: 34px;
+      --bottomButtonsGap: 14px;
     }
 
     *{ box-sizing:border-box; }
@@ -51,7 +55,9 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 40px;
+
+      /* IMPORTANT: keep content above the fixed ticker + buttons spacer */
+      padding-bottom: calc(var(--tickerH) + var(--bottomButtonsGap) + 110px);
     }
 
     a{ color:inherit; text-decoration:none; }
@@ -761,13 +767,64 @@
     }
 
     /* ─────────────────────────────────────────────────────────────
+       BOTTOM BUTTONS (the missing piece)
+    ───────────────────────────────────────────────────────────── */
+    .bottomButtonsBar{
+      position: fixed;
+      left: 0;
+      right: 0;
+
+      /* spacer between buttons and ticker */
+      bottom: calc(var(--tickerH) + var(--bottomButtonsGap));
+
+      z-index: 997; /* under header, above content; ticker is 998 */
+      pointer-events: none;
+    }
+
+    .bottomButtonsInner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 16px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    .bottomBtn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 12px;
+      border-radius: 18px;
+      font-weight: 950;
+      border: 1px solid rgba(15,23,42,0.10);
+      background: rgba(255,255,255,0.78);
+      color: rgba(11,27,43,0.88);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.12);
+      transition: transform 140ms ease, filter 140ms ease;
+      user-select:none;
+      text-transform: capitalize;
+      white-space: nowrap;
+    }
+    .bottomBtn:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .bottomBtn:active{ transform: translateY(1px); }
+
+    .bottomBtnPrimary{
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 18px 46px rgba(23,135,171,0.20);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
        TICKER
     ───────────────────────────────────────────────────────────── */
     .ticker{
       position:fixed;
       bottom:0;
       width:100%;
-      height:34px;
+      height:var(--tickerH);
       background:#000;
       overflow:hidden;
       border-top:1px solid rgba(255,255,255,0.10);
@@ -784,7 +841,7 @@
       align-items:center;
       gap: 18px;
       padding: 0 22px;
-      height:34px;
+      height:var(--tickerH);
       font-size:0.92rem;
       font-weight: 900;
       letter-spacing: 0.05em;
@@ -811,6 +868,9 @@
       .featuredEmbedBig{ aspect-ratio: 16/9; }
       .slideshow{ min-height: 340px; }
       .studioText{ min-height: auto; }
+
+      .bottomButtonsInner{ grid-template-columns: 1fr; }
+      body{ padding-bottom: calc(var(--tickerH) + var(--bottomButtonsGap) + 190px); }
     }
     @media (max-width: 760px){
       .navGroup{ display:none; }
@@ -1063,7 +1123,6 @@
         </div>
       </div>
 
-      <!-- ONE grid. ONE id. Humans can do this. -->
       <div class="videoGrid" id="videoGrid">
 
         <article class="card vcard" data-title="23.5 (Album)" data-artist="Beals" data-date="2026-01-01">
@@ -1236,6 +1295,15 @@
       <div class="emptyState" id="empty">No matches.</div>
     </div>
   </section>
+
+  <!-- BOTTOM BUTTONS (fixed) -->
+  <div class="bottomButtonsBar" aria-label="Bottom buttons">
+    <div class="bottomButtonsInner">
+      <a class="bottomBtn bottomBtnPrimary" href="/studio.html">Book studio</a>
+      <a class="bottomBtn" href="/music.html">Listen</a>
+      <a class="bottomBtn" href="/beatstore.html">Buy beats</a>
+    </div>
+  </div>
 
   <!-- TICKER -->
   <div class="ticker" aria-label="Site ticker">
