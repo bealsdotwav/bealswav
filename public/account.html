@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e7eaee" />
   <title>Account | Beals.wav</title>
 
   <!-- Google tag (gtag.js) -->
@@ -14,256 +15,504 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <!-- Retro Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- EmailJS v4 from jsDelivr -->
-  <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS v4 (if needed elsewhere) -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <script type="text/javascript"
-          src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Font (match modern pages) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --glow: #00ffff;
-      --accent: #ff4d6d;
-      --bg-dark: #0a0a0a;
-      --text: #ffffff;
-      --card-bg: #111;
+    :root{
+      --ink: #0b1b2b;
+
+      --blue: #1787ab;
+      --blue2:#3eb7db;
+
+      --bgTopA: #f7f9fb;
+      --bgTopB: #eef3f8;
+
+      --panel: rgba(255,255,255,0.78);
+      --border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
+
+      --max: 1120px;
+      --tickerH: 34px;
     }
-    /* Global Reset */
-    * { box-sizing: border-box; margin:0; padding:0 }
-    html, body {
-      width:100%; height:100%;
-      background: var(--bg-dark);
-      color: var(--text);
-      font-family: 'Press Start 2P', cursive;
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
       overflow-x:hidden;
+      background: var(--bgTopA);
+      padding-bottom: calc(var(--tickerH) + 24px);
     }
-    a { color: var(--glow); text-decoration: none; }
+
+    a{ color:inherit; text-decoration:none; }
+    img{ display:block; max-width:100%; }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
 
     /* HEADER */
-    header {
-      position: fixed; top:0; left:0; width:100%;
-      background: rgba(0,0,0,0.9); border-bottom:1px solid #222;
-      z-index:999; padding:1rem;
+    header{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247,249,251,0.76);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      backdrop-filter: blur(14px);
     }
-    .header-container {
-      display:flex; align-items:center; justify-content:space-between;
-      max-width:1400px; margin:0 auto; padding:0.5rem 2rem;
+
+    .topbar{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 0;
     }
-    .logo {
-      font-size:1.4rem; color:var(--glow);
-      text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
-      text-decoration: none;
+
+    .navGroup{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
     }
-    .nav-menu {
-      flex:1; display:flex; justify-content:center;
+    .navLeft{ justify-content:flex-start; }
+    .navRight{ justify-content:flex-end; }
+
+    .navBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      font-size: 0.92rem;
+      color: rgba(11,27,43,0.78);
+      transition: transform 120ms ease, filter 120ms ease;
+      user-select:none;
+      white-space:nowrap;
+      text-transform: capitalize;
     }
-    .nav-menu ul {
-      list-style:none; display:flex; gap:1.5rem;
+    .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .navBtn:active{ transform: translateY(1px); }
+
+    .navBtnPrimary{
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 16px 40px rgba(23,135,171,0.22);
     }
-    .nav-menu li {
-      display:flex; flex-direction:column; align-items:center;
-      text-align:center;
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 2px 0;
     }
-    .nav-menu a {
-      color:var(--accent); font-size:0.75rem;
-      transition:color 0.2s;
+    .brand img{
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12));
     }
-    .nav-menu a:hover { color:var(--glow) }
-    .nav-menu .subtext {
-      font-size:0.45rem; color:#aaa; margin-top:0.15rem;
-    }
-    .header-buttons {
-      display:flex; gap:1rem; align-items:center;
-    }
-    .logout-btn {
-      background:var(--glow); color:#000;
-      padding:0.5rem 1rem; border-radius:5px;
-      font-size:0.8rem; cursor:pointer; border:none;
-      font-family: 'Press Start 2P', cursive;
-    }
-    .hamburger {
-      display:none; font-size:1.5rem;
-      color:var(--accent); background:none; border:none;
+
+    .hamburger{
+      display:none;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
       cursor:pointer;
+      font-weight: 950;
+      color: rgba(11,27,43,0.82);
     }
 
-    /* SIDEBAR */
-    .sidebar {
-      position:fixed; top:70px; left:-220px;
-      width:200px; height:calc(100% - 70px);
-      background:#111; padding:1.5rem 1rem;
-      transition:left 0.3s; z-index:998;
+    .drawer{
+      display:none;
+      border-top: 1px solid rgba(15,23,42,0.08);
+      background: rgba(247,249,251,0.88);
+      backdrop-filter: blur(14px);
+      padding: 10px 0 14px;
     }
-    .sidebar.open { left:0 }
-    .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:1rem }
-    .sidebar a { color:var(--glow); font-size:0.9rem; }
-
-    /* MAIN CONTENT */
-    .container {
-      max-width:1000px; margin:120px auto 2rem; padding:1rem;
-    }
-    h1 {
-      text-align:center; margin-bottom:2rem;
-      color:var(--glow); font-size:1.6rem;
+    .drawerInner{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    /* INFO CARDS */
-    .info-card {
-      background: var(--card-bg);
-      border:1px solid #333;
-      border-radius:8px;
-      padding:1.5rem;
-      margin-bottom:1.5rem;
-      transition:transform 0.2s ease, box-shadow 0.2s ease;
-      font-family: 'Press Start 2P', cursive;
-    }
-    .info-card:hover {
-      transform:scale(1.02);
-      box-shadow:0 0 8px var(--accent);
-    }
-    .info-card h2 {
-      margin-bottom:0.75rem;
-      color:var(--accent);
-      font-size:1.2rem;
-    }
-    .info-card p {
-      font-size:0.95rem;
-      color:#ddd;
-      line-height:1.4;
-    }
-    .action-btn {
-      display:inline-block;
-      background:var(--glow);
-      color:#000;
-      padding:0.6rem 0.9rem;
-      border-radius:5px;
-      font-size:0.8rem;
-      text-decoration:none;
-      transition:background 0.2s;
-      font-family: 'Press Start 2P', cursive;
-    }
-    .action-btn:hover {
-      background:#84ffff;
+    /* PAGE */
+    .section{
+      padding: 26px 0 42px;
+      background:
+        radial-gradient(1000px 650px at 18% 8%, rgba(62,183,219,0.14), transparent 60%),
+        radial-gradient(900px 600px at 85% 22%, rgba(23,135,171,0.10), transparent 62%),
+        linear-gradient(180deg, var(--bgTopA), var(--bgTopB));
+      border-bottom: 1px solid rgba(15,23,42,0.06);
     }
 
-    /* TICKER */
-    .ticker {
-      position:fixed; bottom:0; width:100%; height:25px;
-      background:black; overflow:hidden; border-top:1px solid #222;
+    .pageHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:baseline;
+      gap: 12px;
+      margin: 0 0 14px;
     }
-    .ticker-content {
-      display:inline-block; white-space:nowrap;
-      padding-left:100%;
-      animation:scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size:0.65rem; font-weight:bold;
+    .pageHead h1{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: clamp(1.35rem, 1.1rem + 1.1vw, 1.85rem);
+      color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
     }
-    @keyframes scroll {0%{transform:translateX(0)}100%{transform:translateX(-100%)}} 
-    @keyframes colorchange {0%{color:#00ffff}25%{color:#ff4d6d}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}}
+    .pageHead p{
+      margin:0;
+      color: rgba(11,27,43,0.58);
+      font-weight: 850;
+      font-size: 0.95rem;
+    }
 
-    /* MOBILE */
-    @media(max-width:768px){
-      .nav-menu{display:none}
-      .hamburger{display:inline-block}
-      .header-container{padding:0 1rem}
-      .logo{font-size:1.1rem}
-      .logout-btn{font-size:0.65rem;padding:0.5rem 0.8rem}
-      .container{padding:1rem}
-      h1{font-size:1.4rem}
-      .info-card{padding:1rem;transform:none;box-shadow:none}
-      .action-btn{font-size:0.75rem;padding:0.5rem 0.8rem}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .card{
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .cardInner{ padding: 18px; }
+
+    .card h2{
+      margin:0 0 8px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 1.15rem;
+      color: rgba(11,27,43,0.92);
+      text-transform: capitalize;
+    }
+    .card p{
+      margin:0;
+      color: rgba(11,27,43,0.66);
+      font-weight: 850;
+      line-height: 1.55;
+      font-size: 1.0rem;
+    }
+
+    .row{
+      margin-top: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 900;
+      color: rgba(11,27,43,0.70);
+      font-size: 0.92rem;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      font-weight: 950;
+      box-shadow: 0 18px 46px rgba(23,135,171,0.20);
+      user-select:none;
+      transition: transform 140ms ease, filter 140ms ease;
+      text-transform: capitalize;
+      font-size: 1.02rem;
+      white-space: nowrap;
+    }
+    .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .cta:active{ transform: translateY(1px); }
+
+    .danger{
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,92,122,0.40);
+      color: rgba(120, 0, 20, 0.78);
+      box-shadow: 0 18px 46px rgba(255,92,122,0.10);
+    }
+
+    .smallLink{
+      color: rgba(23,135,171,0.95);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 950;
+    }
+
+    /* Footer nav */
+    .footer{
+      padding: 26px 0 calc(var(--tickerH) + 18px);
+      background: rgba(247,249,251,0.7);
+      border-top: 1px solid rgba(15,23,42,0.06);
+    }
+    .footerGrid{
+      display:grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      align-items:center;
+    }
+
+    /* Ticker */
+    .ticker{
+      position:fixed;
+      bottom:0;
+      width:100%;
+      height: var(--tickerH);
+      background:#000;
+      overflow:hidden;
+      border-top:1px solid rgba(255,255,255,0.10);
+      z-index:998;
+    }
+    .tickerTrack{
+      display:flex;
+      width:max-content;
+      will-change: transform;
+      transform: translateX(0);
+    }
+    .tickerItem{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      padding: 0 22px;
+      height: var(--tickerH);
+      font-size:0.92rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color:#00ffff;
+      white-space: nowrap;
+      text-shadow: 0 0 10px rgba(0,255,255,0.18);
+      animation: tickerColor 9s ease-in-out infinite alternate;
+    }
+    @keyframes tickerColor{
+      0%{color:#00ffff}
+      25%{color:#ff5c7a}
+      50%{color:#a0ff00}
+      75%{color:#ff00ff}
+      100%{color:#00ffff}
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .footerGrid{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 760px){
+      .navGroup{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+      .topbar{ grid-template-columns: auto 1fr auto; }
+      .brand{ justify-content:center; }
+      .drawerInner{ grid-template-columns: 1fr; }
+      .footerGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
   </style>
 </head>
-<body>
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <ul>
-      <li><a href="music.html">🎵 Music</a></li>
-      <li><a href="beatstore.html">💽 Beats</a></li>
-      <li><a href="studio.html">🎚️ Studio</a></li>
-      <li><a href="faq.html">📖 FAQ</a></li>
-      <li><a href="contact.html">✉️ Contact</a></li>
-    </ul>
-  </div>
 
-  <!-- HEADER -->
+<body>
   <header>
-    <div class="header-container">
-      <a href="index.html" class="logo">BEALS.WAV</a>
-      <nav class="nav-menu">
-        <ul>
-          <li>
-            <a href="music.html">Music</a>
-            <span class="subtext">Listen to my songs</span>
-          </li>
-          <li>
-            <a href="beatstore.html">Beats</a>
-            <span class="subtext">Buy high‑quality instrumentals</span>
-          </li>
-          <li>
-            <a href="studio.html">Studio</a>
-            <span class="subtext">Book studio time</span>
-          </li>
-          <li>
-            <a href="faq.html">FAQ</a>
-            <span class="subtext">Questions answered</span>
-          </li>
-          <li>
-            <a href="contact.html">Contact</a>
-            <span class="subtext">Reach out directly</span>
-          </li>
-        </ul>
-      </nav>
-      <div class="header-buttons">
-        <button class="logout-btn" onclick="logout()">Logout</button>
-        <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="navGroup navLeft" aria-label="Top navigation left">
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html">Beats</a>
+        </div>
+
+        <div class="brand">
+          <a href="/index.html" aria-label="Home">
+            <img src="/assets/images/logo.jpeg?v=9" alt="beals.wav">
+          </a>
+        </div>
+
+        <div class="navGroup navRight" aria-label="Top navigation right">
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnPrimary" href="/account.html" aria-current="page" id="accountTop">Account</a>
+        </div>
+
+        <button class="hamburger" id="menuBtn" aria-label="Menu" type="button">☰</button>
+      </div>
+
+      <div class="drawer" id="drawer">
+        <div class="drawerInner">
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html">Beats</a>
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnPrimary" href="/account.html" aria-current="page" id="accountMobile">Account</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- MAIN -->
-  <div class="container">
-    <h1>Your Account</h1>
+  <section class="section">
+    <div class="wrap">
+      <div class="pageHead">
+        <h1>Your Account</h1>
+        <p id="subline">Signed in</p>
+      </div>
 
-    <div class="info-card">
-      <h2>Purchased Beats</h2>
-      <p>
-        To view your purchased beats, visit
-        <a href="https://www.beatstars.com" target="_blank">beatstars.com</a>
-        and log in there. If you need any help, please
-        <a href="contact.html">contact us</a>.
-      </p>
+      <div class="grid">
+        <div class="card">
+          <div class="cardInner">
+            <h2>Purchased beats</h2>
+            <p>
+              Beat purchases and downloads are managed through BeatStars.
+              Use the same email you bought with.
+            </p>
+            <div class="row">
+              <span class="pill" id="emailPill">No email found</span>
+              <a class="cta" href="https://www.beatstars.com" target="_blank" rel="noopener">Open BeatStars</a>
+            </div>
+            <div class="row">
+              <a class="smallLink" href="/contact.html">Need help? Contact us</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h2>Your booked sessions</h2>
+            <p>
+              Review upcoming sessions, past sessions, and details in one place.
+            </p>
+            <div class="row">
+              <a class="cta" href="/session-history.html">View session history</a>
+              <button class="cta danger" id="logoutBtn" type="button">Logout</button>
+            </div>
+            <div class="row">
+              <span class="pill">West Jordan, Utah</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </section>
 
-    <div class="info-card">
-      <h2>Your Booked Sessions</h2>
-      <p>
-        All your upcoming and past studio sessions are waiting for you—
-        click below to review.
-      </p>
-      <div style="height:1rem;"></div>
-      <a href="session-history.html" class="action-btn">View Your Booked Sessions</a>
+  <footer class="footer" aria-label="Footer navigation">
+    <div class="wrap">
+      <div class="footerGrid">
+        <a class="navBtn" href="/music.html">Music</a>
+        <a class="navBtn" href="/beatstore.html">Beats</a>
+        <a class="navBtn" href="/studio.html">Studio</a>
+        <a class="navBtn" href="/faq.html">FAQ</a>
+        <a class="navBtn" href="/contact.html">Contact</a>
+        <a class="navBtn navBtnPrimary" href="/account.html" aria-current="page">Account</a>
+      </div>
     </div>
-  </div>
+  </footer>
 
-  <div class="ticker">
-    <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} === Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {Based in West Jordan, Utah} – © 2025 Beals.wav. All rights reserved. === New release out now! —
+  <div class="ticker" aria-label="Site ticker">
+    <div class="tickerTrack" id="tickerTrack">
+      <div class="tickerItem" id="tickerItem">
+        Beals.wav • Account • Sessions • Beats • Studio • West Jordan, Utah • © 2025 Beals.wav •
+      </div>
     </div>
   </div>
 
   <script>
-    function toggleSidebar(){
-      document.getElementById('sidebar').classList.toggle('open');
-    }
-    function logout(){
-      sessionStorage.clear();
-      localStorage.clear();
-      window.location.href='index.html';
-    }
+    // Drawer toggle
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const drawer = document.getElementById('drawer');
+      if (!btn || !drawer) return;
+
+      btn.addEventListener('click', () => {
+        const open = drawer.style.display === 'block';
+        drawer.style.display = open ? 'none' : 'block';
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!drawer.contains(e.target) && e.target !== btn) drawer.style.display = 'none';
+      });
+    })();
+
+    // Show email (if available) and basic "signed in" hint
+    (function(){
+      const pill = document.getElementById('emailPill');
+      const sub  = document.getElementById('subline');
+
+      const email =
+        sessionStorage.getItem('userEmail') ||
+        localStorage.getItem('rememberedEmail') ||
+        '';
+
+      if (email) {
+        pill.textContent = email;
+        sub.textContent = 'Signed in as ' + email;
+      } else {
+        pill.textContent = 'Not signed in';
+        sub.textContent = 'Not signed in';
+      }
+    })();
+
+    // Logout
+    (function(){
+      const btn = document.getElementById('logoutBtn');
+      if (!btn) return;
+
+      btn.addEventListener('click', async () => {
+        // If you have a server logout route, call it. If not, this is harmless.
+        try { await fetch('/logout', { method:'POST' }); } catch {}
+        sessionStorage.clear();
+        localStorage.removeItem('loggedIn');  // keep site-wide sync convention
+        localStorage.removeItem('rememberedEmail');
+        localStorage.removeItem('rememberedToken');
+        window.location.href = '/index.html';
+      });
+    })();
+
+    // Ticker loop
+    (function () {
+      const track = document.getElementById('tickerTrack');
+      const item  = document.getElementById('tickerItem');
+      if (!track || !item) return;
+
+      const clone = item.cloneNode(true);
+      track.appendChild(clone);
+
+      let x = 0;
+      const speed = 0.7;
+
+      function step(){
+        x -= speed;
+        const w = item.offsetWidth;
+        if (-x >= w) x = 0;
+        track.style.transform = `translateX(${x}px)`;
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })();
   </script>
 </body>
 </html>
