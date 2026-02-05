@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#e7eaee" />
   <title>Beats | Beals.wav</title>
 
   <!-- Google tag (gtag.js) -->
@@ -14,221 +15,353 @@
     gtag('config', 'G-T4926KVF6L');
   </script>
 
-  <!-- Retro Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-  <!-- Preconnect for BeatStars -->
-  <link rel="preconnect" href="https://player.beatstars.com">
-  <!-- EmailJS (if needed elsewhere) -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Font (match modern pages) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Performance: preconnect BeatStars -->
+  <link rel="preconnect" href="https://player.beatstars.com" crossorigin>
+  <link rel="dns-prefetch" href="//player.beatstars.com">
 
   <style>
-    :root {
-      /* MATCH INDEX/MUSIC */
-      --glow:   #00e0e0;
-      --accent: #ff5c7a;
-      --bg-dark:#0f0f0f;
-      --text:   #f5f5f5;
+    :root{
+      --ink: #0b1b2b;
 
-      /* legacy alias so existing uses still work */
-      --bg: var(--bg-dark);
+      --blue: #1787ab;
+      --blue2:#3eb7db;
 
-      --ticker: 25px;
-      --header-height: 0px; /* set by JS */
-    }
+      --bgTopA: #f7f9fb;
 
-    /* RESET */
-    * { box-sizing:border-box; margin:0; padding:0 }
-    html, body {
-      width:100%; height:100%;
-      background:var(--bg);
-      color:var(--text);
-      font-family:'Press Start 2P',cursive;
-      overflow:hidden; /* full-screen embed */
-    }
-    a { color:var(--glow); text-decoration:none }
+      --border: rgba(15, 23, 42, 0.12);
+      --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
 
-    /* HEADER (matches index) */
-    header {
-      position:fixed; top:0; left:0; width:100%; z-index:999;
-      background:rgba(0,0,0,0.9); border-bottom:1px solid #222;
-      transition: transform .4s ease, opacity .4s ease;
-      padding: 1rem;
-    }
-    .header-container {
-      display:flex; align-items:center; justify-content:space-between;
-      max-width:1400px; margin:0 auto; padding:0.5rem 2rem;
-    }
-    .logo {
-      font-size:1.4rem; color:var(--glow);
-      text-shadow:0 0 5px var(--glow),0 0 10px var(--glow);
-      text-decoration:none; margin-right:1rem;
+      --max: 1120px;
+
+      --tickerH: 34px;
+      --headerH: 64px; /* JS will set exact */
     }
 
-    .nav-menu { flex:1; display:flex; justify-content:center; }
-    .nav-menu ul { display:flex; gap:1.5rem; list-style:none; }
-    .nav-menu li { display:flex; flex-direction:column; align-items:center; text-align:center; }
-    .nav-menu a {
-      color:var(--accent);
-      font-size:0.75rem; /* base */
-      line-height:1.2;
-      transition:color .2s;
-      text-align:center;
-      text-decoration:none;
-    }
-    .nav-menu a:hover { color:var(--glow) }
-    .subtext { font-size:0.45rem; color:#aaa; margin-top:0.15rem; text-align:center; }
-
-    /* Header buttons — scoped */
-    header .header-buttons { display:flex; gap:1rem; align-items:center; }
-    header .login-btn {
-      background:var(--glow); color:#000;
-      padding:.5rem 1rem; border-radius:5px;
-      font-size:.8rem; text-decoration:none; cursor:pointer; white-space:nowrap;
-    }
-    header .hamburger {
-      font-size:1.5rem; line-height:1;
-      color:var(--accent);
-      background:transparent; border:none; cursor:pointer; display:none;
-      appearance:none; -webkit-appearance:none;
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
+      background: var(--bgTopA);
+      overflow:hidden; /* true fullscreen embed */
     }
 
-    /* MOBILE SIDEBAR */
-    .sidebar {
+    a{ color:inherit; text-decoration:none; }
+    img{ display:block; max-width:100%; }
+
+    /* ─────────────────────────────────────────────────────────────
+       HEADER (match index/faq/contact)
+    ───────────────────────────────────────────────────────────── */
+    header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 50;
+      background: rgba(247,249,251,0.76);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      backdrop-filter: blur(14px);
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .topbar{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+      gap: 10px;
+      padding: 12px 0;
+    }
+
+    .navGroup{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+    .navLeft{ justify-content:flex-start; }
+    .navRight{ justify-content:flex-end; }
+
+    .navBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      font-size: 0.92rem;
+      color: rgba(11,27,43,0.78);
+      transition: transform 120ms ease, filter 120ms ease;
+      user-select:none;
+      white-space:nowrap;
+      text-transform: capitalize;
+    }
+    .navBtn:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .navBtn:active{ transform: translateY(1px); }
+
+    .navBtnLogin{
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
+      border-color: rgba(255,255,255,0.22);
+      box-shadow: 0 16px 40px rgba(23,135,171,0.22);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 2px 0;
+    }
+    .brand img{
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 18px rgba(15,23,42,0.12));
+    }
+
+    .hamburger{
+      display:none;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      cursor:pointer;
+      font-weight: 950;
+      color: rgba(11,27,43,0.82);
+    }
+
+    .drawer{
+      display:none;
+      border-top: 1px solid rgba(15,23,42,0.08);
+      background: rgba(247,249,251,0.88);
+      backdrop-filter: blur(14px);
+      padding: 10px 0 14px;
+    }
+    .drawerInner{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       FULLSCREEN BEATSTARS AREA
+       - uses fixed positioning so there is zero layout thrash
+       - leaves space for header + ticker
+    ───────────────────────────────────────────────────────────── */
+    .beatstore{
+      position: fixed;
+      top: var(--headerH);
+      left: 0;
+      right: 0;
+      bottom: var(--tickerH);
+      background: #0b1b2b;
+    }
+    .beatstore iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      display:block;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       TICKER (match index)
+    ───────────────────────────────────────────────────────────── */
+    .ticker{
       position:fixed;
-      top:var(--header-height);
-      left:-220px;
-      width:200px; height:calc(100% - var(--header-height));
-      background:#111; padding:1.5rem;
-      transition:left .3s; z-index:998;
-    }
-    .sidebar.open { left:0 }
-    .sidebar ul { list-style:none; display:flex; flex-direction:column; gap:1rem; }
-    .sidebar a { font-size:.9rem; color:var(--glow); }
-
-    /* FULL-SCREEN BEATSTORE */
-    .beatstore-container {
-      position:absolute;
-      top: var(--header-height);
-      bottom: var(--ticker);
-      left:0; right:0;
+      bottom:0;
+      width:100%;
+      height: var(--tickerH);
+      background:#000;
       overflow:hidden;
+      border-top:1px solid rgba(255,255,255,0.10);
+      z-index: 998;
     }
-    .beatstore-container iframe {
-      position:absolute; top:0; left:0;
-      width:100%; height:100%; border:none;
+    .tickerTrack{
+      display:flex;
+      width:max-content;
+      will-change: transform;
+      transform: translateX(0);
     }
-
-    /* TICKER */
-    .ticker {
-      position:fixed; bottom:0; left:0;
-      width:100%; height:var(--ticker);
-      background:#000; overflow:hidden; z-index:998;
+    .tickerItem{
+      display:flex;
+      align-items:center;
+      gap: 18px;
+      padding: 0 22px;
+      height: var(--tickerH);
+      font-size:0.92rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color:#00ffff;
+      white-space: nowrap;
+      text-shadow: 0 0 10px rgba(0,255,255,0.18);
+      animation: tickerColor 9s ease-in-out infinite alternate;
     }
-    .ticker-content {
-      white-space:nowrap; display:inline-block; padding-left:100%;
-      animation: scroll 30s linear infinite, colorchange 10s infinite alternate;
-      font-size:.65rem; font-weight:bold;
-    }
-    @keyframes scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
-    @keyframes colorchange {
-      0%{color:#00ffff}25%{color:#ff4d6d}50%{color:#a0ff00}75%{color:#ff00ff}100%{color:#00ffff}
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .header-container { padding: .75rem 1rem; }
-      .logo { font-size: 1.1rem; }
-      header .header-buttons { gap:.5rem; }
-      header .login-btn { font-size:.65rem; padding:.3rem .6rem; }
-      header .hamburger { display:inline-block; } /* red ☰ on mobile */
-      .nav-menu { display:none; }
-      /* beatstore-container uses CSS var so no extra changes needed */
+    @keyframes tickerColor{
+      0%{color:#00ffff}
+      25%{color:#ff5c7a}
+      50%{color:#a0ff00}
+      75%{color:#ff00ff}
+      100%{color:#00ffff}
     }
 
-    /* DESKTOP-UP TWEAKS */
-    @media (min-width: 1024px) {
-      .nav-menu a { font-size: 0.95rem; }  /* bigger middle buttons */
-      .subtext   { font-size: 0.6rem; }
-    }
-
-    @media (min-width: 769px) {
-      .nav-menu { display:flex }
-      header .hamburger { display:none }
+    /* ─────────────────────────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────────────────────────── */
+    @media (max-width: 760px){
+      .navGroup{ display:none; }
+      .hamburger{ display:inline-flex; align-items:center; justify-content:center; }
+      .topbar{ grid-template-columns: auto 1fr auto; }
+      .brand{ justify-content:center; }
+      .drawerInner{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
-<body>
-  <!-- MOBILE SIDEBAR -->
-  <div class="sidebar" id="sidebar">
-    <ul>
-      <li><a href="music.html">🎵 Music</a></li>
-      <li><a href="beatstore.html">💽 Beats</a></li>
-      <li><a href="studio.html">🎚️ Studio</a></li>
-      <li><a href="faq.html">📖 FAQ</a></li>
-      <li><a href="contact.html">✉️ Contact</a></li>
-    </ul>
-  </div>
 
-  <!-- HEADER -->
-  <header id="mainHeader">
-    <div class="header-container">
-      <a href="index.html" class="logo">BEALS.WAV</a>
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="music.html">Music</a><span class="subtext">Listen to my songs</span></li>
-          <li><a href="beatstore.html">Beats</a><span class="subtext">Buy instrumentals</span></li>
-          <li><a href="studio.html">Studio</a><span class="subtext">Book studio time</span></li>
-          <li><a href="faq.html">FAQ</a><span class="subtext">Questions answered</span></li>
-          <li><a href="contact.html">Contact</a><span class="subtext">Reach out directly</span></li>
-        </ul>
-      </nav>
-      <div class="header-buttons">
-        <a href="login.html" class="login-btn" id="loginBtn">Login</a>
-        <button class="hamburger" onclick="toggleSidebar()" aria-label="Toggle navigation menu">☰</button>
+<body>
+  <header id="siteHeader">
+    <div class="wrap">
+      <div class="topbar">
+        <div class="navGroup navLeft" aria-label="Top navigation left">
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html" aria-current="page">Beats</a>
+        </div>
+
+        <div class="brand">
+          <a href="/index.html" aria-label="Home">
+            <img src="/assets/images/logo.jpeg?v=9" alt="beals.wav">
+          </a>
+        </div>
+
+        <div class="navGroup navRight" aria-label="Top navigation right">
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnLogin" href="/login.html" id="loginTop">Login</a>
+        </div>
+
+        <button class="hamburger" id="menuBtn" aria-label="Menu" type="button">☰</button>
+      </div>
+
+      <div class="drawer" id="drawer">
+        <div class="drawerInner">
+          <a class="navBtn" href="/studio.html">Studio</a>
+          <a class="navBtn" href="/music.html">Music</a>
+          <a class="navBtn" href="/beatstore.html" aria-current="page">Beats</a>
+          <a class="navBtn" href="/contact.html">Contact</a>
+          <a class="navBtn" href="/faq.html">FAQ</a>
+          <a class="navBtn navBtnLogin" href="/login.html" id="loginMobile">Login</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- FULL-SCREEN BEATSTORE EMBED -->
-  <div class="beatstore-container">
+  <!-- BeatStars embed (fullscreen between header + ticker) -->
+  <main class="beatstore" aria-label="BeatStars store">
     <iframe
+      id="beatstarsFrame"
       src="https://player.beatstars.com/?storeId=150359"
-      loading="lazy"
       title="Beals.wav Beatstore"
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"
       allow="autoplay; encrypted-media; fullscreen; clipboard-write"
     ></iframe>
-  </div>
+  </main>
 
   <!-- TICKER -->
-  <div class="ticker">
-    <div class="ticker-content">
-      Beals {Musician} + {Rapper} + {Beat Maker} – Beals.wav {Recording Studio} – {Recording Services} + {Mixing Services} + {Advertising} + {Music Videos} + {Lyric/songwriting} – {West Jordan, UT} – © 2025 Beals.wav – New release out now! —
+  <div class="ticker" aria-label="Site ticker">
+    <div class="tickerTrack" id="tickerTrack">
+      <div class="tickerItem" id="tickerItem">
+        Beals.wav • Beats • Leases • Exclusives • Licensing • West Jordan, Utah • © 2025 Beals.wav • New release out now •
+      </div>
     </div>
   </div>
 
   <script>
-    function setHeaderVar() {
-      const h = document.getElementById('mainHeader')?.offsetHeight || 0;
-      document.documentElement.style.setProperty('--header-height', h + 'px');
-    }
-    // Set on load + keep in sync on resize/orientation
-    window.addEventListener('load', setHeaderVar);
-    window.addEventListener('resize', setHeaderVar);
-    window.addEventListener('orientationchange', setHeaderVar);
+    // Drawer toggle (same pattern used on FAQ)
+    (function () {
+      const btn = document.getElementById('menuBtn');
+      const drawer = document.getElementById('drawer');
+      if (!btn || !drawer) return;
 
-    // Sidebar toggle
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-    }
+      btn.addEventListener('click', () => {
+        const open = drawer.style.display === 'block';
+        drawer.style.display = open ? 'none' : 'block';
+      });
 
-    // Login/Account sync
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('loginBtn');
-      if (!btn) return;
-      const inSession = localStorage.getItem('loggedIn') === 'true';
-      btn.textContent = inSession ? 'Account' : 'Login';
-      btn.href = inSession ? 'account.html' : 'login.html';
-    });
+      document.addEventListener('click', (e) => {
+        if (!drawer.contains(e.target) && e.target !== btn) drawer.style.display = 'none';
+      });
+    })();
+
+    // Login sync (header + drawer)
+    function syncLoginLinks(){
+      const inL = localStorage.getItem('loggedIn') === 'true';
+      const text = inL ? 'Account' : 'Login';
+      const href = inL ? '/account.html' : '/login.html';
+
+      ['loginTop','loginMobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = text;
+        el.href = href;
+      });
+    }
+    document.addEventListener('DOMContentLoaded', syncLoginLinks);
+
+    // Header height -> CSS var (keeps embed perfectly fullscreen)
+    (function(){
+      const header = document.getElementById('siteHeader');
+      if (!header) return;
+
+      const set = () => {
+        const h = Math.ceil(header.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--headerH', h + 'px');
+      };
+
+      // ResizeObserver avoids resize spam and handles font load changes
+      if ('ResizeObserver' in window) {
+        const ro = new ResizeObserver(set);
+        ro.observe(header);
+      }
+      set();
+      window.addEventListener('orientationchange', set);
+    })();
+
+    // Ticker loop (smooth, no CSS animation drift)
+    (function () {
+      const track = document.getElementById('tickerTrack');
+      const item  = document.getElementById('tickerItem');
+      if (!track || !item) return;
+
+      const clone = item.cloneNode(true);
+      track.appendChild(clone);
+
+      let x = 0;
+      const speed = 0.7;
+
+      function step(){
+        x -= speed;
+        const w = item.offsetWidth;
+        if (-x >= w) x = 0;
+        track.style.transform = `translateX(${x}px)`;
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })();
   </script>
 </body>
 </html>
