@@ -35,24 +35,10 @@
       --shadow: 0 22px 60px rgba(15, 23, 42, 0.14);
 
       --max: 1120px;
-    }
 
-    /* Put this near your :root (or top of CSS) */
-    :root{
+      /* Fix: unified ticker height */
       --tickerH: 34px;
     }
-
-    /* Replace your current body padding-bottom */
-    body{
-      /* ...existing... */
-      padding-bottom: calc(var(--tickerH) + 24px);
-    }
-
-    /* Add this (or increase existing footer bottom padding) */
-    .footer{
-      padding-bottom: calc(var(--tickerH) + 18px);
-    }
-
 
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
@@ -62,7 +48,9 @@
       color: var(--ink);
       overflow-x:hidden;
       background: var(--bgTopA);
-      padding-bottom: 46px; /* ticker space */
+
+      /* Fix: page clears fixed ticker */
+      padding-bottom: calc(var(--tickerH) + 24px);
     }
 
     a{ color:inherit; text-decoration:none; }
@@ -299,9 +287,7 @@
       user-select:none;
     }
 
-    .faqItem[data-open="true"] .chev{
-      transform: rotate(180deg);
-    }
+    .faqItem[data-open="true"] .chev{ transform: rotate(180deg); }
 
     .faqPanel{
       display:none;
@@ -311,9 +297,7 @@
       line-height: 1.55;
       font-size: 0.98rem;
     }
-    .faqItem[data-open="true"] .faqPanel{
-      display:block;
-    }
+    .faqItem[data-open="true"] .faqPanel{ display:block; }
 
     .faqPanel a{
       color: rgba(23,135,171,0.95);
@@ -373,11 +357,14 @@
     .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .cta:active{ transform: translateY(1px); }
 
-    /* Footer nav (same as contact pattern) */
+    /* Footer nav (fixed: bottom padding clears ticker) */
     .footer{
       padding: 26px 0 10px;
       background: rgba(247,249,251,0.7);
       border-top: 1px solid rgba(15,23,42,0.06);
+
+      /* Fix: footer buttons clear ticker */
+      padding-bottom: calc(var(--tickerH) + 18px);
     }
     .footerGrid{
       display:grid;
@@ -391,7 +378,7 @@
       position:fixed;
       bottom:0;
       width:100%;
-      height:34px;
+      height: var(--tickerH);
       background:#000;
       overflow:hidden;
       border-top:1px solid rgba(255,255,255,0.10);
@@ -408,7 +395,7 @@
       align-items:center;
       gap: 18px;
       padding: 0 22px;
-      height:34px;
+      height: var(--tickerH);
       font-size:0.92rem;
       font-weight: 900;
       letter-spacing: 0.05em;
@@ -714,7 +701,7 @@
       filter();
     })();
 
-    // Ticker loop (same approach used on Contact)
+    // Ticker loop
     (function () {
       const track = document.getElementById('tickerTrack');
       const item  = document.getElementById('tickerItem');
