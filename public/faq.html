@@ -37,6 +37,23 @@
       --max: 1120px;
     }
 
+    /* Put this near your :root (or top of CSS) */
+    :root{
+      --tickerH: 34px;
+    }
+
+    /* Replace your current body padding-bottom */
+    body{
+      /* ...existing... */
+      padding-bottom: calc(var(--tickerH) + 24px);
+    }
+
+    /* Add this (or increase existing footer bottom padding) */
+    .footer{
+      padding-bottom: calc(var(--tickerH) + 18px);
+    }
+
+
     *{ box-sizing:border-box; }
     html,body{ height:100%; }
     body{
