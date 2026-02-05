@@ -199,27 +199,6 @@
     }
 
     .cardBody{ padding: 18px; }
-    .tabs{
-      display:flex;
-      gap: 10px;
-      margin-bottom: 12px;
-      flex-wrap:wrap;
-    }
-    .tab{
-      border-radius: 999px;
-      border: 1px solid rgba(15,23,42,0.12);
-      background: rgba(255,255,255,0.62);
-      padding: 10px 12px;
-      font-weight: 950;
-      color: rgba(11,27,43,0.78);
-      font-size: 0.92rem;
-    }
-    .tab[aria-current="true"]{
-      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
-      color: rgba(5,16,26,0.92);
-      border-color: rgba(255,255,255,0.22);
-      box-shadow: 0 16px 40px rgba(23,135,171,0.16);
-    }
 
     .field{ display:flex; flex-direction:column; gap: 6px; margin-bottom: 10px; }
     .field label{
@@ -284,22 +263,33 @@
     .cta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
     .cta:active{ transform: translateY(1px); }
 
-    .linkRow{
-      margin-top: 10px;
+    .smallActions{
+      margin-top: 12px;
       display:flex;
-      justify-content:space-between;
+      flex-direction:column;
       gap: 10px;
-      flex-wrap:wrap;
-      font-weight: 900;
-      color: rgba(11,27,43,0.66);
     }
-    .linkRow a{
-      color: rgba(23,135,171,0.95);
-      text-decoration: underline;
-      text-underline-offset: 3px;
+
+    .miniCta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: linear-gradient(135deg, rgba(23,135,171,0.95), rgba(62,183,219,0.95));
+      color: rgba(5,16,26,0.92);
       font-weight: 950;
+      box-shadow: 0 16px 38px rgba(23,135,171,0.16);
+      user-select:none;
+      transition: transform 140ms ease, filter 140ms ease;
+      text-transform: capitalize;
+      font-size: 0.98rem;
+      width: 100%;
       cursor:pointer;
     }
+    .miniCta:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+    .miniCta:active{ transform: translateY(1px); }
 
     .msg{
       margin-top: 12px;
@@ -420,12 +410,6 @@
           </div>
 
           <div class="cardBody">
-            <div class="tabs" role="tablist" aria-label="Auth tabs">
-              <button class="tab" id="tabLogin" type="button" aria-current="true">Login</button>
-              <button class="tab" id="tabRegister" type="button" aria-current="false">Create account</button>
-              <button class="tab" id="tabReset" type="button" aria-current="false">Reset</button>
-            </div>
-
             <!-- LOGIN -->
             <form id="loginForm" autocomplete="on">
               <div class="field">
@@ -453,8 +437,14 @@
               </div>
             </form>
 
+            <!-- ONLY these controls remain (the "blue ones below") -->
+            <div class="smallActions" aria-label="Account actions">
+              <button class="miniCta" type="button" id="openRegister">Create account</button>
+              <button class="miniCta" type="button" id="openReset">Forgot password</button>
+            </div>
+
             <!-- REGISTER -->
-            <form id="registerForm" style="display:none;" autocomplete="on">
+            <form id="registerForm" style="display:none; margin-top:12px;" autocomplete="on">
               <div class="field">
                 <label for="re-name">Name</label>
                 <input class="input" type="text" id="re-name" required autocomplete="name" />
@@ -475,10 +465,14 @@
               <div class="row" style="margin-top:12px;">
                 <button class="cta" type="submit">Create account</button>
               </div>
+
+              <div class="row" style="margin-top:10px;">
+                <button class="miniCta" type="button" id="backToLogin1">Back to login</button>
+              </div>
             </form>
 
             <!-- RESET -->
-            <form id="resetForm" style="display:none;" autocomplete="on">
+            <form id="resetForm" style="display:none; margin-top:12px;" autocomplete="on">
               <div class="field">
                 <label for="rs-email">Email</label>
                 <input class="input" type="email" id="rs-email" required autocomplete="email" />
@@ -487,13 +481,11 @@
               <div class="row" style="margin-top:12px;">
                 <button class="cta" type="submit">Send reset link</button>
               </div>
-            </form>
 
-            <div class="linkRow" aria-label="Quick links">
-              <a id="linkToLogin" style="display:none;">Back to login</a>
-              <a id="linkToRegister">Create account</a>
-              <a id="linkToReset">Forgot password</a>
-            </div>
+              <div class="row" style="margin-top:10px;">
+                <button class="miniCta" type="button" id="backToLogin2">Back to login</button>
+              </div>
+            </form>
 
             <div id="msg" class="msg" role="status" aria-live="polite"></div>
           </div>
@@ -527,25 +519,9 @@
       });
     })();
 
-    // Tabs + link row
+    // Helpers
     (function(){
-      const tabLogin = document.getElementById('tabLogin');
-      const tabReg   = document.getElementById('tabRegister');
-      const tabReset = document.getElementById('tabReset');
-
-      const fLogin = document.getElementById('loginForm');
-      const fReg   = document.getElementById('registerForm');
-      const fReset = document.getElementById('resetForm');
-
-      const title = document.getElementById('formTitle');
-      const sub   = document.getElementById('formSub');
-
       const msg = document.getElementById('msg');
-
-      const linkToLogin = document.getElementById('linkToLogin');
-      const linkToRegister = document.getElementById('linkToRegister');
-      const linkToReset = document.getElementById('linkToReset');
-
       function setMsg(text, type){
         if (!text) { msg.style.display='none'; msg.textContent=''; msg.className='msg'; return; }
         msg.style.display='block';
@@ -553,49 +529,44 @@
         msg.className = 'msg ' + (type || '');
       }
 
+      const loginForm = document.getElementById('loginForm');
+      const regForm   = document.getElementById('registerForm');
+      const resetForm = document.getElementById('resetForm');
+
+      const openRegister = document.getElementById('openRegister');
+      const openReset    = document.getElementById('openReset');
+      const back1 = document.getElementById('backToLogin1');
+      const back2 = document.getElementById('backToLogin2');
+
       function show(which){
         setMsg('');
+        loginForm.style.display = (which==='login') ? 'block' : 'none';
+        regForm.style.display   = (which==='register') ? 'block' : 'none';
+        resetForm.style.display = (which==='reset') ? 'block' : 'none';
 
-        fLogin.style.display = (which==='login') ? 'block' : 'none';
-        fReg.style.display   = (which==='register') ? 'block' : 'none';
-        fReset.style.display = (which==='reset') ? 'block' : 'none';
-
-        tabLogin.setAttribute('aria-current', which==='login' ? 'true' : 'false');
-        tabReg.setAttribute('aria-current', which==='register' ? 'true' : 'false');
-        tabReset.setAttribute('aria-current', which==='reset' ? 'true' : 'false');
-
-        if (which==='login'){ title.textContent='Login'; sub.textContent='Access your account'; }
-        if (which==='register'){ title.textContent='Create account'; sub.textContent='New here'; }
-        if (which==='reset'){ title.textContent='Reset password'; sub.textContent='Get a reset link'; }
-
-        // link row behavior
-        linkToLogin.style.display = (which==='login') ? 'none' : 'inline';
-        linkToRegister.style.display = (which==='register') ? 'none' : 'inline';
-        linkToReset.style.display = (which==='reset') ? 'none' : 'inline';
+        // keep the two blue buttons visible only on login view
+        document.querySelector('.smallActions').style.display = (which==='login') ? 'flex' : 'none';
       }
 
-      tabLogin.addEventListener('click', () => show('login'));
-      tabReg.addEventListener('click', () => show('register'));
-      tabReset.addEventListener('click', () => show('reset'));
+      openRegister.addEventListener('click', () => show('register'));
+      openReset.addEventListener('click', () => show('reset'));
+      back1.addEventListener('click', () => show('login'));
+      back2.addEventListener('click', () => show('login'));
 
-      linkToLogin.addEventListener('click', () => show('login'));
-      linkToRegister.addEventListener('click', () => show('register'));
-      linkToReset.addEventListener('click', () => show('reset'));
-
-      // show password
+      // Show password
       document.getElementById('li-show').addEventListener('change', (e) => {
         document.getElementById('li-password').type = e.target.checked ? 'text' : 'password';
       });
 
-      // remember email only
+      // Remember email only
       const remembered = localStorage.getItem('rememberedEmail') || '';
       if (remembered) {
         document.getElementById('li-email').value = remembered;
         document.getElementById('li-remember').checked = true;
       }
 
-      // expose helpers
-      window.__auth = { show, setMsg };
+      // expose
+      window.__auth = { setMsg, show };
     })();
 
     // Login
@@ -618,7 +589,7 @@
 
         if (res.ok && data.success){
           sessionStorage.setItem('userEmail', email);
-          localStorage.setItem('loggedIn', 'true'); // your nav sync uses this
+          localStorage.setItem('loggedIn', 'true');
           if (remember) localStorage.setItem('rememberedEmail', email);
           else localStorage.removeItem('rememberedEmail');
 
@@ -658,7 +629,6 @@
 
         if (res.ok && data.success){
           window.__auth.setMsg('Account created. Please log in.', 'ok');
-          // prefill login email
           document.getElementById('li-email').value = email;
           window.__auth.show('login');
           return;
