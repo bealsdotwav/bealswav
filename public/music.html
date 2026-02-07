@@ -825,5 +825,35 @@
       requestAnimationFrame(step);
     })();
   </script>
+  <script>
+  (function () {
+    function centerAnchorFromHash() {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      // delay ensures layout + images are settled
+      requestAnimationFrame(() => {
+        const rect = el.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const elementCenter = rect.top + scrollTop + rect.height / 2;
+        const viewportCenter = window.innerHeight / 2;
+
+        window.scrollTo({
+          top: elementCenter - viewportCenter,
+          behavior: 'auto'
+        });
+      });
+    }
+
+    // run on initial load
+    window.addEventListener('load', centerAnchorFromHash);
+
+    // also handle hash changes (future-proof)
+    window.addEventListener('hashchange', centerAnchorFromHash);
+  })();
+</script>
 </body>
 </html>
