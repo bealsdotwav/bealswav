@@ -554,34 +554,9 @@
     }
     .textarea{ resize: vertical; min-height: 120px; }
 
-    .dropzone{
-      border: 1px dashed rgba(15,23,42,0.24);
-      background: rgba(255,255,255,0.70);
-      color: rgba(11,27,43,0.70);
-      padding: 12px;
-      border-radius: 16px;
-      text-align: center;
-      font-weight: 900;
-      cursor: pointer;
-      user-select:none;
-    }
-    .dropzone.dragover{
-      border-color: rgba(23,135,171,0.55);
-      box-shadow: 0 0 0 4px rgba(62,183,219,0.16);
-      color: rgba(11,27,43,0.86);
-    }
-    .modal-file{
-      position: absolute;
-      left: -9999px;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-    }
-    .file-list{
-      margin-top: 8px;
-      font-weight: 900;
-      color: rgba(11,27,43,0.68);
-      font-size: 0.92rem;
+    .input:focus, .textarea:focus{
+      border-color: rgba(23,135,171,0.45);
+      box-shadow: 0 0 0 4px rgba(62,183,219,0.18);
     }
 
     .modalButtons{
@@ -590,6 +565,36 @@
       gap: 10px;
       flex-wrap: wrap;
       margin-top: 12px;
+    }
+
+    .status{
+      border-radius: 16px;
+      border: 1px solid rgba(15,23,42,0.12);
+      background: rgba(255,255,255,0.62);
+      padding: 12px 12px;
+      font-weight: 900;
+      color: rgba(11,27,43,0.74);
+      display:none;
+      width:100%;
+      margin-top: 10px;
+    }
+    .status.ok{
+      display:block;
+      border-color: rgba(0, 160, 90, 0.26);
+      background: rgba(0, 160, 90, 0.08);
+      color: rgba(0, 120, 70, 0.95);
+    }
+    .status.err{
+      display:block;
+      border-color: rgba(220, 60, 70, 0.26);
+      background: rgba(220, 60, 70, 0.08);
+      color: rgba(160, 20, 30, 0.95);
+    }
+    .status.info{
+      display:block;
+      border-color: rgba(23,135,171,0.22);
+      background: rgba(62,183,219,0.10);
+      color: rgba(11,27,43,0.78);
     }
 
     /* Footer nav */
@@ -872,21 +877,21 @@
     <div class="modal">
       <div class="modalTop">
         <h2 id="serviceModalTitle">Service Request</h2>
-        <p>Quick form. If you prefer, use the contact page.</p>
+        <p>Sent to our team. Replies go to the email you enter.</p>
       </div>
 
       <div class="modalBody">
-        <form id="serviceRequestForm" enctype="multipart/form-data">
+        <form id="serviceRequestForm" novalidate>
           <input type="hidden" id="requestServiceHidden" name="service" value="">
 
           <div class="field">
             <label for="requestName">Name</label>
-            <input id="requestName" name="name" class="input" type="text" placeholder="Your name" required>
+            <input id="requestName" name="name" class="input" type="text" placeholder="Your name" autocomplete="name" required>
           </div>
 
           <div class="field">
             <label for="requestEmail">Email</label>
-            <input id="requestEmail" name="email" class="input" type="email" placeholder="Your email" required>
+            <input id="requestEmail" name="email" class="input" type="email" placeholder="Your email" autocomplete="email" required>
           </div>
 
           <div class="field">
@@ -904,25 +909,13 @@
             <textarea id="requestDetails" name="details" class="textarea" rows="5" placeholder="What you need, references, notes" required></textarea>
           </div>
 
-          <label id="dropZone" for="requestFiles" class="dropzone">
-            Drop up to 2 files here or click to upload
-          </label>
-
-          <input
-            id="requestFiles"
-            name="my_file"
-            class="modal-file"
-            type="file"
-            accept=".wav,.mp3,.aiff,.flac,.m4a,.ogg,.aac,.zip,.rar,.7z,.mp4,.mov"
-            multiple
-          >
-          <div id="fileList" class="file-list" aria-live="polite"></div>
-
           <div class="modalButtons">
             <a class="btn btnGhost" href="/contact.html">Contact page</a>
             <button class="btn" type="button" id="btnModalCancel">Cancel</button>
-            <button class="btn btnPrimary" type="submit">Send request</button>
+            <button class="btn btnPrimary" type="submit" id="btnModalSend">Send request</button>
           </div>
+
+          <div class="status" id="modalStatus" role="status" aria-live="polite"></div>
         </form>
       </div>
     </div>
@@ -958,6 +951,10 @@
       if (menuBtn && drawer) {
         menuBtn.addEventListener('click', () => {
           drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!drawer.contains(e.target) && e.target !== menuBtn) drawer.style.display = 'none';
         });
       }
 
@@ -1059,54 +1056,23 @@
       const hiddenService = document.getElementById('requestServiceHidden');
       const form = document.getElementById('serviceRequestForm');
       const cancelBtn = document.getElementById('btnModalCancel');
+      const sendBtn = document.getElementById('btnModalSend');
+      const modalStatus = document.getElementById('modalStatus');
 
-      const fileInput = document.getElementById('requestFiles');
-      const dropZone  = document.getElementById('dropZone');
-      const fileList  = document.getElementById('fileList');
-
-      const MAX_FILES = 2;
-      const MAX_EACH_MB = 10;
-
-      function updateFileList(files){
-        const arr = Array.from(files || []).slice(0, MAX_FILES);
-        for (const f of arr) {
-          if (f.size > MAX_EACH_MB * 1024 * 1024) {
-            alert(`"${f.name}" is over ${MAX_EACH_MB}MB. Choose a smaller file.`);
-            return;
-          }
-        }
-
-        if ('DataTransfer' in window && fileInput) {
-          const dt = new DataTransfer();
-          arr.forEach(f => dt.items.add(f));
-          fileInput.files = dt.files;
-        }
-
-        if (fileList) {
-          fileList.textContent = arr.length ? `Attached: ${arr.map(f => f.name).join(', ')}` : '';
-        }
-      }
-
-      fileInput?.addEventListener('change', e => updateFileList(e.target.files));
-
-      if ('DataTransfer' in window) {
-        dropZone?.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
-        dropZone?.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone?.addEventListener('drop', e => {
-          e.preventDefault();
-          dropZone.classList.remove('dragover');
-          if (e.dataTransfer?.files?.length) updateFileList(e.dataTransfer.files);
-        });
-      } else {
-        dropZone?.addEventListener('dragover', e => e.preventDefault());
+      function setModalStatus(type, msg){
+        if (!modalStatus) return;
+        modalStatus.className = 'status ' + type;
+        modalStatus.textContent = msg;
       }
 
       function openServiceModal(serviceName){
         if (modalTitle) modalTitle.textContent = serviceName + ' Request';
         if (hiddenService) hiddenService.value = serviceName;
 
-        if (fileInput) fileInput.value = '';
-        if (fileList) fileList.textContent = '';
+        if (modalStatus){
+          modalStatus.className = 'status';
+          modalStatus.textContent = '';
+        }
 
         if (modal) modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -1116,8 +1082,10 @@
       function closeServiceModal(){
         if (modal) modal.style.display = 'none';
         if (form) form.reset();
-        if (fileInput) fileInput.value = '';
-        if (fileList) fileList.textContent = '';
+        if (modalStatus){
+          modalStatus.className = 'status';
+          modalStatus.textContent = '';
+        }
         document.body.style.overflow = '';
       }
 
@@ -1136,66 +1104,49 @@
         btn.addEventListener('click', () => openServiceModal(btn.getAttribute('data-service')));
       });
 
-      // EmailJS loader (on-demand)
-      function loadEmailJSSDK(){
-        return new Promise((resolve, reject) => {
-          if (window.emailjs && typeof window.emailjs.sendForm === 'function') {
-            resolve(true);
-            return;
-          }
-
-          const existing = document.querySelector('script[data-emailjs="1"]');
-          if (existing) {
-            const start = Date.now();
-            const t = setInterval(() => {
-              if (window.emailjs && typeof window.emailjs.sendForm === 'function') {
-                clearInterval(t);
-                resolve(true);
-              } else if (Date.now() - start > 4000) {
-                clearInterval(t);
-                reject(new Error('EmailJS SDK present but not available'));
-              }
-            }, 100);
-            return;
-          }
-
-          const s = document.createElement('script');
-          s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-          s.defer = true;
-          s.setAttribute('data-emailjs', '1');
-          s.onload = () => {
-            if (window.emailjs && typeof window.emailjs.sendForm === 'function') resolve(true);
-            else reject(new Error('EmailJS loaded but missing sendForm'));
-          };
-          s.onerror = () => reject(new Error('Failed to load EmailJS (blocked or network error)'));
-          document.head.appendChild(s);
-        });
-      }
-
-      // EmailJS submit
+      // Submit to backend (same as contact.html: POST /contact)
       form?.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const submitBtn = e.submitter || form.querySelector('[type="submit"]');
-        submitBtn?.setAttribute('disabled', 'disabled');
+        const payload = {
+          name: document.getElementById('requestName').value.trim(),
+          email: document.getElementById('requestEmail').value.trim(),
+          message:
+            `VIRTUAL SERVICE REQUEST\n` +
+            `Service: ${document.getElementById('requestServiceHidden').value}\n` +
+            `Budget: ${document.getElementById('requestBudget').value.trim()}\n` +
+            `Turnaround: ${document.getElementById('requestTurnaround').value.trim()}\n\n` +
+            `Details:\n${document.getElementById('requestDetails').value.trim()}`
+        };
 
-        try {
-          await loadEmailJSSDK();
+        try{
+          setModalStatus('info', 'Sending...');
+          sendBtn.disabled = true;
 
-          await emailjs.sendForm(
-            'service_wrssjc7',
-            'template_kr5nl9p',
-            form,
-            { publicKey: 'OLr0UvCY_0eYzwwFV' }
-          );
+          const res = await fetch('/contact', {
+            method: 'POST',
+            headers: { 'Content-Type':'application/json' },
+            body: JSON.stringify(payload)
+          });
 
-          alert('Sent. We’ll reply by email.');
-          closeServiceModal();
-        } catch (err) {
-          console.error('EmailJS error:', err);
-          alert('Email send failed. If you have an adblock/privacy extension, it may be blocking the email script. Use the Contact page if needed.');
+          let data = {};
+          try { data = await res.json(); } catch (_) {}
+
+          if (res.ok){
+            setModalStatus('ok', data.message || 'Request sent. We’ll reply by email.');
+            setTimeout(() => closeServiceModal(), 700);
+          } else {
+            setModalStatus('err',
+              data.message ||
+              (data.errors && data.errors[0] && data.errors[0].msg) ||
+              'Send failed. Try again or use the Contact page.'
+            );
+          }
+        } catch (err){
+          console.error(err);
+          setModalStatus('err', 'Server error. Try again later.');
         } finally {
-          submitBtn?.removeAttribute('disabled');
+          sendBtn.disabled = false;
         }
       });
 
@@ -1252,6 +1203,29 @@
         setTimeout(() => { nextSlide(); }, 1200);
         setInterval(() => { nextSlide(); }, 5000);
       }
+
+      // Ticker animation (same style as contact.html)
+      (function () {
+        const track = document.getElementById('tickerTrack');
+        const item  = document.getElementById('tickerItem');
+        if (!track || !item) return;
+
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+
+        let x = 0;
+        const speed = 0.7;
+
+        function step(){
+          x -= speed;
+          const w = item.offsetWidth;
+          if (-x >= w) x = 0;
+          track.style.transform = `translateX(${x}px)`;
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      })();
+
     })();
   </script>
 </body>
